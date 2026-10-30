@@ -1,29 +1,32 @@
 import hashlib
+import warnings
 from collections.abc import Callable, Iterable, Mapping
-from datetime import datetime
+from datetime import datetime, timedelta
 from functools import wraps
 from types import MappingProxyType
 from typing import Any, Literal, ParamSpec, TypeVar
 
+from dateparser._parts_of_day import PartsOfDay
 from dateparser.data.languages_info import language_order
 
 from .parser import date_order_chart
-from .utils import registry
+from .timezone_parser import _tz_regexes
 
 _P = ParamSpec("_P")
 _R = TypeVar("_R")
 
 
-@registry
 class Settings:
     """Control and configure default parsing behavior of dateparser.
     Currently, supported settings are:
 
     * `DATE_ORDER`
     * `PREFER_LOCALE_DATE_ORDER`
+    * `STRICT_DATE_ORDER`
     * `TIMEZONE`
     * `TO_TIMEZONE`
     * `RETURN_AS_TIMEZONE_AWARE`
+    * `TIMEZONE_ABBREVIATIONS`
     * `PREFER_MONTH_OF_YEAR`
     * `PREFER_DAY_OF_MONTH`
     * `PREFER_DATES_FROM`
@@ -37,6 +40,7 @@ class Settings:
     * `RETURN_TIME_SPAN`
     * `DEFAULT_START_OF_WEEK`
     * `DEFAULT_DAYS_IN_MONTH`
+    * `PARTS_OF_DAY`
     * `PARSERS`
     * `DEFAULT_LANGUAGES`
     * `USE_GIVEN_LANGUAGE_ORDER`
@@ -48,12 +52,13 @@ class Settings:
     _pyfile_data: dict[str, Any] | None = None
     _mod_settings: Mapping[str, Any] = MappingProxyType({})
 
-    registry_key: str
     DATE_ORDER: str
     PREFER_LOCALE_DATE_ORDER: bool
+    STRICT_DATE_ORDER: str
     TIMEZONE: str
     TO_TIMEZONE: str | Literal[False]
     RETURN_AS_TIMEZONE_AWARE: bool | Literal["default"]
+    TIMEZONE_ABBREVIATIONS: Mapping[str, timedelta]
     PREFER_MONTH_OF_YEAR: str
     PREFER_DAY_OF_MONTH: str
     PREFER_DATES_FROM: str
@@ -67,6 +72,7 @@ class Settings:
     RETURN_TIME_SPAN: bool
     DEFAULT_START_OF_WEEK: str
     DEFAULT_DAYS_IN_MONTH: int
+    PARTS_OF_DAY: PartsOfDay
     PARSERS: list[str]
     DEFAULT_LANGUAGES: list[str]
     USE_GIVEN_LANGUAGE_ORDER: bool
@@ -81,6 +87,12 @@ class Settings:
 
     @classmethod
     def get_key(cls, settings: Mapping[str, Any] | None = None) -> str:
+        warnings.warn(
+            "dateparser.conf.Settings.get_key() is deprecated and will be "
+            "removed in a future version.",
+            FutureWarning,
+            stacklevel=2,
+        )
         if not settings:
             return "default"
 
@@ -112,6 +124,11 @@ class Settings:
             kwds.setdefault(x, getattr(self, x))
 
         kwds["_default"] = False
+        # Keep track of the settings that the caller set, or replacing another
+        # one, like RELATIVE_BASE, makes an explicit DATE_ORDER give way to the
+        # order of the locale.
+        if mod_settings is None:
+            mod_settings = self._mod_settings
         if mod_settings:
             kwds["_mod_settings"] = mod_settings
 
@@ -167,19 +184,13 @@ def _check_require_part(setting_name: str, setting_value: list[str]) -> None:
 
 def _check_parsers(setting_name: str, setting_value: list[str]) -> None:
     """Returns `True` if the provided list of parsers contains valid values"""
-    existing_parsers = [
-        "timestamp",
-        "relative-time",
-        "custom-formats",
-        "absolute-time",
-        "no-spaces-time",
-        "negative-timestamp",
-    ]  # FIXME: Extract the list of existing parsers from another place (#798)
-    unknown_parsers = set(setting_value) - set(existing_parsers)
+    from dateparser.date import _DateLocaleParser  # noqa: PLC0415
+
+    unknown_parsers = set(setting_value) - _DateLocaleParser._parsers.keys()
     if unknown_parsers:
         raise SettingValidationError(
             'Found unknown parsers in the "{}" setting: {}'.format(
-                setting_name, ", ".join(unknown_parsers)
+                setting_name, ", ".join(sorted(unknown_parsers))
             )
         )
     _check_repeated_values(setting_name, setting_value)
@@ -194,6 +205,24 @@ def _check_default_languages(setting_name: str, setting_value: list[str]) -> Non
             )
         )
     _check_repeated_values(setting_name, setting_value)
+
+
+def _check_timezone_abbreviations(
+    setting_name: str, setting_value: Mapping[str, Any]
+) -> None:
+    known = {name for _, timezones in _tz_regexes().families for name, _ in timezones}
+    unknown = set(setting_value) - known
+    if unknown:
+        raise SettingValidationError(
+            f'Found unknown timezone abbreviations in the "{setting_name}" '
+            f"setting: {', '.join(map(repr, sorted(unknown)))}"
+        )
+    for abbreviation, offset in setting_value.items():
+        if not isinstance(offset, timedelta):
+            raise SettingValidationError(
+                f'The offset of {abbreviation!r} in the "{setting_name}" setting '
+                f"must be a timedelta, not {offset!r}."
+            )
 
 
 def _check_between_0_and_1(setting_name: str, setting_value: float) -> None:
@@ -228,6 +257,10 @@ def check_settings(settings: Settings) -> None:
             # It defaults to 'default', but it's not allowed to use it directly
             "type": bool
         },
+        "TIMEZONE_ABBREVIATIONS": {
+            "type": Mapping,
+            "extra_check": _check_timezone_abbreviations,
+        },
         "PREFER_MONTH_OF_YEAR": {"values": ("current", "first", "last"), "type": str},
         "PREFER_DAY_OF_MONTH": {"values": ("current", "first", "last"), "type": str},
         "PREFER_DATES_FROM": {
@@ -258,6 +291,7 @@ def check_settings(settings: Settings) -> None:
         },
         "FUZZY": {"type": bool},
         "PREFER_LOCALE_DATE_ORDER": {"type": bool},
+        "STRICT_DATE_ORDER": {"values": ("none", "year", "all"), "type": str},
         "DEFAULT_LANGUAGES": {"type": list, "extra_check": _check_default_languages},
         "USE_GIVEN_LANGUAGE_ORDER": {"type": bool},
         "LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD": {
@@ -275,6 +309,7 @@ def check_settings(settings: Settings) -> None:
         "DEFAULT_DAYS_IN_MONTH": {
             "type": int,
         },
+        "PARTS_OF_DAY": {"type": PartsOfDay},
     }
 
     modified_settings = settings._mod_settings  # check only modified settings
@@ -311,3 +346,12 @@ def check_settings(settings: Settings) -> None:
         extra_check = setting_props.get("extra_check")
         if extra_check:
             extra_check(setting_name, setting_value)
+
+    # STRICT_DATE_ORDER enforces the DATE_ORDER that the caller sets. The default
+    # one is only a preference, so without it there is nothing to enforce.
+    strict_date_order = modified_settings.get("STRICT_DATE_ORDER", "none")
+    if strict_date_order != "none" and "DATE_ORDER" not in modified_settings:
+        raise SettingValidationError(
+            f'"STRICT_DATE_ORDER": "{strict_date_order}" requires the "DATE_ORDER" '
+            "setting"
+        )

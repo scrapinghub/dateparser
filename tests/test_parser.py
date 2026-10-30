@@ -425,8 +425,8 @@ class TestNoSpaceParser(BaseTestCase):
 
     def when_date_is_parsed(self, date_string: str) -> None:
         try:
-            self.result: tuple[datetime, str] | str = self.parser.parse(
-                date_string, self.settings
+            self.result: tuple[datetime, str, tuple[str, ...]] | str = (
+                self.parser.parse(date_string, self.settings)
             )
         except Exception as error:
             self.error = error
@@ -542,13 +542,13 @@ class TestParser(BaseTestCase):
 
     def when_date_is_parsed(self, date_string: str) -> None:
         try:
-            self.parser.parse(date_string, self.settings)
+            self.parser._parse_with_parts(date_string, self.settings)
         except Exception as error:
             self.error = error
 
     def then_error_is_raised_when_date_is_parsed(self, date_string: str) -> None:
         with self.assertRaises(ValueError):
-            self.parser.parse(date_string, self.settings)
+            self.parser._parse_with_parts(date_string, self.settings)
 
     @parameterized.expand(
         [

@@ -1,5 +1,6 @@
 import threading
 from collections.abc import Iterable, Iterator
+from functools import cached_property
 from itertools import chain, zip_longest
 from operator import methodcaller
 from typing import TYPE_CHECKING, Any, ClassVar, TypeVar, cast
@@ -13,9 +14,10 @@ if TYPE_CHECKING:
     from dateparser.conf import Settings
 
 _T = TypeVar("_T")
+_CacheKey = tuple[Any, ...]
 
 PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]
-PARSER_KNOWN_TOKENS = ["am", "pm", "UTC", "GMT", "Z"]
+PARSER_KNOWN_TOKENS = ["am", "pm", "UTC", "GMT", "Z", "early_morning"]
 ALWAYS_KEEP_TOKENS = ["+", *PARSER_HARDCODED_TOKENS]
 KNOWN_WORD_TOKENS = [
     "monday",
@@ -37,7 +39,9 @@ KNOWN_WORD_TOKENS = [
     "october",
     "november",
     "december",
+    "century",
     "decade",
+    "fortnight",
     "year",
     "month",
     "week",
@@ -49,6 +53,11 @@ KNOWN_WORD_TOKENS = [
     "in",
     "am",
     "pm",
+    "early_morning",
+    "morning",
+    "afternoon",
+    "evening",
+    "night",
 ]
 
 PARENTHESES_PATTERN = re.compile(r"[\(\)]")
@@ -86,11 +95,15 @@ class Dictionary:
     :return: a Dictionary instance.
     """
 
-    _split_regex_cache: ClassVar[dict[str, dict[str, re.Pattern[str]]]] = {}
-    _sorted_words_cache: ClassVar[dict[str, dict[str, list[str]]]] = {}
-    _split_relative_regex_cache: ClassVar[dict[str, dict[str, re.Pattern[str]]]] = {}
-    _sorted_relative_strings_cache: ClassVar[dict[str, dict[str, list[str]]]] = {}
-    _match_relative_regex_cache: ClassVar[dict[str, dict[str, re.Pattern[str]]]] = {}
+    _split_regex_cache: ClassVar[dict[_CacheKey, dict[str, re.Pattern[str]]]] = {}
+    _sorted_words_cache: ClassVar[dict[_CacheKey, dict[str, list[str]]]] = {}
+    _split_relative_regex_cache: ClassVar[
+        dict[_CacheKey, dict[str, re.Pattern[str]]]
+    ] = {}
+    _sorted_relative_strings_cache: ClassVar[dict[_CacheKey, dict[str, list[str]]]] = {}
+    _match_relative_regex_cache: ClassVar[
+        dict[_CacheKey, dict[str, re.Pattern[str]]]
+    ] = {}
 
     # The caches above are shared across all Dictionary instances and threads.
     # The lock keeps each check-populate-evict-read sequence atomic, so a
@@ -110,10 +123,14 @@ class Dictionary:
         if "pertain" in locale_info:
             pertain = map(methodcaller("lower"), locale_info["pertain"])
             dictionary.update(dict.fromkeys(pertain))
+        meanings: dict[str, list[str]] = {}
         for word in KNOWN_WORD_TOKENS:
             if word in locale_info:
-                translations = map(methodcaller("lower"), locale_info[word])
+                translations = list(map(methodcaller("lower"), locale_info[word]))
                 dictionary.update(zip_longest(translations, [], fillvalue=word))
+                for translation in translations:
+                    meanings.setdefault(translation, []).append(word)
+        self._meanings = meanings
 
         # Some locales (mostly Romance languages) reuse the same abbreviation for a
         # weekday and a month (e.g. Italian "mar" is both "martedì" and "marzo").
@@ -182,6 +199,15 @@ class Dictionary:
 
     def __iter__(self) -> Iterator[str]:
         return chain(self._settings.SKIP_TOKENS, iter(self._dictionary))
+
+    def _get_meanings(self, key: str) -> list[str]:
+        """Return every meaning of *key*, starting with the one that indexing
+        returns, if any."""
+        default = self[key]
+        if default is None:
+            return []
+        others = [m for m in self._meanings.get(key, ()) if m != default]
+        return [default, *others]
 
     def are_tokens_valid(self, tokens: Iterable[str]) -> bool:
         """
@@ -284,9 +310,14 @@ class Dictionary:
 
         return list(filter(bool, chain.from_iterable(tokens)))
 
-    def _add_to_cache(self, value: _T, cache: dict[str, dict[str, _T]]) -> None:
+    @cached_property
+    def _cache_key(self) -> _CacheKey:
+        # The cached values only depend on the words of the dictionary.
+        return (type(self), *self._settings.SKIP_TOKENS)
+
+    def _add_to_cache(self, value: _T, cache: dict[_CacheKey, dict[str, _T]]) -> None:
         with self._cache_lock:
-            key = self._settings.registry_key
+            key = self._cache_key
             entry = cache.pop(key, {})
             entry[self.info["name"]] = value
             cache[key] = entry
@@ -356,29 +387,23 @@ class Dictionary:
     def _get_sorted_words_from_cache(self) -> list[str]:
         with self._cache_lock:
             if (
-                self._settings.registry_key not in self._sorted_words_cache
-                or self.info["name"]
-                not in self._sorted_words_cache[self._settings.registry_key]
+                self._cache_key not in self._sorted_words_cache
+                or self.info["name"] not in self._sorted_words_cache[self._cache_key]
             ):
                 self._add_to_cache(
                     cache=self._sorted_words_cache,
                     value=sorted(self, key=len, reverse=True),
                 )
-            return self._sorted_words_cache[self._settings.registry_key][
-                self.info["name"]
-            ]
+            return self._sorted_words_cache[self._cache_key][self.info["name"]]
 
     def _get_split_regex_cache(self) -> re.Pattern[str]:
         with self._cache_lock:
             if (
-                self._settings.registry_key not in self._split_regex_cache
-                or self.info["name"]
-                not in self._split_regex_cache[self._settings.registry_key]
+                self._cache_key not in self._split_regex_cache
+                or self.info["name"] not in self._split_regex_cache[self._cache_key]
             ):
                 self._construct_split_regex()
-            return self._split_regex_cache[self._settings.registry_key][
-                self.info["name"]
-            ]
+            return self._split_regex_cache[self._cache_key][self.info["name"]]
 
     def _construct_split_regex(self) -> None:
         known_words_group = "|".join(
@@ -396,9 +421,9 @@ class Dictionary:
     def _get_sorted_relative_strings_from_cache(self) -> list[str]:
         with self._cache_lock:
             if (
-                self._settings.registry_key not in self._sorted_relative_strings_cache
+                self._cache_key not in self._sorted_relative_strings_cache
                 or self.info["name"]
-                not in self._sorted_relative_strings_cache[self._settings.registry_key]
+                not in self._sorted_relative_strings_cache[self._cache_key]
             ):
                 self._add_to_cache(
                     cache=self._sorted_relative_strings_cache,
@@ -411,21 +436,19 @@ class Dictionary:
                         reverse=True,
                     ),
                 )
-            return self._sorted_relative_strings_cache[self._settings.registry_key][
+            return self._sorted_relative_strings_cache[self._cache_key][
                 self.info["name"]
             ]
 
     def _get_split_relative_regex_cache(self) -> re.Pattern[str]:
         with self._cache_lock:
             if (
-                self._settings.registry_key not in self._split_relative_regex_cache
+                self._cache_key not in self._split_relative_regex_cache
                 or self.info["name"]
-                not in self._split_relative_regex_cache[self._settings.registry_key]
+                not in self._split_relative_regex_cache[self._cache_key]
             ):
                 self._construct_split_relative_regex()
-            return self._split_relative_regex_cache[self._settings.registry_key][
-                self.info["name"]
-            ]
+            return self._split_relative_regex_cache[self._cache_key][self.info["name"]]
 
     def _construct_split_relative_regex(self) -> None:
         known_relative_strings_group = "|".join(
@@ -445,14 +468,12 @@ class Dictionary:
     def _get_match_relative_regex_cache(self) -> re.Pattern[str]:
         with self._cache_lock:
             if (
-                self._settings.registry_key not in self._match_relative_regex_cache
+                self._cache_key not in self._match_relative_regex_cache
                 or self.info["name"]
-                not in self._match_relative_regex_cache[self._settings.registry_key]
+                not in self._match_relative_regex_cache[self._cache_key]
             ):
                 self._construct_match_relative_regex()
-            return self._match_relative_regex_cache[self._settings.registry_key][
-                self.info["name"]
-            ]
+            return self._match_relative_regex_cache[self._cache_key][self.info["name"]]
 
     def _construct_match_relative_regex(self) -> None:
         known_relative_strings_group = "|".join(
@@ -486,4 +507,11 @@ class NormalizedDictionary(Dictionary):
             if key in (self.info.get("skip", []) + self.info.get("pertain", [])):
                 new_dict[normalized] = self._dictionary[key]
         self._dictionary = new_dict
+        meanings: dict[str, list[str]] = {}
+        for key, key_meanings in self._meanings.items():
+            normalized_meanings = meanings.setdefault(normalize_unicode(key), [])
+            normalized_meanings.extend(
+                m for m in key_meanings if m not in normalized_meanings
+            )
+        self._meanings = meanings
         self._relative_strings = list(map(normalize_unicode, self._relative_strings))

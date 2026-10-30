@@ -143,6 +143,21 @@ If you know the possible formats of the dates, you can use the
     >>> dateparser.parse('22 Décembre 2010', date_formats=['%d %B %Y'])
     datetime.datetime(2010, 12, 22, 0, 0)
 
+The formats are tried first. A date string that none of them parses is then
+parsed as if no formats were given, so a number that is out of range for a
+format can be read as another part of the date (``32`` is not a day, but it is
+a valid two-digit year). To accept only the given formats, set ``PARSERS`` to
+``['custom-formats']``, which also turns off timestamps, relative dates and
+free-form dates:
+
+.. code:: python
+
+    >>> dateparser.parse('32 DEC 10', date_formats=['%d %b %y'])
+    datetime.datetime(2032, 12, 10, 0, 0)
+
+    >>> dateparser.parse('32 DEC 10', date_formats=['%d %b %y'], settings={'PARSERS': ['custom-formats']})
+    None
+
 Relative Dates
 --------------
 
@@ -161,6 +176,14 @@ Relative Dates
     datetime.datetime(2015, 5, 25, 0, 0)
     >>> parse('2小时前')  # Chinese (2 hours ago)
     datetime.datetime(2015, 5, 31, 22, 0)
+    >>> parse('next Wednesday')
+    datetime.datetime(2015, 6, 3, 0, 0)
+
+In English, ``last``, ``this`` and ``next`` before a weekday mean its closest
+occurrence before, on or after, and after the current date, respectively,
+regardless of the ``PREFER_DATES_FROM`` setting. So ``this Wednesday`` and
+``next Wednesday`` are the same date except on a Wednesday. They do not apply
+to ``wed``, ``sat`` and ``sun``, which are also common English words.
 
 .. note:: Testing above code might return different values depending on your environment's current date and time.
 
@@ -361,8 +384,9 @@ Supported Calendars
 ===================
 
 Apart from the Gregorian calendar, `dateparser` supports the `Persian Jalali
-calendar`, the `Hijri/Islamic calendar` and the `French Republican calendar`.
-To use them, install the ``calendars`` extra (see `Installation`_).
+calendar`, the `Hijri/Islamic calendar`, the `French Republican calendar` and
+the `Minguo calendar`. To use the first three, install the ``calendars`` extra
+(see `Installation`_).
 
 Example using the `Persian Jalali calendar
 <https://en.wikipedia.org/wiki/Iranian_calendars#Zoroastrian_calendar>`_:
@@ -371,7 +395,7 @@ Example using the `Persian Jalali calendar
 
     >>> from dateparser.calendars.jalali import JalaliCalendar
     >>> JalaliCalendar('جمعه سی ام اسفند ۱۳۸۷').get_date()
-    DateData(date_obj=datetime.datetime(2009, 3, 20, 0, 0), period='day', locale=None)
+    DateData(date_obj=datetime.datetime(2009, 3, 20, 0, 0), period='day', locale=None, parts=('year', 'month', 'day'))
 
 Example using the `Hijri/Islamic calendar
 <https://en.wikipedia.org/wiki/Islamic_calendar>`_:
@@ -380,7 +404,7 @@ Example using the `Hijri/Islamic calendar
 
     >>> from dateparser.calendars.hijri import HijriCalendar
     >>> HijriCalendar('17-01-1437 هـ 08:30 مساءً').get_date()
-    DateData(date_obj=datetime.datetime(2015, 10, 30, 20, 30), period='day', locale=None)
+    DateData(date_obj=datetime.datetime(2015, 10, 30, 20, 30), period='day', locale=None, parts=('year', 'month', 'day', 'time'))
 
 Example using the `French Republican calendar
 <https://en.wikipedia.org/wiki/French_Republican_calendar>`_:
@@ -390,6 +414,15 @@ Example using the `French Republican calendar
     >>> from dateparser.calendars.french_republican import FrenchRepublicanCalendar
     >>> FrenchRepublicanCalendar('18 brumaire an VIII').get_date()
     DateData(date_obj=datetime.datetime(1799, 11, 9, 0, 0), period='day', locale=None)
+
+Example using the `Minguo calendar
+<https://en.wikipedia.org/wiki/Republic_of_China_calendar>`_:
+
+.. code:: python
+
+    >>> from dateparser.calendars.minguo import MinguoCalendar
+    >>> MinguoCalendar('民國101年5月25日 08:36').get_date()
+    DateData(date_obj=datetime.datetime(2012, 5, 25, 8, 36), period='day', locale=None)
 
 Dependencies
 ============

@@ -1,9 +1,13 @@
+import re
 from typing import Any
 
 from dateparser.conf import Settings, apply_settings
 from dateparser.languages.locale import Locale
 from dateparser.search.detection import BaseLanguageDetector
 from dateparser.utils import normalize_unicode
+
+# Hiragana and katakana, except the middle dot, which Chinese also uses.
+_KANA = re.compile(r"[\u3041-\u3096\u30a1-\u30fa\u30fc-\u30ff]")
 
 
 class FullTextLanguageDetector(BaseLanguageDetector):
@@ -54,6 +58,13 @@ class FullTextLanguageDetector(BaseLanguageDetector):
         if date_string_set & symbol_set == date_string_set:
             self.languages = [self.languages[0]]
             return
+        if _KANA.search(date_string):
+            # Chinese words are also Japanese ones, e.g. 後天 ("acquired").
+            self.languages = [
+                language
+                for language in self.languages
+                if language.shortname.split("-")[0] not in {"zh", "yue"}
+            ] or self.languages
         self.get_unique_characters(settings=settings)
         for i in range(len(self.languages)):
             for char in self.language_unique_chars[i]:
@@ -80,24 +91,38 @@ class FullTextLanguageDetector(BaseLanguageDetector):
             return self.languages[0].shortname
         applicable_languages = []
         for language in self.languages:
-            num_words = language.count_applicability(
-                date_string, strip_timezone=False, settings=settings
-            )
-            if num_words[0] > 0 or num_words[1] > 0:
-                applicable_languages.append((language.shortname, num_words))
-            else:
+            for strip_timezone in (False, True):
                 num_words = language.count_applicability(
-                    date_string, strip_timezone=True, settings=settings
+                    date_string, strip_timezone=strip_timezone, settings=settings
                 )
                 if num_words[0] > 0 or num_words[1] > 0:
-                    applicable_languages.append((language.shortname, num_words))
+                    # On a tie, prefer the language that matches more words
+                    # without letter variants, so that e.g. Arabic text is not
+                    # taken for Persian.
+                    native_num_words = (
+                        num_words
+                        if language._native is language
+                        else language._native.count_applicability(
+                            date_string,
+                            strip_timezone=strip_timezone,
+                            settings=settings,
+                        )
+                    )
+                    applicable_languages.append(
+                        (
+                            language.shortname,
+                            (*num_words[:2], *native_num_words[:2]),
+                            num_words[2],
+                        )
+                    )
+                    break
         if not applicable_languages:
             return None
         # Bare-number hits only break ties between languages with word hits;
         # otherwise every language that maps a number to a month would beat
         # the first language on text like "2018-10-17T00:00:00".
-        has_words = any(num_words[0] for _, num_words in applicable_languages)
+        has_words = any(num_words[0] for _, num_words, _ in applicable_languages)
         return max(
             applicable_languages,
-            key=lambda p: p[1] if has_words else p[1][:2],
+            key=lambda p: (p[1], p[2]) if has_words else p[1],
         )[0]

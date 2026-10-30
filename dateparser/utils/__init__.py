@@ -5,16 +5,18 @@ import os
 import threading
 import types
 import unicodedata
+import warnings
 from collections import OrderedDict
 from collections.abc import Callable, Mapping
 from datetime import datetime, tzinfo
+from datetime import timezone as dt_timezone
 from typing import TYPE_CHECKING, Any, Literal, TypeVar
 
 import regex as re
 from pytz import UTC, UnknownTimeZoneError, timezone
 from tzlocal import get_localzone
 
-from dateparser.timezone_parser import StaticTzInfo, _tz_offsets
+from dateparser.timezone_parser import StaticTzInfo, _find_tz
 
 if TYPE_CHECKING:
     from dateparser.conf import Settings
@@ -26,10 +28,15 @@ def _get_localzone() -> tzinfo:
     try:
         return get_localzone()
     except ValueError as error:
-        raise RuntimeError(
+        warnings.warn(
             f"Could not determine the local timezone "
-            f"(TZ={os.environ.get('TZ')!r}): {error}"
-        ) from error
+            f"(TZ={os.environ.get('TZ')!r}): {error}. In a future version of "
+            f"dateparser, this will raise RuntimeError instead of failing to "
+            f"parse the date.",
+            FutureWarning,
+            stacklevel=2,
+        )
+        raise
 
 
 def strip_braces(date_string: str) -> str:
@@ -73,44 +80,54 @@ def find_date_separator(format: str) -> str | None:  # noqa: A002
     return None
 
 
+_PART_DIRECTIVES = {
+    "year": ["%y", "%-y", "%Y"],
+    # %j (day of year) encodes month implicitly: a successful strptime with %j always
+    # populates the month field, so %j should count as providing month information.
+    "month": ["%b", "%B", "%m", "%-m", "%j", "%-j"],
+    "day": ["%d", "%-d", "%j", "%-j"],
+    "time": ["%H", "%-H", "%I", "%-I", "%M", "%-M", "%S", "%-S"],
+}
+
+
+def _get_parts(fmt: str) -> tuple[str, ...]:
+    """Return a tuple with the parts (year, month, day, time) that a date format
+    provides, based on its directives."""
+    complete_week_date = False
+    if "%U" in fmt or "%W" in fmt or "%V" in fmt:
+        # A year, week number and weekday determine the complete date. Consume
+        # %% pairs so literal directive names do not count as date components.
+        directives = set(re.findall(r"%[%UWVwuAaYyG]", fmt))
+        complete_week_date = bool(
+            directives & {"%U", "%W", "%V"}
+            and directives & {"%w", "%u", "%a", "%A"}
+            and directives & {"%Y", "%y", "%G"}
+        )
+    return tuple(
+        part
+        for part, directives in _PART_DIRECTIVES.items()
+        if (complete_week_date and part != "time")
+        or any(directive in fmt for directive in directives)
+    )
+
+
 def _get_missing_parts(fmt: str) -> list[str]:
     """
     Return a list containing missing parts (day, month, year)
     from a date format checking its directives
     """
-    if "%U" in fmt or "%W" in fmt or "%V" in fmt:
-        # A year, week number and weekday determine the complete date. Consume
-        # %% pairs so literal directive names do not count as date components.
-        directives = set(re.findall(r"%[%UWVwuAaYyG]", fmt))
-        if (
-            directives & {"%U", "%W", "%V"}
-            and directives & {"%w", "%u", "%a", "%A"}
-            and directives & {"%Y", "%y", "%G"}
-        ):
-            return []
-
-    directive_mapping = {
-        "day": ["%d", "%-d", "%j", "%-j"],
-        # %j (day of year) encodes month implicitly: a successful strptime with %j always
-        # populates the month field, so %j should count as providing month information.
-        "month": ["%b", "%B", "%m", "%-m", "%j", "%-j"],
-        "year": ["%y", "%-y", "%Y"],
-    }
-
-    return [
-        field
-        for field in ("day", "month", "year")
-        if not any(directive in fmt for directive in directive_mapping[field])
-    ]
+    parts = _get_parts(fmt)
+    return [field for field in ("day", "month", "year") if field not in parts]
 
 
 def get_timezone_from_tz_string(tz_string: str) -> tzinfo:
     try:
         return timezone(tz_string)
     except UnknownTimeZoneError:
-        for name, info in _tz_offsets:
-            if info["regex"].search(f" {tz_string}"):
-                return StaticTzInfo(name, info["offset"])
+        found = _find_tz(f" {tz_string}")
+        if found:
+            _, name, offset = found
+            return StaticTzInfo(name, offset)
         raise
 
 
@@ -140,10 +157,10 @@ def apply_tzdatabase_timezone(date_time: datetime, pytz_string: str) -> datetime
 def apply_dateparser_timezone(
     utc_datetime: datetime, offset_or_timezone_abb: str
 ) -> datetime | None:
-    for name, info in _tz_offsets:
-        if info["regex"].search(f" {offset_or_timezone_abb}"):
-            tz = StaticTzInfo(name, info["offset"])
-            return utc_datetime.astimezone(tz)
+    found = _find_tz(f" {offset_or_timezone_abb}")
+    if found:
+        _, name, offset = found
+        return utc_datetime.astimezone(StaticTzInfo(name, offset))
     return None
 
 
@@ -162,6 +179,17 @@ def apply_timezone(date_time: datetime, tz_string: str) -> datetime:
     return new_datetime
 
 
+def _now(settings: "Settings", tz: tzinfo | None = None) -> datetime:
+    """Return the current time as a naive datetime in *tz*, or in the
+    ``TIMEZONE`` setting if *tz* is ``None``."""
+    if tz is not None:
+        return datetime.now(tz).replace(tzinfo=None)
+    if "local" in settings.TIMEZONE.lower():
+        return datetime.now()
+    utc_now = datetime.now(dt_timezone.utc)
+    return apply_timezone(utc_now, settings.TIMEZONE).replace(tzinfo=None)
+
+
 def apply_timezone_from_settings(
     date_obj: datetime, settings: "Settings | None"
 ) -> datetime:
@@ -169,7 +197,11 @@ def apply_timezone_from_settings(
     if settings is None:
         return date_obj
 
-    if "local" in settings.TIMEZONE.lower():
+    parsed_tz = date_obj.tzinfo is not None
+    if parsed_tz:
+        if "local" not in settings.TIMEZONE.lower():
+            date_obj = apply_timezone(date_obj, settings.TIMEZONE)
+    elif "local" in settings.TIMEZONE.lower():
         if hasattr(tz, "localize"):
             date_obj = tz.localize(date_obj)
         else:
@@ -180,7 +212,9 @@ def apply_timezone_from_settings(
     if settings.TO_TIMEZONE:
         date_obj = apply_timezone(date_obj, settings.TO_TIMEZONE)
 
-    if settings.RETURN_AS_TIMEZONE_AWARE is not True:
+    if not settings.RETURN_AS_TIMEZONE_AWARE or (
+        settings.RETURN_AS_TIMEZONE_AWARE == "default" and not parsed_tz
+    ):
         date_obj = date_obj.replace(tzinfo=None)
 
     return date_obj
@@ -242,6 +276,13 @@ _registry_lock = threading.Lock()
 
 
 def registry(cls: type[_T]) -> type[_T]:
+    warnings.warn(
+        "dateparser.utils.registry() is deprecated and will be removed in a "
+        "future version.",
+        FutureWarning,
+        stacklevel=2,
+    )
+
     def choose(creator: Callable[..., Any]) -> "staticmethod[..., Any]":
         def constructor(cls: Any, *args: Any, **kwargs: Any) -> Any:
             key = cls.get_key(*args, **kwargs)
