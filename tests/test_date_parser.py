@@ -10,8 +10,10 @@ from parameterized import param, parameterized
 
 import dateparser.timezone_parser
 from dateparser import parse
+from dateparser.conf import settings
 from dateparser.date import DateData, DateDataParser
 from dateparser.date_parser import DateParser, date_parser
+from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.parser import _parse_absolute
 from dateparser.timezone_parser import StaticTzInfo
 from dateparser.utils import normalize_unicode
@@ -2108,7 +2110,9 @@ class TestDateParser(BaseTestCase):
 
         self.add_patch(
             patch.object(
-                date_parser, "parse", collecting_get_date_data(date_parser.parse)
+                date_parser,
+                "_parse_with_parts",
+                collecting_get_date_data(date_parser._parse_with_parts),
             )
         )
 
@@ -2973,6 +2977,23 @@ class TestDateParser(BaseTestCase):
                 settings=settings,
             ),
         )
+
+
+def test_public_parse_methods_return_date_and_period() -> None:
+    relative_base = datetime(2020, 1, 1)
+    assert DateParser().parse(
+        "2020-03-04", _parse_absolute, settings={"RELATIVE_BASE": relative_base}
+    ) == (datetime(2020, 3, 4), "day")
+    assert freshness_date_parser.parse(
+        "2 day ago", settings.replace(RELATIVE_BASE=relative_base)
+    ) == (datetime(2019, 12, 30), "day")
+
+
+def test_parse_method_without_parts() -> None:
+    def parse_method(date_string: str, **kwargs: Any) -> tuple[datetime, str | None]:
+        return datetime(2020, 1, 2), "day"
+
+    assert DateParser().parse("foo", parse_method) == (datetime(2020, 1, 2), "day")
 
 
 if __name__ == "__main__":

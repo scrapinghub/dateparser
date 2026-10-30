@@ -637,7 +637,7 @@ class _DateLocaleParser:
 
         for order in candidates:
             try:
-                date_obj, period, parts = date_parser.parse(
+                date_obj, period, parts = date_parser._parse_with_parts(
                     translated,
                     parse_method=parse_method,
                     settings=self._settings,
@@ -727,7 +727,7 @@ class DateData:
     """:class:`~dateparser.PartOfDay` that the date string refers to, e.g.
     :attr:`~dateparser.PartOfDay.NIGHT` for ``"tonight"``, or ``None``.
 
-    .. versionadded:: VERSION
+    .. versionadded:: 1.5.0
 
     Its time comes from the ``PARTS_OF_DAY`` :ref:`setting <settings>`, unless
     the date string also has a time, e.g. ``"tonight at 11pm"``. If it does
