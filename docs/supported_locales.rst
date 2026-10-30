@@ -9,6 +9,9 @@ codes listed below. For example, ``languages=['en'], region='IN'`` uses the
 If you already know the full locale code, pass it directly through
 ``locales=['en-IN']`` instead.
 
+A language also accepts its default region, e.g. ``fi-FI`` or ``pt-BR``, which
+uses the language itself, e.g. ``fi`` or ``pt``.
+
 ============    ================================================================
   Language            Locales
 ============    ================================================================
