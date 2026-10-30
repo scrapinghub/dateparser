@@ -1187,6 +1187,25 @@ class TestTranslateSearch(BaseTestCase):
                 ],
             ),
             param(text="a Americ", languages=None, settings=None, expected=None),
+            # "W" is a week only after a leading sign or next to another unit
+            param(
+                text="Route 66 W exit, 12 March 2020",
+                languages=["en"],
+                settings=None,
+                expected=[("12 March 2020", datetime.datetime(2020, 3, 12, 0, 0))],
+            ),
+            param(
+                text="Route 66W exit, 12 March 2020",
+                languages=["en"],
+                settings=None,
+                expected=[("12 March 2020", datetime.datetime(2020, 3, 12, 0, 0))],
+            ),
+            param(
+                text="140W + 35W chargers, 12 March 2020",
+                languages=["en"],
+                settings=None,
+                expected=[("12 March 2020", datetime.datetime(2020, 3, 12, 0, 0))],
+            ),
             param(
                 text="in the sample papers. The year of mention refers ",
                 languages=None,
