@@ -1,8 +1,9 @@
 import contextlib
+import re
 from datetime import datetime, time, timezone, tzinfo
 from typing import TYPE_CHECKING, Any
 
-import regex as re
+import regex
 from dateutil.relativedelta import relativedelta
 
 from dateparser.utils import (
@@ -22,14 +23,28 @@ if TYPE_CHECKING:
     from .date import DateData
 
 _UNITS = r"century|decade|fortnight|year|month|week|day|hour|minute|second"
+# A number whose first separator is followed by exactly 3 digits groups
+# thousands, unless it starts with 0 or with more than 3 digits.
+_GROUPED_NUMBER = r"[1-9]\d{0,2}(?:[.,\s]\d{3}(?!\d)){1,6}"
 # A number that continues a date or a time, e.g. the year in "03/06/2020 year",
 # is not a quantity, and a string with one is not a relative date.
-PATTERN = re.compile(
-    rf"(?<![\d/.:])([+-]?\s*\d++[.,]?\d*+)\s*({_UNITS})\b", re.I | re.S | re.U
+_PATTERN = (
+    rf"(?<![\d/.:])([+-]?\s*(?>(?:{_GROUPED_NUMBER}|\d+)(?:[.,]\d*)?))"
+    rf"\s*({_UNITS})\b"
 )
-_GLUED_QUANTITY = re.compile(rf"\d\s*(?:{_UNITS})\b", re.I)
+PATTERN: "re.Pattern[str] | regex.Pattern[str]"
+try:
+    PATTERN = re.compile(_PATTERN, re.IGNORECASE | re.DOTALL)
+except re.error:
+    # Python 3.10 has no atomic groups.
+    PATTERN = regex.compile(_PATTERN, regex.IGNORECASE | regex.DOTALL)
+_GLUED_QUANTITY = re.compile(rf"\d\s*(?:{_UNITS})\b", re.IGNORECASE)
+_GROUPED_NUMBER_PATTERN = re.compile(_GROUPED_NUMBER)
+# Matches the text before a number that is the end of a longer one, e.g. the
+# day in "2024-06-01 3 days".
+_NUMERIC_PREFIX = re.compile(r"(?<![\d:])\d[\d.,/-]*[.,\s/-]*$")
 # "the 1st of last month" translates to " 1 1 month ago".
-_DAY_OF_MONTH = re.compile(r"^\s*(\d{1,2})\s+(?=(?:in\s+)?\d+\s+month\b)")
+_DAY_OF_MONTH = re.compile(r"^\s*(\d{1,2})\s+(?!\d{3}\s)(?=(?:in\s+)?\d+\s+month\b)")
 
 
 class FreshnessDateDataParser:
@@ -165,12 +180,7 @@ class FreshnessDateDataParser:
         if not self._are_all_words_units(date_string):
             return None, None, ()
 
-        result = self.get_kwargs(date_string)
-        if isinstance(result, tuple):
-            kwargs, explicit_signs = result
-        else:
-            kwargs = result
-            explicit_signs = {}
+        kwargs, explicit_signs = self.get_kwargs(date_string)
 
         if not kwargs:
             return None, None, ()
@@ -233,21 +243,42 @@ class FreshnessDateDataParser:
 
         return date, period, parts
 
-    def get_kwargs(
-        self, date_string: str
-    ) -> tuple[dict[str, float], dict[str, bool]] | dict[str, float]:
-        m = PATTERN.findall(date_string)
-        if not m:
-            return {}
+    @staticmethod
+    def _parse_number(num: str) -> float:
+        sign = num[0] if num[0] in "+-" else ""
+        num = num.lstrip("+-").lstrip()
+        if grouped := _GROUPED_NUMBER_PATTERN.match(num):
+            integer = "".join(c for c in grouped.group() if c.isdigit())
+            num = integer + num[grouped.end() :]
+        return float(sign + num.replace(",", "."))
 
+    def get_kwargs(self, date_string: str) -> tuple[dict[str, float], dict[str, bool]]:
         kwargs: dict[str, float] = {}
         explicit_signs: dict[str, bool] = {}
 
-        for num, unit in m:
-            has_explicit_sign = num.startswith(("+", "-"))
+        previous_end = 0
+        for match in PATTERN.finditer(date_string):
+            num, unit = match.groups()
+            num = num.lstrip()
+            start = match.end(1) - len(num)
+            # A number separated from this one only by whitespace, e.g. the 1
+            # in "year 1 40 minute" or the date in "2024-06-01 3 days", is a
+            # fragment only if it is all digits and this one starts with what
+            # could be a digit group of it. A sign after whitespace starts a
+            # new number.
+            signed = num[0] in "+-" and date_string[start - 1 : start].isspace()
+            if not signed and (
+                prefix := _NUMERIC_PREFIX.search(date_string, previous_end, start)
+            ):
+                before = prefix.group()
+                if not before[-1].isspace() or (
+                    before.rstrip().isdigit() and re.match(r"\d{3}", num)
+                ):
+                    return {}, {}
+            previous_end = match.end()
             key = "centuries" if unit.lower() == "century" else unit.lower() + "s"
-            explicit_signs[key] = has_explicit_sign
-            kwargs[key] = float(num.replace(",", ".").replace(" ", ""))
+            explicit_signs[key] = num[0] in "+-"
+            kwargs[key] = float(num) if num.isdecimal() else self._parse_number(num)
 
         return kwargs, explicit_signs
 

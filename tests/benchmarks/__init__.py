@@ -39,3 +39,8 @@ TRANSLATED_RELATIVE_STRINGS = [
 # original #1335 repro would instead need ~20 minutes per benchmark once
 # regressed, so the job would time out without ever reporting.
 LONG_DIGIT_RUN = "9" * 800
+
+# Digit groups that could all be part of the same number, and many matches in
+# one string: both made the relative-date parsing quadratic.
+LONG_GROUPED_RUN = "1" + " 000" * 800
+MANY_RELATIVE_MATCHES = "1 day, " * 800

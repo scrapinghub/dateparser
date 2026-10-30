@@ -9,11 +9,12 @@ import regex as re
 from dateparser.conf import Settings, apply_settings, check_settings
 from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date import DateData, DateDataParser
-from dateparser.freshness_date_parser import _UNITS
+from dateparser.freshness_date_parser import _UNITS, freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.languages.locale import _WEEKDAY_MODIFIERS, PUNCTUATION, Locale
 from dateparser.search.ngram_search import _DateResult, _NgramDateSearch
 from dateparser.search.text_detection import FullTextLanguageDetector
+from dateparser.utils import strip_braces
 from dateparser.utils.time_spans import detect_time_span, generate_time_span
 
 RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
@@ -646,6 +647,14 @@ class _ExactLanguageSearch:
                     )
                     parsed.extend(sub_parsed)
                     substrings.extend(sub_substrings)
+                    continue
+
+                # A relative date too far away to compute is still a single
+                # expression, and its parts do not mean anything on their own.
+                if (
+                    freshness_date_parser._are_all_words_units(item)
+                    and freshness_date_parser.get_kwargs(strip_braces(item))[0]
+                ):
                     continue
 
                 possible_splits = self.split_if_not_parsed(
