@@ -3,6 +3,174 @@
 History
 =======
 
+1.5.0 (unreleased)
+------------------
+
+Breaking changes:
+
+- ``parse()`` and ``DateDataParser`` raise ``RuntimeError`` naming the
+  ``TZ`` value when the local timezone cannot be determined, instead of
+  returning ``None`` (#1403)
+- ``DateData.period`` can take the new values ``"quarter"`` and
+  ``"part_of_day"``, and with ``RETURN_TIME_AS_PERIOD`` enabled a relative
+  date with hours, minutes or seconds, such as "2 hours ago", now has the
+  ``"time"`` period instead of ``"day"`` (#1417, #1437, #1473)
+- The ``parse()`` methods of ``dateparser.date_parser.DateParser``,
+  ``dateparser.freshness_date_parser.FreshnessDateDataParser`` and the
+  calendar parsers now return a ``(date, period, parts)`` tuple instead of
+  ``(date, period)`` (#1408)
+- Remove ``dateparser.utils.registry`` and ``Settings.get_key()``:
+  ``Settings`` instances are no longer cached and shared, so creating one
+  with the same settings twice gives two different objects (#1442)
+- Remove ``get_week_start()`` and ``get_week_end()`` from
+  ``dateparser.utils.time_spans``, and make the ``base_date`` and
+  ``settings`` arguments of ``generate_time_span()`` required (#1393)
+- Remove the leftovers of fastText support from ``dateparser_cli``: the
+  ``fasttext_manager`` and ``exceptions`` modules and
+  ``utils.create_data_model_home()``; ``utils.dateparser_model_home`` and
+  ``utils.DEFAULT_WINDOWS_CACHE_DIR`` are now ``pathlib.Path`` objects
+  (#1406)
+- Remove ``Locale.to_parserinfo()`` and ``HijriDate.weekday()``, which
+  always raised an exception (#1406, #1457)
+
+Deprecations:
+
+- Deprecate ``dateparser.timezone_parser.convert_to_local_tz()`` (#1481)
+  and ``dateparser.timezone_parser.build_tz_offsets()`` (#1405)
+
+New features:
+
+- Add a ``STRICT_DATE_ORDER`` setting that turns an explicit ``DATE_ORDER``
+  from a preference into a requirement: ``"year"`` reads a two-digit year
+  only from the position ``DATE_ORDER`` gives it, and ``"all"`` also keeps
+  the day and month where the order puts them (#1443)
+- Add a ``TIMEZONE_ABBREVIATIONS`` setting to override the offset of
+  timezone abbreviations, e.g. to read ``IST`` as India Standard Time
+  instead of Israel Standard Time (#1415)
+- Parse parts of the day, such as "tomorrow morning", "this evening" or
+  "8 in the evening", at the times set by the new ``PARTS_OF_DAY`` setting;
+  the new ``DateData.part_of_day`` attribute tells which one was found
+  (#1473)
+- Add ``DateData.parts``, which lists the date parts (day, month, year,
+  time…) read from the input rather than filled in from defaults (#1408)
+- Add an ``add_period`` argument to ``search_dates()`` to also return the
+  period of each date (#1437)
+- Add a ``date_formats`` argument to ``search_dates()``, supported with the
+  ``"ngram"`` strategy (#1436)
+- Add the French Republican calendar and the Minguo (Taiwanese) calendar
+  (#1483, #1489)
+- Parse calendar quarters, such as "2025Q1", "2025-Q3" or "Q4 2025", as the
+  first month of the quarter, or the month that ``PREFER_MONTH_OF_YEAR``
+  picks (#1417)
+- Parse "last", "this" and "next" before a weekday, e.g. "next Friday"
+  (#1401)
+- Parse "the Nth of last/this/next month" as a day of that month (#1414)
+- Parse Roman numeral years, e.g. "5 March MDCCLXXVI" (#1482)
+- Parse dates with a bare UTC offset, such as "+03" (#1475)
+- Parse AM/PM written before the time, e.g. "下午 02:26" (#1469)
+- Parse ISO 8601 fractional seconds written with a decimal comma, e.g.
+  "12:30:45,123" (#1467)
+- Parse English number words from thirteen to ninety-nine, e.g.
+  "forty-five seconds ago" (#1416)
+- Parse "fortnight" and "century" in English relative dates (#1539)
+- Match month and weekday names in ``date_formats`` in the given languages,
+  so formats with literal text work, e.g. "el %d de %B de %Y" for "el 15 de
+  junio de 2020" with ``languages=["es"]`` (#1486, #1552)
+- When a date does not parse, try the other meanings of ambiguous words,
+  such as Spanish "mar" (martes or marzo) (#1491), and read a token that
+  is both a weekday and a month abbreviation as the weekday when that is
+  what fits (#1476)
+- In ``search_dates()``, find dates written:
+
+  - right after a label and a colon, e.g. "Date:July 8, 2020" or
+    "日期：2020年12月28日" (#1407, #1496)
+  - next to a relative date without a comma (#1385)
+  - joined by words that search skips, like "and" (#1488)
+  - inside brackets or quotes, or wrapped in punctuation, e.g.
+    ``'He said "May 5, 2020"'`` or "(Friday)" (#1401)
+
+Fixes:
+
+- Take the current date, used for relative dates and missing date parts,
+  from the ``TIMEZONE`` setting instead of UTC (#1427)
+- Keep the ``%z`` offset when parsing with ``date_formats``, and return a
+  timezone-aware date for it unless ``RETURN_AS_TIMEZONE_AWARE`` is
+  ``False`` (#1424)
+- Read year-first dates, such as "2021-01-13", as YMD unless ``DATE_ORDER``
+  starts with the year (#1419)
+- Swap the day and the month for any ``DATE_ORDER`` when they do not fit,
+  e.g. "13/01/2021" with ``MDY`` (#1431)
+- Read a lone number next to a four-digit year as the month under any
+  ``DATE_ORDER`` (#1472)
+- Apply ``PREFER_DAY_OF_MONTH`` before ``PREFER_DATES_FROM`` picks the year
+  (#1409), and apply ``PREFER_DAY_OF_MONTH`` and ``PREFER_MONTH_OF_YEAR``
+  to relative dates such as "last year" (#1413)
+- Apply an explicit ``DATE_ORDER`` and ``STRICT_DATE_ORDER`` to every date
+  that ``search_dates()`` finds, not only to the first one (#1535)
+- Stop dropping extra numbers when parsing dates: a string with more
+  numbers than a date has, such as "5 06 Mar 2009", now returns ``None``
+  instead of a date built from some of them (#1480)
+- Return ``None`` for strings with only skipped words, such as "t" or
+  "year", instead of today (#1440)
+- Stop ignoring numbers without a unit in relative dates, so "03/06/2020
+  year" or "01.02.2011 godz. 08:39" no longer parse as a number of years
+  or hours ago (#1410)
+- Stop reading "Nth day" as a number of days, e.g. "the 1st day of March
+  2015" (#1412)
+- Parse "at 22h" and "à 22h" as a time of day, not as hours ago (#1441)
+- Keep the future direction of a relative expression written next to
+  punctuation, e.g. "in 2 hours," (#1391)
+- Stop French "sept" being read as 7 when it means September (#1353)
+- Parse dates with a numeric offset followed by a redundant timezone
+  abbreviation, e.g. "-0500 (CDT)", or with an abbreviation glued to the
+  time, e.g. "2019-09-28WIB19:17:34" (#1348)
+- Recognize UTC offsets written with Unicode dash-like characters, such as
+  "−05:00" (#1474)
+- Keep complete week dates (year, week number and weekday) when parsing
+  with ``date_formats``, including ``%G`` ISO week years (#1381)
+- Fix negative timestamps with subseconds (#1387)
+- Keep AM when searching for dates after a time (#1400)
+- Keep full stops between digits in ``search_dates()`` sentences (#1471)
+- Fix ``search_dates()`` dropping text next to a standalone accent mark
+  (#1505)
+- In ``search_dates()``, include the closing bracket in the matched text,
+  e.g. "8 May 2020 (16:05)", and stop including separators such as "/" or
+  "|" (#1401)
+- Split a relative date from a numeric date that follows it in
+  ``search_dates()``, e.g. "3 days later on 2010-05-10" (#1430)
+- Stop growing internal caches with every distinct ``RELATIVE_BASE`` value
+  (#1442)
+- Fix ``dateparser.utils.get_logger()`` raising ``AttributeError`` when
+  ``logging.config`` had not been imported (#1457)
+
+Improvements:
+
+- Speed up ``parse()`` by about 35% (#1544), skip locales that cannot
+  change the outcome of a failed parse (#1390), and speed up import by
+  compiling the timezone regexes lazily (#1405)
+- Arabic: parse relative dates that use قبل for "ago" (#1397), Egyptian and
+  informal ة→ه spellings (#1493), numbered Levantine month names such as
+  "كانون 2" (#1511), dates typed with Persian yeh and kaf (#1423), and
+  Arabic month names and Arabic-Indic digits in Hijri dates (#1432)
+- Chinese: add the supplementary data of ``zh`` to ``zh-Hans`` and
+  ``zh-Hant`` (#1407), and parse 后天, 大后天 and 大前天 as relative days
+  (#1430)
+- Chinese and Japanese: parse dates with spaces around 年, 月 and 日 (#1477)
+- French: parse "midi" as noon (#1536)
+- Indonesian: add old-style month abbreviations, such as "Djan" or "Peb"
+  (#1501)
+- Korean: parse absolute dates written with 년, 월, 일, 시 and 분 (#1434)
+- Slovak: parse "pozajtra" (#1430)
+- Swedish: parse ordinal day suffixes like "24:e" and "1:a" (#1484)
+- Thai: parse relative dates with spaced ago/in words (#1411)
+- Vietnamese: parse dates with zero-padded months (#1338)
+- Add type hints (#1457)
+- Document ``search_dates()`` in the API reference (#1468), add a
+  performance section (#1494), explain how ``DEFAULT_LANGUAGES`` relates to
+  the ``languages`` argument (#1422) and how ``date_formats`` falls back to
+  the other parsers (#1549)
+- Show the whole README on PyPI (#1359)
+
 1.4.3 (2026-09-03)
 ------------------
 
