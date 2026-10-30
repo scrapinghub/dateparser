@@ -698,7 +698,7 @@ class DateData:
     """:class:`~dateparser.PartOfDay` that the date string refers to, e.g.
     :attr:`~dateparser.PartOfDay.NIGHT` for ``"tonight"``, or ``None``.
 
-    .. versionadded:: VERSION
+    .. versionadded:: 1.5.0
 
     Its time comes from the ``PARTS_OF_DAY`` :ref:`setting <settings>`, unless
     the date string also has a time, e.g. ``"tonight at 11pm"``. If it does
