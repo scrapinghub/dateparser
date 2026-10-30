@@ -2609,6 +2609,24 @@ class TestDateParser(BaseTestCase):
             ),
         )
 
+    def test_normalization_does_not_add_meanings_to_non_date_words(self) -> None:
+        # Lower Sorbian "ź" (day) normalizes to "z", the UTC designator.
+        self.assertEqual(
+            datetime(2021, 1, 1, tzinfo=timezone.utc),
+            parse("20210101T000000Z", languages=["dsb"]),
+        )
+
+    def test_normalization_keeps_meanings_of_date_words(self) -> None:
+        # Marathi "मे" (May) normalizes to "म" (month).
+        self.assertEqual(
+            datetime(2021, 5, 15),
+            parse(
+                "मे 2021",
+                languages=["mr"],
+                settings={"RELATIVE_BASE": datetime(2020, 6, 15)},
+            ),
+        )
+
     def test_word_with_too_many_meaning_combinations(self) -> None:
         self.assertIsNone(parse("mar mar mar mar mar", languages=["it"]))
 

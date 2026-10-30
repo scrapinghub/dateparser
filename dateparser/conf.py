@@ -186,7 +186,7 @@ def _check_parsers(setting_name: str, setting_value: list[str]) -> None:
     """Returns `True` if the provided list of parsers contains valid values"""
     from dateparser.date import _DateLocaleParser  # noqa: PLC0415
 
-    unknown_parsers = set(setting_value) - _DateLocaleParser._parsers.keys()
+    unknown_parsers = set(setting_value) - _DateLocaleParser._parsers.keys() - {"iso"}
     if unknown_parsers:
         raise SettingValidationError(
             'Found unknown parsers in the "{}" setting: {}'.format(
