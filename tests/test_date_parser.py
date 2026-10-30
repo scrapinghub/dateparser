@@ -1241,6 +1241,8 @@ class TestDateParser(BaseTestCase):
             param("2000 г.", expected=datetime(2000, 2, 15), period="year"),
             param("2001 год", expected=datetime(2001, 2, 15), period="year"),
             param("2001год", expected=datetime(2001, 2, 15), period="year"),
+            # English
+            param("2010 Year", expected=datetime(2010, 2, 15), period="year"),
         ]
     )
     def test_extracted_period(
