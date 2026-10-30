@@ -32,6 +32,11 @@ _NON_MERIDIEM_AM_REG = re.compile(
     r"(?<!\b(?:0?[1-9]|1[0-2])(?:[:.][0-5]\d)?\s*)\bam\b|\bam(?=\d)"
 )
 
+# A lone word this short that translates into a bare weekday, month or unit
+# name is too weak a signal to trust the language detected from it, e.g.
+# "car" is an abbreviation of Wednesday in Turkish.
+_AMBIGUOUS_ABBREVIATION_REG = re.compile(r"[a-zA-Z]{1,3}")
+
 
 # A quantity of time ending a translated chunk, e.g. "50 year in" from "50
 # years after".
@@ -772,6 +777,28 @@ class DateSearchWithDetection:
 
         return list(dict.fromkeys(candidates))
 
+    def _is_ambiguous_abbreviation(
+        self, substring: str, shortname: str, settings: Settings
+    ) -> bool:
+        if not _AMBIGUOUS_ABBREVIATION_REG.fullmatch(substring):
+            return False
+        translation = self.loader.get_locale(shortname).translate(
+            substring, settings=settings
+        )
+        if not translation.isalpha():
+            return False
+        english = self.loader.get_locale("en")
+        return english.translate(substring, settings=settings) != translation
+
+    def _drop_ambiguous_abbreviations(
+        self, dates: list[_DateResult], shortname: str, settings: Settings
+    ) -> list[_DateResult]:
+        return [
+            date
+            for date in dates
+            if not self._is_ambiguous_abbreviation(date[0], shortname, settings)
+        ]
+
     @apply_settings
     def detect_language(
         self,
@@ -928,6 +955,10 @@ class DateSearchWithDetection:
             dates = self.ngram_search.search_parse(
                 candidate_languages, text, settings=settings, date_formats=date_formats
             )
+            if not languages:
+                dates = self._drop_ambiguous_abbreviations(
+                    dates, candidate_languages[0], settings
+                )
             _add_time_span_results(dates, text, settings)
             return language_shortname, dates
 
@@ -935,6 +966,10 @@ class DateSearchWithDetection:
             dates = self.search.search_parse(
                 candidate_language, text, settings=settings
             )
+            if not languages:
+                dates = self._drop_ambiguous_abbreviations(
+                    dates, candidate_language, settings
+                )
             if dates:
                 return candidate_language, dates
 
