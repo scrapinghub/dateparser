@@ -29,7 +29,10 @@ STRATEGIES = pytest.mark.parametrize("strategy", ["split", "ngram"])
 @STRATEGIES
 def test_search_dates(benchmark: BenchmarkFixture, strategy: str) -> None:
     def run() -> (
-        list[tuple[str, datetime]] | list[tuple[str, datetime, str | None]] | None
+        list[tuple[str, datetime]]
+        | list[tuple[str, datetime, str | None]]
+        | list[tuple[str, datetime, str | None, str | None]]
+        | None
     ):
         return search_dates(TEXT, languages=LANGUAGES, strategy=strategy)
 
@@ -45,7 +48,12 @@ def test_search_dates(benchmark: BenchmarkFixture, strategy: str) -> None:
 
 @STRATEGIES
 def test_search_first_date(benchmark: BenchmarkFixture, strategy: str) -> None:
-    def run() -> tuple[str, datetime] | tuple[str, datetime, str | None] | None:
+    def run() -> (
+        tuple[str, datetime]
+        | tuple[str, datetime, str | None]
+        | tuple[str, datetime, str | None, str | None]
+        | None
+    ):
         return search_first_date(TEXT, languages=LANGUAGES, strategy=strategy)
 
     date = run()
