@@ -52,6 +52,37 @@ _MAX_TRAILING_WORDS = 3
 """Words after a relative expression, e.g. "5 pm" after "in 1 day", that
 :meth:`_ExactLanguageSearch.split_by_relative_expression` keeps with it."""
 
+# A day of a relative month, e.g. "15th 0 month ago" from "the 15th of this
+# month", has more words than the words it is translated from, so the words
+# around it in a chunk do not line up with their translation.
+_DAY_OF_RELATIVE_MONTH = re.compile(r"\b\d{1,2}(?:st|nd|rd|th)? (?:in )?\d+ months?\b")
+_MAX_WORDS_TO_SPLIT = 15
+_UNIT_WITHOUT_NUMBER = re.compile(rf"(?<!\d )\b(?:{_UNITS})s?\b")
+_RELATIVE_WITH_DAY = re.compile(
+    rf"(?:\b\d{{1,2}}(?:st|nd|rd|th)? )?(?:\bin )?"
+    rf"(?:\b\d+ (?:{_UNITS})s?\b ?)+(?:ago\b)?"
+)
+_RELATIVE_WORD = re.compile(r"\b(?:ago|in)\b")
+_TIME = re.compile(r"\b\d{1,2}(?::\d{2}){1,2}\b|\b\d{1,2} ?[ap]m\b")
+
+
+def _is_incomplete(translation: str) -> bool:
+    """Return whether *translation* parses only by ignoring part of it: a unit
+    with no number before it, e.g. "month in 1 day" from "of the month
+    tomorrow", a second relative date, e.g. "in 1 day 15th 0 month ago", or a
+    number or the word of another relative date next to a relative date,
+    e.g. "15th 0 month ago 2021" or "ago 15th 0 month ago"."""
+    if _UNIT_WITHOUT_NUMBER.search(translation):
+        return True
+    rest, count = _RELATIVE_WITH_DAY.subn("", translation)
+    return count > 1 or (
+        count == 1
+        and (
+            any(char.isdigit() for char in _TIME.sub("", rest))
+            or _RELATIVE_WORD.search(rest) is not None
+        )
+    )
+
 
 def _is_weekday_modifier(word: str) -> bool:
     return word.strip().strip(PUNCTUATION) in _WEEKDAY_MODIFIERS
@@ -543,6 +574,12 @@ class _ExactLanguageSearch:
         settings: Settings,
     ) -> list[list[list[str]]]:
         splitters = [",", "،", "——", "—", "–", ".", " "]
+        if _DAY_OF_RELATIVE_MONTH.search(item) and (
+            possible_splits := self.split_original_into_dates(
+                parser, original, language, settings
+            )
+        ):
+            return possible_splits
         possible_splits = self.split_off_leading_number(parser, item, original)
         misaligned = False
         for splitter in splitters:
@@ -570,6 +607,66 @@ class _ExactLanguageSearch:
                 parser, item, original, language, settings
             ) or self.split_around_skipped_words(item, original, language, settings)
         return possible_splits
+
+    def split_original_into_dates(
+        self,
+        parser: DateDataParser,
+        original: str,
+        language: Locale,
+        settings: Settings,
+    ) -> list[list[list[str]]]:
+        """Split a chunk into as few dates as possible, translating each part
+        on its own.
+
+        Parts translated separately line up with the text they come from even
+        when the translation of the whole chunk does not, e.g. in "the 15th of
+        this month Monday".
+        """
+        words = original.split()
+        if len(words) > _MAX_WORDS_TO_SPLIT:
+            return []
+        skip = {word.lower() for word in language.info.get("skip", [])}
+        # A part neither starts with a skipped word, e.g. "on" in "the 15th of
+        # the month on Monday", which ends the previous part instead, nor ends
+        # with a word that only translates with the next ones, e.g. "last" in
+        # "last friday".
+        can_end = [
+            word.lower() in skip
+            or bool(language.translate(word, settings=settings).strip())
+            for word in words
+        ]
+        # best[start] holds the fewest dates that words[start:] splits into, as
+        # (translation, original) pairs.
+        best: list[list[tuple[str, str]] | None] = [None] * len(words) + [[]]
+        for start in reversed(range(len(words))):
+            if start and words[start].lower() in skip:
+                continue
+            for end in range(start + 1, len(words) + 1):
+                rest, current = best[end], best[start]
+                if (
+                    rest is None
+                    or not can_end[end - 1]
+                    or (current is not None and len(rest) + 1 >= len(current))
+                ):
+                    continue
+                part_words = words[start:end]
+                while len(part_words) > 1 and part_words[-1].lower() in skip:
+                    part_words.pop()
+                part = " ".join(part_words)
+                translation = " ".join(
+                    language.translate_search(part, settings=settings)[0]
+                )
+                if (
+                    not _is_incomplete(translation)
+                    and parser.get_date_data(translation)["date_obj"] is not None
+                ):
+                    best[start] = [(translation, part), *rest]
+        parts = best[0]
+        if parts is None or len(parts) < 2:
+            return []
+        return [
+            [[translation for translation, _ in parts], [part for _, part in parts]]
+        ]
 
     def parse_item(
         self,
@@ -622,7 +719,10 @@ class _ExactLanguageSearch:
             parsed_item, is_relative = self.parse_item(
                 parser, item, translated[i], parsed, need_relative_base
             )
-            if parsed_item["date_obj"]:
+            if parsed_item["date_obj"] and not (
+                # e.g. "1st 0 month ago 12/03/2021", which parses as the 1st
+                _DAY_OF_RELATIVE_MONTH.search(item) and _is_incomplete(item)
+            ):
                 possible_splits = self.split_off_numeric_date(
                     parser, item, original[i], language, settings
                 )
