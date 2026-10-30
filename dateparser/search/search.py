@@ -710,7 +710,11 @@ class _ExactLanguageSearch:
         return parsed[len(already_parsed) :], substrings
 
     def search_parse(
-        self, shortname: str, text: str, settings: Settings
+        self,
+        shortname: str,
+        text: str,
+        settings: Settings,
+        use_locale_date_order: bool = False,
     ) -> list[_DateResult]:
         language = self.get_current_language(shortname)
         translated, original = self.search(shortname, text, settings)
@@ -718,14 +722,28 @@ class _ExactLanguageSearch:
             "vi",
             "hu",
         ]  # splitting done by spaces and some dictionary items contain spaces
+        parser_settings = settings
         if shortname not in bad_translate_with_search:
             languages = ["en"]
             to_parse = translated
+            if (
+                use_locale_date_order
+                and settings.PREFER_LOCALE_DATE_ORDER
+                and "DATE_ORDER" not in settings._mod_settings
+                and not language.info.get("date_order", "Y").startswith("Y")
+            ):
+                # The translated text is parsed as English, so give it the date
+                # order of the source language, without marking DATE_ORDER as
+                # set by the caller, so that it works like a locale date order.
+                parser_settings = settings.replace(
+                    DATE_ORDER=language.info["date_order"],
+                    PREFER_LOCALE_DATE_ORDER=False,
+                )
         else:
             languages = [shortname]
             to_parse = original
 
-        parser = DateDataParser(languages=languages, settings=settings)
+        parser = DateDataParser(languages=languages, settings=parser_settings)
         parsed, substrings = self.parse_found_objects(
             parser=parser,
             to_parse=to_parse,
@@ -933,7 +951,10 @@ class DateSearchWithDetection:
 
         for candidate_language in candidate_languages:
             dates = self.search.search_parse(
-                candidate_language, text, settings=settings
+                candidate_language,
+                text,
+                settings=settings,
+                use_locale_date_order=bool(languages),
             )
             if dates:
                 return candidate_language, dates

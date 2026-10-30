@@ -1973,7 +1973,7 @@ class TestTranslateSearch(BaseTestCase):
                 text="05.06.2020, 17:30 Uhr",
                 language="de",
                 expected=[
-                    ("05.06.2020, 17:30 Uhr", datetime.datetime(2020, 5, 6, 17, 30))
+                    ("05.06.2020, 17:30 Uhr", datetime.datetime(2020, 6, 5, 17, 30))
                 ],
             ),
             param(
@@ -2140,6 +2140,75 @@ class TestTranslateSearch(BaseTestCase):
             text=text, languages=languages, error_type=ValueError
         )
         self.check_error_message("Unknown language(s): 'unknown language code'")
+
+    @parameterized.expand(
+        [
+            param(["pt"], None, datetime.datetime(2024, 2, 6, 16, 22)),
+            param(["de"], None, datetime.datetime(2024, 2, 6, 16, 22)),
+            param(["vi"], None, datetime.datetime(2024, 2, 6, 16, 22)),
+            param(["de", "en"], None, datetime.datetime(2024, 2, 6, 16, 22)),
+            param(["en"], None, datetime.datetime(2024, 6, 2, 16, 22)),
+            param(["en", "de"], None, datetime.datetime(2024, 6, 2, 16, 22)),
+            param(["pt"], {"DATE_ORDER": "MDY"}, datetime.datetime(2024, 6, 2, 16, 22)),
+        ]
+    )
+    def test_search_dates_uses_the_date_order_of_the_language(
+        self,
+        languages: list[str],
+        settings: dict[str, str] | None,
+        expected: datetime.datetime,
+    ) -> None:
+        result = search_dates(
+            "06/02/2024 16:22", languages=languages, settings=settings
+        )
+        assert result == [("06/02/2024 16:22", expected)]
+
+    def test_search_dates_uses_the_date_order_of_the_language_for_each_date(
+        self,
+    ) -> None:
+        result = search_dates("06/02/2024 e 13/02/2024", languages=["pt"])
+        assert result == [
+            ("06/02/2024", datetime.datetime(2024, 2, 6)),
+            ("13/02/2024", datetime.datetime(2024, 2, 13)),
+        ]
+
+    def test_search_dates_retries_year_first_orders_for_required_parts(self) -> None:
+        result = search_dates(
+            "10-23",
+            languages=["es"],
+            settings={
+                "RELATIVE_BASE": datetime.datetime(2050, 1, 1),
+                "REQUIRE_PARTS": ["month", "year"],
+                "PREFER_DAY_OF_MONTH": "first",
+            },
+        )
+        assert result == [("10-23", datetime.datetime(2023, 10, 1))]
+
+    @parameterized.expand(
+        [
+            param("Mötet hålls den 16 mars.", ["sv"], datetime.datetime(2020, 3, 16)),
+            param("31 kovo", ["lt"], datetime.datetime(2020, 3, 31)),
+            param("Publicado em 10/13/2020", ["pt"], datetime.datetime(2020, 10, 13)),
+            param("03/17 16:14", ["ar"], datetime.datetime(2020, 3, 17, 16, 14)),
+            param("8-12 de febrero de 2020", ["es"], datetime.datetime(2020, 2, 8)),
+            param(
+                "Posted 5/3/2020 10:30 PM EST",
+                None,
+                datetime.datetime(2020, 5, 3, 22, 30),
+            ),
+            param("03/04/2021 10:00 AM", None, datetime.datetime(2021, 3, 4, 10)),
+        ]
+    )
+    def test_search_dates_keeps_the_default_date_order(
+        self, text: str, languages: list[str] | None, expected: datetime.datetime
+    ) -> None:
+        result = search_dates(
+            text,
+            languages=languages,
+            settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+        )
+        assert result is not None
+        assert [item[1].replace(tzinfo=None) for item in result] == [expected]
 
     def test_search_dates_with_prepositions(self) -> None:
         """Test `search_dates` for parsing Russian date ranges with prepositions and language detection."""
