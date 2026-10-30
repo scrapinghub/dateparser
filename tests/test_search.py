@@ -1,5 +1,6 @@
 import datetime
 from datetime import timedelta
+from time import monotonic
 from typing import Any
 from unittest.mock import patch
 
@@ -1437,6 +1438,14 @@ class TestTranslateSearch(BaseTestCase):
                 ],
             ),
             param(
+                text="2020年9月1日 2天前",
+                languages=["zh"],
+                expected=[
+                    ("2020年9月1日", datetime.datetime(2020, 9, 1, 0, 0)),
+                    ("2天前", relative_base - timedelta(days=2)),
+                ],
+            ),
+            param(
                 text="後天，2020/9/1",
                 languages=["zh-Hant"],
                 expected=[
@@ -1896,6 +1905,26 @@ class TestTranslateSearch(BaseTestCase):
         self.assertEqual(
             result, [("at 22h tomorrow", datetime.datetime(2026, 9, 25, 22))]
         )
+
+    def test_search_dates_long_skipped_word_run(self) -> None:
+        start = monotonic()
+        search_dates(", " * 800, languages=["zh"])
+        self.assertLess(monotonic() - start, 1.0)
+
+    def test_search_dates_long_punctuation_run_between_dates(self) -> None:
+        start = monotonic()
+        search_dates("2020年9月1日" + "，" * 8000 + "后天", languages=["zh"])
+        self.assertLess(monotonic() - start, 1.0)
+
+    def test_search_dates_skipped_words_before_relative_expression(self) -> None:
+        result = search_dates("and " * 11 + "in 2 days 2020-09-01", languages=["en"])
+        assert result is not None
+        self.assertEqual(result[-1], ("2020-09-01", datetime.datetime(2020, 9, 1)))
+
+    def test_search_dates_long_skipped_word_run_next_to_numeric_date(self) -> None:
+        start = monotonic()
+        search_dates("and " * 800 + "in 2 days 2020-09-01", languages=["en"])
+        self.assertLess(monotonic() - start, 1.0)
 
     def test_search_dates_skipped_word_changes_translation(self) -> None:
         result = search_dates(

@@ -1,7 +1,7 @@
 from collections.abc import Callable, Iterable, Sequence
 from collections.abc import Set as AbstractSet
 from datetime import datetime
-from itertools import chain
+from itertools import chain, islice
 from typing import Any, TypedDict
 
 import regex as re
@@ -41,9 +41,10 @@ _TRAILING_QUANTITY_REG = re.compile(
 
 # A relative expression as translated, e.g. "in 2 day" from Chinese "后天",
 # which no space separates from a number before it in languages written without
-# spaces, e.g. "2020-9-1in 2 day" from "2020年9月1日后天".
+# spaces, e.g. "2020-9-1in 2 day" from "2020年9月1日后天", nor its number from
+# its unit, e.g. "2day ago" from "2天前".
 _GLUED_RELATIVE_REG = re.compile(
-    rf"in \d+ (?:{_UNITS})s?(?![a-z])|(?<![\d.])\d+ (?:{_UNITS})s? ago(?![a-z])"
+    rf"in \d+ (?:{_UNITS})s?(?![a-z])|(?<![\d.])\d+ ?(?:{_UNITS})s? ago(?![a-z])"
 )
 _NUMERIC_DATE_REG = re.compile(r"\d[-/.]\d+[-/.]\d")
 _SEPARATORS = f"{PUNCTUATION}，、 "
@@ -51,6 +52,15 @@ _SEPARATORS = f"{PUNCTUATION}，、 "
 _MAX_TRAILING_WORDS = 3
 """Words after a relative expression, e.g. "5 pm" after "in 1 day", that
 :meth:`_ExactLanguageSearch.split_by_relative_expression` keeps with it."""
+
+_MAX_CONTEXT_WORDS = 3
+"""Skipped words before a word, e.g. "a las" before "13h", that
+:meth:`_ExactLanguageSearch.split_around_skipped_words` translates it with."""
+
+_MAX_EXPRESSION_CUTS = 50
+"""Positions, closest to the end of a chunk opposite to a numeric date first,
+at which :meth:`_ExactLanguageSearch.split_off_numeric_date` tries to split a
+relative expression, e.g. "后天", off the chunk."""
 
 
 def _is_weekday_modifier(word: str) -> bool:
@@ -362,8 +372,9 @@ class _ExactLanguageSearch:
         for index in range(len(words)):
             # Skipped words before a word can change how it translates, e.g.
             # "13h" is a quantity of hours but "à 13h" a time of day.
+            context_start = max(start, index - _MAX_CONTEXT_WORDS)
             translation = language.translate(
-                " ".join(words[start : index + 1]), settings=settings
+                " ".join(words[context_start : index + 1]), settings=settings
             ).split()
             if len(translation) > 1:
                 return []
@@ -486,14 +497,17 @@ class _ExactLanguageSearch:
             expression = match[0].replace(" ", "")
             # The expression is the shortest end of the chunk, on the side
             # opposite to the date, that translates into it.
-            for size in range(1, len(original)):
-                cut = len(original) - size if before else size
-                if (
-                    "no_word_spacing" not in language.info
-                    and original[cut - 1].isalnum()
-                    and original[cut].isalnum()
-                ):
-                    continue
+            cuts = (
+                len(original) - size if before else size
+                for size in range(1, len(original))
+            )
+            word_cuts = (
+                cut
+                for cut in cuts
+                if "no_word_spacing" in language.info
+                or not (original[cut - 1].isalnum() and original[cut].isalnum())
+            )
+            for cut in islice(word_cuts, _MAX_EXPRESSION_CUTS):
                 original_date, original_expression = (
                     (original[:cut], original[cut:])
                     if before

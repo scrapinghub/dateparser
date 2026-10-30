@@ -1,5 +1,6 @@
 import datetime as dt
 from datetime import datetime, timedelta
+from time import monotonic
 from types import ModuleType
 from typing import ClassVar
 from unittest import SkipTest
@@ -136,6 +137,14 @@ class TestTZPopping(BaseTestCase):
         self, date_string: str, expected: tuple[str, str]
     ) -> None:
         assert pop_tz_offset_from_string(date_string, as_offset=False) == expected
+
+    def test_repeated_timezone(self) -> None:
+        pop_tz_offset_from_string("EST")  # Compile the timezone regexes.
+        date_string = "1 Jan 2020 " + "EST " * 200
+        start = monotonic()
+        result = pop_tz_offset_from_string(date_string, as_offset=False)
+        assert monotonic() - start < 1.0
+        assert result == ("1 Jan 2020" + " EST" * 197, "EST")
 
     def given_string(self, string_: str) -> None:
         self.initial_string = string_

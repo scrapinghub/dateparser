@@ -102,7 +102,9 @@ RE_SANITIZE_CROATIAN = re.compile(
     r"(\d+)\.\s?(\d+)\.\s?(\d+)\.( u)?", flags=re.I | re.U
 )
 RE_SANITIZE_PERIOD = re.compile(r"(?<=[^0-9\s])\.", flags=re.U)
-RE_SANITIZE_DECIMAL_COMMA = re.compile(r"(?<=\d:\d{2}:\d{2}),(?=\d{3})")
+RE_SANITIZE_DECIMAL_COMMA = re.compile(
+    r"(?<=\d:\d{2}:\d{2}),(?=(\d{3,})(\s*[ap]\.?m\b)?)", flags=re.I
+)
 RE_SANITIZE_ON = re.compile(r"^.*?on:\s+(.*)")
 RE_SANITIZE_APOSTROPHE = re.compile("|".join(APOSTROPHE_LOOK_ALIKE_CHARS))
 RE_SANITIZE_DASH = re.compile("|".join(DASH_LOOK_ALIKE_CHARS))
@@ -111,6 +113,8 @@ RE_SANITIZE_DASH = re.compile("|".join(DASH_LOOK_ALIKE_CHARS))
 _RE_ROMAN_YEAR = re.compile(
     r"\bM{1,3}(?:CM|CD|D?C{0,4})(?:XC|XL|L?X{0,4})(?:IX|IV|V?I{0,4})\b"
 )
+_RE_FOUR_DIGITS = re.compile(r"\d{4}")
+_RE_COPYRIGHT = re.compile(r"(?:©|\(c\)|\bcopyright)\s*$", flags=re.I)
 _ROMAN_NUMERAL_VALUES = {
     "M": 1000,
     "D": 500,
@@ -232,7 +236,11 @@ def sanitize_date(date_string: str) -> str:
     date_string = sanitize_spaces(date_string)
     date_string = RE_SANITIZE_PERIOD.sub("", date_string)
     date_string = _RE_ROMAN_YEAR.sub(_roman_year_to_digits, date_string)
-    date_string = RE_SANITIZE_DECIMAL_COMMA.sub(".", date_string)
+    four_digits = _RE_FOUR_DIGITS.search(date_string)
+    year_end = four_digits.end() if four_digits else len(date_string)
+    date_string = RE_SANITIZE_DECIMAL_COMMA.sub(
+        lambda match: _decimal_comma_to_point(match, year_end), date_string
+    )
     date_string = RE_SANITIZE_ON.sub(r"\1", date_string)
     date_string = RE_TRIM_COLONS.sub(r"\1", date_string)
     date_string = RE_SANITIZE_APOSTROPHE.sub("'", date_string)
@@ -240,18 +248,41 @@ def sanitize_date(date_string: str) -> str:
     return date_string.strip()
 
 
+def _decimal_comma_to_point(match: re.Match[str], year_end: int) -> str:
+    # 4 digits with no year before them and no AM or PM after them are the
+    # year, e.g. in "Tue Jan 5 10:00:00,2021". *year_end* is the end of the
+    # first 4 digits in the string, or of the string if it has none.
+    if len(match[1]) == 4 and not match[2] and year_end > match.start():
+        return ","
+    return "."
+
+
+def _is_short_roman_year(numeral: str) -> bool:
+    """Return whether *numeral* is a Roman numeral year short enough to be
+    more often an abbreviation, like MCC or MMDC, but not one of MD or MC."""
+    return 3 <= len(numeral) < 5 and not numeral.startswith("MMM")
+
+
+def _roman_to_int(numeral: str) -> int:
+    values = [_ROMAN_NUMERAL_VALUES[char] for char in numeral]
+    return sum(
+        -value if value < next_value else value
+        for value, next_value in zip(values, [*values[1:], 0], strict=True)
+    )
+
+
 def _roman_year_to_digits(match: re.Match[str]) -> str:
     numeral = match[0]
-    # Too ambiguous with abbreviations like MD or MC.
-    if len(numeral) < 3:
-        return numeral
-    values = [_ROMAN_NUMERAL_VALUES[char] for char in numeral]
-    return str(
-        sum(
-            -value if value < next_value else value
-            for value, next_value in zip(values, [*values[1:], 0], strict=True)
+    # Spaces are collapsed by then, so a copyright mark before the numeral is
+    # within the 10 characters before it, e.g. "copyright ".
+    if len(numeral) >= 5 or (
+        _is_short_roman_year(numeral)
+        and _RE_COPYRIGHT.search(
+            match.string, max(0, match.start() - 10), match.start()
         )
-    )
+    ):
+        return str(_roman_to_int(numeral))
+    return numeral
 
 
 def get_date_from_timestamp(
@@ -930,15 +961,18 @@ class DateDataParser:
         try:
             parsed_date = self._parse_using_applicable_locales(
                 date_string, date_formats
-            )
+            ) or self._parse_with_short_roman_year(date_string, date_formats)
             if not parsed_date and self._settings.IGNORE_SURROUNDING_TEXT:
                 # The whole string could not be parsed as a date. Retry,
                 # ignoring unrecognized words at the edges of the string, so
                 # that a date wrapped in harmless extra text is still parsed
                 # (issue #518), e.g. "Actualisé le 17 avril 2019". Strings that
                 # can be parsed as a whole never reach this fallback, so they
-                # are unaffected.
-                parsed_date = self._parse_using_applicable_locales(
+                # are unaffected. A short Roman numeral year goes first, since
+                # it would otherwise be ignored as an unrecognized word.
+                parsed_date = self._parse_with_short_roman_year(
+                    date_string, date_formats, ignore_surrounding_text=True
+                ) or self._parse_using_applicable_locales(
                     date_string, date_formats, ignore_surrounding_text=True
                 )
         except _StrictDateOrderError:
@@ -967,6 +1001,41 @@ class DateDataParser:
                         res["locale"] = locale.shortname
                         return res
         return None
+
+    def _parse_with_short_roman_year(
+        self,
+        date_string: str,
+        date_formats: Iterable[str] | None,
+        ignore_surrounding_text: bool = False,
+    ) -> DateData | None:
+        """Parse *date_string* reading its short Roman numeral as a year, e.g.
+        in "April MMX", if the rest of it is a date with a month name and no
+        year."""
+        numerals = [
+            match
+            for match in _RE_ROMAN_YEAR.finditer(date_string)
+            if _is_short_roman_year(match[0])
+        ]
+        if len(numerals) != 1:
+            return None
+        start, end = numerals[0].span()
+        rest_string = f"{date_string[:start]} {date_string[end:]}"
+        rest = self._parse_using_applicable_locales(
+            rest_string, date_formats, ignore_surrounding_text
+        )
+        if not rest or not rest.locale or "year" in rest.parts:
+            return None
+        # Numbers, e.g. "12" or "two", also read as months.
+        locale = self._get_locale_loader().get_locale(rest.locale)
+        if not set(_MONTHS) & set(
+            locale.translate(rest_string, settings=self._settings).split()
+        ):
+            return None
+        return self._parse_using_applicable_locales(
+            f"{date_string[:start]}{_roman_to_int(numerals[0][0])}{date_string[end:]}",
+            date_formats,
+            ignore_surrounding_text,
+        )
 
     def _parse_using_applicable_locales(
         self,

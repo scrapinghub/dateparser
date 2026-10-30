@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 from io import StringIO
+from time import monotonic
 from typing import Any
 from unittest.mock import patch
 
@@ -166,6 +167,8 @@ class TestBundledLanguages(BaseTestCase):
             param("pt", "22 de dezembro de 2014 às 02:38", "22 december 2014 02:38"),
             # Russian
             param("ru", "5 августа 2014 г. в 12:00", "5 august 2014 year. 12:00"),
+            param("ru", "двадцать первое мая", "21 may"),
+            param("ru", "тридцать второе мая", "30 2 may"),
             # Turkish
             param("tr", "2 Ocak 2015 Cuma, 16:49", "2 january 2015 friday 16:49"),
             # Czech
@@ -3394,3 +3397,21 @@ class TestNoWordSpacingSecurity:
 
         os_system.assert_not_called()
         assert simplifications
+
+
+class TestSimplifyLongRun:
+    @pytest.mark.parametrize(
+        ("shortname", "date_string"),
+        [
+            ("ru", "1" * 5000 + " 1"),
+            ("ko", "1" * 20_000),
+            ("ko", "_" * 20_000),
+            ("ko", "00:" * 5000),
+        ],
+        ids=["ru-digits", "ko-digits", "ko-underscores", "ko-colons"],
+    )
+    def test_long_run(self, shortname: str, date_string: str) -> None:
+        locale = default_loader.get_locale(shortname)
+        start = monotonic()
+        assert locale._simplify(date_string, settings=settings) == date_string
+        assert monotonic() - start < 1.0
