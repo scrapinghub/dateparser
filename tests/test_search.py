@@ -1149,6 +1149,7 @@ class TestTranslateSearch(BaseTestCase):
             param(text="", languages=None, settings=None, expected=None),
             # Language not detected
             param(text="Привет", languages=["en"], settings=None, expected=None),
+            param(text="Привет", languages=None, settings=None, expected=None),
             # ZeroDivisionError
             param(
                 text="DECEMBER 21 19.87 87",
