@@ -19,7 +19,7 @@ from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.languages.locale import _MAX_TRANSLATIONS, _VARIANT_LETTERS
 from dateparser.parser import _parse_absolute, _parse_nospaces, _StrictDateOrderError
-from dateparser.timezone_parser import pop_tz_offset_from_string
+from dateparser.timezone_parser import _strip_tz
 from dateparser.utils import (
     _get_localzone,
     _get_missing_parts,
@@ -1055,34 +1055,34 @@ class DateDataParser:
             self.use_given_order or self._settings.USE_GIVEN_LANGUAGE_ORDER
         )
 
-        pop_tz_cache: list[str | None] = []
+        strip_tz_cache: list[tuple[str | None, bool]] = []
+
+        def stripped_date_string() -> tuple[str | None, bool]:
+            """Return date_string without its timezone, or None, and whether
+            that timezone is unambiguous, computed only if the first locale
+            does not match the unmodified date_string."""
+            if not strip_tz_cache:
+                strip_tz_cache.append(_strip_tz(date_string, self._settings))
+            return strip_tz_cache[0]
 
         def date_strings() -> Iterator[str]:
-            """A generator instead of a static list to avoid calling
-            pop_tz_offset_from_string if the first locale matches on unmodified
-            date_string.
-            """
-            stripped_date_string: str | None
             yield date_string
-            if not pop_tz_cache:
-                stripped_date_string, _ = pop_tz_offset_from_string(
-                    date_string, as_offset=False, settings=self._settings
-                )
-                if stripped_date_string == date_string:
-                    stripped_date_string = None
-                pop_tz_cache[:] = [stripped_date_string]
-            (stripped_date_string,) = pop_tz_cache
-            if stripped_date_string is not None:
-                yield stripped_date_string
+            stripped, unambiguous = stripped_date_string()
+            if stripped is not None and unambiguous:
+                yield stripped
 
-        def candidates() -> Iterator[tuple["Locale", "Locale | None"]]:
-            """Pairs of a locale and the locale that must be applicable to the
-            date string for the former to be tried, if any."""
+        def candidates() -> Iterator[tuple["Locale", "Locale | None", Iterable[str]]]:
+            """Triples of a locale, the locale that must be applicable to the
+            date string for the former to be tried, if any, and the date
+            strings to check that applicability against."""
+            tried: list[tuple[Locale, Locale]] = []
+
             if self.try_previous_locales:
                 with self._lock:
                     previous_locales = list(self.previous_locales.keys())
                 for locale in previous_locales:
-                    yield locale, locale._native
+                    tried.append((locale, locale._native))
+                    yield locale, locale._native, date_strings()
 
             if (
                 self.detect_languages_function
@@ -1105,12 +1105,22 @@ class DateDataParser:
                 region=self.region,
                 use_given_order=use_given_order,
             ):
-                yield locale, locale._native
+                tried.append((locale, locale._native))
+                yield locale, locale._native, date_strings()
                 if locale._native is not locale:
                     letter_variant_locales.append(locale)
             if _VARIANT_LETTERS.intersection(date_string):
                 for locale in letter_variant_locales:
-                    yield locale, locale
+                    tried.append((locale, locale))
+                    yield locale, locale, date_strings()
+
+            # An ambiguous timezone, such as the Turkish month "Mart" read as
+            # the MART timezone, is only stripped once no locale matches the
+            # whole string.
+            stripped, unambiguous = stripped_date_string()
+            if stripped is not None and not unambiguous:
+                for locale, applicable_locale in tried:
+                    yield locale, applicable_locale, (stripped,)
 
             if self._settings.DEFAULT_LANGUAGES:
                 for locale in self._get_locale_loader().get_locales(
@@ -1119,7 +1129,7 @@ class DateDataParser:
                     region=self.region,
                     use_given_order=use_given_order,
                 ):
-                    yield locale, None
+                    yield locale, None, ()
 
         # Every locale translates a string without letters identically (see
         # test_letter_free_strings_translate_identically), so for such a
@@ -1128,7 +1138,7 @@ class DateDataParser:
         letter_free = not any(c.isalpha() for c in date_string)
         yielded_orders = set()
         yielded_locales = set()
-        for locale, applicable_locale in candidates():
+        for locale, applicable_locale, strings in candidates():
             order = locale.info.get("date_order")
             if locale in yielded_locales or (letter_free and order in yielded_orders):
                 continue
@@ -1136,7 +1146,7 @@ class DateDataParser:
                 self._is_applicable_locale(
                     applicable_locale, s, ignore_surrounding_text
                 )
-                for s in date_strings()
+                for s in strings
             ):
                 continue
             yielded_orders.add(order)

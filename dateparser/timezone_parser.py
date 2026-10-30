@@ -108,6 +108,32 @@ def pop_tz_offset_from_string(
     return date_string, result
 
 
+_time_suffix_regex = re.compile(
+    r"(?:\d:\d{2}(?::\d{2})?(?:\s*[ap]\.?m\.?)?|\d\s*[ap]\.?m\.?)\s*$",
+    re.IGNORECASE,
+)
+
+
+def _strip_tz(
+    date_string: str, settings: "Settings | None" = None
+) -> tuple[str | None, bool]:
+    """Return *date_string* without its timezone, or ``None`` if it has none,
+    and whether that timezone is unambiguous, i.e. unlikely to be a word of
+    some language instead: without lowercase letters, like ``MART`` or
+    ``+03:00``, or right after a time, like ``4:30 pm est``, as opposed to the
+    Turkish month ``Mart``."""
+    found = _find_tz(date_string)
+    if not found:
+        return None, False
+    (start, stop), _, _ = found
+    before, tz = date_string[: start + 1], date_string[start + 1 : stop]
+    unambiguous = tz == tz.upper() or bool(_time_suffix_regex.search(before))
+    stripped, _ = pop_tz_offset_from_string(
+        date_string, as_offset=False, settings=settings
+    )
+    return stripped, unambiguous
+
+
 def word_is_tz(word: str) -> bool:
     return bool(_tz_regexes().names.match(word))
 
