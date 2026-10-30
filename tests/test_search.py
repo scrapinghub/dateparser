@@ -1115,6 +1115,15 @@ class TestTranslateSearch(BaseTestCase):
                 ],
             ),
             param(
+                text="july 2018 - december 2020",
+                languages=["en", "fr"],
+                settings={"PREFER_DAY_OF_MONTH": "first"},
+                expected=[
+                    ("july 2018", datetime.datetime(2018, 7, 1, 0, 0)),
+                    ("december 2020", datetime.datetime(2020, 12, 1, 0, 0)),
+                ],
+            ),
+            param(
                 text="um 10 Uhr am 5. Mai 2021",
                 languages=["de"],
                 settings=None,
@@ -1128,10 +1137,19 @@ class TestTranslateSearch(BaseTestCase):
                 settings=None,
                 expected=[("1990 am 3. März in", datetime.datetime(1990, 3, 3, 0, 0))],
             ),
+            param(
+                text="20/10/2020 06:00 am",
+                languages=["en"],
+                settings=None,
+                expected=[
+                    ("20/10/2020 06:00 am", datetime.datetime(2020, 10, 20, 6, 0))
+                ],
+            ),
             # Dates not found
             param(text="", languages=None, settings=None, expected=None),
             # Language not detected
             param(text="Привет", languages=["en"], settings=None, expected=None),
+            param(text="Привет", languages=None, settings=None, expected=None),
             # ZeroDivisionError
             param(
                 text="DECEMBER 21 19.87 87",

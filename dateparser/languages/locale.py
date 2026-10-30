@@ -3,6 +3,7 @@ import threading
 from collections.abc import Iterable, Iterator, Mapping, Sequence
 from functools import cached_property
 from itertools import chain, islice, product
+from string import punctuation
 from typing import TYPE_CHECKING, Any, TypeVar
 
 import regex as re
@@ -1056,15 +1057,12 @@ class Locale:
                 "7",
                 "8",
                 "9",
-                ":",
-                "(",
-                ")",
-                "'",
                 "q",
                 "a",
                 "m",
                 "p",
                 " ",
+                *punctuation,
             }
         return self._wordchars_for_detection
 
