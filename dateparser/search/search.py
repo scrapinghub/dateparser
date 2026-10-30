@@ -46,6 +46,7 @@ _GLUED_RELATIVE_REG = re.compile(
     rf"in \d+ (?:{_UNITS})s?(?![a-z])|(?<![\d.])\d+ (?:{_UNITS})s? ago(?![a-z])"
 )
 _NUMERIC_DATE_REG = re.compile(r"\d[-/.]\d+[-/.]\d")
+_TRAILING_NUMBER_REG = re.compile(r"\s+(\d+)$")
 _SEPARATORS = f"{PUNCTUATION}，、 "
 
 _MAX_TRAILING_WORDS = 3
@@ -534,6 +535,39 @@ class _ExactLanguageSearch:
             return []
         return [[[number, rest], [original_number, original_rest]]]
 
+    def split_off_trailing_number_word(
+        self,
+        parser: DateDataParser,
+        item: str,
+        original: str,
+        language: Locale,
+        settings: Settings,
+    ) -> list[list[list[str]]]:
+        """Drop a number written as a word that ends a chunk, e.g. "an" in
+        "Sep 2, 2026 of an estimated", which starts the text after the date
+        rather than being part of it."""
+        match = _TRAILING_NUMBER_REG.search(item)
+        words = original.split()
+        if (
+            not match
+            or len(words) < 2
+            or any(char.isdigit() for char in words[-1])
+            or language.translate(words[-1], settings=settings).strip() != match[1]
+        ):
+            return []
+        date = words[:-1]
+        # Skipped words before the number, e.g. "of", belong to neither part.
+        while date and not language.translate(date[-1], settings=settings).strip():
+            date.pop()
+        if not date:
+            return []
+        rest = item[: match.start()]
+        if parser.get_date_data(rest)["date_obj"] is not None:
+            return [[[rest], [" ".join(date)]]]
+        return self.split_by_relative_expression(
+            parser, rest, " ".join(date), language, settings
+        )
+
     def split_if_not_parsed(
         self,
         parser: DateDataParser,
@@ -544,6 +578,9 @@ class _ExactLanguageSearch:
     ) -> list[list[list[str]]]:
         splitters = [",", "،", "——", "—", "–", ".", " "]
         possible_splits = self.split_off_leading_number(parser, item, original)
+        possible_splits += self.split_off_trailing_number_word(
+            parser, item, original, language, settings
+        )
         misaligned = False
         for splitter in splitters:
             if splitter not in item or item.count(splitter) != original.count(splitter):
@@ -562,13 +599,16 @@ class _ExactLanguageSearch:
                 misaligned = True
                 continue
             possible_splits.extend(self.split_by(item, original, splitter))
-        if not possible_splits or misaligned:
-            # Only when no splitter lines up, or skipped words keep spaces from
-            # doing so, so that a chunk which already splits keeps being split
-            # exactly the way it is split today.
-            possible_splits += self.split_by_relative_expression(
-                parser, item, original, language, settings
-            ) or self.split_around_skipped_words(item, original, language, settings)
+        # A splitter can line up while cutting through a relative expression
+        # and the date next to it, e.g. the comma of "next week Sep 29, 2026",
+        # so the cut between them competes with the splitters that lined up.
+        relative_splits = self.split_by_relative_expression(
+            parser, item, original, language, settings
+        )
+        if relative_splits or misaligned or not possible_splits:
+            possible_splits += relative_splits or self.split_around_skipped_words(
+                item, original, language, settings
+            )
         return possible_splits
 
     def parse_item(
@@ -688,14 +728,21 @@ class _ExactLanguageSearch:
             for parsed_part, substring, (part, original_part) in zip(
                 parsed_best, substrings_best, possible_parts[best_index], strict=True
             ):
-                if parsed_part[0]["date_obj"]:
-                    parsed.append(parsed_part)
-                    substrings.append(substring)
-                    continue
-                if part == item or not _has_weekday_modifier(part):
-                    continue
+                found = parsed_part[0]["date_obj"] is not None
                 # A part can join several dates, e.g. "last monday and next
-                # sunday" after splitting by commas, so split it again.
+                # sunday" or "this week 21.09.26" after splitting by commas, so
+                # split it again.
+                if part == item or not (
+                    self.split_off_numeric_date(
+                        parser, part, original_part, language, settings
+                    )
+                    if found
+                    else _has_weekday_modifier(part)
+                ):
+                    if found:
+                        parsed.append(parsed_part)
+                        substrings.append(substring)
+                    continue
                 sub_parsed, sub_substrings = self.parse_found_objects(
                     parser,
                     [part],

@@ -208,18 +208,28 @@ class Locale:
         )
         dict_cnt = 0
         skip_cnt = 0
-        # The splitter keeps a weekday modifier and its weekday, e.g. "next
-        # friday", as a single token, so count each of their words.
+        full_dictionary = self._get_dictionary(settings)
+        # The splitter keeps multi-word dictionary entries, e.g. "next week",
+        # as a single token. A weekday modifier and its weekday, e.g. "next
+        # friday", count as their separate words. Other entries count once,
+        # and only if the locale also knows one of their words on its own,
+        # since many locales inherit English entries.
         split_words = set()
         for word in words:
-            if " " in word and self._is_weekday_modifier_entry(
-                word, self._get_dictionary(settings)
-            ):
+            if " " in word and self._is_weekday_modifier_entry(word, full_dictionary):
                 split_words.update(word.split())
             else:
                 split_words.add(word)
         for word in split_words:
-            if word in dictionary:
+            if " " in word.strip():
+                if word in full_dictionary and any(
+                    part in full_dictionary for part in word.split()
+                ):
+                    if full_dictionary[word]:
+                        dict_cnt += 1
+                    else:
+                        skip_cnt += 1
+            elif word in dictionary:
                 if dictionary[word]:
                     dict_cnt += 1
                 else:

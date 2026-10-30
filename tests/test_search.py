@@ -1080,6 +1080,11 @@ class TestTranslateSearch(BaseTestCase):
             param("ja", "後天的な要因"),
             # Only digits
             param("en", "2007"),
+            # Multi-word dictionary entries
+            param("en", "next week"),
+            param("en", "next month"),
+            param("en", "I will see you next week at noon"),
+            param("en", "between last week and next week"),
         ]
     )
     def test_detection(self, shortname: str, text: str) -> None:
@@ -1454,6 +1459,41 @@ class TestTranslateSearch(BaseTestCase):
                     ("大前天", relative_base - timedelta(days=3)),
                 ],
             ),
+            # A comma inside the date lines up in the translation too, but
+            # cuts the date instead of separating it from the expression
+            param(
+                text="next week Sep 29, 2026",
+                languages=["en"],
+                expected=[
+                    ("next week", relative_base + timedelta(weeks=1)),
+                    ("Sep 29, 2026", datetime.datetime(2026, 9, 29, 0, 0)),
+                ],
+            ),
+            # Once split by commas, the first part still holds the
+            # expression and a numeric date
+            param(
+                text="тази седмица 21.09.26, 16:20 До 30 септември",
+                languages=["bg"],
+                expected=[
+                    ("тази седмица", relative_base),
+                    ("21.09.26", datetime.datetime(2026, 9, 21, 0, 0)),
+                    ("16:20 До 30 септември", datetime.datetime(2020, 9, 30, 16, 20)),
+                ],
+            ),
+            # "an", translated as "1", starts the text after the date
+            param(
+                text="last year Sep 2, 2026 of an estimated",
+                languages=["en"],
+                expected=[
+                    ("last year", datetime.datetime(2019, 2, 13, 20, 7, 6)),
+                    ("Sep 2, 2026", datetime.datetime(2026, 9, 2, 0, 0)),
+                ],
+            ),
+            param(
+                text="on Sep 2, 2026 a new law",
+                languages=["en"],
+                expected=[("on Sep 2, 2026", datetime.datetime(2026, 9, 2, 0, 0))],
+            ),
             # Cutting "today" off would leave "13 feb 2020 before", which is no
             # longer a date, so the expression was not written next to one
             param(
@@ -1799,7 +1839,10 @@ class TestTranslateSearch(BaseTestCase):
                     ("last Monday", datetime.datetime(2026, 9, 21)),
                 ],
             ),
-            param(text="114 this week", expected=None),
+            param(
+                text="114 this week",
+                expected=[("114 this week", datetime.datetime(2026, 9, 23, 12))],
+            ),
         ]
     )
     def test_search_dates_detects_language_of_multi_word_entries(
