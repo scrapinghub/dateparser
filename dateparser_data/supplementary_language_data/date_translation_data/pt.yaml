@@ -60,6 +60,11 @@ relative-type:
         - anteontem
 
 simplifications:
+    # "14h" and "14h30" are how a time of day is written in Portuguese;
+    # read as a number followed by a unit they mean a duration instead, and
+    # the result is 14 hours before the base date.
+    - (?<!há )(?<!ha )(\d+[.,]?\d*)h(\d+[.,]?\d*)m?: '\1:\2'
+    - (?<!há )(?<!ha )\b([01]?\d|2[0-3])h\b: '\1:00'
     - esta madrugada: hoje madrugada
     - uma: '1'
     - um: '1'
