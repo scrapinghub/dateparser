@@ -4,6 +4,8 @@ from typing import Any, TypeVar
 _F = TypeVar("_F", bound=Callable[..., Any])
 
 class param:
+    args: tuple[Any, ...]
+    kwargs: dict[str, Any]
     def __init__(self, *args: Any, **kwargs: Any) -> None: ...
 
 class parameterized:

@@ -167,11 +167,17 @@ info = {
         "in 1 year": [
             "明年"
         ],
+        "3 day ago": [
+            "大前天"
+        ],
         "2 day ago": [
             "前天"
         ],
-        "in 2 days": [
+        "in 2 day": [
             "后天"
+        ],
+        "in 3 day": [
+            "大后天"
         ]
     },
     "relative-type-regex": {
@@ -225,6 +231,7 @@ info = {
     "sentence_splitter_group": 4,
     "skip": [
         "约",
+        "后天性",
         " ",
         "'",
         ",",

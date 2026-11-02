@@ -1,7 +1,8 @@
 import calendar
+import contextlib
 import itertools
 from collections.abc import Callable
-from datetime import datetime
+from datetime import datetime, timedelta
 from unittest.mock import patch
 
 import pytest
@@ -24,6 +25,7 @@ from dateparser.utils import (
     registry,
 )
 from dateparser.utils.strptime import patch_strptime
+from dateparser.utils.time_spans import generate_time_span, get_week_end, get_week_start
 from tests import BaseTestCase
 
 
@@ -49,13 +51,6 @@ class TestUtils(BaseTestCase):
 
     def then_date_separator_is(self, sep: str | None) -> None:
         self.assertEqual(self.result, sep)
-
-    @staticmethod
-    def make_class_without_get_keys() -> type:
-        class SomeClass:
-            pass
-
-        return SomeClass
 
     @parameterized.expand(
         [
@@ -124,6 +119,17 @@ class TestUtils(BaseTestCase):
                 timezone="-0500",
                 expected=datetime(2015, 12, 12, 5, 12),
             ),
+            param(
+                datetime(2015, 12, 12, 10, 12),
+                timezone="CEST",
+                expected=datetime(2015, 12, 12, 12, 12),
+            ),
+            # The earliest entry of timezone_info_list wins.
+            param(
+                datetime(2015, 12, 12, 10, 12),
+                timezone="CET/CEST",
+                expected=datetime(2015, 12, 12, 12, 12),
+            ),
         ]
     )
     def test_apply_timezone_function(
@@ -186,10 +192,6 @@ class TestUtils(BaseTestCase):
         )
         self.assertTrue(bool(result.tzinfo))
 
-    def test_registry_when_get_keys_not_implemented(self) -> None:
-        cl = self.make_class_without_get_keys()
-        self.assertRaises(NotImplementedError, registry, cl)
-
     @parameterized.expand(
         [
             param(2111, 1, 31),
@@ -246,20 +248,75 @@ def test_get_next_leap_year(year: int, expected_next_leap_year: int) -> None:
 
 
 @pytest.mark.parametrize(
-    "parse",
+    ("parse", "outcome"),
     [
-        lambda: dateparser.parse("4 October 1957"),
-        lambda: dateparser.parse("yesterday"),
-        lambda: dateparser.parse("1570308760"),
-        lambda: search_dates("It was launched on 4 October 1957.", languages=["en"]),
+        (lambda: dateparser.parse("4 October 1957"), contextlib.nullcontext()),
+        (lambda: dateparser.parse("yesterday"), contextlib.nullcontext()),
+        (
+            lambda: dateparser.parse("1570308760"),
+            pytest.raises(ValueError, match="absolute paths"),
+        ),
+        (
+            lambda: search_dates(
+                "It was launched on 4 October 1957.", languages=["en"]
+            ),
+            contextlib.nullcontext(),
+        ),
     ],
 )
-def test_broken_local_timezone(parse: Callable[[], object]) -> None:
+def test_broken_local_timezone(
+    parse: Callable[[], object], outcome: contextlib.AbstractContextManager[object]
+) -> None:
     with (
         patch(
             "dateparser.utils.get_localzone",
             side_effect=ValueError("ZoneInfo keys may not be absolute paths"),
         ),
-        pytest.raises(RuntimeError, match="Could not determine the local timezone"),
+        pytest.warns(FutureWarning, match="Could not determine the local timezone"),
+        outcome,
     ):
-        parse()
+        assert parse() is None
+
+
+def test_registry_deprecated() -> None:
+    class Registered:
+        @classmethod
+        def get_key(cls, value: int) -> str:
+            return str(value)
+
+        def __init__(self, value: int) -> None:
+            self.value = value
+
+    with pytest.warns(FutureWarning, match="registry"):
+        registry(Registered)
+    assert Registered(value=1) is Registered(value=1)
+    assert Registered(value=1) is not Registered(value=2)
+
+    class Unregistrable:
+        pass
+
+    with (
+        pytest.warns(FutureWarning, match="registry"),
+        pytest.raises(NotImplementedError, match="get_key"),
+    ):
+        registry(Unregistrable)
+
+
+def test_week_start_and_end_deprecated() -> None:
+    date = datetime(2020, 1, 1)  # Wednesday
+    with pytest.warns(FutureWarning, match="get_week_start"):
+        assert get_week_start(date) == datetime(2019, 12, 30)
+    with pytest.warns(FutureWarning, match="get_week_end"):
+        assert get_week_end(date, "sunday") == datetime(2020, 1, 4)
+
+
+def test_generate_time_span_without_base_date_or_settings_deprecated() -> None:
+    span_info = {"type": "month", "direction": "past"}
+    with pytest.warns(FutureWarning, match="without base_date"):
+        start, end = generate_time_span(span_info, settings=settings)
+    assert end - start == timedelta(days=settings.DEFAULT_DAYS_IN_MONTH)
+    with pytest.warns(FutureWarning, match="without settings"):
+        assert generate_time_span(span_info, datetime(2020, 1, 31)) == (
+            datetime(2020, 1, 1),
+            datetime(2020, 1, 31),
+        )
