@@ -61,27 +61,70 @@ def _has_weekday_modifier(text: str) -> bool:
     return any(_is_weekday_modifier(word) for word in text.split())
 
 
+_STRIPPED_CHARS = " .,:：-'\""
+
+
 def _clean_substring(substring: str, skip: AbstractSet[str]) -> str:
     """Strip the punctuation around *substring*, including that of *skip*,
     e.g. "/", but keep a closing bracket opened within it, e.g. in
-    "May 5 (5pm)"."""
+    "May 5 (5pm)".
+
+    A closing bracket is dropped as long as the text has more of them than of
+    the opening brackets of its kind. The text is only ever shortened at its
+    ends, so it is tracked as the span ``[start, end)`` of *substring*, along
+    with the number of brackets in it, instead of being cut, and counted, over
+    and over: dropping a lot of brackets, or words, takes a time linear in the
+    length of *substring*.
+    """
+    start, end = 0, len(substring)
+    brackets = {char: substring.count(char) for char in "()[]"}
+
+    def drop(first: int, last: int) -> None:
+        for char in brackets:
+            brackets[char] -= substring.count(char, first, last)
+
+    first_space = -1
+    first_is_skipped: tuple[int, int, bool] | None = None
     while True:
-        substring = substring.strip(" .,:：-'\"").lstrip("([")
-        closing = substring[-1:]
-        if closing in {")", "]"} and substring.count(closing) > substring.count(
-            "(" if closing == ")" else "["
+        while start < end and substring[start] in _STRIPPED_CHARS:
+            start += 1
+        while end > start and substring[end - 1] in _STRIPPED_CHARS:
+            end -= 1
+        while start < end and substring[start] in "([":
+            brackets[substring[start]] -= 1
+            start += 1
+        closing = substring[end - 1] if end > start else ""
+        if (
+            closing in {")", "]"}
+            and brackets[closing] > brackets["(" if closing == ")" else "["]
         ):
-            substring = substring[:-1]
+            brackets[closing] -= 1
+            end -= 1
             continue
-        first, _, rest = substring.partition(" ")
-        if rest and first in skip and not any(char.isalnum() for char in first):
-            substring = rest
-            continue
-        rest, _, last = substring.rpartition(" ")
-        if rest and last in skip and not any(char.isalnum() for char in last):
-            substring = rest
-            continue
-        return substring
+        if first_space < start:
+            first_space = substring.find(" ", start, end)
+        if not start <= first_space < end:
+            return substring[start:end]  # no space, so no word to skip
+        if first_space + 1 < end:
+            if first_is_skipped is None or first_is_skipped[:2] != (start, first_space):
+                first = substring[start:first_space]
+                first_is_skipped = (
+                    start,
+                    first_space,
+                    first in skip and not any(char.isalnum() for char in first),
+                )
+            if first_is_skipped[2]:
+                drop(start, first_space + 1)
+                start = first_space + 1
+                continue
+        last_space = substring.rfind(" ", start, end)
+        if last_space > start:
+            last = substring[last_space + 1 : end]
+            if last in skip and not any(char.isalnum() for char in last):
+                drop(last_space, end)
+                end = last_space
+                continue
+        return substring[start:end]
 
 
 def _trim_connectors(
