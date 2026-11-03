@@ -3415,3 +3415,24 @@ class TestSimplifyLongRun:
         start = process_time()
         assert locale._simplify(date_string, settings=settings) == date_string
         assert process_time() - start < 1.0
+
+
+class TestRussianNumberPairs:
+    """Numbers next to each other in a numeric date are not combined like the
+    words of a compound ordinal, e.g. "двадцать" and "первое"."""
+
+    @pytest.mark.parametrize(
+        ("date_string", "expected"),
+        [
+            ("20 03 2021", datetime(2021, 3, 20)),
+            ("30 01 2020", datetime(2020, 1, 30)),
+        ],
+    )
+    def test_numeric_date_with_spaces(
+        self, date_string: str, expected: datetime
+    ) -> None:
+        assert parse(date_string, languages=["ru"]) == expected
+
+    def test_compound_ordinal_is_still_combined(self) -> None:
+        locale = default_loader.get_locale("ru")
+        assert locale.translate("20 3 мая", settings=settings) == "23 may"
