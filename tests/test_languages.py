@@ -78,6 +78,53 @@ class TestLocaleTranslation:
                 assert len(translations) == 1, (date_string, translations)
 
 
+class TestApplicabilityCounts:
+    def test_zero_padded_numerals_are_not_words_of_any_locale(self) -> None:
+        # Locale.count_applicability counts the words of a text that a locale
+        # knows, and the language detection of search_dates picks the locale
+        # with the most of them. The numerals that any date is written with are
+        # not words of a language, so a locale that lists one (like the "09" of
+        # an alias such as "tháng 09") would win over the language of the text.
+        text = " ".join(f"0{number}" for number in range(1, 10))
+        for locale in default_loader.get_locales():
+            counts = locale.count_applicability(text, settings=settings)
+            assert counts == [0, 9], (locale.shortname, counts)
+
+
+class TestVietnameseZeroPaddedMonths:
+    @pytest.mark.parametrize(
+        ("date_string", "expected"),
+        [
+            ("21 tháng 09 năm 2025", datetime(2025, 9, 21)),
+            ("21 thg 09 năm 2025", datetime(2025, 9, 21)),
+            ("ngày 05 tháng 03 năm 2024 lúc 10:30", datetime(2024, 3, 5, 10, 30)),
+            ("21tháng 09 năm 2025", datetime(2025, 9, 21)),
+            ("5 Tháng 01 2020", datetime(2020, 1, 5)),
+        ],
+    )
+    @pytest.mark.parametrize("languages", [["vi"], None])
+    def test_parse(
+        self, date_string: str, expected: datetime, languages: list[str] | None
+    ) -> None:
+        result = parse(
+            date_string,
+            languages=languages,
+            settings={"RELATIVE_BASE": datetime(2026, 9, 23, 12)},
+        )
+        assert result == expected
+
+    def test_search_dates(self) -> None:
+        result = search_dates(
+            "Sinh ngày 3 thg 09 năm 1990, mất ngày 12 tháng 07 năm 2020.",
+            languages=["vi"],
+            settings={"RELATIVE_BASE": datetime(2026, 9, 23, 12)},
+        )
+        assert result == [
+            ("ngày 3 thg 09 năm 1990", datetime(1990, 9, 3)),
+            ("ngày 12 tháng 07 năm 2020", datetime(2020, 7, 12)),
+        ]
+
+
 class TestBundledLanguages(BaseTestCase):
     def setUp(self) -> None:
         super().setUp()
@@ -233,6 +280,10 @@ class TestBundledLanguages(BaseTestCase):
             param(
                 "vi", "21 tháng 09 năm 2025", "21 september 2025"
             ),  # Issue #1297: zero-padded month "09"
+            param("vi", "21 thg 09 năm 2025", "21 september 2025"),
+            param("vi", "Tháng 03 2024", "march 2024"),
+            param("vi", "21tháng 09 năm 2025", "21 september 2025"),
+            param("vi", "ngày 05 tháng 01 năm 2024 lúc 10:30", "05 january 2024 10:30"),
             # Thai
             param(
                 "th",

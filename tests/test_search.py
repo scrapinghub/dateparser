@@ -1591,6 +1591,55 @@ class TestTranslateSearch(BaseTestCase):
     @parameterized.expand(
         [
             param(
+                text="He was born on 4 October 1957 and they married on 02/01/1958.",
+                expected=[
+                    ("on 4 October 1957 and", datetime.datetime(1957, 10, 4), "en"),
+                    ("on 02/01/1958", datetime.datetime(1958, 2, 1), "en"),
+                ],
+            ),
+            param(
+                text="The meeting is on 4 October 1957 and the follow-up on 02/01/1958.",
+                expected=[
+                    (
+                        "on 4 October 1957 and the",
+                        datetime.datetime(1957, 10, 4),
+                        "en",
+                    ),
+                    ("on 02/01/1958", datetime.datetime(1958, 2, 1), "en"),
+                ],
+            ),
+            param(
+                text="The report from 12 May 2018 mentions 08/09/2018 as the deadline.",
+                expected=[
+                    ("from 12 May 2018", datetime.datetime(2018, 5, 12), "en"),
+                    ("08/09/2018", datetime.datetime(2018, 8, 9), "en"),
+                ],
+            ),
+            param(
+                text="Published 3 February 2022 and revised 04/03/2022.",
+                expected=[
+                    ("3 February 2022 and", datetime.datetime(2022, 2, 3), "en"),
+                    ("04/03/2022", datetime.datetime(2022, 4, 3), "en"),
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_numerals_do_not_decide_the_language(
+        self, text: str, expected: list[tuple[str, datetime.datetime, str]]
+    ) -> None:
+        # The numerals of a date are not words of any language. Counting the "01"
+        # and "02" of "02/01/1958" as Vietnamese words, because Vietnamese lists
+        # zero-padded months, made English text look Vietnamese.
+        result = search_dates(
+            text,
+            settings={"RELATIVE_BASE": datetime.datetime(2026, 9, 23, 12)},
+            add_detected_language=True,
+        )
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(
                 text="See you next Friday at 5pm.",
                 expected=[("next Friday at 5pm", datetime.datetime(2026, 9, 25, 17))],
             ),
