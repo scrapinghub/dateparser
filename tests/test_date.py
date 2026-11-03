@@ -5,7 +5,7 @@ from collections.abc import Iterable
 from datetime import datetime, timedelta
 from datetime import timezone as dttz
 from itertools import product
-from time import monotonic, tzset
+from time import process_time, tzset
 from typing import Any
 from unittest.mock import Mock, patch
 
@@ -1508,14 +1508,14 @@ class TestSanitizeDate(BaseTestCase):
         self.assertEqual(date.sanitize_date("10:00:00,2021 PM"), "10:00:00.2021 PM")
 
     def test_sanitize_date_many_decimal_commas(self) -> None:
-        start = monotonic()
+        start = process_time()
         date.sanitize_date("a" * 200_000 + " 2021 " + "10:00:00,1234 " * 8000)
-        self.assertLess(monotonic() - start, 0.5)
+        self.assertLess(process_time() - start, 0.5)
 
     def test_sanitize_date_long_roman_numeral_run(self) -> None:
-        start = monotonic()
+        start = process_time()
         date.sanitize_date("MCC " * 32000)
-        self.assertLess(monotonic() - start, 0.5)
+        self.assertLess(process_time() - start, 0.5)
 
     def test_sanitize_date_colons(self) -> None:
         self.assertEqual(date.sanitize_date("2019:"), "2019")

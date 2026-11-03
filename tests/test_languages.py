@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
 from io import StringIO
-from time import monotonic
+from time import process_time
 from typing import Any
 from unittest.mock import patch
 
@@ -3412,6 +3412,6 @@ class TestSimplifyLongRun:
     )
     def test_long_run(self, shortname: str, date_string: str) -> None:
         locale = default_loader.get_locale(shortname)
-        start = monotonic()
+        start = process_time()
         assert locale._simplify(date_string, settings=settings) == date_string
-        assert monotonic() - start < 1.0
+        assert process_time() - start < 1.0
