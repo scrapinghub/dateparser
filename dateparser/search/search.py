@@ -133,6 +133,23 @@ def _join_weekday_modifiers(
     return item_joined, original_joined
 
 
+def _last_relative_base(
+    parsed: Iterable[tuple[DateData, bool]], relative_base: datetime | None
+) -> datetime | None:
+    """Return the date that a date written after *parsed* is relative to: that
+    of the last of them that is a date and not relative itself, or else
+    *relative_base*, the one that applied before them.
+
+    Handing over each date as it is found, instead of looking for the last one
+    in the list of all of them, keeps the time spent on a date from growing with
+    the number of words before it that are not dates.
+    """
+    for date_data, is_relative in parsed:
+        if not is_relative and date_data["date_obj"] is not None:
+            relative_base = date_data["date_obj"]
+    return relative_base
+
+
 class _SearchResult(TypedDict):
     Language: str | None
     Dates: list[tuple[str, datetime]] | None
@@ -169,21 +186,6 @@ class _ExactLanguageSearch:
     ) -> tuple[list[str], list[str]]:
         language = self.get_current_language(shortname)
         return language.translate_search(text, settings=settings)
-
-    @staticmethod
-    def set_relative_base(
-        substring: str, already_parsed: Sequence[tuple[DateData, bool]]
-    ) -> tuple[str, datetime | None]:
-        if len(already_parsed) == 0:
-            return substring, None
-
-        i = len(already_parsed) - 1
-        while already_parsed[i][1] or already_parsed[i][0]["date_obj"] is None:
-            i -= 1
-            if i == -1:
-                return substring, None
-        relative_base = already_parsed[i][0]["date_obj"]
-        return substring, relative_base
 
     def choose_best_split(
         self,
@@ -576,10 +578,9 @@ class _ExactLanguageSearch:
         parser: DateDataParser,
         item: str,
         translated_item: str,
-        parsed: Sequence[tuple[DateData, bool]],
+        relative_base: datetime | None,
         need_relative_base: bool,
     ) -> tuple[DateData, bool]:
-        relative_base = None
         item = item.replace("ngày", "")
         item = _NON_MERIDIEM_AM_REG.sub("", item)
         parsed_item = parser.get_date_data(item)
@@ -587,10 +588,7 @@ class _ExactLanguageSearch:
 
         # A weekday modifier, e.g. "last" in "last friday", is relative to the
         # current date, not to a date found earlier in the text.
-        if need_relative_base and not _has_weekday_modifier(item):
-            item, relative_base = self.set_relative_base(item, parsed)
-
-        if relative_base:
+        if need_relative_base and relative_base and not _has_weekday_modifier(item):
             settings = parser._settings
             parser._settings = settings.replace(RELATIVE_BASE=relative_base)
             try:
@@ -607,9 +605,15 @@ class _ExactLanguageSearch:
         translated: Sequence[str],
         settings: Settings,
         language: Locale,
-        already_parsed: Sequence[tuple[DateData, bool]] = (),
+        relative_base: datetime | None = None,
     ) -> tuple[list[tuple[DateData, bool]], list[str]]:
-        parsed: list[tuple[DateData, bool]] = list(already_parsed)
+        """Parse the chunks found in a text, and return the dates found in them
+        with the text of each.
+
+        *relative_base* is the date that the first of them is relative to, if
+        any, e.g. one found before them.
+        """
+        parsed: list[tuple[DateData, bool]] = []
         substrings = []
         skip = {word.lower() for word in language.info.get("skip", [])}
         need_relative_base = True
@@ -620,7 +624,7 @@ class _ExactLanguageSearch:
                 continue
 
             parsed_item, is_relative = self.parse_item(
-                parser, item, translated[i], parsed, need_relative_base
+                parser, item, translated[i], relative_base, need_relative_base
             )
             if parsed_item["date_obj"]:
                 possible_splits = self.split_off_numeric_date(
@@ -628,6 +632,7 @@ class _ExactLanguageSearch:
                 )
                 if not possible_splits:
                     parsed.append((parsed_item, is_relative))
+                    relative_base = _last_relative_base(parsed[-1:], relative_base)
                     substrings.append(_clean_substring(original[i], skip))
                     continue
             else:
@@ -642,9 +647,10 @@ class _ExactLanguageSearch:
                         quantity_split[0],
                         settings,
                         language,
-                        already_parsed=parsed,
+                        relative_base=relative_base,
                     )
                     parsed.extend(sub_parsed)
+                    relative_base = _last_relative_base(sub_parsed, relative_base)
                     substrings.extend(sub_substrings)
                     continue
 
@@ -661,17 +667,17 @@ class _ExactLanguageSearch:
                 current_parsed: list[tuple[DateData, bool]] = []
                 current_substrings: list[str] = []
                 current_parts: list[tuple[str, str]] = []
+                current_base = relative_base
                 for j, jtem in enumerate(split_translated):
                     if len(jtem) <= 2:
                         continue
                     parsed_jtem, is_relative_jtem = self.parse_item(
-                        parser,
-                        jtem,
-                        jtem,
-                        [*parsed, *current_parsed],
-                        need_relative_base,
+                        parser, jtem, jtem, current_base, need_relative_base
                     )
                     current_parsed.append((parsed_jtem, is_relative_jtem))
+                    current_base = _last_relative_base(
+                        current_parsed[-1:], current_base
+                    )
                     current_substrings.append(_clean_substring(split_original[j], skip))
                     current_parts.append((jtem, split_original[j]))
                 possible_parsed.append(current_parsed)
@@ -690,6 +696,7 @@ class _ExactLanguageSearch:
             ):
                 if parsed_part[0]["date_obj"]:
                     parsed.append(parsed_part)
+                    relative_base = _last_relative_base(parsed[-1:], relative_base)
                     substrings.append(substring)
                     continue
                 if part == item or not _has_weekday_modifier(part):
@@ -703,11 +710,12 @@ class _ExactLanguageSearch:
                     [part],
                     settings,
                     language,
-                    already_parsed=parsed,
+                    relative_base=relative_base,
                 )
                 parsed.extend(sub_parsed)
+                relative_base = _last_relative_base(sub_parsed, relative_base)
                 substrings.extend(sub_substrings)
-        return parsed[len(already_parsed) :], substrings
+        return parsed, substrings
 
     def search_parse(
         self, shortname: str, text: str, settings: Settings
