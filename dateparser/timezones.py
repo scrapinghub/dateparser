@@ -9,6 +9,9 @@
 # Where the tz database names only one offset for an abbreviation, this table
 # has to agree with it: "BST" and "HDT" did not, and were corrected in #1322.
 # Run dateparser_scripts/tz_abbreviation_conflicts.py to re-check the table.
+#
+# Abbreviations that switch between standard and daylight saving time, such as
+# "CT", map to a tz database zone instead of an offset.
 
 from typing import Any
 
@@ -78,7 +81,8 @@ timezone_info_list: list[dict[str, Any]] = [
         ],
     },
     {
-        "regex_patterns": [r"(\W|\d|_)%s($|\W|(?=\d))"],
+        # A possessive (CT’s) or a per-second unit (MT/s) is not a timezone.
+        "regex_patterns": [r"(\W|\d|_)%s($|(?!['’][^\W\d_]|/s\b)\W|(?=\d))"],
         "timezones": [
             ("ACDT", 37800),
             ("ACST", 34200),
@@ -194,7 +198,7 @@ timezone_info_list: list[dict[str, Any]] = [
             ("EMT", -26220),
             ("EPT", -14400),
             ("EST", -18000),
-            ("ET", -18000),
+            ("ET", "America/New_York"),
             ("EWT", -14400),
             ("FET", 10800),
             ("FFMT", -14640),
@@ -364,7 +368,7 @@ timezone_info_list: list[dict[str, Any]] = [
             ("PPMT", -17340),
             ("PPT", -25200),
             ("PST", -28800),
-            ("PT", -28800),
+            ("PT", "America/Los_Angeles"),
             ("PWT", -25200),
             ("PYST", -10800),
             ("PYT", -14400),
@@ -475,6 +479,14 @@ timezone_info_list: list[dict[str, Any]] = [
             ("zzz", 0),
             ("Z", 0),
             ("ZEČ", 0),
+        ],
+    },
+    {
+        # Right after a number these are units, e.g. 18ct or 23.6Mt.
+        "regex_patterns": [r"(\W|_)%s($|(?!['’][^\W\d_]|/s\b)\W|(?=\d))"],
+        "timezones": [
+            ("CT", "America/Chicago"),
+            ("MT", "America/Denver"),
         ],
     },
 ]

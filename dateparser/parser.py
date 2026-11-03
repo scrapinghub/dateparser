@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, Literal, overload
 
 import pytz
 import regex as re
+from pytz.tzinfo import DstTzInfo
 
 from dateparser.languages.locale import _WEEKDAY_MODIFIERS
 from dateparser.utils import (
@@ -812,7 +813,11 @@ class _parser:
                 try:
                     tz = tz or get_timezone_from_tz_string(self.settings.TIMEZONE)
                     tz_offset = tz.utcoffset(dateobj) or tz_offset
-                except (pytz.UnknownTimeZoneError, pytz.NonExistentTimeError):
+                except (pytz.AmbiguousTimeError, pytz.NonExistentTimeError):
+                    assert isinstance(tz, DstTzInfo)
+                    naive = dateobj.replace(tzinfo=None)
+                    tz_offset = tz.localize(naive).utcoffset() or tz_offset
+                except pytz.UnknownTimeZoneError:
                     pass
 
             if (

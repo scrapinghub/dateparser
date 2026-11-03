@@ -109,12 +109,17 @@ def static_tz_abbreviations() -> dict[str, int]:
     Keys are upper-cased because dateparser matches abbreviations
     case-insensitively, so a differently-cased entry such as ``ChST`` is the
     same abbreviation and has to be compared as one.
+
+    Abbreviations mapped to a tz database zone are left out, since their
+    offsets come from the tz database already.
     """
-    effective: dict[str, int] = {}
+    effective: dict[str, int | str] = {}
     for group in timezone_info_list:
         for name, offset in group["timezones"]:
             effective.setdefault(name.upper(), offset)
-    return effective
+    return {
+        name: offset for name, offset in effective.items() if isinstance(offset, int)
+    }
 
 
 def tz_database_abbreviations() -> dict[str, set[int]]:
