@@ -3,7 +3,7 @@
 History
 =======
 
-1.5.0 (unreleased)
+1.5.0 (2026-11-04)
 ------------------
 
 Breaking changes:
