@@ -113,3 +113,49 @@ def search_dates(
     if add_detected_language:
         return [(*date[:2], language) for date in dates]
     return [date[:2] for date in dates]
+
+
+def search_first_date(
+    text: str,
+    languages: Iterable[str] | None = None,
+    settings: Settings | dict[str, Any] | None = None,
+    add_detected_language: bool = False,
+    detect_languages_function: Callable[..., list[str]] | None = None,
+    strategy: str = "split",
+    date_formats: Iterable[str] | None = None,
+    add_period: bool = False,
+) -> (
+    tuple[str, datetime]
+    | tuple[str, datetime, str | None]
+    | tuple[str, datetime, str | None, str | None]
+    | None
+):
+    """Return the first item that :func:`search_dates` would return for the
+    same arguments, or ``None`` if it would return ``None``.
+
+    .. versionadded:: VERSION
+
+    The search stops at the first date found, so it is faster than
+    :func:`search_dates` on text with more dates after the first one.
+
+    >>> from dateparser.search import search_first_date
+    >>> search_first_date('Launched on 4 October 1957, it fell on 4 January 1958.')
+    ('on 4 October 1957', datetime.datetime(1957, 10, 4, 0, 0))
+    """
+    text = _search_with_detection.preprocess_text(text, languages)
+
+    language, dates = _search_with_detection._search_dates(
+        text=text,
+        languages=languages,
+        settings=settings,
+        detect_languages_function=detect_languages_function,
+        strategy=strategy,
+        date_formats=date_formats,
+        limit=1,
+    )
+    if not dates:
+        return None
+    date = dates[0] if add_period else dates[0][:2]
+    if add_detected_language:
+        return (*date, language)
+    return date
