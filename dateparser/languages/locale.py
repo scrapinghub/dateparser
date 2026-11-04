@@ -631,14 +631,17 @@ class Locale:
                     "(?<!" + digit_abbreviation + ")"
                 )  # negative lookbehind
 
+        # Lookbehinds make groups 3, 4 and 6 match a punctuation run only from
+        # its start, so that a long run not followed by whitespace is scanned
+        # once.
         splitters_dict = {
             1: r"[\.!?;…\r\n]+(?:\s|$)*",  # most European, Tagalog, Hebrew, Georgian,
             # Indonesian, Vietnamese
             2: r"[\.!?;…\r\n]+(\s*[¡¿]*|$)|[¡¿]+",  # Spanish
-            3: r"[|!?;\r\n]+(?:\s|$)+",  # Hindi and Bangla
-            4: r"[。…‥\.!?？！;\r\n]+(?:\s|$)+",  # Japanese and Chinese
+            3: r"(?<![|!?;])[|!?;\r\n]+(?:\s|$)+",  # Hindi and Bangla
+            4: r"(?<![。…‥\.!?？！;])[。…‥\.!?？！;\r\n]+(?:\s|$)+",  # Japanese and Chinese
             5: r"[\r\n]+",  # Thai
-            6: r"[\r\n؟!\.…]+(?:\s|$)+",
+            6: r"(?<![؟!\.…])[\r\n؟!\.…]+(?:\s|$)+",
         }  # Arabic and Farsi
         # Full stops of fractional seconds and of dates like 13.07.2016.
         abbreviation_string += r"(?!(?<=:\d\d)\.\d|(?<=\d)\.\d+\.\d|(?<=\d\.\d+)\.\d)"

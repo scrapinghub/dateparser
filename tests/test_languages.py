@@ -3419,6 +3419,17 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         assert result == expected
 
 
+class TestSentenceSplit:
+    @pytest.mark.parametrize(
+        ("shortname", "punctuation"),
+        [("hi", "!"), ("ja", "。"), ("ar", "؟")],
+    )
+    def test_long_punctuation_run(self, shortname: str, punctuation: str) -> None:
+        locale = default_loader.get_locale(shortname)
+        text = punctuation * 100_000 + "x"
+        assert list(locale._sentence_split(text, settings=settings)) == [text]
+
+
 class TestNoWordSpacingSecurity:
     def test_dictionary_does_not_evaluate_no_word_spacing(self) -> None:
         locale_info = {

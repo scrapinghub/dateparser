@@ -38,6 +38,13 @@ Deprecations:
   without ``base_date`` or ``settings``; all of them now emit a
   ``FutureWarning`` (#1393, #1556)
 
+Security fixes:
+
+- Make sentence splitting in ``search_dates()`` linear on long punctuation
+  runs, to prevent quadratic backtracking (ReDoS) for Arabic, Bengali,
+  Cantonese, Chinese, Hindi, Japanese and Persian (`GHSA-rx9v-94ff-9cc2
+  <https://github.com/scrapinghub/dateparser/security/advisories/GHSA-rx9v-94ff-9cc2>`_)
+
 New features:
 
 - Add a ``STRICT_DATE_ORDER`` setting that turns an explicit ``DATE_ORDER``
