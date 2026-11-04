@@ -78,6 +78,20 @@ _OPENING_MARKS = ("(", "[", "{", '"')
 _CLOSING_MARKS = (")", "]", "}", '"')
 _ENCLOSED_TIME = re.compile(r"\d{1,2}(?::\d{2}(?::\d{2})?)?(?:am|pm)?")
 _ENCLOSED_WORDS = {"am", "pm", *_WEEKDAYS}
+_BLANK_OR_WEEKDAYS = {"", *_WEEKDAYS}
+
+
+def _first_non_weekday(chunk: Sequence[str | None], start: int) -> int:
+    """Return the index of the first token of *chunk*, from index *start* on,
+    that holds more than punctuation and a weekday, e.g. "5pm" or "UTC".
+    Empty tokens are skipped over. Return the length of *chunk* if there is no
+    such token."""
+    while start < len(chunk):
+        token = chunk[start]
+        if token and token.strip(PUNCTUATION + " ") not in _BLANK_OR_WEEKDAYS:
+            break
+        start += 1
+    return start
 
 
 class Locale:
@@ -447,6 +461,9 @@ class Locale:
             # e.g. the weekday of "2016年3月21日(月)".
             enclosed_dates = "no_word_spacing" not in self.info
             attached_group_end = None
+            known_group_ends: dict[int, int | None] = {}
+            weekday_chunk: list[str | None] | None = None
+            weekdays_checked = 0
             for i, word in enumerate(simplified_tokens):
                 next_word = simplified_tokens[i + 1] if i < last_token_index else ""
                 current_and_next_joined = self._join_chunk(
@@ -462,12 +479,23 @@ class Locale:
                     and word.startswith(_OPENING_MARKS)
                 ):
                     attached_group_end = self._attached_group_end(
-                        simplified_tokens, original_tokens, i, dictionary
+                        simplified_tokens,
+                        original_tokens,
+                        i,
+                        dictionary,
+                        known_group_ends,
                     )
-                    if attached_group_end is None and not all(
-                        token.strip(PUNCTUATION + " ") in {"", *_WEEKDAYS}
-                        for token in translated_chunk
-                        if token
+                    if translated_chunk is not weekday_chunk:
+                        weekday_chunk = translated_chunk
+                        weekdays_checked = 0
+                    if attached_group_end is None:
+                        # Only tokens added since the last bracket are looked
+                        # at: the chunk only ever grows until it is replaced.
+                        weekdays_checked = _first_non_weekday(
+                            translated_chunk, weekdays_checked
+                        )
+                    if attached_group_end is None and weekdays_checked < len(
+                        translated_chunk
                     ):
                         # Brackets and quotes enclose a date of their own,
                         # unless they only add a time, a timezone or a weekday
@@ -787,10 +815,21 @@ class Locale:
         original_tokens: list[str],
         start: int,
         dictionary: Dictionary,
+        known_ends: dict[int, int | None],
     ) -> int | None:
         """Return the index of the token that closes the group *start* opens,
         if the group only holds a time, a timezone or a weekday, which belong
-        to the date before it."""
+        to the date before it.
+
+        *known_ends* is filled with every result found on the way, so that
+        passing the same dictionary for several groups of the same tokens
+        looks at each token only a constant number of times, instead of
+        scanning to the end of the tokens for every group.
+        """
+        if start in known_ends:
+            return known_ends[start]
+        end = None
+        last = len(simplified_tokens) - 1
         for i in range(start, len(simplified_tokens)):
             token = simplified_tokens[i].rstrip(",.;:")
             bare = token.strip(PUNCTUATION)
@@ -803,10 +842,20 @@ class Locale:
                 )
                 or (original_bare.isupper() and is_timezone_token(original_bare))
             ):
-                return None
+                last = i
+                break
             if token.endswith(_CLOSING_MARKS) and (i > start or len(token) > 1):
-                return i
-        return None
+                end = i
+                last = i if i == start else i - 1
+                break
+        # Each group that opens between *start* and *last* is scanned over the
+        # same tokens, to the same end: no token in between closes a group, or
+        # the scan would have stopped there. *last* is the token where the scan
+        # stopped, except for a closing token: a lone quote or bracket closes
+        # a group only if it does not open it, so it is not *last* then.
+        for i in range(start, last + 1):
+            known_ends[i] = end
+        return end
 
     def _join_chunk(self, chunk: Sequence[str], settings: "Settings | None") -> str:
         if "no_word_spacing" in self.info:
