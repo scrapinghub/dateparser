@@ -75,7 +75,7 @@ Time by default. Keys are case-sensitive and must be abbreviations that
 dateparser supports, e.g. ``ChST``. ``TIMEZONE`` and ``TO_TIMEZONE`` keep the
 default offsets.
 
-.. versionadded:: VERSION
+.. versionadded:: 1.5.0
 
 >>> from datetime import timedelta
 >>> settings = {
@@ -328,7 +328,7 @@ Defaults to ``False``.
 to use for each part of the day, e.g. for ``tonight``. Defaults to
 ``PartsOfDay()``.
 
-.. versionadded:: VERSION
+.. versionadded:: 1.5.0
 
     >>> from datetime import time
     >>> from dateparser import PartsOfDay

@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 from io import StringIO
+from time import process_time
 from typing import Any
 from unittest.mock import patch
 
@@ -76,6 +77,53 @@ class TestLocaleTranslation:
                     for locale in locales
                 }
                 assert len(translations) == 1, (date_string, translations)
+
+
+class TestApplicabilityCounts:
+    def test_zero_padded_numerals_are_not_words_of_any_locale(self) -> None:
+        # Locale.count_applicability counts the words of a text that a locale
+        # knows, and the language detection of search_dates picks the locale
+        # with the most of them. The numerals that any date is written with are
+        # not words of a language, so a locale that lists one (like the "09" of
+        # an alias such as "tháng 09") would win over the language of the text.
+        text = " ".join(f"0{number}" for number in range(1, 10))
+        for locale in default_loader.get_locales():
+            counts = locale.count_applicability(text, settings=settings)
+            assert counts == [0, 9], (locale.shortname, counts)
+
+
+class TestVietnameseZeroPaddedMonths:
+    @pytest.mark.parametrize(
+        ("date_string", "expected"),
+        [
+            ("21 tháng 09 năm 2025", datetime(2025, 9, 21)),
+            ("21 thg 09 năm 2025", datetime(2025, 9, 21)),
+            ("ngày 05 tháng 03 năm 2024 lúc 10:30", datetime(2024, 3, 5, 10, 30)),
+            ("21tháng 09 năm 2025", datetime(2025, 9, 21)),
+            ("5 Tháng 01 2020", datetime(2020, 1, 5)),
+        ],
+    )
+    @pytest.mark.parametrize("languages", [["vi"], None])
+    def test_parse(
+        self, date_string: str, expected: datetime, languages: list[str] | None
+    ) -> None:
+        result = parse(
+            date_string,
+            languages=languages,
+            settings={"RELATIVE_BASE": datetime(2026, 9, 23, 12)},
+        )
+        assert result == expected
+
+    def test_search_dates(self) -> None:
+        result = search_dates(
+            "Sinh ngày 3 thg 09 năm 1990, mất ngày 12 tháng 07 năm 2020.",
+            languages=["vi"],
+            settings={"RELATIVE_BASE": datetime(2026, 9, 23, 12)},
+        )
+        assert result == [
+            ("ngày 3 thg 09 năm 1990", datetime(1990, 9, 3)),
+            ("ngày 12 tháng 07 năm 2020", datetime(2020, 7, 12)),
+        ]
 
 
 class TestBundledLanguages(BaseTestCase):
@@ -166,6 +214,8 @@ class TestBundledLanguages(BaseTestCase):
             param("pt", "22 de dezembro de 2014 às 02:38", "22 december 2014 02:38"),
             # Russian
             param("ru", "5 августа 2014 г. в 12:00", "5 august 2014 year. 12:00"),
+            param("ru", "двадцать первое мая", "21 may"),
+            param("ru", "тридцать второе мая", "30 2 may"),
             # Turkish
             param("tr", "2 Ocak 2015 Cuma, 16:49", "2 january 2015 friday 16:49"),
             # Czech
@@ -233,6 +283,10 @@ class TestBundledLanguages(BaseTestCase):
             param(
                 "vi", "21 tháng 09 năm 2025", "21 september 2025"
             ),  # Issue #1297: zero-padded month "09"
+            param("vi", "21 thg 09 năm 2025", "21 september 2025"),
+            param("vi", "Tháng 03 2024", "march 2024"),
+            param("vi", "21tháng 09 năm 2025", "21 september 2025"),
+            param("vi", "ngày 05 tháng 01 năm 2024 lúc 10:30", "05 january 2024 10:30"),
             # Thai
             param(
                 "th",
@@ -3394,3 +3448,42 @@ class TestNoWordSpacingSecurity:
 
         os_system.assert_not_called()
         assert simplifications
+
+
+class TestSimplifyLongRun:
+    @pytest.mark.parametrize(
+        ("shortname", "date_string"),
+        [
+            ("ru", "1" * 5000 + " 1"),
+            ("ko", "1" * 20_000),
+            ("ko", "_" * 20_000),
+            ("ko", "00:" * 5000),
+        ],
+        ids=["ru-digits", "ko-digits", "ko-underscores", "ko-colons"],
+    )
+    def test_long_run(self, shortname: str, date_string: str) -> None:
+        locale = default_loader.get_locale(shortname)
+        start = process_time()
+        assert locale._simplify(date_string, settings=settings) == date_string
+        assert process_time() - start < 1.0
+
+
+class TestRussianNumberPairs:
+    """Numbers next to each other in a numeric date are not combined like the
+    words of a compound ordinal, e.g. "двадцать" and "первое"."""
+
+    @pytest.mark.parametrize(
+        ("date_string", "expected"),
+        [
+            ("20 03 2021", datetime(2021, 3, 20)),
+            ("30 01 2020", datetime(2020, 1, 30)),
+        ],
+    )
+    def test_numeric_date_with_spaces(
+        self, date_string: str, expected: datetime
+    ) -> None:
+        assert parse(date_string, languages=["ru"]) == expected
+
+    def test_compound_ordinal_is_still_combined(self) -> None:
+        locale = default_loader.get_locale("ru")
+        assert locale.translate("20 3 мая", settings=settings) == "23 may"

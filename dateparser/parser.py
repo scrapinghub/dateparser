@@ -145,7 +145,7 @@ def _parse_absolute(
     tz: tzinfo | None = None,
     date_order: str | None = None,
 ) -> tuple[datetime, str | None, tuple[str, ...]]:
-    return _parser.parse(datestring, settings, tz, date_order=date_order)
+    return _parser._parse_with_parts(datestring, settings, tz, date_order=date_order)
 
 
 def _parse_nospaces(
@@ -851,7 +851,7 @@ class _parser:
         )
 
     @classmethod
-    def parse(
+    def _parse_with_parts(
         cls,
         datestring: str,
         settings: "Settings",

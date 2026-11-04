@@ -1,7 +1,7 @@
 from collections.abc import Callable, Iterable, Sequence
 from collections.abc import Set as AbstractSet
 from datetime import datetime
-from itertools import chain
+from itertools import chain, islice
 from typing import Any, TypedDict
 
 import regex as re
@@ -41,9 +41,10 @@ _TRAILING_QUANTITY_REG = re.compile(
 
 # A relative expression as translated, e.g. "in 2 day" from Chinese "后天",
 # which no space separates from a number before it in languages written without
-# spaces, e.g. "2020-9-1in 2 day" from "2020年9月1日后天".
+# spaces, e.g. "2020-9-1in 2 day" from "2020年9月1日后天", nor its number from
+# its unit, e.g. "2day ago" from "2天前".
 _GLUED_RELATIVE_REG = re.compile(
-    rf"in \d+ (?:{_UNITS})s?(?![a-z])|(?<![\d.])\d+ (?:{_UNITS})s? ago(?![a-z])"
+    rf"in \d+ (?:{_UNITS})s?(?![a-z])|(?<![\d.])\d+ ?(?:{_UNITS})s? ago(?![a-z])"
 )
 _NUMERIC_DATE_REG = re.compile(r"\d[-/.]\d+[-/.]\d")
 _SEPARATORS = f"{PUNCTUATION}，、 "
@@ -51,6 +52,15 @@ _SEPARATORS = f"{PUNCTUATION}，、 "
 _MAX_TRAILING_WORDS = 3
 """Words after a relative expression, e.g. "5 pm" after "in 1 day", that
 :meth:`_ExactLanguageSearch.split_by_relative_expression` keeps with it."""
+
+_MAX_CONTEXT_WORDS = 3
+"""Skipped words before a word, e.g. "a las" before "13h", that
+:meth:`_ExactLanguageSearch.split_around_skipped_words` translates it with."""
+
+_MAX_EXPRESSION_CUTS = 50
+"""Positions, closest to the end of a chunk opposite to a numeric date first,
+at which :meth:`_ExactLanguageSearch.split_off_numeric_date` tries to split a
+relative expression, e.g. "后天", off the chunk."""
 
 
 def _is_weekday_modifier(word: str) -> bool:
@@ -61,27 +71,70 @@ def _has_weekday_modifier(text: str) -> bool:
     return any(_is_weekday_modifier(word) for word in text.split())
 
 
+_STRIPPED_CHARS = " .,:：-'\""
+
+
 def _clean_substring(substring: str, skip: AbstractSet[str]) -> str:
     """Strip the punctuation around *substring*, including that of *skip*,
     e.g. "/", but keep a closing bracket opened within it, e.g. in
-    "May 5 (5pm)"."""
+    "May 5 (5pm)".
+
+    A closing bracket is dropped as long as the text has more of them than of
+    the opening brackets of its kind. The text is only ever shortened at its
+    ends, so it is tracked as the span ``[start, end)`` of *substring*, along
+    with the number of brackets in it, instead of being cut, and counted, over
+    and over: dropping a lot of brackets, or words, takes a time linear in the
+    length of *substring*.
+    """
+    start, end = 0, len(substring)
+    brackets = {char: substring.count(char) for char in "()[]"}
+
+    def drop(first: int, last: int) -> None:
+        for char in brackets:
+            brackets[char] -= substring.count(char, first, last)
+
+    first_space = -1
+    first_is_skipped: tuple[int, int, bool] | None = None
     while True:
-        substring = substring.strip(" .,:：-'\"").lstrip("([")
-        closing = substring[-1:]
-        if closing in {")", "]"} and substring.count(closing) > substring.count(
-            "(" if closing == ")" else "["
+        while start < end and substring[start] in _STRIPPED_CHARS:
+            start += 1
+        while end > start and substring[end - 1] in _STRIPPED_CHARS:
+            end -= 1
+        while start < end and substring[start] in "([":
+            brackets[substring[start]] -= 1
+            start += 1
+        closing = substring[end - 1] if end > start else ""
+        if (
+            closing in {")", "]"}
+            and brackets[closing] > brackets["(" if closing == ")" else "["]
         ):
-            substring = substring[:-1]
+            brackets[closing] -= 1
+            end -= 1
             continue
-        first, _, rest = substring.partition(" ")
-        if rest and first in skip and not any(char.isalnum() for char in first):
-            substring = rest
-            continue
-        rest, _, last = substring.rpartition(" ")
-        if rest and last in skip and not any(char.isalnum() for char in last):
-            substring = rest
-            continue
-        return substring
+        if first_space < start:
+            first_space = substring.find(" ", start, end)
+        if not start <= first_space < end:
+            return substring[start:end]  # no space, so no word to skip
+        if first_space + 1 < end:
+            if first_is_skipped is None or first_is_skipped[:2] != (start, first_space):
+                first = substring[start:first_space]
+                first_is_skipped = (
+                    start,
+                    first_space,
+                    first in skip and not any(char.isalnum() for char in first),
+                )
+            if first_is_skipped[2]:
+                drop(start, first_space + 1)
+                start = first_space + 1
+                continue
+        last_space = substring.rfind(" ", start, end)
+        if last_space > start:
+            last = substring[last_space + 1 : end]
+            if last in skip and not any(char.isalnum() for char in last):
+                drop(last_space, end)
+                end = last_space
+                continue
+        return substring[start:end]
 
 
 def _trim_connectors(
@@ -133,6 +186,23 @@ def _join_weekday_modifiers(
     return item_joined, original_joined
 
 
+def _last_relative_base(
+    parsed: Iterable[tuple[DateData, bool]], relative_base: datetime | None
+) -> datetime | None:
+    """Return the date that a date written after *parsed* is relative to: that
+    of the last of them that is a date and not relative itself, or else
+    *relative_base*, the one that applied before them.
+
+    Handing over each date as it is found, instead of looking for the last one
+    in the list of all of them, keeps the time spent on a date from growing with
+    the number of words before it that are not dates.
+    """
+    for date_data, is_relative in parsed:
+        if not is_relative and date_data["date_obj"] is not None:
+            relative_base = date_data["date_obj"]
+    return relative_base
+
+
 class _SearchResult(TypedDict):
     Language: str | None
     Dates: list[tuple[str, datetime]] | None
@@ -169,21 +239,6 @@ class _ExactLanguageSearch:
     ) -> tuple[list[str], list[str]]:
         language = self.get_current_language(shortname)
         return language.translate_search(text, settings=settings)
-
-    @staticmethod
-    def set_relative_base(
-        substring: str, already_parsed: Sequence[tuple[DateData, bool]]
-    ) -> tuple[str, datetime | None]:
-        if len(already_parsed) == 0:
-            return substring, None
-
-        i = len(already_parsed) - 1
-        while already_parsed[i][1] or already_parsed[i][0]["date_obj"] is None:
-            i -= 1
-            if i == -1:
-                return substring, None
-        relative_base = already_parsed[i][0]["date_obj"]
-        return substring, relative_base
 
     def choose_best_split(
         self,
@@ -362,8 +417,9 @@ class _ExactLanguageSearch:
         for index in range(len(words)):
             # Skipped words before a word can change how it translates, e.g.
             # "13h" is a quantity of hours but "à 13h" a time of day.
+            context_start = max(start, index - _MAX_CONTEXT_WORDS)
             translation = language.translate(
-                " ".join(words[start : index + 1]), settings=settings
+                " ".join(words[context_start : index + 1]), settings=settings
             ).split()
             if len(translation) > 1:
                 return []
@@ -486,14 +542,17 @@ class _ExactLanguageSearch:
             expression = match[0].replace(" ", "")
             # The expression is the shortest end of the chunk, on the side
             # opposite to the date, that translates into it.
-            for size in range(1, len(original)):
-                cut = len(original) - size if before else size
-                if (
-                    "no_word_spacing" not in language.info
-                    and original[cut - 1].isalnum()
-                    and original[cut].isalnum()
-                ):
-                    continue
+            cuts = (
+                len(original) - size if before else size
+                for size in range(1, len(original))
+            )
+            word_cuts = (
+                cut
+                for cut in cuts
+                if "no_word_spacing" in language.info
+                or not (original[cut - 1].isalnum() and original[cut].isalnum())
+            )
+            for cut in islice(word_cuts, _MAX_EXPRESSION_CUTS):
                 original_date, original_expression = (
                     (original[:cut], original[cut:])
                     if before
@@ -576,10 +635,9 @@ class _ExactLanguageSearch:
         parser: DateDataParser,
         item: str,
         translated_item: str,
-        parsed: Sequence[tuple[DateData, bool]],
+        relative_base: datetime | None,
         need_relative_base: bool,
     ) -> tuple[DateData, bool]:
-        relative_base = None
         item = item.replace("ngày", "")
         item = _NON_MERIDIEM_AM_REG.sub("", item)
         parsed_item = parser.get_date_data(item)
@@ -587,10 +645,7 @@ class _ExactLanguageSearch:
 
         # A weekday modifier, e.g. "last" in "last friday", is relative to the
         # current date, not to a date found earlier in the text.
-        if need_relative_base and not _has_weekday_modifier(item):
-            item, relative_base = self.set_relative_base(item, parsed)
-
-        if relative_base:
+        if need_relative_base and relative_base and not _has_weekday_modifier(item):
             settings = parser._settings
             parser._settings = settings.replace(RELATIVE_BASE=relative_base)
             try:
@@ -607,9 +662,15 @@ class _ExactLanguageSearch:
         translated: Sequence[str],
         settings: Settings,
         language: Locale,
-        already_parsed: Sequence[tuple[DateData, bool]] = (),
+        relative_base: datetime | None = None,
     ) -> tuple[list[tuple[DateData, bool]], list[str]]:
-        parsed: list[tuple[DateData, bool]] = list(already_parsed)
+        """Parse the chunks found in a text, and return the dates found in them
+        with the text of each.
+
+        *relative_base* is the date that the first of them is relative to, if
+        any, e.g. one found before them.
+        """
+        parsed: list[tuple[DateData, bool]] = []
         substrings = []
         skip = {word.lower() for word in language.info.get("skip", [])}
         need_relative_base = True
@@ -620,7 +681,7 @@ class _ExactLanguageSearch:
                 continue
 
             parsed_item, is_relative = self.parse_item(
-                parser, item, translated[i], parsed, need_relative_base
+                parser, item, translated[i], relative_base, need_relative_base
             )
             if parsed_item["date_obj"]:
                 possible_splits = self.split_off_numeric_date(
@@ -628,6 +689,7 @@ class _ExactLanguageSearch:
                 )
                 if not possible_splits:
                     parsed.append((parsed_item, is_relative))
+                    relative_base = _last_relative_base(parsed[-1:], relative_base)
                     substrings.append(_clean_substring(original[i], skip))
                     continue
             else:
@@ -642,9 +704,10 @@ class _ExactLanguageSearch:
                         quantity_split[0],
                         settings,
                         language,
-                        already_parsed=parsed,
+                        relative_base=relative_base,
                     )
                     parsed.extend(sub_parsed)
+                    relative_base = _last_relative_base(sub_parsed, relative_base)
                     substrings.extend(sub_substrings)
                     continue
 
@@ -661,17 +724,17 @@ class _ExactLanguageSearch:
                 current_parsed: list[tuple[DateData, bool]] = []
                 current_substrings: list[str] = []
                 current_parts: list[tuple[str, str]] = []
+                current_base = relative_base
                 for j, jtem in enumerate(split_translated):
                     if len(jtem) <= 2:
                         continue
                     parsed_jtem, is_relative_jtem = self.parse_item(
-                        parser,
-                        jtem,
-                        jtem,
-                        [*parsed, *current_parsed],
-                        need_relative_base,
+                        parser, jtem, jtem, current_base, need_relative_base
                     )
                     current_parsed.append((parsed_jtem, is_relative_jtem))
+                    current_base = _last_relative_base(
+                        current_parsed[-1:], current_base
+                    )
                     current_substrings.append(_clean_substring(split_original[j], skip))
                     current_parts.append((jtem, split_original[j]))
                 possible_parsed.append(current_parsed)
@@ -690,6 +753,7 @@ class _ExactLanguageSearch:
             ):
                 if parsed_part[0]["date_obj"]:
                     parsed.append(parsed_part)
+                    relative_base = _last_relative_base(parsed[-1:], relative_base)
                     substrings.append(substring)
                     continue
                 if part == item or not _has_weekday_modifier(part):
@@ -703,11 +767,12 @@ class _ExactLanguageSearch:
                     [part],
                     settings,
                     language,
-                    already_parsed=parsed,
+                    relative_base=relative_base,
                 )
                 parsed.extend(sub_parsed)
+                relative_base = _last_relative_base(sub_parsed, relative_base)
                 substrings.extend(sub_substrings)
-        return parsed[len(already_parsed) :], substrings
+        return parsed, substrings
 
     def search_parse(
         self, shortname: str, text: str, settings: Settings
