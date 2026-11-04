@@ -42,6 +42,14 @@ Deprecations:
 
 Security fixes:
 
+- Make sentence splitting in ``search_dates()`` linear on long punctuation
+  runs, to prevent quadratic backtracking (ReDoS) for Arabic, Bengali,
+  Cantonese, Chinese, Hindi, Japanese and Persian (`GHSA-rx9v-94ff-9cc2
+  <https://github.com/scrapinghub/dateparser/security/advisories/GHSA-rx9v-94ff-9cc2>`_)
+- Prevent quadratic regex matching (ReDoS) on long digit runs in Chinese and
+  Japanese, and a ``ValueError`` on runs of more than 4,300 digits on Python
+  3.11 and later (`GHSA-g8fh-jxm9-6qfx
+  <https://github.com/scrapinghub/dateparser/security/advisories/GHSA-g8fh-jxm9-6qfx>`_)
 - Bound the lookahead of the Chinese month simplification, to prevent quadratic
   parsing time on long runs of numbers followed by 月 (`GHSA-q7fp-xwcm-6x9f
   <https://github.com/scrapinghub/dateparser/security/advisories/GHSA-q7fp-xwcm-6x9f>`_)
@@ -51,18 +59,9 @@ Security fixes:
 - Strip trailing colons in linear time, to prevent quadratic backtracking
   (ReDoS) on long colon runs (`GHSA-fmxc-97cw-ph6p
   <https://github.com/scrapinghub/dateparser/security/advisories/GHSA-fmxc-97cw-ph6p>`_)
-- Make sentence splitting in ``search_dates()`` linear on long punctuation
-  runs, to prevent quadratic backtracking (ReDoS) for Arabic, Bengali,
-  Cantonese, Chinese, Hindi, Japanese and Persian (`GHSA-rx9v-94ff-9cc2
-  <https://github.com/scrapinghub/dateparser/security/advisories/GHSA-rx9v-94ff-9cc2>`_)
-- Prevent quadratic regex matching (ReDoS) on long digit runs in Chinese and
-  Japanese, and a ``ValueError`` on runs of more than 4,300 digits on Python
-  3.11 and later (`GHSA-g8fh-jxm9-6qfx
-  <https://github.com/scrapinghub/dateparser/security/advisories/GHSA-g8fh-jxm9-6qfx>`_)
 - Split strings into known words in linear time, to prevent quadratic parsing
   time on long runs of words like month names (`GHSA-jxmm-w6rw-32ch
   <https://github.com/scrapinghub/dateparser/security/advisories/GHSA-jxmm-w6rw-32ch>`_)
-
 
 New features:
 
