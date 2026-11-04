@@ -59,6 +59,10 @@ Security fixes:
   Japanese, and a ``ValueError`` on runs of more than 4,300 digits on Python
   3.11 and later (`GHSA-g8fh-jxm9-6qfx
   <https://github.com/scrapinghub/dateparser/security/advisories/GHSA-g8fh-jxm9-6qfx>`_)
+- Split strings into known words in linear time, to prevent quadratic parsing
+  time on long runs of words like month names (`GHSA-jxmm-w6rw-32ch
+  <https://github.com/scrapinghub/dateparser/security/advisories/GHSA-jxmm-w6rw-32ch>`_)
+
 
 New features:
 

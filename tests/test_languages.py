@@ -3525,3 +3525,27 @@ class TestRussianNumberPairs:
     def test_compound_ordinal_is_still_combined(self) -> None:
         locale = default_loader.get_locale("ru")
         assert locale.translate("20 3 мая", settings=settings) == "23 may"
+
+
+class TestDictionarySplit:
+    @pytest.mark.parametrize(
+        ("shortname", "word", "count"),
+        [("en", "Jan ", 50_000), ("ja", "月曜日", 100_000)],
+    )
+    def test_long_word_run(self, shortname: str, word: str, count: int) -> None:
+        dictionary = Dictionary(default_loader.get_locale(shortname).info, settings)
+        start = monotonic()
+        dictionary.split(word * count)
+        assert monotonic() - start < 2.0
+
+    def test_newline(self) -> None:
+        dictionary = Dictionary(default_loader.get_locale("en").info, settings)
+        assert dictionary.split("Jan 1\nFeb 2", keep_formatting=True) == [
+            "Jan",
+            " ",
+            "1",
+            "\n",
+            "Feb",
+            " ",
+            "2",
+        ]

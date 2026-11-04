@@ -330,20 +330,22 @@ class Dictionary:
     def _split_by_known_words(self, string: str, keep_formatting: bool) -> list[str]:
         regex = self._get_split_regex_cache()
         splitted: list[str] = []
-        unknown = string
+        pos, end = 0, len(string)
 
-        while unknown:
-            match = regex.match(string)
+        while pos < end:
+            # Matching in place keeps the cost linear in the input length.
+            match = regex.match(string, pos)
 
             if not match:
+                rest = string[pos:]
                 curr_split = (
-                    self._split_by_numerals(string, keep_formatting)
-                    if self._should_capture(string, keep_formatting)
+                    self._split_by_numerals(rest, keep_formatting)
+                    if self._should_capture(rest, keep_formatting)
                     else []
                 )
-                unknown = ""
+                pos = end
             else:
-                unparsed, known, unknown = match.groups()
+                unparsed, known = match.groups()
                 curr_split = (
                     [known] if self._should_capture(known, keep_formatting) else []
                 )
@@ -353,8 +355,7 @@ class Dictionary:
                         self._split_by_numerals(unparsed, keep_formatting) + curr_split
                     )
 
-                if unknown:
-                    string = unknown if string != unknown else ""
+                pos = match.end() if match.end() > pos else end
 
             for token in curr_split:
                 if (
@@ -410,12 +411,12 @@ class Dictionary:
             map(re.escape, self._get_sorted_words_from_cache())
         )
         if self._no_word_spacing:
-            regex = rf"^(.*?)({known_words_group})(.*)$"
+            regex = rf"(.*?)({known_words_group})"
         else:
-            regex = rf"^(.*?(?:\A|\W|_|\d))({known_words_group})((?:\Z|\W|_|\d).*)$"
+            regex = rf"(.*?(?:\G|\W|_|\d))({known_words_group})(?=\Z|\W|_|\d)"
         self._add_to_cache(
             cache=self._split_regex_cache,
-            value=re.compile(regex, re.UNICODE | re.IGNORECASE),
+            value=re.compile(regex, re.UNICODE | re.IGNORECASE | re.DOTALL),
         )
 
     def _get_sorted_relative_strings_from_cache(self) -> list[str]:
