@@ -43,6 +43,9 @@ Security fixes:
 - Bound the lookahead of the Chinese month simplification, to prevent quadratic
   parsing time on long runs of numbers followed by 月 (`GHSA-q7fp-xwcm-6x9f
   <https://github.com/scrapinghub/dateparser/security/advisories/GHSA-q7fp-xwcm-6x9f>`_)
+- Prevent quadratic regex matching (ReDoS) on long runs of digits or whitespace
+  (`GHSA-gqj4-wf6c-wmcg
+  <https://github.com/scrapinghub/dateparser/security/advisories/GHSA-gqj4-wf6c-wmcg>`_)
 - Make sentence splitting in ``search_dates()`` linear on long punctuation
   runs, to prevent quadratic backtracking (ReDoS) for Arabic, Bengali,
   Cantonese, Chinese, Hindi, Japanese and Persian (`GHSA-rx9v-94ff-9cc2

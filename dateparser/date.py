@@ -99,7 +99,7 @@ RE_SANITIZE_SKIP = re.compile(
 )
 RE_SANITIZE_RUSSIAN = re.compile(r"([\W\d])\u0433\.", flags=re.I | re.U)
 RE_SANITIZE_CROATIAN = re.compile(
-    r"(\d+)\.\s?(\d+)\.\s?(\d+)\.( u)?", flags=re.I | re.U
+    r"(?<!\d)(\d+)\.\s?(\d+)\.\s?(\d+)\.( u)?", flags=re.I | re.U
 )
 RE_SANITIZE_PERIOD = re.compile(r"(?<=[^0-9\s])\.", flags=re.U)
 RE_SANITIZE_DECIMAL_COMMA = re.compile(

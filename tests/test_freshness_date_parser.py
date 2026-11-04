@@ -2806,6 +2806,20 @@ class TestFreshnessDateDataParser(BaseTestCase):
                 f"{shortname} split_relative_regex is superlinear on long digit runs",
             )
 
+    def test_long_run_is_linear(self) -> None:
+        ja_split_re = Dictionary(
+            default_loader.get_locale("ja").info, settings
+        )._get_split_relative_regex_cache()
+
+        for call, string in (
+            (PATTERN.findall, "9" * 32000),
+            (PATTERN.findall, " " * 32000),
+            (ja_split_re.split, "9" * 32000),
+        ):
+            start = monotonic()
+            call(string)
+            self.assertLess(monotonic() - start, 0.5, (call, string[0]))
+
     def given_date_string(self, date_string: str) -> None:
         self.date_string = date_string
 
