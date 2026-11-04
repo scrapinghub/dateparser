@@ -57,7 +57,7 @@ New features:
 - Parse parts of the day, such as "tomorrow morning", "this evening" or
   "8 in the evening", at the times set by the new ``PARTS_OF_DAY`` setting;
   the new ``DateData.part_of_day`` attribute tells which one was found
-  (#1473)
+  (#1473, #1562)
 - Add ``DateData.parts``, which lists the date parts (day, month, year,
   time…) read from the input rather than filled in from defaults (#1408)
 - Add an ``add_period`` argument to ``search_dates()`` to also return the
@@ -103,7 +103,7 @@ New features:
   - next to a relative date without a comma (#1385)
   - joined by words that search skips, like "and" (#1488)
   - inside parentheses, square brackets or straight quotes, e.g.
-    ``'He said "May 5, 2020"'`` or "(Friday)" (#1401)
+    ``'He said "May 5, 2020"'`` or "(Friday)" (#1401, #1565)
 
 Fixes:
 
@@ -133,7 +133,7 @@ Fixes:
   20 March 2021 instead of the 23rd of the current month (#1554)
 - Return ``None`` for strings with only skipped words, such as "year" or
   "hour minute", instead of today, which also stops ``search_dates()`` from
-  returning them (#1440)
+  returning them (#1440, #1564)
 - Stop ignoring numbers without a unit in relative dates, so "03/06/2020
   hour", "03/06/2020 day" or "01.02.2011 godz. 08:39" no longer parse as a
   number of hours or days ago (#1410)
@@ -194,7 +194,8 @@ Improvements:
 - Chinese: add the supplementary data of ``zh`` to ``zh-Hans`` and
   ``zh-Hant`` (#1407), and parse 后天, 大后天 and 大前天 as relative days
   (#1430)
-- Chinese and Japanese: parse dates with spaces around 年, 月 and 日 (#1477)
+- Chinese and Japanese: parse dates with spaces around 年, 月 and 日 (#1477,
+  #1566)
 - French: parse "midi" as noon, e.g. "demain à midi" ("après-midi" and
   "avant midi" are still not read as noon); this also applies when no
   ``languages`` are given, so ``search_dates()`` can return "MIDI" in an
@@ -205,7 +206,7 @@ Improvements:
 - Slovak: parse "pozajtra" (#1430)
 - Swedish: parse ordinal day suffixes like "24:e" and "1:a" (#1484)
 - Thai: parse relative dates with spaced ago/in words (#1411)
-- Vietnamese: parse dates with zero-padded months (#1338)
+- Vietnamese: parse dates with zero-padded months (#1338, #1563)
 - Add type hints (#1457)
 - Document ``search_dates()`` in the API reference (#1468), add a
   performance section (#1494), explain how ``DEFAULT_LANGUAGES`` relates to
