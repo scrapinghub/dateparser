@@ -2,6 +2,7 @@ import collections
 import functools
 import itertools
 import threading
+import warnings
 from collections.abc import Callable, Iterable, Iterator
 from collections.abc import Set as AbstractSet
 from datetime import date, datetime, timedelta, tzinfo
@@ -92,7 +93,19 @@ DASH_LOOK_ALIKE_CHARS = [
 RE_NBSP = re.compile("\xa0", flags=re.UNICODE)
 RE_SPACES = re.compile(r"\s+")
 RE_TRIM_SPACES = re.compile(r"^\s+(\S.*?)\s+$")
-RE_TRIM_COLONS = re.compile(r"(\S.*?):*$")
+
+
+def __getattr__(name: str) -> Any:
+    if name == "RE_TRIM_COLONS":
+        warnings.warn(
+            "dateparser.date.RE_TRIM_COLONS is deprecated and will be removed "
+            "in a future version.",
+            FutureWarning,
+            stacklevel=2,
+        )
+        return re.compile(r"(\S.*?):*$")
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
 
 RE_SANITIZE_SKIP = re.compile(
     r"\t|\n|\r|\u00bb|,\s\u0432\b|\u200e|\xb7|\u200f|\u064e|\u064f", flags=re.M
@@ -242,7 +255,7 @@ def sanitize_date(date_string: str) -> str:
         lambda match: _decimal_comma_to_point(match, year_end), date_string
     )
     date_string = RE_SANITIZE_ON.sub(r"\1", date_string)
-    date_string = RE_TRIM_COLONS.sub(r"\1", date_string)
+    date_string = date_string.rstrip(":")
     date_string = RE_SANITIZE_APOSTROPHE.sub("'", date_string)
     date_string = RE_SANITIZE_DASH.sub("-", date_string)
     return date_string.strip()

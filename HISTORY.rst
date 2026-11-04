@@ -37,6 +37,8 @@ Deprecations:
   ``dateparser.utils.time_spans``, and calling ``generate_time_span()``
   without ``base_date`` or ``settings``; all of them now emit a
   ``FutureWarning`` (#1393, #1556)
+- Deprecate ``dateparser.date.RE_TRIM_COLONS`` (`GHSA-fmxc-97cw-ph6p
+  <https://github.com/scrapinghub/dateparser/security/advisories/GHSA-fmxc-97cw-ph6p>`_)
 
 Security fixes:
 
@@ -46,6 +48,9 @@ Security fixes:
 - Prevent quadratic regex matching (ReDoS) on long runs of digits or whitespace
   (`GHSA-gqj4-wf6c-wmcg
   <https://github.com/scrapinghub/dateparser/security/advisories/GHSA-gqj4-wf6c-wmcg>`_)
+- Strip trailing colons in linear time, to prevent quadratic backtracking
+  (ReDoS) on long colon runs (`GHSA-fmxc-97cw-ph6p
+  <https://github.com/scrapinghub/dateparser/security/advisories/GHSA-fmxc-97cw-ph6p>`_)
 - Make sentence splitting in ``search_dates()`` linear on long punctuation
   runs, to prevent quadratic backtracking (ReDoS) for Arabic, Bengali,
   Cantonese, Chinese, Hindi, Japanese and Persian (`GHSA-rx9v-94ff-9cc2

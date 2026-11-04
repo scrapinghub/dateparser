@@ -1526,6 +1526,13 @@ class TestSanitizeDate(BaseTestCase):
         self.assertEqual(date.sanitize_date("2019:"), "2019")
         self.assertEqual(date.sanitize_date("31/07/2019:"), "31/07/2019")
 
+    def test_sanitize_date_long_colon_run(self) -> None:
+        start = monotonic()
+        self.assertEqual(
+            date.sanitize_date("a" + ":" * 100_000 + "b"), "a" + ":" * 100_000 + "b"
+        )
+        self.assertLess(monotonic() - start, 1.0)
+
     def test_sanitize_date_dash_look_alikes(self) -> None:
         for dash in date.DASH_LOOK_ALIKE_CHARS:
             self.assertEqual(
@@ -1847,6 +1854,14 @@ def test_parts(
 ) -> None:
     parser = date.DateDataParser(languages=["en"], settings=settings)
     assert parser.get_date_data(date_string, date_formats).parts == expected
+
+
+def test_re_trim_colons_deprecated() -> None:
+    with pytest.warns(FutureWarning, match="RE_TRIM_COLONS"):
+        from dateparser.date import RE_TRIM_COLONS  # noqa: PLC0415
+    assert RE_TRIM_COLONS.sub(r"\1", "2019::") == "2019"
+    with pytest.raises(AttributeError, match="RE_NO_SUCH_NAME"):
+        date.RE_NO_SUCH_NAME
 
 
 if __name__ == "__main__":
