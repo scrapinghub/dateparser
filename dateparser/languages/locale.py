@@ -1,5 +1,6 @@
 import copy
 import threading
+import unicodedata
 from collections.abc import Iterable, Iterator, Mapping, Sequence
 from functools import cache, cached_property
 from itertools import chain, islice, product
@@ -52,6 +53,16 @@ def _parse_bool(value: object) -> bool:
     if isinstance(value, str):
         return value.strip().lower() in ("true", "1", "yes")
     return False
+
+
+def _compile_simplification(pattern: str, no_word_spacing: bool) -> re.Pattern[str]:
+    if no_word_spacing:
+        # Without word boundaries, a match could still start within a number,
+        # and trying one from every digit of a long number takes quadratic time.
+        pattern = rf"(?!(?<=\d)\d){pattern}"
+    else:
+        pattern = rf"(?<=\A|\W|_){pattern}(?=\Z|\W|_)"
+    return re.compile(pattern, flags=re.I | re.U)
 
 
 # Punctuation a word can be written next to without ceasing to be that word:
@@ -404,8 +415,10 @@ class Locale:
     def _translate_numerals(self, date_string: str) -> str:
         date_string_tokens = NUMERAL_PATTERN.split(date_string)
         for i, token in enumerate(date_string_tokens):
-            if token.isdecimal():
-                date_string_tokens[i] = str(int(token)).zfill(len(token))
+            if token.isdecimal() and not token.isascii():
+                date_string_tokens[i] = "".join(
+                    str(unicodedata.decimal(c)) for c in token
+                )
         return "".join(date_string_tokens)
 
     def _get_relative_translations(
@@ -929,9 +942,9 @@ class Locale:
                     simplifications = self._generate_simplifications(normalize=True)
                     for simplification in simplifications:
                         pattern, replacement = next(iter(simplification.items()))
-                        if not no_word_spacing:
-                            pattern = rf"(?<=\A|\W|_){pattern}(?=\Z|\W|_)"
-                        compiled_pattern = re.compile(pattern, flags=re.I | re.U)
+                        compiled_pattern = _compile_simplification(
+                            pattern, no_word_spacing
+                        )
                         normalized_simplifications.append(
                             {compiled_pattern: replacement}
                         )
@@ -945,9 +958,7 @@ class Locale:
                 simplifications = self._generate_simplifications(normalize=False)
                 for simplification in simplifications:
                     pattern, replacement = next(iter(simplification.items()))
-                    if not no_word_spacing:
-                        pattern = rf"(?<=\A|\W|_){pattern}(?=\Z|\W|_)"
-                    compiled_pattern = re.compile(pattern, flags=re.I | re.U)
+                    compiled_pattern = _compile_simplification(pattern, no_word_spacing)
                     simplifications_built.append({compiled_pattern: replacement})
                 self._simplifications = simplifications_built
             return self._simplifications

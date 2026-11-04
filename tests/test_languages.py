@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
 from io import StringIO
-from time import process_time
+from time import monotonic, process_time
 from typing import Any
 from unittest.mock import patch
 
@@ -3428,6 +3428,30 @@ class TestSentenceSplit:
         locale = default_loader.get_locale(shortname)
         text = punctuation * 100_000 + "x"
         assert list(locale._sentence_split(text, settings=settings)) == [text]
+
+
+class TestTranslateNumerals:
+    def test_non_ascii_digits_keep_leading_zeros(self) -> None:
+        locale = default_loader.get_locale("ar")
+        assert locale._translate_numerals("\u0660\u0661\u0662 \u0663") == "012 3"
+
+    def test_long_digit_run(self) -> None:
+        locale = default_loader.get_locale("en")
+        digits = "1" * 10_000
+        assert locale._translate_numerals(digits) == digits
+
+
+class TestSimplify:
+    @pytest.mark.parametrize(
+        ("shortname", "unit"),
+        [("zh", "年"), ("zh", "月"), ("zh-Hant", "年"), ("ja", "時")],
+    )
+    def test_long_digit_run(self, shortname: str, unit: str) -> None:
+        locale = default_loader.get_locale(shortname)
+        date_string = "1" * 100_000 + unit
+        start = monotonic()
+        locale._simplify(date_string, settings=settings)
+        assert monotonic() - start < 1.0
 
 
 class TestNoWordSpacingSecurity:

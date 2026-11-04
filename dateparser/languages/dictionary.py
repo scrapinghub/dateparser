@@ -455,7 +455,7 @@ class Dictionary:
             self._get_sorted_relative_strings_from_cache()
         )
         if self._no_word_spacing:
-            regex = f"({known_relative_strings_group})"
+            regex = rf"(?<!\d)({known_relative_strings_group})"
         else:
             regex = (
                 f"(?<=(?:\\A|\\W|_))({known_relative_strings_group})(?=(?:\\Z|\\W|_))"

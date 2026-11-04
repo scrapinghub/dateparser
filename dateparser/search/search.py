@@ -220,7 +220,13 @@ def _add_time_span_results(
         span_info = detect_time_span(text)
         if span_info:
             base_date = getattr(settings, "RELATIVE_BASE", None) or datetime.now()
-            start_date, end_date = generate_time_span(span_info, base_date, settings)
+            try:
+                start_date, end_date = generate_time_span(
+                    span_info, base_date, settings
+                )
+            except OverflowError:
+                # The quantity is too large for the span to be a date.
+                return results
             matched_text = span_info["matched_text"]
             results.append((matched_text + " (start)", start_date, "day"))
             results.append((matched_text + " (end)", end_date, "day"))
@@ -482,7 +488,12 @@ class _ExactLanguageSearch:
         if not match:
             return None
         quantity, number, unit = match[1], match[2], match[3]
-        if int(number) <= 12:
+        try:
+            small = int(number) <= 12
+        except ValueError:
+            # More digits than int() accepts, so not a small quantity.
+            small = False
+        if small:
             # Small quantities, e.g. "a year", more often mean a rate or a
             # duration than a date.
             return None
