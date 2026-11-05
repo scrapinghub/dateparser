@@ -10,7 +10,6 @@ on:
       - dateparser/**
       - dateparser_data/**
       - tests/benchmarks/**
-      - pytest.ini
       - tox.ini
       - pyproject.toml
       - .github/workflows/codspeed.yml
