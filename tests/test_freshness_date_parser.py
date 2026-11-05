@@ -87,8 +87,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("1 fortnight 3 days", ago={"weeks": 2, "days": 3}, period="day"),
             # Regression tests for #1304: an explicit sign on a component is
             # preserved when ``decades`` is folded into ``years`` instead of
-            # being overwritten by the decade's sign. Unsigned components still
-            # follow the ago/future context.
+            # being overwritten by the decade's sign. Unsigned components take
+            # the sign of the closest signed component before them.
             param("-1 decade", ago={"years": 10}, period="year"),
             param("-1 decade 2 years", ago={"years": 12}, period="year"),
             param("-1 decade +2 years", ago={"years": 8}, period="year"),
@@ -145,6 +145,11 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("now - 2 hours", ago={"hours": 2}, period="day"),
             param("now - 30 minutes", ago={"minutes": 30}, period="day"),
             param("now - 1 day", ago={"days": 1}, period="day"),
+            param("now-1d 2h", ago={"days": 1, "hours": 2}, period="day"),
+            param("now-2w3d", ago={"weeks": 2, "days": 3}, period="day"),
+            param("1y2w ago", ago={"years": 1, "weeks": 2}, period="week"),
+            param("now-1W", ago={"weeks": 1}, period="week"),
+            param("in -1d2h", ago={"days": 1, "hours": 2}, period="day"),
             # Word numbers
             param("nine hours ago", ago={"hours": 9}, period="day"),
             param("fifteen minutes ago", ago={"minutes": 15}, period="day"),
@@ -1899,6 +1904,10 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("now + 2 hours", in_future={"hours": 2}, period="day"),
             param("now + 30 minutes", in_future={"minutes": 30}, period="day"),
             param("now + 1 day", in_future={"days": 1}, period="day"),
+            param("now+1d2h", in_future={"days": 1, "hours": 2}, period="day"),
+            param("in 2w", in_future={"weeks": 2}, period="week"),
+            param("+1.5w", in_future={"weeks": 1.5}, period="week"),
+            param("+1d2h ago", in_future={"days": 1, "hours": 2}, period="day"),
             # Fractional units
             param("in 2.5 hours", in_future={"hours": 2.5}, period="day"),
             param("in 10.75 minutes", in_future={"minutes": 10.75}, period="day"),
