@@ -161,11 +161,11 @@ def write_complete_data(in_memory: bool = False) -> dict[Path, str | bytes]:
         translation_data_directory / "__init__.py",
         init_text,
         "w",
-        False,
+        in_memory,
         in_memory_result,
     )
     _write_file(
-        date_translation_directory / "__init__.py", "", "w", False, in_memory_result
+        date_translation_directory / "__init__.py", "", "w", in_memory, in_memory_result
     )
 
     return in_memory_result

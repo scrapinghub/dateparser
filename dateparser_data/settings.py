@@ -1,5 +1,3 @@
-from dateparser._parts_of_day import PartsOfDay
-
 default_parsers = [
     "timestamp",
     "relative-time",
@@ -16,6 +14,7 @@ settings = {
     "TIMEZONE": "local",
     "TO_TIMEZONE": False,
     "RETURN_AS_TIMEZONE_AWARE": "default",
+    "TIMEZONE_ABBREVIATIONS": {},
     # Incomplete dates
     "PREFER_DAY_OF_MONTH": "current",
     "PREFER_MONTH_OF_YEAR": "current",
@@ -36,7 +35,6 @@ settings = {
     "DEFAULT_DAYS_IN_MONTH": 30,
     # Other settings
     "RETURN_TIME_AS_PERIOD": False,
-    "PARTS_OF_DAY": PartsOfDay(),
     "PARSERS": default_parsers,
     "IGNORE_SURROUNDING_TEXT": False,
     "CACHE_SIZE_LIMIT": 1000,
