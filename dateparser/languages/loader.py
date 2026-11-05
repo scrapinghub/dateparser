@@ -7,7 +7,11 @@ from typing import Any, ClassVar
 
 import regex as re
 
-from dateparser.data.languages_info import language_locale_dict, language_order
+from dateparser.data.languages_info import (
+    _language_default_region,
+    language_locale_dict,
+    language_order,
+)
 
 from .locale import Locale
 
@@ -22,6 +26,18 @@ def _isvalidlocale(locale: str) -> bool:
         return False
     locales_list = language_locale_dict[language]
     return locale == language or locale in locales_list
+
+
+def _normalize_locale(locale: str) -> str:
+    """Return *locale* as the bare language if it names the language's default
+    region, e.g. ``fi`` for ``fi-FI``, since dateparser has no separate locale
+    for those."""
+    if _isvalidlocale(locale):
+        return locale
+    language, *region = LOCALE_SPLIT_PATTERN.split(locale)
+    if region and _language_default_region.get(language) == region[0]:
+        return language
+    return locale
 
 
 class LocaleDataLoader:
@@ -149,6 +165,7 @@ class LocaleDataLoader:
     ) -> Iterator[tuple[str, Locale]]:
         locale_dict: dict[str, tuple[str, ...]] = {}
         if locales:
+            locales = [_normalize_locale(locale) for locale in locales]
             invalid_locales = []
             for locale in locales:
                 split_locale = LOCALE_SPLIT_PATTERN.split(locale)

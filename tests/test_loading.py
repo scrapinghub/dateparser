@@ -406,6 +406,21 @@ class TestLocaleDataLoader(BaseTestCase):
 
     @parameterized.expand(
         [
+            param(
+                given_locales=["fi-FI", "pt-BR", "zh-Hans-CN", "sr-Latn-RS", "en-US"],
+                expected_locales=["fi", "pt", "zh-Hans", "sr-Latn", "en-US"],
+            ),
+            param(given_locales=["fi", "fi-FI"], expected_locales=["fi"]),
+        ]
+    )
+    def test_default_region_locales(
+        self, given_locales: list[str], expected_locales: list[str]
+    ) -> None:
+        self.load_data(given_locales, use_given_order=True)
+        self.then_locales_are_yielded_in_order(expected_locales)
+
+    @parameterized.expand(
+        [
             param(given_locales=["en-TK", "en-TO", "zh"]),
             param(given_locales=["es-PY", "es-IC", "ja", "es-DO"]),
             param(given_locales=["ca-TA", "ca", "fr"]),
