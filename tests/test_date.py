@@ -784,6 +784,7 @@ class TestDateDataParser(BaseTestCase):
     @parameterized.expand(
         [
             param("10:04am EDT"),
+            param("9pm UTC"),
         ]
     )
     def test_time_without_date_should_use_today(self, date_string: str) -> None:
