@@ -78,7 +78,7 @@ class FullTextLanguageDetector(BaseLanguageDetector):
         ]
         self.languages = [
             i for j, i in enumerate(self.languages) if j not in indices_to_pop
-        ]
+        ] or [self.languages[0]]
 
     @apply_settings
     def _best_language(
