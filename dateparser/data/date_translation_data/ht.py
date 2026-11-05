@@ -118,7 +118,9 @@ info = {
     ],
     "relative-type": {
         "0 day ago": [
-            "jodi a"
+            "jodi a",
+            "jodiya",
+            "jodya"
         ],
         "0 hour ago": [
             "nan lè sa"
@@ -285,73 +287,88 @@ info = {
             "(\\d++[.,]?\\d*+|yon|de|twa|kat|senk|sis|sèt|uit|nèf|dis|onz|douz) (sec|segon[nd]|min(?:it)?|z?è|èdtan|jou|semèn|mwa|l?ann?e|deseni) aprè": "nan \\1 \\2"
         },
         {
+            "mwens\\s(?:pase|ke)\\s(\\d++[.,]?\\d*+)\\s?(minit|segond|è)": "\\1 \\2"
+        },
+        {
+            "mwens\\s(?:pase|ke)\\s(\\d++[.,]?\\d*+)\\s?s": "\\1 segond"
+        },
+        {
+            "mwens\\s(?:pase|ke)\\s(\\d++[.,]?\\d*+)\\s?m": "\\1 minit"
+        },
+        {
+            "mwens\\s(?:pase|ke)\\s(\\d++[.,]?\\d*+)\\s?h": "\\1 è"
+        },
+        {
             "de\\s((?:sec|segon[nd]|min(?:it)?|z?è|èdtan|jou|semèn|mwa|l?ann?e|deseni)\\b|(?:jan|fevr|mas|avril|me|jen|jiyè|out|sept|okt|nov|des))": "2 \\1"
         },
         {
             "deseni": "10 ane"
         },
         {
-            "dezè": "2 è"
+            "inè(?:dtan)?": "1 è"
+        },
+        {
+            "dezè(?:dtan)?": "2 è"
         },
         {
             "twa": "3"
         },
         {
-            "twazè": "3 è"
+            "twazè(?:dtan)?": "3 è"
         },
         {
             "kat": "4"
         },
         {
-            "katè": "4 è"
+            "katrè(?:dtan)?": "4 è"
         },
         {
             "senk": "5"
         },
         {
-            "senkè": "5 è"
+            "senkè(?:dtan)?": "5 è"
         },
         {
             "sis": "6"
         },
         {
-            "sizè": "6 è"
+            "sizè(?:dtan)?": "6 è"
         },
         {
             "sèt": "7"
         },
         {
-            "sètè": "7 è"
+            "sètè(?:dtan)?": "7 è"
         },
         {
             "uit": "8"
         },
         {
-            "uitè": "8 è"
+            "uitè(?:dtan)?": "8 è"
         },
         {
             "nèf": "9"
         },
         {
-            "nèvè": "9 è"
+            "nèvè(?:dtan)?": "9 è"
         },
         {
             "dis": "10"
         },
         {
-            "dizè": "10 è"
+            "dizè(?:dtan)?": "10 è"
         },
         {
             "onz": "11"
         },
         {
-            "onzè": "11 è"
+            "onzè(?:dtan)?": "11 è"
         },
         {
             "douz": "12"
         },
         {
-            "douzè": "12 è"
+            "douzè(?:dtan)?": "12 è"
         }
     ]
 }
