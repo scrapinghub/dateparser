@@ -32,10 +32,38 @@ _MONTHS = {
     )
     for name in names
 }
+_YEAR_WORDS = {
+    name: index
+    for index, names in enumerate(
+        (
+            ("un", "premier"),
+            ("deux", "deuxieme", "second"),
+            ("trois", "troisieme"),
+            ("quatre", "quatrieme"),
+            ("cinq", "cinquieme"),
+            ("six", "sixieme"),
+            ("sept", "septieme"),
+            ("huit", "huitieme"),
+            ("neuf", "neuvieme"),
+            ("dix", "dixieme"),
+            ("onze", "onzieme"),
+            ("douze", "douzieme"),
+            ("treize", "treizieme"),
+            ("quatorze", "quatorzieme"),
+        ),
+        start=1,
+    )
+    for name in names
+}
+# Catalog records often follow the year with "de la République" and with its
+# Gregorian equivalent, e.g. "An X de la République [i.e. 1802]".
 _RE_DATE = re.compile(
     rf"(?:(?:(?P<day>\d{{1,2}})(?:er)?\s+)?(?P<month>{'|'.join(_MONTHS)})\s+)?"
-    r"an\.?\s+(?:(?P<year>\d{1,3})|(?P<roman>"
-    r"C{0,3}(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3})))\.?(?:er|e|eme|me)?\.?",
+    r"an(?:no)?\.?\s+(?:(?P<year>\d{1,3})|(?P<roman>"
+    r"C{0,3}(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3}))"
+    rf"|(?P<word>{'|'.join(_YEAR_WORDS)}))\.?(?:er|e|eme|me)?\.?"
+    r"(?:\s+de\s+la\s+republ[^\[\]()]*)?"
+    r"(?:\s*(?:[\[(][^\[\]()]*\d{4}[^\[\]()]*[\])]|[-=,]?\s*\d{4}(?:/\d{2,4})?))?",
     flags=re.IGNORECASE,
 )
 _ROMAN_NUMERAL_VALUES = {"C": 100, "L": 50, "X": 10, "V": 5, "I": 1}
@@ -66,9 +94,14 @@ class _french_republican_parser:
             if not unicodedata.combining(char)
         )
         match = _RE_DATE.fullmatch(normalized)
-        if not match or not (match["year"] or match["roman"]):
+        if not match or not (match["year"] or match["roman"] or match["word"]):
             raise ValueError(datestring)
-        year = int(match["year"]) if match["year"] else _roman_to_int(match["roman"])
+        if match["year"]:
+            year = int(match["year"])
+        elif match["roman"]:
+            year = _roman_to_int(match["roman"])
+        else:
+            year = _YEAR_WORDS[match["word"].lower()]
         if not year:
             raise ValueError(datestring)
         now = settings.RELATIVE_BASE or datetime.now(tz=timezone.utc).replace(
