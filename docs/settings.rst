@@ -369,7 +369,8 @@ The following parsers exist:
     tried then, and without ``date_formats`` nothing is parsed.
 
 -   ``'absolute-time'``: Parses dates and times expressed in absolute form
-    (e.g. “May 4th”, “1991-05-17”). It takes into account settings such as
+    (e.g. “May 4th”, “1991-05-17”, “19910517”), with 8-digit dates limited to
+    the years 1900 to 2099. It takes into account settings such as
     ``DATE_ORDER`` or ``PREFER_LOCALE_DATE_ORDER``.
 
 -   ``'no-spaces-time'``: Parses dates and times that consist in only digits or
