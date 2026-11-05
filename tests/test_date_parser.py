@@ -796,8 +796,8 @@ class TestDateParser(BaseTestCase):
         ]
     )
     def test_time_only_with_timezone_aware_relative_base(
-        self, date_string, prefer_dates_from, relative_base
-    ):
+        self, date_string: str, prefer_dates_from: str, relative_base: datetime
+    ) -> None:
         tz = pytz.timezone("America/Los_Angeles")
         self.given_parser(
             settings={
