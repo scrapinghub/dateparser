@@ -282,18 +282,6 @@ info = {
             "(\\d++[.,]?\\d*+)h(\\d++[.,]?\\d*+)m?": "\\1:\\2"
         },
         {
-            "mwens\\s(?:(?:pase|ke)\\s)?(\\d++[.,]?\\d*+)\\s(minit|segond|è)": "\\1 \\2"
-        },
-        {
-            "mwens\\s(?:(?:pase|ke)\\s)?(\\d++[.,]?\\d*+)\\ss": "\\1 segond"
-        },
-        {
-            "mwens\\s(?:(?:pase|ke)\\s)?(\\d++[.,]?\\d*+)\\sm": "\\1 minit"
-        },
-        {
-            "mwens\\s(?:(?:pase|ke)\\s)?(\\d++[.,]?\\d*+)\\sh": "\\1 è"
-        },
-        {
             "(\\d++[.,]?\\d*+|yon|de|twa|kat|senk|sis|sèt|uit|nèf|dis|onz|douz) (sec|segon[nd]|min(?:it)?|z?è|èdtan|jou|semèn|mwa|l?ann?e|deseni) aprè": "nan \\1 \\2"
         },
         {
