@@ -95,6 +95,10 @@ class TestDateParser(BaseTestCase):
             param("16 giu 2014", datetime(2014, 6, 16)),
             param("26 gennaio 2014", datetime(2014, 1, 26)),
             param("Ven 18:23", datetime(2012, 11, 9, 18, 23)),
+            # Haitian dates
+            param("11 mas 2014", datetime(2014, 3, 11)),
+            param("dimanch 11 me 2014", datetime(2014, 5, 11)),
+            param("22 janv 2015 a 14:40", datetime(2015, 1, 22, 14, 40)),
             # Portuguese dates
             param(
                 "sexta-feira, 10 de junho de 2014 14:52", datetime(2014, 6, 10, 14, 52)
