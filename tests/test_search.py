@@ -374,6 +374,12 @@ class TestTranslateSearch(BaseTestCase):
                 ],
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
             ),
+            param(
+                "ht",
+                "Sa se yon bon jou. Reyinyon an te fèt 15 janvye 2024 bò isit la.",
+                [("15 janvye 2024", datetime.datetime(2024, 1, 15, 0, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+            ),
             # Hebrew
             param(
                 "he",
