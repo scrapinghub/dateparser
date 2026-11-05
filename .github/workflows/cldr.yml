@@ -1,0 +1,54 @@
+name: CLDR
+on:
+  # CLDR releases come every few months, so a monthly check is timely enough.
+  schedule:
+    - cron: "43 5 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Check for a newer CLDR release
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: File an issue if the bundled CLDR data is out of date
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          LABEL: cldr-update
+        run: |
+          set -euo pipefail
+          current="$(grep -oP 'cldr_version = "\K[^"]+' dateparser_scripts/utils.py)"
+          # The latest release excludes alphas and betas.
+          latest="$(gh api repos/unicode-org/cldr-json/releases/latest --jq .tag_name)"
+          echo "Bundled: $current, latest: $latest."
+          if [ "$current" = "$latest" ]; then
+            exit 0
+          fi
+          gh label create "$LABEL" --force --color 5319e7 \
+            --description "Filed by the CLDR workflow"
+          existing="$(gh issue list --state open --label "$LABEL" --limit 1 \
+            --json number --jq '.[0].number // empty')"
+          if [ -n "$existing" ]; then
+            echo "Already tracked in #$existing."
+            exit 0
+          fi
+          gh issue create --title "Update the CLDR data to $latest" \
+            --label "$LABEL" --label "Type: Maintenance" --body-file - <<EOF
+          The bundled CLDR data is $current, and the latest CLDR release is
+          [$latest](https://github.com/unicode-org/cldr-json/releases/tag/$latest).
+
+          To update, change \`cldr_version\` in
+          \`dateparser_scripts/utils.py\` and regenerate the data with the
+          scripts in \`dateparser_scripts/\`.
+          EOF

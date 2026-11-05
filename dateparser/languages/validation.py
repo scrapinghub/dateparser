@@ -1,12 +1,15 @@
+import logging
+from typing import Any, ClassVar
+
 import regex as re
 
 from dateparser.utils import get_logger
 
 
 class LanguageValidator:
-    logger = None
+    logger: logging.Logger | None = None
 
-    VALID_KEYS = [
+    VALID_KEYS: ClassVar[list[str]] = [
         "name",
         "skip",
         "pertain",
@@ -40,17 +43,22 @@ class LanguageValidator:
         "hour",
         "minute",
         "second",
+        "early_morning",
+        "morning",
+        "afternoon",
+        "evening",
+        "night",
         "sentence_splitter_group",
     ]
 
     @classmethod
-    def get_logger(cls):
+    def get_logger(cls) -> logging.Logger:
         if cls.logger is None:
             cls.logger = get_logger()
         return cls.logger
 
     @classmethod
-    def validate_info(cls, language_id, info):
+    def validate_info(cls, language_id: str, info: Any) -> bool:
         result = True
 
         result &= cls._validate_type(language_id, info)
@@ -70,7 +78,7 @@ class LanguageValidator:
         return result
 
     @classmethod
-    def _validate_type(cls, language_id, info):
+    def _validate_type(cls, language_id: str, info: Any) -> bool:
         result = True
 
         if not isinstance(info, dict):
@@ -83,7 +91,7 @@ class LanguageValidator:
         return result
 
     @classmethod
-    def _validate_name(cls, language_id, info):
+    def _validate_name(cls, language_id: str, info: Any) -> bool:
         result = True
 
         if "name" not in info or not isinstance(info["name"], str) or not info["name"]:
@@ -95,7 +103,7 @@ class LanguageValidator:
         return result
 
     @classmethod
-    def _validate_word_spacing(cls, language_id, info):
+    def _validate_word_spacing(cls, language_id: str, info: Any) -> bool:
         if "no_word_spacing" not in info:
             return True  # Optional key
 
@@ -113,7 +121,7 @@ class LanguageValidator:
         return result
 
     @classmethod
-    def _validate_sentence_splitter_group(cls, language_id, info):
+    def _validate_sentence_splitter_group(cls, language_id: str, info: Any) -> bool:
         if "sentence_splitter_group" not in info:
             return True  # Optional key
 
@@ -139,7 +147,7 @@ class LanguageValidator:
         return result
 
     @classmethod
-    def _validate_skip_list(cls, language_id, info):
+    def _validate_skip_list(cls, language_id: str, info: Any) -> bool:
         if "skip" not in info:
             return True  # Optional key
 
@@ -166,7 +174,7 @@ class LanguageValidator:
         return result
 
     @classmethod
-    def _validate_pertain_list(cls, language_id, info):
+    def _validate_pertain_list(cls, language_id: str, info: Any) -> bool:
         if "pertain" not in info:
             return True  # Optional key
 
@@ -193,7 +201,7 @@ class LanguageValidator:
         return result
 
     @classmethod
-    def _validate_weekdays(cls, language_id, info):
+    def _validate_weekdays(cls, language_id: str, info: Any) -> bool:
         result = True
 
         for weekday in (
@@ -238,7 +246,7 @@ class LanguageValidator:
         return result
 
     @classmethod
-    def _validate_months(cls, language_id, info):
+    def _validate_months(cls, language_id: str, info: Any) -> bool:
         result = True
 
         for month in (
@@ -288,7 +296,7 @@ class LanguageValidator:
         return result
 
     @classmethod
-    def _validate_units(cls, language_id, info):
+    def _validate_units(cls, language_id: str, info: Any) -> bool:
         result = True
 
         for unit in "year", "month", "week", "day", "hour", "minute", "second":
@@ -325,7 +333,7 @@ class LanguageValidator:
         return result
 
     @classmethod
-    def _validate_other_words(cls, language_id, info):
+    def _validate_other_words(cls, language_id: str, info: Any) -> bool:
         result = True
 
         for word in ("ago",):
@@ -362,7 +370,7 @@ class LanguageValidator:
         return result
 
     @classmethod
-    def _validate_simplifications(cls, language_id, info):
+    def _validate_simplifications(cls, language_id: str, info: Any) -> bool:
         if "simplifications" not in info:
             return True  # Optional key
 
@@ -380,7 +388,7 @@ class LanguageValidator:
                     result = False
                     continue
 
-                key, value = list(simplification.items())[0]
+                key, value = next(iter(simplification.items()))
                 if not isinstance(key, str) or not isinstance(value, (str, int)):
                     cls.get_logger().error(
                         "Invalid simplification %(simplification)r for '%(id)s' language: "
@@ -395,7 +403,7 @@ class LanguageValidator:
                 replacements = re.findall(r"\\(\d+)", value)
                 replacements.extend(re.findall(r"\\g<(.+?)>", value))
 
-                groups = []
+                groups: list[int] = []
                 for group in replacements:
                     if group.isdigit():
                         groups.append(int(group))
@@ -414,7 +422,7 @@ class LanguageValidator:
                         result = False
 
                 used_groups = set(map(int, groups))
-                expected_groups = set(range(0, compiled_key.groups + 1))
+                expected_groups = set(range(compiled_key.groups + 1))
                 extra_groups = used_groups - expected_groups
                 not_used_groups = expected_groups - used_groups
                 not_used_groups -= {0}  # Entire substring is not required to be used
@@ -453,7 +461,7 @@ class LanguageValidator:
         return result
 
     @classmethod
-    def _validate_extra_keys(cls, language_id, info):
+    def _validate_extra_keys(cls, language_id: str, info: Any) -> bool:
         result = True
 
         extra_keys = set(info.keys()) - set(cls.VALID_KEYS)

@@ -18,6 +18,7 @@ Contents:
    usage
    settings
    custom_language_detection
+   performance
    supported_locales
    contributing
    modules

@@ -53,5 +53,8 @@ docs/_build
 # CLDR
 /cldr-json/
 
+# CodSpeed
+.codspeed
+
 # Other
 raw_data

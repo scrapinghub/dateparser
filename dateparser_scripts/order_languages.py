@@ -1,13 +1,16 @@
+import contextlib
 import json
 import os
+from collections.abc import Iterable, Mapping
+from pathlib import Path
 
 import regex as re
 import requests
 from parsel import Selector
 
-from dateparser_scripts.utils import get_raw_data, CLDR_JSON_DIR
+from dateparser_scripts.utils import CLDR_JSON_DIR, get_raw_data
 
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
+os.chdir(Path(__file__).resolve().parent)
 
 # Languages with insufficient translation data are excluded
 avoid_languages = {"cu", "kkj", "nds", "prg", "tk", "vai", "vai-Latn", "vai-Vaii", "vo"}
@@ -165,15 +168,15 @@ cldr_44_new_languages = {
 avoid_languages |= cldr_44_new_languages
 
 
-def _get_language_locale_dict():
+def _get_language_locale_dict() -> dict[str, list[str]]:
     cldr_dates_full_dir = CLDR_JSON_DIR / "cldr-json/cldr-dates-full/main/"
-    available_locale_names = os.listdir(cldr_dates_full_dir)
+    available_locale_names = [path.name for path in cldr_dates_full_dir.iterdir()]
     available_language_names = [
         shortname
         for shortname in available_locale_names
         if not re.search(r"-[A-Z0-9]+$", shortname)
     ]
-    language_locale_dict = {}
+    language_locale_dict: dict[str, list[str]] = {}
     for language_name in available_language_names:
         language_locale_dict[language_name] = []
         for locale_name in available_locale_names:
@@ -181,13 +184,12 @@ def _get_language_locale_dict():
                 language_locale_dict[language_name].append(locale_name)
 
     for language in avoid_languages:
-        if language in language_locale_dict:
-            del language_locale_dict[language]
+        language_locale_dict.pop(language, None)
     return language_locale_dict
 
 
-def _get_language_order(language_locale_dict):
-    def get_most_common_locales():
+def _get_language_order(language_locale_dict: Mapping[str, list[str]]) -> list[str]:
+    def get_most_common_locales() -> list[str]:
         # Order from https://w3techs.com/technologies/overview/content_language
         # Last updated on 03.10.2022
         old_common_locales = [
@@ -232,7 +234,7 @@ def _get_language_order(language_locale_dict):
         ]
 
         response = requests.get(
-            "https://w3techs.com/technologies/overview/content_language"
+            "https://w3techs.com/technologies/overview/content_language", timeout=60
         )
         sel = Selector(text=response.text)
         if response.ok:
@@ -259,14 +261,14 @@ def _get_language_order(language_locale_dict):
     territory_info_file = (
         CLDR_JSON_DIR / "cldr-json/cldr-core/supplemental/territoryInfo.json"
     )
-    with open(territory_info_file) as f:
+    with territory_info_file.open() as f:
         territory_content = json.load(f)
     territory_info_data = territory_content["supplemental"]["territoryInfo"]
 
-    language_population_dict = {}
+    language_population_dict: dict[str, float] = {}
     for territory in territory_info_data:
         population = int(territory_info_data[territory]["_population"])
-        try:
+        with contextlib.suppress(Exception):
             lang_dict = territory_info_data[territory]["languagePopulation"]
             for language in lang_dict:
                 language_population = (
@@ -276,8 +278,6 @@ def _get_language_order(language_locale_dict):
                     language_population_dict[language] += language_population
                 else:
                     language_population_dict[language] = language_population
-        except Exception:
-            pass
 
     most_common_locales = get_most_common_locales()
     language_order_with_duplicates = most_common_locales + sorted(
@@ -287,17 +287,19 @@ def _get_language_order(language_locale_dict):
     )
     language_order = sorted(
         set(language_order_with_duplicates),
-        key=lambda x: language_order_with_duplicates.index(x),
+        key=language_order_with_duplicates.index,
     )
 
-    for index in range(0, len(language_order)):
+    for index in range(len(language_order)):
         language_order[index] = re.sub(r"_", r"-", language_order[index])
 
     cldr_languages = language_locale_dict.keys()
-    supplementary_date_directory = (
+    supplementary_date_directory = Path(
         "../dateparser_data/supplementary_language_data/date_translation_data"
     )
-    supplementary_languages = [x[:-5] for x in os.listdir(supplementary_date_directory)]
+    supplementary_languages = [
+        path.stem for path in supplementary_date_directory.iterdir()
+    ]
     available_languages = set(cldr_languages).union(set(supplementary_languages))
     language_order = [
         shortname for shortname in language_order if shortname in available_languages
@@ -311,11 +313,10 @@ def _get_language_order(language_locale_dict):
         else:
             remaining_languages.append(language)
     language_order = language_order + sorted(remaining_languages)
-    language_order = list(map(str, language_order))
-    return language_order
+    return list(map(str, language_order))
 
 
-def generate_language_map(language_order):
+def generate_language_map(language_order: Iterable[str]) -> dict[str, list[str]]:
     data = {}
     for lang in sorted(language_order):
         if "-" not in lang:
@@ -325,22 +326,20 @@ def generate_language_map(language_order):
     return data
 
 
-def main():
+def main() -> None:
     get_raw_data()
     language_locale_dict = _get_language_locale_dict()
     language_order = _get_language_order(language_locale_dict)
 
-    parent_directory = "../dateparser/data/"
-    filename = "../dateparser/data/languages_info.py"
-    if not os.path.isdir(parent_directory):
-        os.mkdir(parent_directory)
+    parent_directory = Path("../dateparser/data")
+    parent_directory.mkdir(exist_ok=True)
     language_order_string = "language_order = " + json.dumps(
         language_order, separators=(",", ": "), indent=4
     )
 
     complete_language_locale_dict = {}
     for key in language_order:
-        if key in language_locale_dict.keys():
+        if key in language_locale_dict:
             complete_language_locale_dict[key] = sorted(language_locale_dict[key])
         else:
             complete_language_locale_dict[key] = []
@@ -361,8 +360,7 @@ def main():
         + language_locale_dict_string
         + "\n"
     )
-    with open(filename, "w") as f:
-        f.write(languages_info_string)
+    (parent_directory / "languages_info.py").write_text(languages_info_string)
 
 
 if __name__ == "__main__":
