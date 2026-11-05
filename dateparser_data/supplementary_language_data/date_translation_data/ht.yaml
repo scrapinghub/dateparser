@@ -196,6 +196,7 @@ simplifications:
     - (\d+[.,]?\d*)h(\d+[.,]?\d*)m?: \1:\2
     - (\d+[.,]?\d*|yon|de|twa|kat|senk|sis|sèt|uit|nèf|dis|onz|douz) (sec|segon[nd]|min(?:it)?|z?è|èdtan|jou|semèn|mwa|l?ann?e|deseni) aprè: nan \1 \2
     - de\s((?:sec|segon[nd]|min(?:it)?|z?è|èdtan|jou|semèn|mwa|l?ann?e|deseni)\b|(?:jan|fevr|mas|avril|me|jen|jiyè|out|sept|okt|nov|des)): 2 \1
+    - deseni: 10 ane
     - dezè: 2 è
     - twa: '3'
     - twazè: 3 è

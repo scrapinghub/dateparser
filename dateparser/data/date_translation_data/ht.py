@@ -288,6 +288,9 @@ info = {
             "de\\s((?:sec|segon[nd]|min(?:it)?|z?è|èdtan|jou|semèn|mwa|l?ann?e|deseni)\\b|(?:jan|fevr|mas|avril|me|jen|jiyè|out|sept|okt|nov|des))": "2 \\1"
         },
         {
+            "deseni": "10 ane"
+        },
+        {
             "dezè": "2 è"
         },
         {
