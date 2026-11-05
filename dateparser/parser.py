@@ -33,6 +33,8 @@ EIGHT_DIGIT = re.compile(r"^\d{8}$")
 HOUR_MINUTE_REGEX = re.compile(r"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
 _RANGE_DASHES = {"-", "–"}
 
+_Directives = list[tuple[str, str | None]] | None
+
 
 def no_space_parser_eligibile(datestring: str) -> bool:
     src = NSP_COMPATIBLE.search(datestring)
@@ -144,7 +146,7 @@ def _parse_absolute(
     settings: "Settings",
     tz: tzinfo | None = None,
     date_order: str | None = None,
-) -> tuple[datetime, str | None, tuple[str, ...]]:
+) -> tuple[datetime, str | None, tuple[str, ...], _Directives]:
     return _parser._parse_with_parts(datestring, settings, tz, date_order=date_order)
 
 
@@ -153,7 +155,7 @@ def _parse_nospaces(
     settings: "Settings",
     tz: tzinfo | None = None,
     date_order: str | None = None,
-) -> tuple[datetime, str, tuple[str, ...]]:
+) -> tuple[datetime, str, tuple[str, ...], _Directives]:
     return _no_spaces_parser.parse(datestring, settings, date_order=date_order)
 
 
@@ -266,10 +268,15 @@ class _no_spaces_parser:
     @classmethod
     def _find_best_matching_date(
         cls, datestring: str
-    ) -> tuple[datetime, str, tuple[str, ...]] | None:
+    ) -> tuple[datetime, str, tuple[str, ...], _Directives] | None:
         for fmt in cls._preferred_formats_ordered_8_digit:
             with contextlib.suppress(Exception):
-                dt = strptime(datestring, fmt), cls._get_period(fmt), _get_parts(fmt)
+                dt: tuple[datetime, str, tuple[str, ...], _Directives] = (
+                    strptime(datestring, fmt),
+                    cls._get_period(fmt),
+                    _get_parts(fmt),
+                    [(datestring, fmt)],
+                )
                 if len(str(dt[0].year)) == 4:
                     return dt
         return None
@@ -277,7 +284,7 @@ class _no_spaces_parser:
     @classmethod
     def parse(
         cls, datestring: str, settings: "Settings", date_order: str | None = None
-    ) -> tuple[datetime, str, tuple[str, ...]]:
+    ) -> tuple[datetime, str, tuple[str, ...], _Directives]:
         if not no_space_parser_eligibile(datestring):
             raise ValueError(f"Unable to parse date from: {datestring}")
 
@@ -295,12 +302,21 @@ class _no_spaces_parser:
                 if dt is not None:
                     return dt
         nsp = cls()
-        found: tuple[tuple[datetime, str, tuple[str, ...]], str] | None = None
-        ambiguous: tuple[tuple[datetime, str, tuple[str, ...]], str] | None = None
+        found: tuple[tuple[datetime, str, tuple[str, ...], _Directives], str] | None = (
+            None
+        )
+        ambiguous: (
+            tuple[tuple[datetime, str, tuple[str, ...], _Directives], str] | None
+        ) = None
         for token, _ in tokens.tokenize():
             for fmt in nsp.date_formats[order]:
                 with contextlib.suppress(Exception):
-                    dt = strptime(token, fmt), cls._get_period(fmt), _get_parts(fmt)
+                    dt = (
+                        strptime(token, fmt),
+                        cls._get_period(fmt),
+                        _get_parts(fmt),
+                        [(token, fmt)],
+                    )
                     if len(str(dt[0].year)) < 4:
                         ambiguous = dt, fmt
                         continue
@@ -402,6 +418,7 @@ class _parser:
         self._token_month = None
         self._token_year = None
         self._token_time = None
+        self._token_indexes: dict[str, int] = {}
         self._weekday_modifier = None
 
         self.ordered_num_directives = {
@@ -513,7 +530,9 @@ class _parser:
                     self.time = partial(time_parser, self._token_time)
                     continue
 
-            results = self._parse(token_type, token, skip_component=skip_component)
+            results = self._parse(
+                token_type, token, index, skip_component=skip_component
+            )
             for res in results:
                 if len(token) == 4 and res[0] == "year":
                     skip_component = "year"
@@ -857,7 +876,7 @@ class _parser:
         settings: "Settings",
         tz: tzinfo | None = None,
         date_order: str | None = None,
-    ) -> tuple[datetime, str | None, tuple[str, ...]]:
+    ) -> tuple[datetime, str | None, tuple[str, ...], _Directives]:
         tokens = list(tokenizer(datestring).tokenize())
         date_order = date_order or settings.DATE_ORDER
         try:
@@ -893,10 +912,35 @@ class _parser:
 
         period = po._get_period()
 
-        return dateobj, period, po._get_parts()
+        return dateobj, period, po._get_parts(), po._get_directives()
 
-    def _parse(
-        self, token_type: int, token: str, skip_component: str | None = None
+    def _get_directives(self) -> _Directives:
+        """Return a ``(token, directive)`` pair for each number or word
+        token, with ``None`` as directive for tokens that are not a date
+        component, or return ``None`` if the tokens cannot be described with
+        directives."""
+        if self._token_time or self.unset_tokens:
+            return None
+        directives: dict[int, str] = {}
+        for component, index in self._token_indexes.items():
+            token, token_type, _ = self.filtered_tokens[index]
+            if component == "month":
+                directives[index] = "%B" if token_type else "%m"
+            elif component == "year":
+                directives[index] = "%Y" if len(token) == 4 else "%y"
+            else:
+                directives[index] = {"day": "%d", "weekday": "%A"}[component]
+        return [
+            (token, directives.get(index))
+            for index, (token, _, _) in enumerate(self.filtered_tokens)
+        ]
+
+    def _parse(  # noqa: PLR0915
+        self,
+        token_type: int,
+        token: str,
+        token_index: int,
+        skip_component: str | None = None,
     ) -> list[tuple[str, int]]:
         def set_and_return(
             token: str,
@@ -908,6 +952,7 @@ class _parser:
             if not skip_date_order:
                 self.auto_order.append(component)
             setattr(self, f"_token_{component}", (token, token_type))
+            self._token_indexes[component] = token_index
             return [(component, getattr(dateobj, component))]
 
         def parse_number(
@@ -1008,6 +1053,8 @@ class _parser:
                             self._month_number_becomes_day()
                             self._token_day = self._token_month
                             self._token_month = token, token_type
+                            self._token_indexes["day"] = self._token_indexes["month"]
+                            self._token_indexes["month"] = token_index
                             return [
                                 (component, getattr(do, component)),
                                 ("day", prev_value),
