@@ -811,7 +811,9 @@ class _parser:
                 # Convert dateobj to utc time to compare with RELATIVE_BASE
                 try:
                     tz = tz or get_timezone_from_tz_string(self.settings.TIMEZONE)
-                    tz_offset = tz.utcoffset(dateobj) or tz_offset
+                    # `dateobj` may have been localized above when `self.now` is
+                    # offset-aware; `utcoffset()` requires a naive datetime.
+                    tz_offset = tz.utcoffset(dateobj.replace(tzinfo=None)) or tz_offset
                 except (pytz.UnknownTimeZoneError, pytz.NonExistentTimeError):
                     pass
 
