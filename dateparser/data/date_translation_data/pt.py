@@ -1012,6 +1012,9 @@ info = {
             "esta madrugada": "hoje madrugada"
         },
         {
+            "daqui a": "em"
+        },
+        {
             "uma": "1"
         },
         {
