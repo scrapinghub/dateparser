@@ -526,6 +526,7 @@ class TestBundledLanguages(BaseTestCase):
             # ht
             param("ht", "15 janvye 2023", "15 january 2023"),
             param("ht", "3 fevriye 2021 14:30", "3 february 2021 14:30"),
+            param("ht", "2 me", "2 may"),
             param("ht", "lendi 5 jen 2023", "monday 5 june 2023"),
             param("ht", "madi 12 mas 2020", "tuesday 12 march 2020"),
             param("ht", "samdi 11 out 2018", "saturday 11 august 2018"),

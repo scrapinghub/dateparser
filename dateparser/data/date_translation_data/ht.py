@@ -50,36 +50,30 @@ info = {
         "desanm"
     ],
     "monday": [
-        "lendi",
-        "len"
+        "lendi"
     ],
     "tuesday": [
         "madi",
-        "mad",
-        "ma"
+        "mad"
     ],
     "wednesday": [
         "mèkredi",
         "mèkr"
     ],
     "thursday": [
-        "jedi",
-        "je"
+        "jedi"
     ],
     "friday": [
         "vand",
-        "vandredi",
-        "van"
+        "vandredi"
     ],
     "saturday": [
         "sam",
-        "samdi",
-        "sa"
+        "samdi"
     ],
     "sunday": [
         "dim",
-        "dimanch",
-        "di"
+        "dimanch"
     ],
     "am": [
         "am"
@@ -88,7 +82,6 @@ info = {
         "pm"
     ],
     "year": [
-        "an",
         "ane",
         "lane",
         "lanne",
@@ -266,8 +259,7 @@ info = {
     "ago": [
         "sa gen",
         "sa genyen",
-        "sa fè",
-        "gen"
+        "sa fè"
     ],
     "in": [
         "nan",
@@ -276,9 +268,6 @@ info = {
     "simplifications": [
         {
             "yon": "1"
-        },
-        {
-            "en": "1"
         },
         {
             "midi": "12:00"
@@ -305,10 +294,10 @@ info = {
             "mwens\\s(?:(?:pase|ke)\\s)?(\\d++[.,]?\\d*+)\\sh": "\\1 è"
         },
         {
-            "(\\d++[.,]?\\d*+|youn|de|twa|kat|senk|sis|sèt|uit|nèf|dis|onz|douz) (deseni|l?ane|mwa|semèn|jou|è|minit|segon[nd]) aprè": "nan \\1 \\2"
+            "(\\d++[.,]?\\d*+|yon|de|twa|kat|senk|sis|sèt|uit|nèf|dis|onz|douz) (sec|segon[nd]|min(?:it)?|z?è|èdtan|jou|semèn|mwa|l?ann?e|deseni) aprè": "nan \\1 \\2"
         },
         {
-            "de": "2"
+            "de\\s((?:sec|segon[nd]|min(?:it)?|z?è|èdtan|jou|semèn|mwa|l?ann?e|deseni)\\b|(?:jan|fevr|mas|avril|me|jen|jiyè|out|sept|okt|nov|des))": "2 \\1"
         },
         {
             "dezè": "2 è"
