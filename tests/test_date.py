@@ -1116,7 +1116,7 @@ class TestDateDataParser(BaseTestCase):
             ),
             param(
                 settings={"TO_TIMEZONE": "UTC"},
-                expected_result=datetime(2021, 9, 22, 23, 0, tzinfo=dttz.utc),
+                expected_result=datetime(2021, 9, 22, 23, 0, tzinfo=real_datetime.UTC),
             ),
             param(
                 settings={"TIMEZONE": "Asia/Tokyo"},
@@ -1614,7 +1614,7 @@ class TestQuarter(BaseTestCase):
     ) -> None:
         datetime_mock = Mock(wraps=datetime)
         datetime_mock.now = Mock(
-            return_value=datetime(2026, 3, 31, 23, tzinfo=dttz.utc)
+            return_value=datetime(2026, 3, 31, 23, tzinfo=real_datetime.UTC)
         )
         self.add_patch(patch("dateparser.utils.datetime", new=datetime_mock))
         settings = {
@@ -1766,7 +1766,7 @@ class TestTimestampParser(BaseTestCase):
 
         self.assertEqual(
             self.parser.get_date_data(timestamp)["date_obj"],
-            datetime.fromtimestamp(int(timestamp), dttz.utc),
+            datetime.fromtimestamp(int(timestamp), real_datetime.UTC),
         )
 
         self.reset_tzstr()
