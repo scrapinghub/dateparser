@@ -227,12 +227,12 @@ class TestLocalTZOffset(BaseTestCase):
         if not isinstance(datetime_cls, Mock):
             datetime_cls = Mock(wraps=datetime)
         utc_dt_obj = datetime.strptime(utc_dt_string, "%Y-%m-%d %H:%M").replace(
-            tzinfo=dt.timezone.utc
+            tzinfo=dt.UTC
         )
         local_dt_obj = datetime.strptime(local_dt_string, "%Y-%m-%d %H:%M")
 
         def _dt_now(tz: dt.tzinfo | None = None) -> datetime:
-            if tz == dt.timezone.utc:
+            if tz == dt.UTC:
                 return utc_dt_obj
             return local_dt_obj
 

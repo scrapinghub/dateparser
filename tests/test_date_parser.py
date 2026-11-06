@@ -1,6 +1,6 @@
 import unittest
 from collections.abc import Callable
-from datetime import datetime, timedelta, timezone, tzinfo
+from datetime import UTC, datetime, timedelta, tzinfo
 from functools import wraps
 from typing import Any
 from unittest.mock import Mock, patch
@@ -1750,7 +1750,7 @@ class TestDateParser(BaseTestCase):
         class UtilsDateTime(datetime):
             @classmethod
             def now(cls, tz: tzinfo | None = None) -> datetime:  # type: ignore[override]
-                return datetime(2023, 11, 7, 2, 15, tzinfo=timezone.utc).astimezone(tz)
+                return datetime(2023, 11, 7, 2, 15, tzinfo=UTC).astimezone(tz)
 
         with patch("dateparser.utils.datetime", UtilsDateTime):
             result = parse(
@@ -2390,7 +2390,7 @@ class TestDateParser(BaseTestCase):
             date_formats=["%m/%d/%y"],
             settings={
                 "PREFER_DATES_FROM": "past",
-                "RELATIVE_BASE": datetime(1980, 1, 1, tzinfo=timezone.utc),
+                "RELATIVE_BASE": datetime(1980, 1, 1, tzinfo=UTC),
             },
         )
         self.assertIsNotNone(result)
