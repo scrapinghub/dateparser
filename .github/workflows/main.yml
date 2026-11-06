@@ -23,7 +23,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - python-version: "3.14"
+          - python-version: "3.15"
             toxenv: pre-commit
           - python-version: "3.11"
             toxenv: mypy
@@ -36,16 +36,16 @@ jobs:
           - python-version: "3.15"
           - python-version: "3.14"
             toxenv: all
-          - python-version: "3.14"
+          - python-version: "3.15"
             toxenv: scripts
-          - python-version: "3.14"
+          - python-version: "3.15"
             toxenv: docs
-          - python-version: "3.14"
+          - python-version: "3.15"
             toxenv: twinecheck
-          - python-version: "3.13"
+          - python-version: "3.15"
             toxenv: py
             timezone: "Pacific/Auckland"
-          - python-version: "3.13"
+          - python-version: "3.15"
             toxenv: py
             timezone: "Pacific/Fiji"
     steps:
