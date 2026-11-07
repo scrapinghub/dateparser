@@ -224,8 +224,9 @@ def _add_time_span_results(
                 start_date, end_date = generate_time_span(
                     span_info, base_date, settings
                 )
-            except OverflowError:
-                # The quantity is too large for the span to be a date.
+            except (OverflowError, ValueError):
+                # Timedelta overflow raises OverflowError; relativedelta
+                # month arithmetic raises ValueError for an out-of-range year.
                 return results
             matched_text = span_info["matched_text"]
             results.append((matched_text + " (start)", start_date, "day"))

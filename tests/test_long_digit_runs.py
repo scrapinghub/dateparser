@@ -28,6 +28,8 @@ class TestLongDigitRuns(BaseTestCase):
             param("next_days", f"the next {LONG_NUMBER} days"),
             param("past_weeks", f"the past {LONG_NUMBER} weeks"),
             param("too_large_for_a_date", "the next 99999999999 days"),
+            param("past_months_out_of_range", "the past 120000 months"),
+            param("next_months_out_of_range", "the next 120000 months"),
         ]
     )
     def test_time_span_that_cannot_be_a_date_is_left_out(
@@ -36,6 +38,24 @@ class TestLongDigitRuns(BaseTestCase):
         self.assertIsNone(
             search_dates(text, languages=["en"], settings=TIME_SPAN_SETTINGS)
         )
+
+    @parameterized.expand(
+        [
+            (direction, strategy)
+            for direction in ("past", "next")
+            for strategy in ("split", "ngram")
+        ]
+    )
+    def test_month_span_out_of_range_keeps_other_dates(
+        self, direction: str, strategy: str
+    ) -> None:
+        result = search_dates(
+            f"the {direction} 120000 months. 2024-01-15",
+            languages=["en"],
+            settings=TIME_SPAN_SETTINGS,
+            strategy=strategy,
+        )
+        self.assertEqual(result, [("2024-01-15", datetime.datetime(2024, 1, 15))])
 
     def test_time_span_is_still_returned_for_a_normal_number(self) -> None:
         result = search_dates(
