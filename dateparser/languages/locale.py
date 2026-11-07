@@ -64,6 +64,17 @@ def _parse_bool(value: object) -> bool:
     return False
 
 
+def _has_chinese_numeral_date(text: str) -> bool:
+    """True if text contains a Chinese-numeral year followed by 年 and a month."""
+    return (
+        re.search(
+            r"[〇零一二三四五六七八九]{2,4}年[〇零一二三四五六七八九十]{1,3}月",
+            text,
+        )
+        is not None
+    )
+
+
 def _compile_simplification(pattern: str, no_word_spacing: bool) -> re.Pattern[str]:
     if no_word_spacing:
         # Without word boundaries, a match could still start within a number,
@@ -725,6 +736,13 @@ class Locale:
     def _simplify_split_align(
         self, original: str, settings: "Settings | None"
     ) -> tuple[list[str], list[str]]:
+        if self.shortname.split("-")[0] == "zh" and _has_chinese_numeral_date(original):
+            return self._simplify_split_align_exact(original, settings=settings)
+        return self._simplify_split_align_original(original, settings=settings)
+
+    def _simplify_split_align_original(
+        self, original: str, settings: "Settings | None"
+    ) -> tuple[list[str], list[str]]:
         # TODO: Switch to new split method.
         original_tokens = self._word_split(
             self._break_standalone_marks(original), settings=settings
@@ -791,6 +809,51 @@ class Locale:
             else:
                 kept.append(token)
         return kept
+
+    def _simplify_split_align_exact(
+        self, original: str, settings: "Settings | None"
+    ) -> tuple[list[str], list[str]]:
+        simplified = self._simplify(normalize_unicode(original), settings=settings)
+        simplified_tokens = self._word_split(simplified, settings=settings)
+
+        # Map each original character to the simplified text it becomes, then
+        # recover the exact source span of every simplified token. Simplification
+        # replaces runs of text, so track positions while applying each rule.
+        spans = list(range(len(normalize_unicode(original)) + 1))
+        text = normalize_unicode(original).lower()
+        for rule in self._get_simplifications(settings=settings):
+            pattern, replacement = next(iter(rule.items()))
+            out, out_spans, cursor = [], [], 0
+            for match in pattern.finditer(text):
+                out.append(text[cursor : match.start()])
+                out_spans.extend(spans[cursor : match.start()])
+                rep = match.expand(replacement)
+                out.append(rep)
+                out_spans.extend([spans[match.start()]] * len(rep))
+                cursor = match.end()
+            out.append(text[cursor:])
+            out_spans.extend(spans[cursor:])
+            text, spans = "".join(out), [*out_spans, spans[-1]]
+
+        # The replay must reproduce _simplify exactly. If a future rule breaks
+        # that invariant, fall back to the original alignment rather than emit
+        # spans derived from a mismatched string.
+        if text != simplified:
+            return self._simplify_split_align_original(original, settings=settings)
+
+        original_norm = normalize_unicode(original).lower()
+        aligned: list[str] = []
+        cursor = 0
+        for token in simplified_tokens:
+            pos = text.find(token, cursor)
+            if pos < 0:
+                aligned.append("")
+                continue
+            cursor = pos + len(token)
+            start = spans[pos]
+            end = spans[min(cursor, len(spans) - 1)]
+            aligned.append(original_norm[start:end] if end > start else "")
+        return aligned, simplified_tokens
 
     def _get_split_dictionary(
         self, settings: "Settings | None"
