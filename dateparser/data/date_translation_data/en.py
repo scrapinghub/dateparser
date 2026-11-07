@@ -1276,6 +1276,21 @@ info = {
             "(\\d++[.,]?\\d*+)\\s*mons?\\b": "\\1 month"
         },
         {
+            "an hour and a half": "90 minute"
+        },
+        {
+            "half an hour": "30 minute"
+        },
+        {
+            "half a minute": "30 second"
+        },
+        {
+            "half a day": "12 hour"
+        },
+        {
+            "half a year": "6 month"
+        },
+        {
             "an": "1"
         },
         {

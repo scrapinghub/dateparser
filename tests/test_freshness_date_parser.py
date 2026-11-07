@@ -85,6 +85,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("2 fortnights ago", ago={"weeks": 4}, period="week"),
             param("last fortnight", ago={"weeks": 2}, period="week"),
             param("1 fortnight 3 days", ago={"weeks": 2, "days": 3}, period="day"),
+            param("half an hour ago", ago={"minutes": 30}, period="day"),
+            param("an hour and a half ago", ago={"minutes": 90}, period="day"),
+            param("half a day ago", ago={"hours": 12}, period="day"),
             # Regression tests for #1304: an explicit sign on a component is
             # preserved when ``decades`` is folded into ``years`` instead of
             # being overwritten by the decade's sign. Unsigned components still
@@ -1803,6 +1806,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("2 centuries from now", in_future={"years": 200}, period="year"),
             param("in 2 fortnights", in_future={"weeks": 4}, period="week"),
             param("next fortnight", in_future={"weeks": 2}, period="week"),
+            param("in half an hour", in_future={"minutes": 30}, period="day"),
+            param("in half a minute", in_future={"seconds": 30}, period="day"),
             # Regression tests for #1304: explicit signs preserved with decades + years
             param("+2 years", in_future={"years": 2}, period="year"),
             param("in 1 decade +2 years", in_future={"years": 12}, period="year"),
