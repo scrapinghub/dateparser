@@ -25,6 +25,25 @@ class TestTranslateSearch(BaseTestCase):
         self.search_with_detection = DateSearchWithDetection()
         self.exact_language_search = self.search_with_detection.search
 
+    @parameterized.expand(
+        [
+            param("day after tomorrow", 2),
+            param("day before yesterday", -2),
+            param("day after tomorrow,", 2),
+            param("day before yesterday,", -2),
+            param('"day after tomorrow"', 2),
+            param("(day after tomorrow)", 2),
+        ]
+    )
+    def test_search_multiword_relative_phrase(self, phrase: str, days: int) -> None:
+        base = datetime.datetime(2026, 11, 8, 12)
+        result = search_dates(
+            f"Meet me {phrase}",
+            languages=["en"],
+            settings={"RELATIVE_BASE": base},
+        )
+        self.assertEqual(result, [(phrase.strip(',"()'), base + timedelta(days=days))])
+
     def run_search_dates_function_invalid_languages(
         self, text: str, languages: object, error_type: type[Exception]
     ) -> None:

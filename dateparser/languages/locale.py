@@ -460,6 +460,7 @@ class Locale:
         word_joint_unsupported_languages = ["zh", "ja"]
         sentences = self._sentence_split(search_string, settings=settings)
         dictionary = self._get_dictionary(settings=settings)
+        max_phrase_words = max(len(word.split()) for word in dictionary)
         translated: list[Any] = []
         original: list[Any] = []
         for sentence in sentences:
@@ -469,7 +470,7 @@ class Locale:
             translated_chunk: list[str | None] = []
             original_chunk: list[str] = []
             last_token_index = len(simplified_tokens) - 1
-            skip_next_token = False
+            skip_until = -1
             # Without spaces between words, brackets enclose parts of a date,
             # e.g. the weekday of "2016年3月21日(月)".
             enclosed_dates = "no_word_spacing" not in self.info
@@ -478,13 +479,25 @@ class Locale:
             weekday_chunk: list[str | None] | None = None
             weekdays_checked = 0
             for i, word in enumerate(simplified_tokens):
+                if i <= skip_until:
+                    continue
                 next_word = simplified_tokens[i + 1] if i < last_token_index else ""
+                phrase_end = i + 2
                 current_and_next_joined = self._join_chunk(
                     [word, next_word], settings=settings
                 )
-                if skip_next_token:
-                    skip_next_token = False
-                    continue
+                # Prefer a whole dictionary phrase, e.g. "day after tomorrow",
+                # to the translations of its individual words.
+                for end in range(
+                    min(len(simplified_tokens), i + max_phrase_words), i + 2, -1
+                ):
+                    phrase = self._join_chunk(
+                        simplified_tokens[i:end], settings=settings
+                    )
+                    if self._in_dictionary(phrase, dictionary):
+                        current_and_next_joined = phrase
+                        phrase_end = end
+                        break
 
                 if (
                     enclosed_dates
@@ -526,7 +539,8 @@ class Locale:
                 elif (
                     next_word
                     and (
-                        current_and_next_joined in dictionary
+                        phrase_end > i + 2
+                        or current_and_next_joined in dictionary
                         or self._is_weekday_modifier_entry(
                             current_and_next_joined.strip(PUNCTUATION), dictionary
                         )
@@ -554,11 +568,11 @@ class Locale:
                     )
                     original_chunk.append(
                         self._join_chunk(
-                            [original_tokens[i], original_tokens[i + 1]],
+                            original_tokens[i:phrase_end],
                             settings=settings,
                         )
                     )
-                    skip_next_token = True
+                    skip_until = phrase_end - 1
                 elif word in dictionary and word not in dashes:
                     translated_chunk.append(dictionary[word])
                     original_chunk.append(original_tokens[i])
@@ -575,7 +589,7 @@ class Locale:
                     translated_chunk = []
                     original.append(original_chunk)
                     original_chunk = []
-                last_index = i + 1 if skip_next_token else i
+                last_index = max(i, skip_until)
                 if (
                     enclosed_dates
                     and translated_chunk
