@@ -42,6 +42,10 @@ def patch_strptime() -> Callable[[str, str], struct_time]:
     sys.modules["calendar_patched"] = _calendar
 
     _strptime._getlang = lambda: ("en_US", "UTF-8")
+    # The std lib keeps only 5 compiled formats, fewer than the time and date
+    # formats that the parsers try in turn on each date string, so each one
+    # would be compiled again on every call.
+    _strptime._CACHE_MAX_SIZE = 100
     _strptime.calendar = _calendar
     _strptime.calendar.day_abbr = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
     _strptime.calendar.day_name = [
