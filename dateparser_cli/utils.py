@@ -2,10 +2,8 @@ import sys
 from pathlib import Path
 
 DEFAULT_DIR_NAME = "dateparser_models"
-DEFAULT_UNIX_CACHE_DIR = "~/.cache"
-
+DEFAULT_UNIX_CACHE_DIR = Path.home() / ".cache"
 DEFAULT_WINDOWS_CACHE_DIR = Path.home() / "AppData" / "Roaming"
-
 
 if sys.platform.startswith("win"):
     # For Windows:
@@ -14,9 +12,10 @@ else:
     # UNIX & OS X:
     _cache_dir = DEFAULT_UNIX_CACHE_DIR
 
-dateparser_model_home = (Path(_cache_dir) / DEFAULT_DIR_NAME).expanduser()
+dateparser_model_home = Path(_cache_dir) / DEFAULT_DIR_NAME
 
 
 def clear_cache(*args: object) -> None:
+    """Clear all cached model files."""
     for path in dateparser_model_home.rglob("*.*"):
         path.unlink()
