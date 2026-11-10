@@ -1552,9 +1552,7 @@ class TestTranslateSearch(BaseTestCase):
                 languages=["ar"],
                 expected=[("مايو", datetime.datetime(2020, 5, 13, 0, 0))],
             ),
-            # "year" before a number is "since the year 2010", not "1 year
-            # ago" eating the 2010. Other units still simplify before a
-            # number ("منذ أسبوع 2012" is a view counter, not "2 weeks ago")
+            # "year" before a number is "since the year 2010", not "1 year ago"
             param(
                 text="منذ سنة 2010",
                 languages=["ar"],
