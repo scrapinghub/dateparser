@@ -345,6 +345,11 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
                 languages=["en"],
                 expected_datetime=datetime(2019, 4, 16),
             ),
+            param(
+                date_string="Posted on Jan 5 MMX",
+                languages=["en"],
+                expected_datetime=datetime(2010, 1, 5),
+            ),
             # No language hint is needed: locales are tried as usual.
             param(
                 date_string="Actualisé le 17 avril 2019",
@@ -421,6 +426,10 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
             settings={"IGNORE_SURROUNDING_TEXT": True},
         )
         self.then_parsed_datetime_is(datetime(2019, 4, 17))
+
+    def test_region_of_the_base_locale(self) -> None:
+        self.when_date_is_parsed("5. März 2020", languages=["de"], region="DE")
+        self.then_parsed_datetime_is(datetime(2020, 3, 5))
 
     def test_surrounding_text_ignored_with_default_languages_setting(self) -> None:
         self.when_date_is_parsed(

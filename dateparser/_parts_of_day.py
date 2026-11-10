@@ -10,7 +10,7 @@ class PartOfDay(str, Enum):
 
     See :attr:`DateData.part_of_day <dateparser.date.DateData.part_of_day>`.
 
-    .. versionadded:: VERSION
+    .. versionadded:: 1.5.0
     """
 
     EARLY_MORNING = "early_morning"
@@ -28,7 +28,7 @@ class PartsOfDay:
     """Time of the day to use for each :class:`PartOfDay`, for the
     ``PARTS_OF_DAY`` :ref:`setting <settings>`.
 
-    .. versionadded:: VERSION
+    .. versionadded:: 1.5.0
     """
 
     early_morning: time = time(3)

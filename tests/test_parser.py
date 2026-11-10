@@ -547,7 +547,7 @@ class TestParser(BaseTestCase):
         self.given_settings()
         self.then_error_is_raised_when_date_is_parsed("December 31, 1980 23:59:60")
 
-        date_obj, _period, _parts = self.parser.parse(
+        date_obj, _period, _parts = self.parser._parse_with_parts(
             "December 31, 2016 23:59:60", self.settings
         )
         self.assertEqual(date_obj, datetime(2016, 12, 31, 23, 59, 59))
@@ -562,13 +562,13 @@ class TestParser(BaseTestCase):
 
     def when_date_is_parsed(self, date_string: str) -> None:
         try:
-            self.parser.parse(date_string, self.settings)
+            self.parser._parse_with_parts(date_string, self.settings)
         except Exception as error:
             self.error = error
 
     def then_error_is_raised_when_date_is_parsed(self, date_string: str) -> None:
         with self.assertRaises(ValueError):
-            self.parser.parse(date_string, self.settings)
+            self.parser._parse_with_parts(date_string, self.settings)
 
     @parameterized.expand(
         [

@@ -143,6 +143,21 @@ If you know the possible formats of the dates, you can use the
     >>> dateparser.parse('22 Décembre 2010', date_formats=['%d %B %Y'])
     datetime.datetime(2010, 12, 22, 0, 0)
 
+The formats are tried first. A date string that none of them parses is then
+parsed as if no formats were given, so a number that is out of range for a
+format can be read as another part of the date (``32`` is not a day, but it is
+a valid two-digit year). To accept only the given formats, set ``PARSERS`` to
+``['custom-formats']``, which also turns off timestamps, relative dates and
+free-form dates:
+
+.. code:: python
+
+    >>> dateparser.parse('32 DEC 10', date_formats=['%d %b %y'])
+    datetime.datetime(2032, 12, 10, 0, 0)
+
+    >>> dateparser.parse('32 DEC 10', date_formats=['%d %b %y'], settings={'PARSERS': ['custom-formats']})
+    None
+
 Relative Dates
 --------------
 
@@ -161,6 +176,14 @@ Relative Dates
     datetime.datetime(2015, 5, 25, 0, 0)
     >>> parse('2小时前')  # Chinese (2 hours ago)
     datetime.datetime(2015, 5, 31, 22, 0)
+    >>> parse('next Wednesday')
+    datetime.datetime(2015, 6, 3, 0, 0)
+
+In English, ``last``, ``this`` and ``next`` before a weekday mean its closest
+occurrence before, on or after, and after the current date, respectively,
+regardless of the ``PREFER_DATES_FROM`` setting. So ``this Wednesday`` and
+``next Wednesday`` are the same date except on a Wednesday. They do not apply
+to ``wed``, ``sat`` and ``sun``, which are also common English words.
 
 .. note:: Testing above code might return different values depending on your environment's current date and time.
 

@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 from io import StringIO
+from time import monotonic, process_time
 from typing import Any
 from unittest.mock import patch
 
@@ -52,6 +53,78 @@ class TestLocaleTranslation:
         print(result)
         assert expected == result
 
+    def test_letter_free_strings_translate_identically(self) -> None:
+        # DateDataParser._get_applicable_locales relies on this to try a
+        # single locale per date order for strings without letters.
+        locales = list(default_loader.get_locales())
+        letter_free_keys: set[str] = set()
+        for locale in locales:
+            letter_free_keys.update(
+                key
+                for key in locale._get_dictionary(settings)._dictionary
+                if not any(c.isalpha() for c in key)
+            )
+        for date_string in (
+            "2019-11-29 08:08-08",
+            "12 03 2014".join(sorted(letter_free_keys)),
+            "12 03 2014 ".join(sorted(letter_free_keys)),
+        ):
+            for keep_formatting in (False, True):
+                translations = {
+                    locale.translate(
+                        date_string, keep_formatting=keep_formatting, settings=settings
+                    )
+                    for locale in locales
+                }
+                assert len(translations) == 1, (date_string, translations)
+
+
+class TestApplicabilityCounts:
+    def test_zero_padded_numerals_are_not_words_of_any_locale(self) -> None:
+        # Locale.count_applicability counts the words of a text that a locale
+        # knows, and the language detection of search_dates picks the locale
+        # with the most of them. The numerals that any date is written with are
+        # not words of a language, so a locale that lists one (like the "09" of
+        # an alias such as "tháng 09") would win over the language of the text.
+        text = " ".join(f"0{number}" for number in range(1, 10))
+        for locale in default_loader.get_locales():
+            counts = locale.count_applicability(text, settings=settings)
+            assert counts == [0, 9], (locale.shortname, counts)
+
+
+class TestVietnameseZeroPaddedMonths:
+    @pytest.mark.parametrize(
+        ("date_string", "expected"),
+        [
+            ("21 tháng 09 năm 2025", datetime(2025, 9, 21)),
+            ("21 thg 09 năm 2025", datetime(2025, 9, 21)),
+            ("ngày 05 tháng 03 năm 2024 lúc 10:30", datetime(2024, 3, 5, 10, 30)),
+            ("21tháng 09 năm 2025", datetime(2025, 9, 21)),
+            ("5 Tháng 01 2020", datetime(2020, 1, 5)),
+        ],
+    )
+    @pytest.mark.parametrize("languages", [["vi"], None])
+    def test_parse(
+        self, date_string: str, expected: datetime, languages: list[str] | None
+    ) -> None:
+        result = parse(
+            date_string,
+            languages=languages,
+            settings={"RELATIVE_BASE": datetime(2026, 9, 23, 12)},
+        )
+        assert result == expected
+
+    def test_search_dates(self) -> None:
+        result = search_dates(
+            "Sinh ngày 3 thg 09 năm 1990, mất ngày 12 tháng 07 năm 2020.",
+            languages=["vi"],
+            settings={"RELATIVE_BASE": datetime(2026, 9, 23, 12)},
+        )
+        assert result == [
+            ("ngày 3 thg 09 năm 1990", datetime(1990, 9, 3)),
+            ("ngày 12 tháng 07 năm 2020", datetime(2020, 7, 12)),
+        ]
+
 
 class TestBundledLanguages(BaseTestCase):
     def setUp(self) -> None:
@@ -73,6 +146,9 @@ class TestBundledLanguages(BaseTestCase):
             param("zh", "2015年04月08日10点05", "2015-04-08 10:05"),
             param("zh", "2015年04月08日10:05", "2015-04-08 10:05"),
             param("zh", "2013年04月08日", "2013-04-08"),
+            param("zh", "3月前", "3 month ago"),
+            param("zh", "5月2天前", "5 month 2 day ago"),
+            param("zh", "3月1日", "march 1 day"),
             param("zh", "周一", "monday"),
             param("zh", "礼拜一", "monday"),
             param("zh", "周二", "tuesday"),
@@ -85,10 +161,31 @@ class TestBundledLanguages(BaseTestCase):
             param("zh", "凌晨3:30", "3:30 am"),
             param("zh", "下午 02:26:26", "02:26:26 pm"),
             param("zh", "中午", "12:00"),
+            param("zh-Hans", "2024年6月1日", "2024-6-1"),
+            param("zh-Hans", "礼拜一 下午3:30", "monday 3:30 pm"),
+            param("zh-Hans", "下午 02:26:26", "02:26:26 pm"),
+            param("zh-Hans", "6月1日前", "june 1 day ago"),
+            param("zh-Hant", "1年11個月", "1 year 11 month"),
+            param("zh-Hant", "2015年04月08日10點05", "2015-04-08 10:05"),
+            param("zh-Hant", "禮拜一 中午", "monday 12:00"),
+            param("zh-Hant", "2024 年 6 月 1 日", "2024-6-1"),
+            param("zh-Hant", "2020年9月1日 下午6:25", "2020-9-1 6:25 pm"),
             # French
             param("fr", "20 Février 2012", "20 february 2012"),
             param("fr", "Mercredi 19 Novembre 2013", "wednesday 19 november 2013"),
             param("fr", "18 octobre 2012 à 19 h 21 min", "18 october 2012 19:21"),
+            # "sept" is both the abbreviation for "septembre" and the word for
+            # 7, so it must only be simplified to a number where it is used as
+            # a quantity.
+            param("fr", "1 sept. 2024", "1 september. 2024"),
+            param("fr", "11 sept. 2014", "11 september. 2014"),
+            param("fr", "mardi 3 sept 2024", "tuesday 3 september 2024"),
+            param("fr", "3 sept à 14h30", "3 september 14:30"),
+            param("fr", "sept heures", "7 hour"),
+            param("fr", "il y a sept jours", "7 day ago"),
+            param("fr", "sept ans", "7 year"),
+            param("fr", "il y a sept a", "7 year ago"),
+            param("fr", "sept:30", "7:30"),
             # German
             param("de", "29. Juni 2007", "29. june 2007"),
             param("de", "Montag 5 Januar, 2015", "monday 5 january 2015"),
@@ -120,6 +217,8 @@ class TestBundledLanguages(BaseTestCase):
             param("pt", "22 de dezembro de 2014 às 02:38", "22 december 2014 02:38"),
             # Russian
             param("ru", "5 августа 2014 г. в 12:00", "5 august 2014 year. 12:00"),
+            param("ru", "двадцать первое мая", "21 may"),
+            param("ru", "тридцать второе мая", "30 2 may"),
             # Turkish
             param("tr", "2 Ocak 2015 Cuma, 16:49", "2 january 2015 friday 16:49"),
             # Czech
@@ -164,6 +263,18 @@ class TestBundledLanguages(BaseTestCase):
             param("ar", "6 يونية 2020", "6 june 2020"),
             param("ar", "7 يوليه 2020", "7 july 2020"),
             param("ar", "8 يولية 2020", "8 july 2020"),
+            param("ar", "۳ یولیو ۲۰۱۴", "3 july 2014"),
+            # Persian
+            param("fa", "3 ژوئيه 2014", "3 july 2014"),
+            param("fa", "1 اكتبر 2020", "1 october 2020"),
+            # Arabic (Levantine month names, numbered alternate form)
+            param("ar-SY", "15 كانون 2 2023", "15 january 2023"),
+            param("ar-JO", "15 كانون 1 2023", "15 december 2023"),
+            param("ar-LB", "5 تشرين 1 2023", "5 october 2023"),
+            param("ar-PS", "5 تشرين 2 2023", "5 november 2023"),
+            param("ar-IQ", "5 تشرين 1 2023", "5 october 2023"),
+            # Arabic (Levantine month names, Persian yeh)
+            param("ar-IQ", "10 تشرین الأول 2020", "10 october 2020"),
             # Vietnamese
             param("vi", "Thứ Năm, ngày 8 tháng 1 năm 2015", "thursday 8 january 2015"),
             param(
@@ -173,8 +284,15 @@ class TestBundledLanguages(BaseTestCase):
                 "vi", "9 Tháng 1 2015 lúc 15:08", "9 january 2015 15:08"
             ),  # Issue #1302: "lúc" removed, whitespace preserved
             param(
+                "vi", "15 Tháng năm 2020", "15 may 2020"
+            ),  # "năm" of the month name is not the year marker
+            param(
                 "vi", "21 tháng 09 năm 2025", "21 september 2025"
             ),  # Issue #1297: zero-padded month "09"
+            param("vi", "21 thg 09 năm 2025", "21 september 2025"),
+            param("vi", "Tháng 03 2024", "march 2024"),
+            param("vi", "21tháng 09 năm 2025", "21 september 2025"),
+            param("vi", "ngày 05 tháng 01 năm 2024 lúc 10:30", "05 january 2024 10:30"),
             # Thai
             param(
                 "th",
@@ -203,6 +321,17 @@ class TestBundledLanguages(BaseTestCase):
             param("id", "Minggu, 18 Mar 2018 07:30", "sunday 18 march 2018 07:30"),
             param("id", "3 minggu yang lalu", "3 week ago"),
             param("id", "5 minggu", "5 week"),
+            param("id", "6 Nop 2019", "6 november 2019"),
+            param("id", "6 Djan 2019", "6 january 2019"),
+            param("id", "6 Peb 2019", "6 february 2019"),
+            param("id", "6 Mrt 2019", "6 march 2019"),
+            param("id", "6 Mai 2019", "6 may 2019"),
+            param("id", "6 Djuni 2019", "6 june 2019"),
+            param("id", "6 Djuli 2019", "6 july 2019"),
+            param("id", "6 Ag 2019", "6 august 2019"),
+            param("id", "6 Djanuari 2019", "6 january 2019"),
+            param("id", "6 Pebruari 2019", "6 february 2019"),
+            param("id", "6 Nopember 2019", "6 november 2019"),
             # Miscellaneous
             param("en", "2014-12-12T12:33:39-08:00", "2014-12-12 12:33:39-08:00"),
             param("en", "2014-10-15T16:12:20+00:00", "2014-10-15 16:12:20+00:00"),
@@ -263,6 +392,13 @@ class TestBundledLanguages(BaseTestCase):
             param("ja", "2016年3月20日 (日) 21時40分", "2016-3-20 sunday 21:40"),
             param("ja", "正午", "12:00"),
             param("ja", "明日の13時20分", "in 1 day 13:20"),
+            # Korean
+            param("ko", "2023년 2월 10일 오전 3시 30분", "2023 february 10 am 3:30"),
+            param("ko", "12월 31일 오후 3시", "december 31 pm 3:00"),
+            param("ko", "11시 42분 15초", "11:42:15"),
+            param("ko", "2013년08월04일에", "2013 august 04"),
+            param("ko", "오후3시 반쯤", "pm 3:30"),
+            param("ko", "3시간 전", "3 hour ago"),
             # Hebrew
             param("he", "20 לאפריל 2012", "20 april 2012"),
             param("he", "יום רביעי ה-19 בנובמבר 2013", "wednesday 19 november 2013"),
@@ -938,6 +1074,8 @@ class TestBundledLanguages(BaseTestCase):
             param("sk", "o 2 mesiace", "in 2 month"),
             param("sk", "o týždeň", "in 1 week"),
             param("sk", "predvčerom", "2 day ago"),
+            param("sk", "pozajtra", "in 2 day"),
+            param("sk", "Pozajtra o 10:00", "in 2 day 10:00"),
             param("sk", "v sobotu", " saturday"),
             # sl
             param(
@@ -1121,6 +1259,22 @@ class TestBundledLanguages(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("midi", "12:00"),
+            param("Mardi à midi", "tuesday 12:00"),
+            param("12 octobre 2026 à midi", "12 october 2026 12:00"),
+        ]
+    )
+    def test_french_midi_translation(
+        self, datetime_string: str, expected_translation: str
+    ) -> None:
+        self.given_settings()
+        self.given_bundled_language("fr")
+        self.given_string(datetime_string)
+        self.when_datetime_string_translated()
+        self.then_string_translated_to(expected_translation)
+
+    @parameterized.expand(
+        [
             # English
             param("en", "yesterday", "1 day ago"),
             param("en", "today", "0 day ago"),
@@ -1179,6 +1333,9 @@ class TestBundledLanguages(BaseTestCase):
             param("ru", "8 недель", "8 week"),
             param("ru", "7 лет", "7 year"),
             param("ru", "позавчера", "2 day ago"),
+            param("ru", "меньше минуты назад", "45 second ago"),
+            param("ru", "меньше 1 минуты назад", "45 second ago"),
+            param("ru", "менее одной минуты назад", "45 second ago"),
             param("ru", "сейчас", "0 second ago"),
             param("ru", "спустя 2 дня", "in 2 day"),
             param("ru", "вчера", "1 day ago"),
@@ -1239,10 +1396,20 @@ class TestBundledLanguages(BaseTestCase):
             # Chinese
             param("zh", "昨天", "1 day ago"),
             param("zh", "前天", "2 day ago"),
+            param("zh", "大前天", "3 day ago"),
+            param("zh", "后天", "in 2 day"),
+            param("zh", "大后天", "in 3 day"),
+            param("zh-Hant", "大前天", "3 day ago"),
+            param("zh-Hant", "前天", "2 day ago"),
+            param("zh-Hant", "後天", "in 2 day"),
             param("zh", "50 秒", "50 second"),
             param("zh", "7 周", "7 week"),
             param("zh", "12 年", "12 year"),
             param("zh", "半小时前", "30 minute ago"),
+            param("zh-Hans", "大约3天前", "3 day ago"),
+            param("zh-Hans", "3月前", "3 month ago"),
+            param("zh-Hant", "半小時前", "30 minute ago"),
+            param("zh-Hant", "大約3天前", "3 day ago"),
             # Danish
             param("da", "i går", "1 day ago"),
             param("da", "i dag", "0 day ago"),
@@ -1267,6 +1434,7 @@ class TestBundledLanguages(BaseTestCase):
             param("ar", "منذ 3 ثانيه", "ago 3 second"),
             param("ar", "منذ 2 ساعات", "ago 2 hour"),
             param("ar", "منذ ساعتين", "ago 2 hour"),
+            param("ar", "قبل 5 دقائق", "5 minute ago"),
             param("ar", "اليوم السابق", "1 day ago"),
             param("ar", "اليوم", "0 day ago"),
             # Polish
@@ -2454,6 +2622,8 @@ class TestBundledLanguages(BaseTestCase):
             param("ar", "6 دقیقه", strip_timezone=False),
             param("fa", "ساعتين", strip_timezone=False),
             param("cs", "3 hafta", strip_timezone=False),
+            param("zh-Hans", "3個月前", strip_timezone=False),
+            param("zh-Hant", "3个月前", strip_timezone=False),
         ]
     )
     def test_not_applicable_languages(
@@ -3258,6 +3428,41 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         assert result == expected
 
 
+class TestSentenceSplit:
+    @pytest.mark.parametrize(
+        ("shortname", "punctuation"),
+        [("hi", "!"), ("ja", "。"), ("ar", "؟")],
+    )
+    def test_long_punctuation_run(self, shortname: str, punctuation: str) -> None:
+        locale = default_loader.get_locale(shortname)
+        text = punctuation * 100_000 + "x"
+        assert list(locale._sentence_split(text, settings=settings)) == [text]
+
+
+class TestTranslateNumerals:
+    def test_non_ascii_digits_keep_leading_zeros(self) -> None:
+        locale = default_loader.get_locale("ar")
+        assert locale._translate_numerals("\u0660\u0661\u0662 \u0663") == "012 3"
+
+    def test_long_digit_run(self) -> None:
+        locale = default_loader.get_locale("en")
+        digits = "1" * 10_000
+        assert locale._translate_numerals(digits) == digits
+
+
+class TestSimplify:
+    @pytest.mark.parametrize(
+        ("shortname", "unit"),
+        [("zh", "年"), ("zh", "月"), ("zh-Hant", "年"), ("ja", "時")],
+    )
+    def test_long_digit_run(self, shortname: str, unit: str) -> None:
+        locale = default_loader.get_locale(shortname)
+        date_string = "1" * 100_000 + unit
+        start = monotonic()
+        locale._simplify(date_string, settings=settings)
+        assert monotonic() - start < 1.0
+
+
 class TestNoWordSpacingSecurity:
     def test_dictionary_does_not_evaluate_no_word_spacing(self) -> None:
         locale_info = {
@@ -3287,3 +3492,66 @@ class TestNoWordSpacingSecurity:
 
         os_system.assert_not_called()
         assert simplifications
+
+
+class TestSimplifyLongRun:
+    @pytest.mark.parametrize(
+        ("shortname", "date_string"),
+        [
+            ("ru", "1" * 5000 + " 1"),
+            ("ko", "1" * 20_000),
+            ("ko", "_" * 20_000),
+            ("ko", "00:" * 5000),
+        ],
+        ids=["ru-digits", "ko-digits", "ko-underscores", "ko-colons"],
+    )
+    def test_long_run(self, shortname: str, date_string: str) -> None:
+        locale = default_loader.get_locale(shortname)
+        start = process_time()
+        assert locale._simplify(date_string, settings=settings) == date_string
+        assert process_time() - start < 1.0
+
+
+class TestRussianNumberPairs:
+    """Numbers next to each other in a numeric date are not combined like the
+    words of a compound ordinal, e.g. "двадцать" and "первое"."""
+
+    @pytest.mark.parametrize(
+        ("date_string", "expected"),
+        [
+            ("20 03 2021", datetime(2021, 3, 20)),
+            ("30 01 2020", datetime(2020, 1, 30)),
+        ],
+    )
+    def test_numeric_date_with_spaces(
+        self, date_string: str, expected: datetime
+    ) -> None:
+        assert parse(date_string, languages=["ru"]) == expected
+
+    def test_compound_ordinal_is_still_combined(self) -> None:
+        locale = default_loader.get_locale("ru")
+        assert locale.translate("20 3 мая", settings=settings) == "23 may"
+
+
+class TestDictionarySplit:
+    @pytest.mark.parametrize(
+        ("shortname", "word", "count"),
+        [("en", "Jan ", 50_000), ("ja", "月曜日", 100_000)],
+    )
+    def test_long_word_run(self, shortname: str, word: str, count: int) -> None:
+        dictionary = Dictionary(default_loader.get_locale(shortname).info, settings)
+        start = monotonic()
+        dictionary.split(word * count)
+        assert monotonic() - start < 2.0
+
+    def test_newline(self) -> None:
+        dictionary = Dictionary(default_loader.get_locale("en").info, settings)
+        assert dictionary.split("Jan 1\nFeb 2", keep_formatting=True) == [
+            "Jan",
+            " ",
+            "1",
+            "\n",
+            "Feb",
+            " ",
+            "2",
+        ]
