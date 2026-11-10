@@ -4,65 +4,47 @@ info = {
     "january": [
         "thg 1",
         "tháng 1",
-        "Tháng một",
-        "tháng 01",
-        "thg 01"
+        "Tháng một"
     ],
     "february": [
         "thg 2",
         "tháng 2",
-        "Tháng hai",
-        "tháng 02",
-        "thg 02"
+        "Tháng hai"
     ],
     "march": [
         "thg 3",
         "tháng 3",
-        "Tháng ba",
-        "tháng 03",
-        "thg 03"
+        "Tháng ba"
     ],
     "april": [
         "thg 4",
         "tháng 4",
-        "Tháng tư",
-        "tháng 04",
-        "thg 04"
+        "Tháng tư"
     ],
     "may": [
         "thg 5",
         "tháng 5",
-        "Tháng năm",
-        "tháng 05",
-        "thg 05"
+        "Tháng năm"
     ],
     "june": [
         "thg 6",
         "tháng 6",
-        "Tháng sáu",
-        "tháng 06",
-        "thg 06"
+        "Tháng sáu"
     ],
     "july": [
         "thg 7",
         "tháng 7",
-        "Tháng bảy",
-        "tháng 07",
-        "thg 07"
+        "Tháng bảy"
     ],
     "august": [
         "thg 8",
         "tháng 8",
-        "Tháng tám",
-        "tháng 08",
-        "thg 08"
+        "Tháng tám"
     ],
     "september": [
         "thg 9",
         "tháng 9",
-        "Tháng chín",
-        "tháng 09",
-        "thg 09"
+        "Tháng chín"
     ],
     "october": [
         "thg 10",
@@ -258,7 +240,10 @@ info = {
     ],
     "simplifications": [
         {
-            "(?:ngày|năm)\\s(\\d++[.,]?\\d*+)": "\\1"
+            "(?<!tháng\\s)(?:ngày|năm)\\s(\\d++[.,]?\\d*+)": "\\1"
+        },
+        {
+            "(\\d*)(tháng|thg) 0([1-9])": "\\1\\2 \\3"
         }
     ],
     "skip": [

@@ -2,7 +2,8 @@ import calendar
 import importlib.util
 import sys
 from collections.abc import Callable
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
+from functools import lru_cache
 from time import struct_time
 from types import ModuleType
 from typing import Any
@@ -90,7 +91,11 @@ def patch_strptime() -> Callable[[str, str], struct_time]:
 __strptime = patch_strptime()
 
 
-def _prepare_format(date_string: str, og_format: str) -> tuple[str, str, bool]:
+@lru_cache(maxsize=256)
+def _inspect_format(og_format: str) -> tuple[bool, bool]:
+    """Return whether *og_format* has a day of month but no year, and whether
+    it has a day of year.
+    """
     # Adapted from std lib: https://github.com/python/cpython/blob/e34a5e33049ce845de646cf24a498766a2da3586/Lib/_strptime.py#L448
     regex_format = re.sub(r"([\\.^$*+?\(\){}\[\]|])", r"\\\1", og_format)
     regex_format = re.sub(r"\s+", r"\\s+", regex_format)
@@ -114,7 +119,12 @@ def _prepare_format(date_string: str, og_format: str) -> tuple[str, str, bool]:
         return ""
 
     _ = re.sub(r"%[-_0^#]*[0-9]*([OE]?\\?.?)", repl, regex_format)
-    if day_of_month_in_format and not year_in_format:
+    return day_of_month_in_format and not year_in_format, day_of_year_in_format
+
+
+def _prepare_format(date_string: str, og_format: str) -> tuple[str, str, bool]:
+    missing_year, day_of_year_in_format = _inspect_format(og_format)
+    if missing_year:
         current_year = datetime.today().year
         return (
             f"{current_year} {date_string}",
@@ -130,6 +140,8 @@ def strptime(date_string: str, format: str) -> datetime:  # noqa: A002
     )
     time_tuple = __strptime(date_string, prepared_format)
     obj = datetime(*time_tuple[:-3])
+    if time_tuple.tm_gmtoff is not None:
+        obj = obj.replace(tzinfo=timezone(timedelta(seconds=time_tuple.tm_gmtoff)))
 
     if day_of_year_in_format and time_tuple.tm_yday != obj.timetuple().tm_yday:
         # A day of year past the end of the parsed year is rolled over into the
