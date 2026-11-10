@@ -540,7 +540,7 @@ info = {
             "(?<=před\\s)měsíc\\b": "1 měsíc"
         },
         {
-            "(?<=před\\s)rok\\b": "1 rok"
+            "(?<=před\\s)rok\\b(?!\\s+\\d)": "1 rok"
         },
         {
             "(?<=před\\s)den\\b": "1 den"

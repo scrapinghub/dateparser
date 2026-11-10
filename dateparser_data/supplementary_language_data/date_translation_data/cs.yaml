@@ -199,7 +199,7 @@ simplifications:
     # The numeral "1" is optional: "před týden" means "před 1 týden"
     - '(?<=před\s)týden\b': '1 týden'
     - '(?<=před\s)měsíc\b': '1 měsíc'
-    - '(?<=před\s)rok\b': '1 rok'
+    - '(?<=před\s)rok\b(?!\s+\d)': '1 rok'
     - '(?<=před\s)den\b': '1 den'
     # Accusative forms used with "za" (e.g. "za týden" = "in a week")
     - '(?<=za\s)týden\b': '1 týden'

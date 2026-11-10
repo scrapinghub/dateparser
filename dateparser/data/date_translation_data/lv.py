@@ -257,7 +257,7 @@ info = {
             "(?<=pirms\\s+)mēneša\\b": "1 mēneša"
         },
         {
-            "(?<=pirms\\s+)gada\\b": "1 gada"
+            "(?<=pirms\\s+)gada\\b(?!\\s+\\d)": "1 gada"
         },
         {
             "(?<=pirms\\s+)dienas\\b": "1 dienas"

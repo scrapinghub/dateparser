@@ -1559,6 +1559,36 @@ class TestTranslateSearch(BaseTestCase):
                 expected=[("2010", datetime.datetime(2010, 2, 13, 0, 0))],
             ),
             param(
+                text="пред година 2010",
+                languages=["mk"],
+                expected=[("година 2010", datetime.datetime(2010, 2, 13, 0, 0))],
+            ),
+            param(
+                text="prije godinu 2010",
+                languages=["hr"],
+                expected=[("2010", datetime.datetime(2010, 2, 13, 0, 0))],
+            ),
+            param(
+                text="před rok 2010",
+                languages=["cs"],
+                expected=[("2010", datetime.datetime(2010, 2, 13, 0, 0))],
+            ),
+            param(
+                text="pred letom 2010",
+                languages=["sl"],
+                expected=[("2010", datetime.datetime(2010, 2, 13, 0, 0))],
+            ),
+            param(
+                text="prieš metus 2010",
+                languages=["lt"],
+                expected=[("2010", datetime.datetime(2010, 2, 13, 0, 0))],
+            ),
+            param(
+                text="pirms gada 2010",
+                languages=["lv"],
+                expected=[("2010", datetime.datetime(2010, 2, 13, 0, 0))],
+            ),
+            param(
                 text="לפני חודש מרץ",
                 languages=["he"],
                 expected=[("מרץ", datetime.datetime(2020, 3, 13, 0, 0))],

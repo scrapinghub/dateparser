@@ -246,7 +246,7 @@ info = {
             "(?<=pred\\s+)mesecem\\b": "1 mesecem"
         },
         {
-            "(?<=pred\\s+)letom\\b": "1 letom"
+            "(?<=pred\\s+)letom\\b(?!\\s+\\d)": "1 letom"
         },
         {
             "(?<=pred\\s+)dnevom\\b": "1 dnevom"

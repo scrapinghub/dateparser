@@ -255,7 +255,7 @@ info = {
             "(?<=prieš\\s+)mėnesį\\b": "1 mėnesį"
         },
         {
-            "(?<=prieš\\s+)metus\\b": "1 metus"
+            "(?<=prieš\\s+)metus\\b(?!\\s+\\d)": "1 metus"
         },
         {
             "(?<=prieš\\s+)dieną\\b": "1 dieną"
