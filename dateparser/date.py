@@ -712,8 +712,10 @@ class DateData:
     """``60`` if the input string named a real leap second, or ``None``
     otherwise.
 
-    ``date_obj``'s ``second`` is always 59 in that case, since `datetime`
-    cannot represent a leap second.
+    .. versionadded:: VERSION
+
+    ``date_obj``'s ``second`` is always 59 in that case, since
+    :class:`~datetime.datetime` cannot represent a leap second.
     """
 
     def __init__(
