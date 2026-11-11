@@ -417,6 +417,7 @@ class _ExactLanguageSearch:
         skipped to its last one.
         """
         words = original.split()
+        item_words = item.split()
         kept = []
         translations = []
         start = 0
@@ -428,12 +429,21 @@ class _ExactLanguageSearch:
                 " ".join(words[context_start : index + 1]), settings=settings
             ).split()
             if len(translation) > 1:
-                return []
+                # Search keeps compact times such as "3pm" in one word,
+                # while translate() inserts a space before the meridiem.
+                # Accept only an exact match to the corresponding search word.
+                compact = "".join(translation)
+                if (
+                    len(kept) >= len(item_words)
+                    or compact != item_words[len(kept)]
+                    or not re.fullmatch(r"\d{1,2}(?::\d{2})?[ap]m", compact)
+                ):
+                    return []
+                translation = [compact]
             if translation:
                 kept.append(index)
                 translations.extend(translation)
                 start = index + 1
-        item_words = item.split()
         if len(kept) == len(words) or len(kept) != len(item_words):
             return []
         if any(word.isdigit() and word not in translations for word in item_words):

@@ -25,6 +25,49 @@ class TestTranslateSearch(BaseTestCase):
         self.search_with_detection = DateSearchWithDetection()
         self.exact_language_search = self.search_with_detection.search
 
+    @parameterized.expand(
+        [
+            ("3pm", 15, 0),
+            ("3PM", 15, 0),
+            ("3:30pm", 15, 30),
+            ("12am", 0, 0),
+        ]
+    )
+    def test_compact_time_before_dates_with_skipped_words(
+        self, time_text: str, hour: int, minute: int
+    ) -> None:
+        text = f"the dates {time_text} on 5/6/2007 and 11/12/2015."
+        base = datetime.datetime(2018, 7, 11)
+        expected = [
+            (time_text, base.replace(hour=hour, minute=minute)),
+            ("5/6/2007", datetime.datetime(2007, 5, 6)),
+            ("11/12/2015", datetime.datetime(2015, 11, 12)),
+        ]
+        self.assertEqual(
+            search_dates(text, languages=["en"], settings={"RELATIVE_BASE": base}),
+            expected,
+        )
+
+    def test_compact_time_dates_are_kept_before_longer_prose(self) -> None:
+        text = (
+            "the dates 3pm on 5/6/2007 and 11/12/2015. "
+            "This is an example from last Tuesday, Can it extract dates like "
+            "1-1-1994 and can it understand text like the 3rd of august 2043?"
+        )
+        result = search_dates(
+            text, settings={"RELATIVE_BASE": datetime.datetime(2018, 7, 11)}
+        )
+        self.assertIsNotNone(result)
+        assert result is not None
+        self.assertEqual(
+            result[:3],
+            [
+                ("3pm", datetime.datetime(2018, 7, 11, 15)),
+                ("5/6/2007", datetime.datetime(2007, 5, 6)),
+                ("11/12/2015", datetime.datetime(2015, 11, 12)),
+            ],
+        )
+
     def run_search_dates_function_invalid_languages(
         self, text: str, languages: object, error_type: type[Exception]
     ) -> None:
