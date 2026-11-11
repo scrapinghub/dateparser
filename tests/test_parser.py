@@ -592,6 +592,14 @@ class TestTimeParser(BaseTestCase):
             param(date_string="1:30:15.3301 PM", timeobj=time(13, 30, 15, 330100)),
             param(date_string="11:20:05 AM", timeobj=time(11, 20, 5)),
             param(date_string="14:30:15.330100", timeobj=time(14, 30, 15, 330100)),
+            # Fractional minutes: the fraction applies to the minutes,
+            # the smallest unit present, so .5 is 30 seconds.
+            param(date_string="03:25.5", timeobj=time(3, 25, 30)),
+            param(date_string="03:25.25", timeobj=time(3, 25, 15)),
+            param(date_string="03:25.999", timeobj=time(3, 25, 59, 940000)),
+            param(date_string="3:25.5 PM", timeobj=time(15, 25, 30)),
+            param(date_string="12:30.5 AM", timeobj=time(0, 30, 30)),
+            param(date_string="10:14.123 PM", timeobj=time(22, 14, 7, 380000)),
         ]
     )
     def test_time_is_parsed(self, date_string: str, timeobj: time) -> None:
@@ -604,7 +612,6 @@ class TestTimeParser(BaseTestCase):
             param(date_string="11"),
             param(date_string="22:12:12 PM"),
             param(date_string="22:12:10:16"),
-            param(date_string="10:14.123 PM"),
             param(date_string="2:13:88"),
             param(date_string="23:01:56.34 PM"),
             param(date_string="2.45 PM"),

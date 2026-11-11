@@ -31,6 +31,12 @@ MERIDIAN = re.compile(r"am|pm")
 MICROSECOND = re.compile(r"\d{1,6}")
 EIGHT_DIGIT = re.compile(r"^\d{8}$")
 HOUR_MINUTE_REGEX = re.compile(r"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
+# A time with fractional minutes, e.g. "03:25.5" (half a minute past 03:25).
+# The fraction applies to the minutes, the smallest unit present, so it is
+# converted to seconds rather than read as fractional seconds.
+FRACTIONAL_MINUTE_REGEX = re.compile(
+    r"^(\d{1,2}):(\d{1,2})\.(\d+)(?:\s+([AP]M))?$", re.IGNORECASE
+)
 _RANGE_DASHES = {"-", "–"}
 
 
@@ -176,6 +182,26 @@ class _time_parser:
                 return strptime(timestring.strip(), directive).time()
             except ValueError:
                 pass
+        fractional_minute = FRACTIONAL_MINUTE_REGEX.match(timestring.strip())
+        if fractional_minute:
+            hour, minute, fraction, meridian = fractional_minute.groups()
+            base = f"{hour}:{minute}"
+            formats = ("%I:%M %p", "%H:%M %p") if meridian else ("%H:%M",)
+            if meridian:
+                base += f" {meridian}"
+            for fmt in formats:
+                try:
+                    base_time = strptime(base, fmt).time()
+                    break
+                except ValueError:
+                    pass
+            else:
+                raise ValueError(
+                    f"{_timestring} does not seem to be a valid time string"
+                )
+            total_microseconds = round(float(f"0.{fraction}") * 60_000_000)
+            seconds, microseconds = divmod(total_microseconds, 1_000_000)
+            return base_time.replace(second=seconds, microsecond=microseconds)
         raise ValueError(f"{_timestring} does not seem to be a valid time string")
 
 
