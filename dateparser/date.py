@@ -95,6 +95,15 @@ RE_SPACES = re.compile(r"\s+")
 RE_TRIM_SPACES = re.compile(r"^\s+(\S.*?)\s+$")
 
 
+# The value of the deprecated RE_TRIM_COLONS. It has the same matches (spans and
+# groups) as r"(\S.*?):*$", but is written so that a line is scanned once: a match
+# has to reach `$` without crossing a line break, so it lies on the last line, and
+# it starts at the first character of that line that is not whitespace.
+_RE_TRIM_COLONS_LINEAR = (
+    r"(?=\S)(?<=(?:\A|\n)[^\S\n]*)(\S(?:[^\n:]|:++(?=[^\n:]))*):*+$"
+)
+
+
 def __getattr__(name: str) -> Any:
     if name == "RE_TRIM_COLONS":
         warnings.warn(
@@ -103,7 +112,7 @@ def __getattr__(name: str) -> Any:
             FutureWarning,
             stacklevel=2,
         )
-        return re.compile(r"(\S.*?):*$")
+        return re.compile(_RE_TRIM_COLONS_LINEAR)
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 
