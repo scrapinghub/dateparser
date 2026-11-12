@@ -388,6 +388,242 @@ class StrictDateOrderSettingsTest(BaseTestCase):
             search_dates(text, languages=["en"], settings={"STRICT_DATE_ORDER": strict})
 
 
+class StrictDateOrderReplacedSettingsTest(BaseTestCase):
+    """STRICT_DATE_ORDER of the settings that Settings.replace() makes."""
+
+    texts = (
+        "32 DEC 10",
+        "10 DEC 32",
+        "31 DEC 10",
+        "12/13/10",
+        "13/12/10",
+        "12/31/2020",
+        "31/12/2020",
+    )
+
+    @parameterized.expand([param("year"), param("all")])
+    def test_replaced_settings_enforce_strict_date_order(self, strict: str) -> None:
+        """Test that the settings of replace() do what the same settings of a
+        dict do."""
+        as_dict = {"DATE_ORDER": "DMY", "STRICT_DATE_ORDER": strict}
+        replaced = settings.replace(DATE_ORDER="DMY", STRICT_DATE_ORDER=strict)
+        for text in self.texts:
+            with self.subTest(text=text):
+                self.assertEqual(
+                    parse(text, languages=["en"], settings=as_dict),
+                    parse(text, languages=["en"], settings=replaced),
+                )
+        self.assertIsNone(parse("32 DEC 10", languages=["en"], settings=replaced))
+        self.assertEqual(
+            datetime(2010, 12, 31),
+            parse("31 DEC 10", languages=["en"], settings=replaced),
+        )
+        parser = DateDataParser(languages=["en"], settings=replaced)
+        self.assertIsNone(parser.get_date_data("32 DEC 10")["date_obj"])
+
+    def test_replaced_settings_enforce_the_whole_order(self) -> None:
+        replaced = settings.replace(DATE_ORDER="DMY", STRICT_DATE_ORDER="all")
+        self.assertIsNone(parse("12/13/10", languages=["en"], settings=replaced))
+        self.assertEqual(
+            datetime(2010, 12, 13),
+            parse("13/12/10", languages=["en"], settings=replaced),
+        )
+
+    @parameterized.expand([param("year"), param("all")])
+    def test_search_dates_with_replaced_settings(self, strict: str) -> None:
+        text = "Opened 12/31/2020, closed 31/12/2020, again 12/13/10."
+        as_dict = {"DATE_ORDER": "DMY", "STRICT_DATE_ORDER": strict}
+        replaced = settings.replace(DATE_ORDER="DMY", STRICT_DATE_ORDER=strict)
+        self.assertEqual(
+            search_dates(text, languages=["en"], settings=as_dict),
+            search_dates(text, languages=["en"], settings=replaced),
+        )
+        if strict == "all":
+            self.assertEqual(
+                [("31/12/2020", datetime(2020, 12, 31))],
+                search_dates(text, languages=["en"], settings=replaced),
+            )
+
+    def test_replaced_strict_settings_stay_in_force(self) -> None:
+        replaced = settings.replace(DATE_ORDER="DMY", STRICT_DATE_ORDER="all")
+        for later in (
+            replaced.replace(TIMEZONE="UTC"),
+            replaced.replace(RELATIVE_BASE=datetime(2020, 1, 1)),
+            replaced.replace(RELATIVE_BASE=datetime(2020, 1, 1)).replace(
+                RETURN_AS_TIMEZONE_AWARE=False
+            ),
+        ):
+            self.assertIsNone(parse("12/13/10", languages=["en"], settings=later))
+            self.assertEqual(
+                datetime(2010, 12, 13),
+                parse("13/12/10", languages=["en"], settings=later),
+            )
+
+    def test_replacing_strict_date_order_with_none_turns_it_off(self) -> None:
+        replaced = settings.replace(DATE_ORDER="DMY", STRICT_DATE_ORDER="all")
+        relaxed = replaced.replace(STRICT_DATE_ORDER="none")
+        self.assertEqual(
+            parse("12/13/10", languages=["en"], settings={"DATE_ORDER": "DMY"}),
+            parse("12/13/10", languages=["en"], settings=relaxed),
+        )
+        self.assertIsNotNone(parse("12/13/10", languages=["en"], settings=relaxed))
+
+    def test_strict_date_order_none_does_not_make_date_order_explicit(self) -> None:
+        """Test that replacing with "none" is not a change, as for the dict."""
+        self.assertEqual(
+            datetime(2020, 5, 6),
+            parse(
+                "05/06/2020",
+                languages=["en"],
+                settings=settings.replace(STRICT_DATE_ORDER="none"),
+            ),
+        )
+        self.assertEqual(
+            datetime(2020, 5, 6),
+            parse("05/06/2020", languages=["en"], settings=settings.replace()),
+        )
+
+    def test_replaced_date_order_without_strict_date_order_is_unchanged(self) -> None:
+        """Test that settings of replace() that do not ask for STRICT_DATE_ORDER
+        keep giving way to the order of the locale, as they do."""
+        self.assertEqual(
+            datetime(2020, 5, 6),
+            parse(
+                "05/06/2020",
+                languages=["en"],
+                settings=settings.replace(DATE_ORDER="DMY"),
+            ),
+        )
+        self.assertEqual(
+            datetime(2020, 6, 5),
+            parse(
+                "05/06/2020",
+                languages=["en"],
+                settings={"DATE_ORDER": "DMY"},
+            ),
+        )
+
+    @parameterized.expand([param("year"), param("all")])
+    def test_strict_date_order_without_a_date_order_is_rejected(
+        self, strict: str
+    ) -> None:
+        """Test that settings of replace() that ask for STRICT_DATE_ORDER
+        without a DATE_ORDER that the caller set are rejected, as the same
+        settings of a dict are. A DATE_ORDER given to replace() alone gives way
+        to the order of the locale, so it is not one to enforce either."""
+        with self.assertRaises(SettingValidationError):
+            parse("05/06/2020", settings={"STRICT_DATE_ORDER": strict})
+        for replaced in (
+            settings.replace(STRICT_DATE_ORDER=strict),
+            settings.replace(DATE_ORDER="DMY").replace(STRICT_DATE_ORDER=strict),
+        ):
+            with self.subTest(replaced=replaced._mod_settings):
+                with self.assertRaises(SettingValidationError):
+                    parse("05/06/2020", languages=["de"], settings=replaced)
+                with self.assertRaises(SettingValidationError):
+                    search_dates("on 05/06/2020", languages=["de"], settings=replaced)
+
+    def test_strict_date_order_keeps_a_date_order_already_set(self) -> None:
+        """Test that a STRICT_DATE_ORDER given to replace() later enforces the
+        DATE_ORDER that the caller set before, in a dict or in replace()."""
+        as_dict = {"DATE_ORDER": "DMY", "STRICT_DATE_ORDER": "all"}
+        from_dict = settings.replace(
+            mod_settings={"DATE_ORDER": "DMY"}, DATE_ORDER="DMY"
+        )
+        from_replace = settings.replace(DATE_ORDER="DMY", STRICT_DATE_ORDER="year")
+        for later in (
+            from_dict.replace(STRICT_DATE_ORDER="all"),
+            from_replace.replace(STRICT_DATE_ORDER="all"),
+        ):
+            for text in self.texts:
+                with self.subTest(text=text, later=later._mod_settings):
+                    self.assertEqual(
+                        parse(text, languages=["en"], settings=as_dict),
+                        parse(text, languages=["en"], settings=later),
+                    )
+
+    def test_replacing_strict_date_order_updates_what_the_caller_set(self) -> None:
+        """Test that the STRICT_DATE_ORDER recorded as set by the caller is the
+        one that the settings have, also after it is replaced with "none"."""
+        strict = settings.replace(DATE_ORDER="DMY", STRICT_DATE_ORDER="all")
+        from_dict = settings.replace(
+            mod_settings={"DATE_ORDER": "DMY", "STRICT_DATE_ORDER": "all"},
+            DATE_ORDER="DMY",
+            STRICT_DATE_ORDER="all",
+        )
+        for relaxed in (
+            strict.replace(STRICT_DATE_ORDER="none"),
+            from_dict.replace(STRICT_DATE_ORDER="none"),
+        ):
+            self.assertEqual("none", relaxed.STRICT_DATE_ORDER)
+            self.assertEqual("none", relaxed._mod_settings["STRICT_DATE_ORDER"])
+            self.assertEqual("DMY", relaxed._mod_settings["DATE_ORDER"])
+        self.assertEqual(
+            "year",
+            strict.replace(STRICT_DATE_ORDER="year")._mod_settings["STRICT_DATE_ORDER"],
+        )
+
+    def test_replace_does_not_accept_an_invalid_strict_date_order(self) -> None:
+        with self.assertRaises(SettingValidationError):
+            DateDataParser(settings=settings.replace(STRICT_DATE_ORDER="always"))
+
+    def test_replace_does_not_accept_an_invalid_date_order_under_strict(self) -> None:
+        """Test that a DATE_ORDER given to a later replace() is checked when a
+        STRICT_DATE_ORDER set before enforces it, as a dict's would be."""
+        strict = settings.replace(DATE_ORDER="DMY", STRICT_DATE_ORDER="all")
+        with self.assertRaises(SettingValidationError):
+            DateDataParser(settings=strict.replace(DATE_ORDER="XYZ"))
+
+    def test_replace_does_not_accept_an_invalid_date_order_set_by_a_dict(self) -> None:
+        """Test that a DATE_ORDER that the caller set in a dict is checked when a
+        later replace() gives another one."""
+        from_dict = settings.replace(
+            mod_settings={"DATE_ORDER": "DMY"}, DATE_ORDER="DMY"
+        )
+        with self.assertRaises(SettingValidationError):
+            DateDataParser(settings=from_dict.replace(DATE_ORDER="XYZ"))
+
+    def test_a_later_replace_of_date_order_is_recorded(self) -> None:
+        strict = settings.replace(DATE_ORDER="DMY", STRICT_DATE_ORDER="all")
+        from_dict = settings.replace(
+            mod_settings={"DATE_ORDER": "DMY"}, DATE_ORDER="DMY"
+        )
+        for replaced in (strict, from_dict):
+            later = replaced.replace(DATE_ORDER="MDY")
+            self.assertEqual("MDY", later._mod_settings["DATE_ORDER"])
+
+    @parameterized.expand([param("year"), param("all")])
+    def test_replaced_strict_settings_read_valid_dates_as_a_dict_does(
+        self, strict: str
+    ) -> None:
+        """Test that asking for STRICT_DATE_ORDER also makes the DATE_ORDER win
+        over the order of the locale for the dates that it allows, as it does
+        for a dict (and as replace() without it does not)."""
+        as_dict = {"DATE_ORDER": "DMY", "STRICT_DATE_ORDER": strict}
+        replaced = settings.replace(DATE_ORDER="DMY", STRICT_DATE_ORDER=strict)
+        for text in ("05/06/2020", "05/06", "01-02-03"):
+            with self.subTest(text=text):
+                self.assertEqual(
+                    parse(text, languages=["en"], settings=as_dict),
+                    parse(text, languages=["en"], settings=replaced),
+                )
+        self.assertEqual(
+            datetime(2020, 6, 5),
+            parse("05/06/2020", languages=["en"], settings=replaced),
+        )
+
+    def test_a_later_replace_of_date_order_takes_effect(self) -> None:
+        replaced = settings.replace(DATE_ORDER="DMY", STRICT_DATE_ORDER="all")
+        self.assertEqual(
+            datetime(2020, 5, 6),
+            parse(
+                "05/06/2020",
+                languages=["en"],
+                settings=replaced.replace(DATE_ORDER="MDY"),
+            ),
+        )
+
+
 @pytest.mark.parametrize(
     ("date_string", "expected_result"),
     [
