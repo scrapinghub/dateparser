@@ -155,6 +155,10 @@ class Settings:
             ):
                 recorded["DATE_ORDER"] = date_order
             mod_settings = recorded
+        else:
+            # A copy, so that the caller changing their dict later does not
+            # change which settings these are said to have set.
+            mod_settings = dict(mod_settings)
         if mod_settings:
             kwds["_mod_settings"] = mod_settings
 

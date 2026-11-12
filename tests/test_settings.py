@@ -1,3 +1,5 @@
+import copy
+import pickle
 import subprocess
 import sys
 from datetime import datetime, timedelta, tzinfo
@@ -622,6 +624,52 @@ class StrictDateOrderReplacedSettingsTest(BaseTestCase):
                 settings=replaced.replace(DATE_ORDER="MDY"),
             ),
         )
+
+
+class ModifiedSettingsCopyTest(BaseTestCase):
+    """The settings that the caller set are not the caller's dict."""
+
+    def test_parser_keeps_the_settings_that_it_was_given(self) -> None:
+        # The locale of de puts the day first, and DATE_ORDER does not, unless
+        # the caller sets it.
+        caller = {"TIMEZONE": "UTC"}
+        parser = DateDataParser(languages=["de"], settings=caller)
+        self.assertEqual(
+            datetime(2020, 6, 5), parser.get_date_data("05/06/2020")["date_obj"]
+        )
+        caller["DATE_ORDER"] = "MDY"
+        self.assertEqual(
+            datetime(2020, 6, 5), parser.get_date_data("05/06/2020")["date_obj"]
+        )
+        self.assertEqual({"TIMEZONE": "UTC"}, dict(parser._settings._mod_settings))
+        self.assertEqual(
+            datetime(2020, 5, 6),
+            DateDataParser(languages=["de"], settings=caller).get_date_data(
+                "05/06/2020"
+            )["date_obj"],
+        )
+
+    def test_settings_of_a_dict_can_be_pickled_and_copied(self) -> None:
+        """Test that the copy is of a kind that pickle and deepcopy accept."""
+
+        @apply_settings
+        def get_settings(settings: Any = None) -> Settings:
+            return settings  # type: ignore[no-any-return]
+
+        given = get_settings(settings={"DATE_ORDER": "DMY"})
+        for copied in (
+            pickle.loads(pickle.dumps(given)),
+            copy.copy(given),
+            copy.deepcopy(given),
+        ):
+            self.assertEqual({"DATE_ORDER": "DMY"}, dict(copied._mod_settings))
+
+    def test_settings_do_not_change_the_dict_of_the_caller(self) -> None:
+        caller = {"DATE_ORDER": "DMY", "TIMEZONE": "UTC"}
+        DateDataParser(languages=["en"], settings=caller)
+        parse("05/06/2020", settings=caller)
+        search_dates("on 05/06/2020", languages=["en"], settings=caller)
+        self.assertEqual({"DATE_ORDER": "DMY", "TIMEZONE": "UTC"}, caller)
 
 
 @pytest.mark.parametrize(
