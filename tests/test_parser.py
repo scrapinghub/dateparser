@@ -7,6 +7,7 @@ from parameterized import param, parameterized
 from dateparser.conf import Settings, apply_settings
 from dateparser.parser import _no_spaces_parser, _parser, time_parser, tokenizer
 from tests import BaseTestCase
+from tests.year_warning import DAY_WITHOUT_YEAR_WARNING
 
 
 class TestTokenizer(BaseTestCase):
@@ -563,16 +564,19 @@ class TestParser(BaseTestCase):
     def test_parser_does_not_raise_ambiguious_date_deprecation_warning(
         self, date_string: str
     ) -> None:
+        self.given_parser()
+        self.given_settings(settings={})
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
             self.when_date_is_parsed(date_string)
             year_warnings = [
-                warn
-                for warn in w
-                if "day of month without a year specified is ambiguious"
-                in str(warn.message)
+                warn for warn in w if DAY_WITHOUT_YEAR_WARNING in str(warn.message)
             ]
             self.assertEqual(len(year_warnings), 0)
+        # The guard only checks something for the date strings that this
+        # parser reads, so that they do not stop being read unnoticed.
+        if date_string in ("oct 14", "14-October-2025", "2024-11-27"):
+            self.assertIs(self.error, NotImplemented, self.error)
 
 
 class TestTimeParser(BaseTestCase):
