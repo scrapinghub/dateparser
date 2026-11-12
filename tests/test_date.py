@@ -19,7 +19,7 @@ from dateparser.date import DateData
 from dateparser.languages.loader import default_loader
 from dateparser.languages.locale import _MAX_TRANSLATIONS, Locale
 from dateparser.search import search_dates
-from tests import BaseTestCase
+from tests import BaseTestCase, digits_unknown_to_int
 
 
 class TestDateRangeFunction(BaseTestCase):
@@ -1817,6 +1817,69 @@ class TestTimestampParser(BaseTestCase):
     )
     def test_timestamp_with_wrong_length(self, date_string: str) -> None:
         self.assertEqual(date.get_date_from_timestamp(date_string, None), None)
+
+    @parameterized.expand([param(negative=False), param(negative=True)])
+    def test_timestamp_is_none_when_int_rejects_its_digits(
+        self, negative: bool
+    ) -> None:
+        """int() knows the digits of the Unicode version of this Python only,
+        and the regular expression of the regex module may know more."""
+        with patch("dateparser.date.int", side_effect=ValueError, create=True):
+            self.assertIsNone(
+                date.get_date_from_timestamp(
+                    ("-" if negative else "") + "1570308760263",
+                    # An invalid timezone is not looked up for such a text.
+                    Settings(settings={"TIMEZONE": "Not/A_Zone"}),
+                    negative=negative,
+                )
+            )
+
+    @parameterized.expand([param(negative=False), param(negative=True)])
+    def test_timestamp_with_digits_that_int_rejects(self, negative: bool) -> None:
+        digits = digits_unknown_to_int()
+        if not digits:
+            self.skipTest("int() knows every digit that the regex module knows")
+        digit = digits[0]
+        sign = "-" if negative else ""
+        for date_string in (
+            digit * 10,
+            "123456789" + digit,
+            "1570308760" + digit * 3,
+            "1570308760263" + digit * 3,
+        ):
+            with self.subTest(date_string=date_string):
+                self.assertIsNone(
+                    date.get_date_from_timestamp(
+                        sign + date_string, None, negative=negative
+                    )
+                )
+
+    def test_parse_digits_that_int_rejects(self) -> None:
+        digits = digits_unknown_to_int()
+        if not digits:
+            self.skipTest("int() knows every digit that the regex module knows")
+        digit = digits[0]
+        settings = {"DEFAULT_LANGUAGES": ["en"]}
+        for date_string in (digit * 10, "123456789" + digit):
+            with self.subTest(date_string=date_string):
+                self.assertIsNone(dateparser.parse(date_string, settings=settings))
+                self.assertIsNone(search_dates(date_string, settings=settings))
+
+    def test_parse_digits_that_int_rejects_when_ignoring_surrounding_text(
+        self,
+    ) -> None:
+        digits = digits_unknown_to_int()
+        if not digits:
+            self.skipTest("int() knows every digit that the regex module knows")
+        date_string = digits[0] + "123456789.5"
+        settings = {"IGNORE_SURROUNDING_TEXT": True}
+        # Not a timestamp, so it is parsed like any other text.
+        self.assertIsInstance(
+            dateparser.parse(date_string, settings=settings), (datetime, type(None))
+        )
+        self.assertIsInstance(
+            search_dates(date_string, settings=settings), (list, type(None))
+        )
 
 
 YMD = ("year", "month", "day")

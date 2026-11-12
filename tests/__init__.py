@@ -1,11 +1,28 @@
 from __future__ import annotations
 
+from functools import lru_cache
 from typing import TYPE_CHECKING, Any
 from unittest import TestCase
+
+import regex
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
     from unittest.mock import _patch
+
+
+@lru_cache(maxsize=1)
+def digits_unknown_to_int() -> tuple[str, ...]:
+    """Characters that the regex module reads as digits but ``int()`` rejects,
+    because the regex module knows digits that were added to Unicode after the
+    Unicode version of this Python. There are none if this Python is at least as
+    recent as the regex module."""
+    characters = "".join(map(chr, range(0x110000)))
+    return tuple(
+        character
+        for character in regex.findall(r"\d", characters)
+        if not character.isdecimal()
+    )
 
 
 class BaseTestCase(TestCase):
