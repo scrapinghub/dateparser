@@ -128,6 +128,19 @@ class TestHijriParser(BaseTestCase):
     def test_incomplete_month_name(self, dt_string: str) -> None:
         assert HijriCalendar(dt_string).get_date() is None
 
+    @parameterized.expand(
+        [
+            param(dt_string=""),
+            param(dt_string=" "),
+            param(dt_string="\t\n"),
+            # Tatweel and a diacritic are dropped, which leaves nothing.
+            param(dt_string="\u0640"),
+            param(dt_string="\u064b"),
+        ]
+    )
+    def test_text_without_a_date_is_none(self, dt_string: str) -> None:
+        assert HijriCalendar(dt_string).get_date() is None
+
     def test_public_parse_returns_date_and_period(self) -> None:
         assert hijri_parser.parse("1445-01-01", settings) == (
             datetime(2023, 7, 19),

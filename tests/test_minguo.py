@@ -48,6 +48,9 @@ class TestMinguoCalendar(BaseTestCase):
             param("0/1/1"),
             param("102/2/29"),
             param("101/05/25 08:36 92694"),
+            param(""),
+            param(" "),
+            param("\t\n"),
         ]
     )
     def test_invalid(self, date_string: str) -> None:
