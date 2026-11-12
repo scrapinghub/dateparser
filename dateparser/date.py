@@ -468,6 +468,23 @@ def _get_name_translations(
     return pattern, dict(translations)
 
 
+def _english_names(translations: dict[str, list[str]], match: str) -> list[str]:
+    """Return the English names that the name *match* found by the pattern of
+    :func:`_get_name_translations` can stand for."""
+    names = translations.get(match.lower())
+    if names is None:
+        # The pattern ignores case the way the regex module does, which also
+        # equates letters that str.lower() keeps apart, such as "ſ" and "s", or
+        # "I" and the Turkish "ı". Look for the names that it matched.
+        names = []
+        for name, english_names in translations.items():
+            if re.fullmatch(re.escape(name), match, flags=re.IGNORECASE):
+                names.extend(
+                    english for english in english_names if english not in names
+                )
+    return names
+
+
 def _translate_names(
     date_string: str, date_format: str, locale: "Locale"
 ) -> Iterator[str]:
@@ -491,10 +508,11 @@ def _translate_names(
     # A name can stand for several English names, e.g. "mar" is both "martes"
     # and "marzo" in Spanish, so combinations are yielded, but only the first
     # few, since their number doubles with each such name.
-    for combination in itertools.islice(
-        itertools.product(*(translations[match.lower()] for match in matches)),
-        _MAX_TRANSLATIONS,
-    ):
+    english_names = {
+        match: _english_names(translations, match) for match in dict.fromkeys(matches)
+    }
+    options = [english_names[match] for match in matches]
+    for combination in itertools.islice(itertools.product(*options), _MAX_TRANSLATIONS):
         yield "".join(
             part + name for part, name in zip(parts, (*combination, ""), strict=True)
         )
