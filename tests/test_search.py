@@ -1154,10 +1154,15 @@ class TestTranslateSearch(BaseTestCase):
                 ],
             ),
             param(
+                # Only the month's full stop is kept. A weekday's is not,
+                # because the shortest weekday names are ordinary words.
                 text="Fri. Jan. 3, 2020",
                 languages=["en"],
-                settings=None,
-                expected=[("Fri. Jan. 3, 2020", datetime.datetime(2020, 1, 3, 0, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("Fri", datetime.datetime(2020, 6, 12, 0, 0)),
+                    ("Jan. 3, 2020", datetime.datetime(2020, 1, 3, 0, 0)),
+                ],
             ),
             param(
                 text="Sept. 5, 2020",
@@ -1199,16 +1204,51 @@ class TestTranslateSearch(BaseTestCase):
             # full, including English when it borrows the month name
             # untranslated, as CLDR does for "november".
             param(
-                text="15. november 2020",
+                # The day-first written form belongs to the locales that
+                # write dates that way, where the day number keeps its own
+                # full stop already. English is not one of them, so "5." here
+                # is a list number and ends the sentence.
+                text="Chapter 5. November 2019 was cold.",
                 languages=["en"],
-                settings=None,
-                expected=[("15. november 2020", datetime.datetime(2020, 11, 15, 0, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("November 2019", datetime.datetime(2019, 11, 15, 0, 0))],
             ),
             param(
-                text="10. jul. 2017",
+                text="Step 2. May the force be with you",
                 languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("May the", datetime.datetime(2020, 5, 15, 0, 0))],
+            ),
+            param(
+                # "10. jul. 2017" in a locale that does write dates this way.
+                text="10. jul. 2017",
+                languages=["de"],
                 settings=None,
                 expected=[("10. jul. 2017", datetime.datetime(2017, 7, 10, 0, 0))],
+            ),
+            param(
+                # A month name whose shorter spelling is another full form,
+                # not an abbreviation, still ends the sentence.
+                text="Сейчас август. Завтра 5 мая 2020 года.",
+                languages=["ru"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("Сейчас", datetime.datetime(2020, 6, 15, 12, 0)),
+                    ("август", datetime.datetime(2020, 8, 15, 0, 0)),
+                    ("Завтра", datetime.datetime(2020, 6, 16, 12, 0)),
+                    ("5 мая 2020 года", datetime.datetime(2020, 5, 5, 0, 0)),
+                ],
+            ),
+            param(
+                # The weekday abbreviation "we" is an ordinary word, so its
+                # full stop must not glue the sentence to the date after it.
+                text="So do we. 5 May 2020 is the date.",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("we", datetime.datetime(2020, 6, 10, 0, 0)),
+                    ("5 May 2020", datetime.datetime(2020, 5, 5, 0, 0)),
+                ],
             ),
             # A year is not mistaken for a day number, so a full stop after
             # one still ends a sentence.

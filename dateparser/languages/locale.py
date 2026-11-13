@@ -28,7 +28,6 @@ if TYPE_CHECKING:
 _D = TypeVar("_D", bound=Dictionary)
 _T = TypeVar("_T")
 
-_WEEKDAY_KEYS = KNOWN_WORD_TOKENS[: KNOWN_WORD_TOKENS.index("sunday") + 1]
 _MONTH_KEYS = KNOWN_WORD_TOKENS[
     KNOWN_WORD_TOKENS.index("january") : KNOWN_WORD_TOKENS.index("december") + 1
 ]
@@ -652,42 +651,35 @@ class Locale:
                     "(?<! " + abbreviation[:-1] + ")"
                 )  # negative lookbehind
 
-            # Abbreviated month and weekday names followed by a full stop, e.g.
-            # "31 Jul. 1999" or French "5 déc. 2020". The longest name of each
-            # (its full, unabbreviated spelling) is left out, so a sentence
-            # ending in a full word, e.g. "See you on Monday.", still splits.
-            abbreviated_names: list[str] = []
-            month_names: list[str] = []
-            for key in _WEEKDAY_KEYS + _MONTH_KEYS:
-                key_names = self.info.get(key, [])
-                if key in _MONTH_KEYS:
-                    month_names.extend(key_names)
-                if len(key_names) > 1:
-                    longest = max(map(len, key_names))
-                    abbreviated_names.extend(
-                        name for name in key_names if len(name) < longest
-                    )
-            if abbreviated_names:
-                abbreviation_string += (
-                    r"(?!(?<=\b(?i:"
-                    + "|".join(map(re.escape, abbreviated_names))
-                    + r"))\.)"
-                )
-            # A day number (1 or 2 digits, not a longer run such as a year)
-            # followed by a full stop and a month name, e.g. "15. november
-            # 2020" or "10. jul. 2017": the day-month-year order some European
-            # languages write out in full, including English when it borrows
-            # the month name untranslated, as CLDR does for "november".
+            # The full stop of an abbreviated month name, e.g. "31 Jul. 1999"
+            # or French "5 déc. 2020".
             #
-            # Whitespace is required between the two: without it the word
-            # splitter keeps the day and the month in one token, e.g. Latvian
-            # "20.februāris", which then never matches the dictionary and so
-            # loses the month that splitting the sentence at least recovers.
+            # Which spellings of a month are abbreviations is not something the
+            # translation data records, and it cannot be inferred from their
+            # length: a shorter spelling is as likely to be another full form,
+            # e.g. Russian "август" beside the genitive "августа". So every
+            # spelling is accepted here, and the full stop is kept only where a
+            # day number or a year around it makes the whole a date. That is
+            # what keeps a sentence ending in a month name, e.g. "The event is
+            # in May. 12 people attended.", splitting as before.
+            month_names = [
+                name for key in _MONTH_KEYS for name in self.info.get(key, [])
+            ]
             if month_names:
+                months = "(?i:" + "|".join(map(re.escape, month_names)) + ")"
+                space = r"[^\S\r\n]"
                 abbreviation_string += (
-                    r"(?!(?<=\b\d{1,2})\.\s+(?i:"
-                    + "|".join(map(re.escape, month_names))
-                    + r")\b)"
+                    # "31 Jul. 1999", and "10. jul. 2017" for the locales whose
+                    # day number keeps its own full stop below.
+                    r"(?!(?<=\b\d{1,2}\.?" + space + r"{1,3}" + months + r")"
+                    r"\.(?=" + space + r"*\d{4}\b))"
+                    # "Jan. 5, 2020"
+                    r"(?!(?<=\b" + months + r")\."
+                    r"(?="
+                    + space
+                    + r"*\d{1,2}(?:st|nd|rd|th)?,?"
+                    + space
+                    + r"*\d{4}\b))"
                 )
             # "a.m."/"p.m." in either case, which the splitter would otherwise
             # treat as the ends of two separate one-letter sentences.

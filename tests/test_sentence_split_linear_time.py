@@ -52,15 +52,14 @@ def test_search_dates_on_a_long_punctuation_run_does_not_take_quadratic_time(
     assert_fast(SEARCH_SETUP, [statement])
 
 
-# Text shaped like the lookbehinds that keep a full stop inside a date: an
-# abbreviated month or weekday name, a day number before a month name, and
-# "a.m."/"p.m.". Each is matched by a variable-length lookbehind, which scans
-# backwards from every full stop, so a long run of them could take quadratic
-# time.
+# Text shaped like the lookbehinds that keep a full stop inside a date: a
+# month name, a day number and a month name, and "a.m."/"p.m.". Each is
+# matched by a variable-length lookbehind, which scans backwards from every
+# full stop, so a long run of them could take quadratic time.
 IN_DATE_FULL_STOPS = [
-    "jan.",  # abbreviated month name
-    "fri.",  # abbreviated weekday name
-    "15. november ",  # day number before a month name
+    "jan. 5, 2020 ",  # month name before a day and a year
+    "31 jul. 1999 ",  # day and month name before a year
+    "jan.",  # the same lookbehinds, with nothing after to satisfy them
     "a.m.",
     "janr. ",  # near miss: starts like a month name but is not one
     "a",  # near miss: a run of letters before the full stop of "a.m."
