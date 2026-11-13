@@ -660,8 +660,6 @@ class Locale:
             month_names: list[str] = []
             for key in _WEEKDAY_KEYS + _MONTH_KEYS:
                 key_names = self.info.get(key, [])
-                if not key_names:
-                    continue
                 if key in _MONTH_KEYS:
                     month_names.extend(key_names)
                 if len(key_names) > 1:

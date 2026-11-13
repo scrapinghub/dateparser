@@ -1334,16 +1334,31 @@ class TestTranslateSearch(BaseTestCase):
                 # The sentence splitter used to cut this chunk at "Sept."
                 # (not recognized as an abbreviation) before this point was
                 # reached, so the relative expression and the date were
-                # parsed as two independent chunks. Keeping "Sept. 11, 2001"
-                # together now routes it through split_if_not_parsed()
-                # instead, whose comma-based split wins the tie-break over
-                # its period-based one (both leave the relative expression
-                # unparsed, but the comma split's surviving pieces all
-                # contain a digit).
+                # parsed as two independent chunks, yielding
+                # ("11, 2001", 2001-11-15) -- the day number read as a month.
+                # Keeping "Sept. 11, 2001" together now routes it through
+                # split_if_not_parsed() instead, whose comma-based split wins
+                # the tie-break over its period-based one (both leave the
+                # relative expression unparsed, but the comma split's
+                # surviving pieces all contain a digit), yielding the year
+                # alone. Neither result is the date a reader would pick; a
+                # better one needs choose_best_split()'s tie-break to change.
                 text="Twenty five years after the Sept. 11, 2001, attacks",
                 languages=["en"],
                 settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
                 expected=[("2001", datetime.datetime(2001, 6, 15, 0, 0))],
+            ),
+            param(
+                # "thirty two" is one number spelled across two words, so the
+                # "32" it translates to has no single word of the original to
+                # line up with, and split_around_skipped_words() gives up
+                # rather than align them wrongly. Nothing else in this file
+                # reaches that guard, so keep this case even though the
+                # result is None.
+                text="thirty two months after March 2010",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=None,
             ),
             param(
                 text="Sep 15, 2026 10:50 AM Fifty years after Paris",
