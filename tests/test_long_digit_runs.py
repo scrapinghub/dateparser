@@ -19,7 +19,9 @@ class TestLongDigitRuns(BaseTestCase):
 
     def test_trailing_quantity_too_long_for_int_keeps_the_date_before_it(self) -> None:
         result = search_dates(
-            f"Sep 15, 2026 10:50 AM {LONG_NUMBER} years after", languages=["en"]
+            f"Sep 15, 2026 10:50 AM {LONG_NUMBER} years after",
+            languages=["en"],
+            settings={"RELATIVE_BASE": BASE},
         )
         self.assertEqual(result, [("Sep 15", datetime.datetime(2026, 9, 15))])
 
