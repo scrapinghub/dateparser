@@ -5,6 +5,7 @@ from typing import Any
 from unittest.mock import patch
 
 import pytz
+from dateutil.relativedelta import relativedelta
 from parameterized import param, parameterized
 
 from dateparser.conf import Settings, apply_settings
@@ -1627,6 +1628,15 @@ class TestTranslateSearch(BaseTestCase):
             param(text="před dnem nezávislosti", languages=["cs"]),
             param(text="לפני יום הולדת", languages=["he"]),
             param(text="לפני יום כיפור", languages=["he"]),
+            # A unit before another word is not "1 unit ago", same as the
+            # cs/he cases above
+            param(text="před den D", languages=["cs"]),
+            param(text="prieš dieną Kalėdų", languages=["lt"]),
+            param(text="пред час по математика", languages=["mk"]),
+            # A unit before a number is not "1 unit ago" either
+            param(text="před den 5", languages=["cs"]),
+            param(text="prieš dieną 5", languages=["lt"]),
+            param(text="пред ден 5", languages=["mk"]),
         ]
     )
     def test_search_dates_does_not_read_a_noun_as_a_relative_date(
@@ -1647,7 +1657,7 @@ class TestTranslateSearch(BaseTestCase):
             param(
                 text="قبل سنة الهجرة",
                 languages=["ar"],
-                not_expected=relative_base - timedelta(days=366),
+                not_expected=relative_base - relativedelta(years=1),
             ),
             param(
                 text="قبل أسبوع الامتحانات",
@@ -1662,7 +1672,7 @@ class TestTranslateSearch(BaseTestCase):
             param(
                 text="לפני שנה הבאה",
                 languages=["he"],
-                not_expected=relative_base - timedelta(days=366),
+                not_expected=relative_base - relativedelta(years=1),
             ),
         ]
     )

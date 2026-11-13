@@ -249,25 +249,25 @@ info = {
     "locale_specific": {},
     "simplifications": [
         {
-            "(?<=prieš\\s+)savaitę\\b": "1 savaitę"
+            "(?<=prieš\\s+)savaitę\\b(?!\\s+\\S)": "1 savaitę"
         },
         {
-            "(?<=prieš\\s+)mėnesį\\b": "1 mėnesį"
+            "(?<=prieš\\s+)mėnesį\\b(?!\\s+\\S)": "1 mėnesį"
         },
         {
-            "(?<=prieš\\s+)metus\\b(?!\\s+\\d)": "1 metus"
+            "(?<=prieš\\s+)metus\\b(?!\\s+\\S)": "1 metus"
         },
         {
-            "(?<=prieš\\s+)dieną\\b": "1 dieną"
+            "(?<=prieš\\s+)dieną\\b(?!\\s+\\S)": "1 dieną"
         },
         {
-            "(?<=prieš\\s+)valandą\\b": "1 valandą"
+            "(?<=prieš\\s+)valandą\\b(?!\\s+\\S)": "1 valandą"
         },
         {
-            "(?<=prieš\\s+)minutę\\b": "1 minutę"
+            "(?<=prieš\\s+)minutę\\b(?!\\s+\\S)": "1 minutę"
         },
         {
-            "(?<=prieš\\s+)sekundę\\b": "1 sekundę"
+            "(?<=prieš\\s+)sekundę\\b(?!\\s+\\S)": "1 sekundę"
         }
     ],
     "skip": [

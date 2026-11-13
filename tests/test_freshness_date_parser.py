@@ -760,6 +760,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("преди месец", ago={"months": 1}, period="month"),  # bg
             param("viikko sitten", ago={"weeks": 1}, period="week"),  # fi
             param("tunti sitten", ago={"hours": 1}, period="day"),  # fi
+            param("minuutti sitten", ago={"minutes": 1}, period="day"),  # fi
+            param("sekunti sitten", ago={"seconds": 1}, period="day"),  # fi
             param("לפני שבוע", ago={"weeks": 1}, period="week"),  # he
             param("לפני שעה", ago={"hours": 1}, period="day"),  # he
             param("prije tjedan dana", ago={"weeks": 1}, period="week"),  # hr

@@ -362,25 +362,25 @@ info = {
             "ponoć": "00:00"
         },
         {
-            "(?<=prije\\s+)tjedan(\\s+dana)?": "1 tjedan"
+            "(?<=prije\\s+)tjedan(?:\\s+dana)?(?!\\s+\\S)": "1 tjedan"
         },
         {
-            "(?<=prije\\s+)mjesec(\\s+dana)?(?!\\s+(?:listopadom|kolovozom|listopada|listopadu|prosincem|siječnjem|studenoga|studenome|studenomu|kolovoza|kolovozu|listopad|prosinac|prosinca|prosincu|siječanj|siječnja|siječnju|studenim|studenog|studenom|svibnjem|travnjem|veljačom|kolovoz|lipnjem|ožujkom|srpnjem|studeni|svibanj|svibnja|svibnju|travanj|travnja|travnju|veljača|veljače|veljači|lipanj|lipnja|lipnju|ožujak|ožujka|ožujku|rujnom|srpanj|srpnja|srpnju|rujan|rujna|rujnu|velj|kol|lip|lis|ožu|pro|ruj|sij|srp|stu|svi|tra))": "1 mjesec"
+            "(?<=prije\\s+)mjesec(?:\\s+dana)?(?!\\s+\\S)": "1 mjesec"
         },
         {
-            "(?<=prije\\s+)godinu(?!\\s+\\d)(\\s+dana)?": "1 godinu"
+            "(?<=prije\\s+)godinu(?:\\s+dana)?(?!\\s+\\S)": "1 godinu"
         },
         {
-            "(?<=prije\\s+)sat(\\s+vremena)?": "1 sat"
+            "(?<=prije\\s+)sat(?:\\s+vremena)?(?!\\s+\\S)": "1 sat"
         },
         {
-            "(?<=prije\\s+)dan\\b": "1 dan"
+            "(?<=prije\\s+)dan\\b(?!\\s+\\S)": "1 dan"
         },
         {
-            "(?<=prije\\s+)minutu": "1 minutu"
+            "(?<=prije\\s+)minutu\\b(?!\\s+\\S)": "1 minutu"
         },
         {
-            "(?<=prije\\s+)sekundu": "1 sekundu"
+            "(?<=prije\\s+)sekundu\\b(?!\\s+\\S)": "1 sekundu"
         }
     ],
     "skip": [

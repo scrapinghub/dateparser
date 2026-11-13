@@ -357,6 +357,12 @@ info = {
         },
         {
             "(?<=[^\\d]\\s+|^)tunti(?=\\s+sitten)": "1 tunti"
+        },
+        {
+            "(?<=[^\\d]\\s+|^)minuutti(?=\\s+sitten)": "1 minuutti"
+        },
+        {
+            "(?<=[^\\d]\\s+|^)sekunti(?=\\s+sitten)": "1 sekunti"
         }
     ]
 }

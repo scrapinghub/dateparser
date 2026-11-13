@@ -83,3 +83,5 @@ simplifications:
     - '(?<=[^\d]\s+|^)vuosi(?=\s+sitten)': '1 vuosi'
     - '(?<=[^\d]\s+|^)päivä(?=\s+sitten)': '1 päivä'
     - '(?<=[^\d]\s+|^)tunti(?=\s+sitten)': '1 tunti'
+    - '(?<=[^\d]\s+|^)minuutti(?=\s+sitten)': '1 minuutti'
+    - '(?<=[^\d]\s+|^)sekunti(?=\s+sitten)': '1 sekunti'

@@ -240,25 +240,25 @@ info = {
     "locale_specific": {},
     "simplifications": [
         {
-            "(?<=pred\\s+)tednom\\b": "1 tednom"
+            "(?<=pred\\s+)tednom\\b(?!\\s+\\S)": "1 tednom"
         },
         {
-            "(?<=pred\\s+)mesecem\\b": "1 mesecem"
+            "(?<=pred\\s+)mesecem\\b(?!\\s+\\S)": "1 mesecem"
         },
         {
-            "(?<=pred\\s+)letom\\b(?!\\s+\\d)": "1 letom"
+            "(?<=pred\\s+)letom\\b(?!\\s+\\S)": "1 letom"
         },
         {
-            "(?<=pred\\s+)dnevom\\b": "1 dnevom"
+            "(?<=pred\\s+)dnevom\\b(?!\\s+\\S)": "1 dnevom"
         },
         {
-            "(?<=pred\\s+)uro\\b": "1 uro"
+            "(?<=pred\\s+)uro\\b(?!\\s+\\S)": "1 uro"
         },
         {
-            "(?<=pred\\s+)minuto\\b": "1 minuto"
+            "(?<=pred\\s+)minuto\\b(?!\\s+\\S)": "1 minuto"
         },
         {
-            "(?<=pred\\s+)sekundo\\b": "1 sekundo"
+            "(?<=pred\\s+)sekundo\\b(?!\\s+\\S)": "1 sekundo"
         }
     ],
     "skip": [
