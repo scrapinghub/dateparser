@@ -5,6 +5,7 @@ from typing import Any
 from unittest.mock import patch
 
 import pytz
+import regex
 from parameterized import param, parameterized
 
 from dateparser.conf import Settings, apply_settings
@@ -3096,6 +3097,60 @@ class TestNgramSearch(BaseTestCase):
         self.assertEqual(
             result, [("15032024", datetime.datetime(2024, 3, 15), "day", "en")]
         )
+
+    @parameterized.expand(
+        [
+            # (text, date formats, language, letter, the letter that the
+            # pattern of the names takes it for, expected result)
+            param(
+                "on \u017feptember 5 2020 ok",
+                ["%B %d %Y"],
+                "en",
+                "\u017f",
+                "s",
+                [("\u017feptember 5 2020", datetime.datetime(2020, 9, 5))],
+            ),
+            param(
+                "on 5 \u017fep 2020 ok",
+                ["%d %b %Y"],
+                "en",
+                "\u017f",
+                "s",
+                [("5 \u017fep 2020", datetime.datetime(2020, 9, 5))],
+            ),
+            param(
+                "on 5 ARALIK 2020 ok",
+                ["%d %B %Y"],
+                "tr",
+                "I",
+                "\u0131",
+                [("5 ARALIK 2020", datetime.datetime(2020, 12, 5))],
+            ),
+        ]
+    )
+    def test_date_formats_with_a_letter_equal_to_another_in_names(
+        self,
+        text: str,
+        date_formats: list[str],
+        language: str,
+        letter: str,
+        same_as: str,
+        expected: list[tuple[str, datetime.datetime]],
+    ) -> None:
+        # The lookup of the name used to raise KeyError for such a spelling, which
+        # the search caught and logged for each candidate, so only a part of the
+        # date, or a wrong date, was found.
+        if not regex.fullmatch(regex.escape(same_as), letter, flags=regex.IGNORECASE):
+            self.skipTest(f"the regex module does not take {letter!r} for {same_as!r}")
+        with self.assertNoLogs("dateparser.search.ngram_search", "WARNING"):
+            result = search_dates(
+                text,
+                languages=[language],
+                settings={"RELATIVE_BASE": datetime.datetime(2021, 6, 15)},
+                strategy="ngram",
+                date_formats=date_formats,
+            )
+        self.assertEqual(result, expected)
 
     def test_date_formats_require_ngram_strategy(self) -> None:
         with self.assertRaisesRegex(ValueError, "date_formats requires"):
