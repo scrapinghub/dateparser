@@ -1129,6 +1129,148 @@ class TestTranslateSearch(BaseTestCase):
                 settings=None,
                 expected=[("1990 am 3. März in", datetime.datetime(1990, 3, 3, 0, 0))],
             ),
+            # The period of an abbreviated month or weekday name, e.g. "Jan.",
+            # is not mistaken for the end of a sentence.
+            param(
+                text="Jan. 5, 2020 was a holiday.",
+                languages=["en"],
+                settings=None,
+                expected=[("Jan. 5, 2020", datetime.datetime(2020, 1, 5, 0, 0))],
+            ),
+            param(
+                text="The event is on Jan. 5, 2020 at the hall.",
+                languages=["en"],
+                settings=None,
+                expected=[
+                    ("on Jan. 5, 2020 at the", datetime.datetime(2020, 1, 5, 0, 0))
+                ],
+            ),
+            param(
+                text="He left on 31 Jul. 1999 and came back.",
+                languages=["en"],
+                settings=None,
+                expected=[
+                    ("on 31 Jul. 1999 and", datetime.datetime(1999, 7, 31, 0, 0))
+                ],
+            ),
+            param(
+                # Only the month's full stop is kept. A weekday's is not,
+                # because the shortest weekday names are ordinary words.
+                text="Fri. Jan. 3, 2020",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("Fri", datetime.datetime(2020, 6, 12, 0, 0)),
+                    ("Jan. 3, 2020", datetime.datetime(2020, 1, 3, 0, 0)),
+                ],
+            ),
+            param(
+                text="Sept. 5, 2020",
+                languages=["en"],
+                settings=None,
+                expected=[("Sept. 5, 2020", datetime.datetime(2020, 9, 5, 0, 0))],
+            ),
+            param(
+                text="5 déc. 2020",
+                languages=["fr"],
+                settings=None,
+                expected=[("5 déc. 2020", datetime.datetime(2020, 12, 5, 0, 0))],
+            ),
+            # A full, unabbreviated month or weekday name still ends a
+            # sentence.
+            param(
+                text="See you on Monday. 5 people will come.",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("on Monday", datetime.datetime(2020, 6, 15, 0, 0))],
+            ),
+            param(
+                text="The event is in May. 12 people attended.",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("in May", datetime.datetime(2020, 5, 15, 0, 0))],
+            ),
+            param(
+                text="I left on 3 July. On 5 May 2020 I came back.",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2019, 1, 1)},
+                expected=[
+                    ("on 3 July", datetime.datetime(2019, 7, 3, 0, 0)),
+                    ("On 5 May 2020", datetime.datetime(2020, 5, 5, 0, 0)),
+                ],
+            ),
+            # A day number followed by a full stop and a month name, the
+            # day-month-year order some European languages write out in
+            # full, including English when it borrows the month name
+            # untranslated, as CLDR does for "november".
+            param(
+                # The day-first written form belongs to the locales that
+                # write dates that way, where the day number keeps its own
+                # full stop already. English is not one of them, so "5." here
+                # is a list number and ends the sentence.
+                text="Chapter 5. November 2019 was cold.",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("November 2019", datetime.datetime(2019, 11, 15, 0, 0))],
+            ),
+            param(
+                text="Step 2. May the force be with you",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("May the", datetime.datetime(2020, 5, 15, 0, 0))],
+            ),
+            param(
+                # "10. jul. 2017" in a locale that does write dates this way.
+                text="10. jul. 2017",
+                languages=["de"],
+                settings=None,
+                expected=[("10. jul. 2017", datetime.datetime(2017, 7, 10, 0, 0))],
+            ),
+            param(
+                # A month name whose shorter spelling is another full form,
+                # not an abbreviation, still ends the sentence.
+                text="Сейчас август. Завтра 5 мая 2020 года.",
+                languages=["ru"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("Сейчас", datetime.datetime(2020, 6, 15, 12, 0)),
+                    ("август", datetime.datetime(2020, 8, 15, 0, 0)),
+                    ("Завтра", datetime.datetime(2020, 6, 16, 12, 0)),
+                    ("5 мая 2020 года", datetime.datetime(2020, 5, 5, 0, 0)),
+                ],
+            ),
+            param(
+                # The weekday abbreviation "we" is an ordinary word, so its
+                # full stop must not glue the sentence to the date after it.
+                text="So do we. 5 May 2020 is the date.",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("we", datetime.datetime(2020, 6, 10, 0, 0)),
+                    ("5 May 2020", datetime.datetime(2020, 5, 5, 0, 0)),
+                ],
+            ),
+            # A year is not mistaken for a day number, so a full stop after
+            # one still ends a sentence.
+            param(
+                text="2014. July 13th July 14th",
+                languages=["en"],
+                settings=None,
+                expected=[
+                    ("2014", datetime.datetime(2014, today.month, today.day, 0, 0)),
+                    ("July 13th", datetime.datetime(2014, 7, 13, 0, 0)),
+                    ("July 14th", datetime.datetime(2014, 7, 14, 0, 0)),
+                ],
+            ),
+            # "a.m."/"p.m." is not mistaken for two one-letter sentences, and
+            # keeps its meridiem meaning instead of losing it to the
+            # "m" -> "minute" abbreviation and the "a" -> "1" simplification.
+            param(
+                text="Meeting at 8:45 p.m. sharp.",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 1, 1)},
+                expected=[("at 8:45 p.m", datetime.datetime(2020, 1, 1, 20, 45))],
+            ),
             # Dates not found
             param(text="", languages=None, settings=None, expected=None),
             # Language not detected
@@ -1229,10 +1371,34 @@ class TestTranslateSearch(BaseTestCase):
                 expected=[("on 5 June 2019", datetime.datetime(2019, 6, 5, 0, 0))],
             ),
             param(
+                # The sentence splitter used to cut this chunk at "Sept."
+                # (not recognized as an abbreviation) before this point was
+                # reached, so the relative expression and the date were
+                # parsed as two independent chunks, yielding
+                # ("11, 2001", 2001-11-15) -- the day number read as a month.
+                # Keeping "Sept. 11, 2001" together now routes it through
+                # split_if_not_parsed() instead, whose comma-based split wins
+                # the tie-break over its period-based one (both leave the
+                # relative expression unparsed, but the comma split's
+                # surviving pieces all contain a digit), yielding the year
+                # alone. Neither result is the date a reader would pick; a
+                # better one needs choose_best_split()'s tie-break to change.
                 text="Twenty five years after the Sept. 11, 2001, attacks",
                 languages=["en"],
                 settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
-                expected=[("11, 2001", datetime.datetime(2001, 11, 15, 0, 0))],
+                expected=[("2001", datetime.datetime(2001, 6, 15, 0, 0))],
+            ),
+            param(
+                # "thirty two" is one number spelled across two words, so the
+                # "32" it translates to has no single word of the original to
+                # line up with, and split_around_skipped_words() gives up
+                # rather than align them wrongly. Nothing else in this file
+                # reaches that guard, so keep this case even though the
+                # result is None.
+                text="thirty two months after March 2010",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=None,
             ),
             param(
                 text="Sep 15, 2026 10:50 AM Fifty years after Paris",

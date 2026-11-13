@@ -3438,6 +3438,154 @@ class TestSentenceSplit:
         text = punctuation * 100_000 + "x"
         assert list(locale._sentence_split(text, settings=settings)) == [text]
 
+    @pytest.mark.parametrize(
+        "month_abbreviation",
+        [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Sept",
+            "Oct",
+            "Nov",
+            "Dec",
+        ],
+    )
+    def test_dotted_month_abbreviation_does_not_end_sentence(
+        self, month_abbreviation: str
+    ) -> None:
+        locale = default_loader.get_locale("en")
+        text = f"Posted {month_abbreviation}. 5, 2020 by staff."
+        assert list(locale._sentence_split(text, settings=settings)) == [text[:-1]]
+
+    def test_full_month_and_weekday_names_still_end_a_sentence(self) -> None:
+        # Only a full stop with the rest of a date around it is kept, so a
+        # month name that merely ends a sentence is unaffected.
+        locale = default_loader.get_locale("en")
+        text = "See you on Monday. The event is in May. It may. Or may not."
+        assert list(locale._sentence_split(text, settings=settings)) == [
+            "See you on Monday",
+            "The event is in May",
+            "It may",
+            "Or may not",
+        ]
+
+    @pytest.mark.parametrize(
+        ("text", "expected"),
+        [
+            # A day number without a year is not a date.
+            (
+                "The event is in May. 12 people attended.",
+                ["The event is in May", "12 people attended"],
+            ),
+            # A year alone after a month name that no day number precedes is
+            # not one either.
+            (
+                "It ended in May. 2020 was better.",
+                ["It ended in May", "2020 was better"],
+            ),
+            # A number before a month name need not be a day number. Only the
+            # locales that write dates that way keep its full stop, through
+            # the digit lookbehind below, and English is not one of them.
+            (
+                "Chapter 5. November 2019 was cold.",
+                ["Chapter 5", "November 2019 was cold"],
+            ),
+            (
+                "Step 2. May the force be with you",
+                ["Step 2", "May the force be with you"],
+            ),
+        ],
+    )
+    def test_month_name_outside_a_date_still_ends_a_sentence(
+        self, text: str, expected: list[str]
+    ) -> None:
+        locale = default_loader.get_locale("en")
+        assert list(locale._sentence_split(text, settings=settings)) == expected
+
+    @pytest.mark.parametrize(
+        ("shortname", "text", "expected"),
+        [
+            # "август" is shorter than the genitive "августа", but it is a
+            # full name rather than an abbreviation of it.
+            (
+                "ru",
+                "Сейчас август. Завтра 5 мая 2020 года.",
+                ["Сейчас август", "Завтра 5 мая 2020 года"],
+            ),
+            (
+                "uk",
+                "Зараз листопад. Завтра 5 травня 2020 року.",
+                ["Зараз листопад", "Завтра 5 травня 2020 року"],
+            ),
+            (
+                "pl",
+                "Teraz styczeń. Jutro 5 maja 2020 roku.",
+                ["Teraz styczeń", "Jutro 5 maja 2020 roku"],
+            ),
+        ],
+    )
+    def test_shorter_spelling_of_a_month_is_not_an_abbreviation(
+        self, shortname: str, text: str, expected: list[str]
+    ) -> None:
+        locale = default_loader.get_locale(shortname)
+        assert list(locale._sentence_split(text, settings=settings)) == expected
+
+    @pytest.mark.parametrize(
+        ("shortname", "text", "expected"),
+        [
+            # CLDR's shortest weekday names are ordinary words as well, so a
+            # full stop is never kept for a weekday: it would glue whatever
+            # sentence ends in one to the date that follows.
+            (
+                "en",
+                "So do we. 5 May 2020 is the date.",
+                ["So do we", "5 May 2020 is the date"],
+            ),
+            (
+                "en",
+                "We all sat. 5 May 2020 is the date.",
+                ["We all sat", "5 May 2020 is the date"],
+            ),
+            (
+                "de",
+                "Mach es so. 5. Mai 2020 ist das Datum.",
+                ["Mach es so", "5. Mai 2020 ist das Datum"],
+            ),
+            (
+                "fr",
+                "On voit la mer. 5 mai 2020 est la date.",
+                ["On voit la mer", "5 mai 2020 est la date"],
+            ),
+        ],
+    )
+    def test_weekday_name_does_not_keep_its_full_stop(
+        self, shortname: str, text: str, expected: list[str]
+    ) -> None:
+        locale = default_loader.get_locale(shortname)
+        assert list(locale._sentence_split(text, settings=settings)) == expected
+
+    @pytest.mark.parametrize(
+        ("text", "expected"),
+        [
+            (
+                "It happened at 8:45 a.m. yesterday.",
+                ["It happened at 8:45 a.m. yesterday"],
+            ),
+            ("I saw it at 11:00 P.M.", ["I saw it at 11:00 P.M."]),
+            # "am" alone, without periods, is an ordinary word and still ends
+            # a sentence.
+            ("I am. Really.", ["I am", "Really"]),
+        ],
+    )
+    def test_am_pm_does_not_end_sentence(self, text: str, expected: list[str]) -> None:
+        locale = default_loader.get_locale("en")
+        assert list(locale._sentence_split(text, settings=settings)) == expected
+
 
 class TestTranslateNumerals:
     def test_non_ascii_digits_keep_leading_zeros(self) -> None:
