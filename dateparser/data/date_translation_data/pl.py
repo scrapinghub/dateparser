@@ -422,6 +422,27 @@ info = {
         },
         {
             "pojutrze": "za 2 dnia"
+        },
+        {
+            "(?<=[^\\d]\\s+|^)tydzień(?=\\s+temu)": "1 tydzień"
+        },
+        {
+            "(?<=[^\\d]\\s+|^)miesiąc(?=\\s+temu)": "1 miesiąc"
+        },
+        {
+            "(?<=[^\\d]\\s+|^)rok(?=\\s+temu)": "1 rok"
+        },
+        {
+            "(?<=[^\\d]\\s+|^)dzień(?=\\s+temu)": "1 dzień"
+        },
+        {
+            "(?<=[^\\d]\\s+|^)godzinę(?=\\s+temu)": "1 godzinę"
+        },
+        {
+            "(?<=[^\\d]\\s+|^)minutę(?=\\s+temu)": "1 minutę"
+        },
+        {
+            "(?<=[^\\d]\\s+|^)sekundę(?=\\s+temu)": "1 sekundę"
         }
     ]
 }
