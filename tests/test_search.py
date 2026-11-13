@@ -2193,6 +2193,67 @@ class TestTranslateSearch(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("next_split", "the next 120000 months", "split"),
+            param("last_split", "the last 120000 months", "split"),
+            param("past_year_0", "the past 24234 months", "split"),
+            param("next_ngram", "the next 120000 months", "ngram"),
+        ]
+    )
+    def test_time_span_outside_the_years_1_to_9999_is_left_out(
+        self, label: str, text: str, strategy: str
+    ) -> None:
+        self.assertIsNone(
+            search_dates(
+                text,
+                languages=["en"],
+                settings={
+                    "RETURN_TIME_SPAN": True,
+                    "RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12, 0),
+                },
+                strategy=strategy,
+            )
+        )
+
+    @parameterized.expand(
+        [
+            param("split", "on 12 January 2020"),
+            param("ngram", "12 January 2020"),
+        ]
+    )
+    def test_time_span_outside_the_years_1_to_9999_keeps_the_other_dates(
+        self, strategy: str, found: str
+    ) -> None:
+        self.assertEqual(
+            search_dates(
+                "Meeting on 12 January 2020. Totals for the last 120000 months.",
+                languages=["en"],
+                settings={
+                    "RETURN_TIME_SPAN": True,
+                    "RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12, 0),
+                },
+                strategy=strategy,
+            ),
+            [(found, datetime.datetime(2020, 1, 12))],
+        )
+
+    def test_time_span_starting_in_the_year_1_is_returned(self) -> None:
+        base = datetime.datetime(2020, 6, 15, 12, 0)
+        result = search_dates(
+            "the past 24233 months",
+            languages=["en"],
+            settings={"RETURN_TIME_SPAN": True, "RELATIVE_BASE": base},
+        )
+        assert result is not None
+        self.assertEqual(
+            result[-2:],
+            [
+                ("past 24233 months (start)", datetime.datetime(1, 1, 15, 12, 0)),
+                ("past 24233 months (end)", base),
+            ],
+        )
+
+    @parameterized.expand(
+        [
             param(text="19 марта 2001", languages="wrong type: str instead of list"),
         ]
     )
