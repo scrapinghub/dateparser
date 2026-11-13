@@ -15,13 +15,23 @@ from dateparser.timezone_parser import (
 )
 from dateparser.utils import combine_dicts, normalize_unicode
 
-from .dictionary import ALWAYS_KEEP_TOKENS, Dictionary, NormalizedDictionary
+from .dictionary import (
+    ALWAYS_KEEP_TOKENS,
+    KNOWN_WORD_TOKENS,
+    Dictionary,
+    NormalizedDictionary,
+)
 
 if TYPE_CHECKING:
     from dateparser.conf import Settings
 
 _D = TypeVar("_D", bound=Dictionary)
 _T = TypeVar("_T")
+
+_WEEKDAY_KEYS = KNOWN_WORD_TOKENS[: KNOWN_WORD_TOKENS.index("sunday") + 1]
+_MONTH_KEYS = KNOWN_WORD_TOKENS[
+    KNOWN_WORD_TOKENS.index("january") : KNOWN_WORD_TOKENS.index("december") + 1
+]
 
 NUMERAL_PATTERN = re.compile(r"(\d+)", re.U)
 _MAX_TRANSLATIONS = 16
@@ -129,6 +139,7 @@ class Locale:
     _relative_translations: dict[re.Pattern[str], str] | None = None
     _normalized_relative_translations: dict[re.Pattern[str], str] | None = None
     _abbreviations: list[str] | None = None
+    _sentence_splitter: re.Pattern[str] | None = None
     _split_dictionary: dict[str, str | None] | None = None
     _wordchars_for_detection: set[str] | None = None
 
@@ -627,48 +638,102 @@ class Locale:
                 ]
             return self._abbreviations
 
+    def _get_sentence_splitter(self, settings: "Settings | None") -> re.Pattern[str]:
+        with self._lock:
+            if self._sentence_splitter is not None:
+                return self._sentence_splitter
+
+            abbreviations = self._get_abbreviations(settings=settings)
+            digit_abbreviations = ["[0-9]"]  # numeric date with full stop
+            abbreviation_string = ""
+
+            for abbreviation in abbreviations:
+                abbreviation_string += (
+                    "(?<! " + abbreviation[:-1] + ")"
+                )  # negative lookbehind
+
+            # Abbreviated month and weekday names followed by a full stop, e.g.
+            # "31 Jul. 1999" or French "5 déc. 2020". The longest name of each
+            # (its full, unabbreviated spelling) is left out, so a sentence
+            # ending in a full word, e.g. "See you on Monday.", still splits.
+            abbreviated_names: list[str] = []
+            month_names: list[str] = []
+            for key in _WEEKDAY_KEYS + _MONTH_KEYS:
+                key_names = self.info.get(key, [])
+                if not key_names:
+                    continue
+                if key in _MONTH_KEYS:
+                    month_names.extend(key_names)
+                if len(key_names) > 1:
+                    longest = max(map(len, key_names))
+                    abbreviated_names.extend(
+                        name for name in key_names if len(name) < longest
+                    )
+            if abbreviated_names:
+                abbreviation_string += (
+                    r"(?!(?<=\b(?i:"
+                    + "|".join(map(re.escape, abbreviated_names))
+                    + r"))\.)"
+                )
+            # A day number (1 or 2 digits, not a longer run such as a year)
+            # followed by a full stop and a month name, e.g. "15. november
+            # 2020" or "10. jul. 2017": the day-month-year order some European
+            # languages write out in full, including English when it borrows
+            # the month name untranslated, as CLDR does for "november".
+            #
+            # Whitespace is required between the two: without it the word
+            # splitter keeps the day and the month in one token, e.g. Latvian
+            # "20.februāris", which then never matches the dictionary and so
+            # loses the month that splitting the sentence at least recovers.
+            if month_names:
+                abbreviation_string += (
+                    r"(?!(?<=\b\d{1,2})\.\s+(?i:"
+                    + "|".join(map(re.escape, month_names))
+                    + r")\b)"
+                )
+            # "a.m."/"p.m." in either case, which the splitter would otherwise
+            # treat as the ends of two separate one-letter sentences.
+            abbreviation_string += (
+                r"(?!(?<=\b(?i:[ap]))\.(?=(?i:m\.)))"
+                r"(?!(?<=\b(?i:[ap]\.m))\.)"
+            )
+
+            if self.shortname in ["fi", "cs", "hu", "de", "da"]:
+                for digit_abbreviation in digit_abbreviations:
+                    abbreviation_string += (
+                        "(?<!" + digit_abbreviation + ")"
+                    )  # negative lookbehind
+
+            # Lookbehinds make groups 3, 4 and 6 match a punctuation run only
+            # from its start, so that a long run not followed by whitespace is
+            # scanned once.
+            splitters_dict = {
+                1: r"[\.!?;…\r\n]+(?:\s|$)*",  # most European, Tagalog, Hebrew,
+                # Georgian, Indonesian, Vietnamese
+                2: r"[\.!?;…\r\n]+(\s*[¡¿]*|$)|[¡¿]+",  # Spanish
+                3: r"(?<![|!?;])[|!?;\r\n]+(?:\s|$)+",  # Hindi and Bangla
+                4: r"(?<![。…‥\.!?？！;])[。…‥\.!?？！;\r\n]+(?:\s|$)+",  # Japanese
+                # and Chinese
+                5: r"[\r\n]+",  # Thai
+                6: r"(?<![؟!\.…])[\r\n؟!\.…]+(?:\s|$)+",
+            }  # Arabic and Farsi
+            # Full stops of fractional seconds and of dates like 13.07.2016.
+            abbreviation_string += (
+                r"(?!(?<=:\d\d)\.\d|(?<=\d)\.\d+\.\d|(?<=\d\.\d+)\.\d)"
+            )
+            split_reg = (
+                abbreviation_string
+                + splitters_dict[self.info.get("sentence_splitter_group", 1)]
+            )
+            self._sentence_splitter = re.compile(split_reg)
+            return self._sentence_splitter
+
     def _sentence_split(
         self, string: str, settings: "Settings | None"
     ) -> Iterator[str]:
-        abbreviations = self._get_abbreviations(settings=settings)
-        digit_abbreviations = ["[0-9]"]  # numeric date with full stop
-        abbreviation_string = ""
-
-        for abbreviation in abbreviations:
-            abbreviation_string += (
-                "(?<! " + abbreviation[:-1] + ")"
-            )  # negative lookbehind
-        if self.shortname in ["fi", "cs", "hu", "de", "da"]:
-            for digit_abbreviation in digit_abbreviations:
-                abbreviation_string += (
-                    "(?<!" + digit_abbreviation + ")"
-                )  # negative lookbehind
-
-        # Lookbehinds make groups 3, 4 and 6 match a punctuation run only from
-        # its start, so that a long run not followed by whitespace is scanned
-        # once.
-        splitters_dict = {
-            1: r"[\.!?;…\r\n]+(?:\s|$)*",  # most European, Tagalog, Hebrew, Georgian,
-            # Indonesian, Vietnamese
-            2: r"[\.!?;…\r\n]+(\s*[¡¿]*|$)|[¡¿]+",  # Spanish
-            3: r"(?<![|!?;])[|!?;\r\n]+(?:\s|$)+",  # Hindi and Bangla
-            4: r"(?<![。…‥\.!?？！;])[。…‥\.!?？！;\r\n]+(?:\s|$)+",  # Japanese and Chinese
-            5: r"[\r\n]+",  # Thai
-            6: r"(?<![؟!\.…])[\r\n؟!\.…]+(?:\s|$)+",
-        }  # Arabic and Farsi
-        # Full stops of fractional seconds and of dates like 13.07.2016.
-        abbreviation_string += r"(?!(?<=:\d\d)\.\d|(?<=\d)\.\d+\.\d|(?<=\d\.\d+)\.\d)"
-        if "sentence_splitter_group" not in self.info:
-            split_reg = abbreviation_string + splitters_dict[1]
-            sentences = re.split(split_reg, string)
-        else:
-            split_reg = (
-                abbreviation_string
-                + splitters_dict[self.info["sentence_splitter_group"]]
-            )
-            sentences = re.split(split_reg, string)
-
-        return filter(None, sentences)
+        return filter(
+            None, self._get_sentence_splitter(settings=settings).split(string)
+        )
 
     def _simplify_split_align(  # noqa: PLR0912
         self, original: str, settings: "Settings | None"

@@ -3438,6 +3438,104 @@ class TestSentenceSplit:
         text = punctuation * 100_000 + "x"
         assert list(locale._sentence_split(text, settings=settings)) == [text]
 
+    @pytest.mark.parametrize(
+        "month_abbreviation",
+        [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Sept",
+            "Oct",
+            "Nov",
+            "Dec",
+        ],
+    )
+    def test_dotted_month_abbreviation_does_not_end_sentence(
+        self, month_abbreviation: str
+    ) -> None:
+        locale = default_loader.get_locale("en")
+        text = f"Posted {month_abbreviation}. 5, 2020 by staff."
+        assert list(locale._sentence_split(text, settings=settings)) == [text[:-1]]
+
+    @pytest.mark.parametrize(
+        "weekday_abbreviation",
+        ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    )
+    def test_dotted_weekday_abbreviation_does_not_end_sentence(
+        self, weekday_abbreviation: str
+    ) -> None:
+        locale = default_loader.get_locale("en")
+        text = f"{weekday_abbreviation}. Jan. 3, 2020 was the day."
+        assert list(locale._sentence_split(text, settings=settings)) == [text[:-1]]
+
+    def test_full_month_and_weekday_names_still_end_a_sentence(self) -> None:
+        # Unlike their abbreviations, the full names are not protected: "may"
+        # is not shortened with a trailing period in English either, so a
+        # period after it is always a sentence boundary.
+        locale = default_loader.get_locale("en")
+        text = "See you on Monday. The event is in May. It may. Or may not."
+        assert list(locale._sentence_split(text, settings=settings)) == [
+            "See you on Monday",
+            "The event is in May",
+            "It may",
+            "Or may not",
+        ]
+
+    @pytest.mark.parametrize(
+        ("text", "expected"),
+        [
+            ("15. november 2020", ["15. november 2020"]),
+            ("10. jul. 2017", ["10. jul. 2017"]),
+            # A year is not a day number, so a period after one still splits.
+            ("2014. July 13th", ["2014", "July 13th"]),
+            # Not followed by a month name, so this is still a sentence break.
+            ("Section 5. Overview", ["Section 5", "Overview"]),
+        ],
+    )
+    def test_day_number_before_month_name_does_not_end_sentence(
+        self, text: str, expected: list[str]
+    ) -> None:
+        locale = default_loader.get_locale("en")
+        assert list(locale._sentence_split(text, settings=settings)) == expected
+
+    def test_day_number_glued_to_month_name_still_ends_sentence(self) -> None:
+        # Whitespace between the two is required: without it the word splitter
+        # keeps the day and the month in a single token, which never matches
+        # the dictionary, so the month is lost altogether. Splitting the
+        # sentence at least recovers it.
+        locale = default_loader.get_locale("lv")
+        assert list(
+            locale._sentence_split("20.februāris, 10:44", settings=settings)
+        ) == [
+            "20",
+            "februāris, 10:44",
+        ]
+        assert list(
+            locale._sentence_split("20. februāris, 10:44", settings=settings)
+        ) == ["20. februāris, 10:44"]
+
+    @pytest.mark.parametrize(
+        ("text", "expected"),
+        [
+            (
+                "It happened at 8:45 a.m. yesterday.",
+                ["It happened at 8:45 a.m. yesterday"],
+            ),
+            ("I saw it at 11:00 P.M.", ["I saw it at 11:00 P.M."]),
+            # "am" alone, without periods, is an ordinary word and still ends
+            # a sentence.
+            ("I am. Really.", ["I am", "Really"]),
+        ],
+    )
+    def test_am_pm_does_not_end_sentence(self, text: str, expected: list[str]) -> None:
+        locale = default_loader.get_locale("en")
+        assert list(locale._sentence_split(text, settings=settings)) == expected
+
 
 class TestTranslateNumerals:
     def test_non_ascii_digits_keep_leading_zeros(self) -> None:
