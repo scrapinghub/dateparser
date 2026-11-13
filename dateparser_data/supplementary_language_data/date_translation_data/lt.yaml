@@ -3,7 +3,7 @@ simplifications:
     # Not before another word or a number: "prieš dieną Kalėdų" (the day
     # before Christmas) and "prieš dieną 5" are not "1 day ago"
     - '(?<=prieš\s+)savaitę\b(?!\s+\S)': '1 savaitę'
-    - '(?<=prieš\s+)mėnesį\b(?!\s+\S)': '1 mėnesį'
+    - '(?<=prieš\s+)mėnesį\b(?!\s+\d)(?!\s+(?:{MONTH_NAMES})\b)': '1 mėnesį'
     - '(?<=prieš\s+)metus\b(?!\s+\S)': '1 metus'
     - '(?<=prieš\s+)dieną\b(?!\s+\S)': '1 dieną'
     - '(?<=prieš\s+)valandą\b(?!\s+\S)': '1 valandą'

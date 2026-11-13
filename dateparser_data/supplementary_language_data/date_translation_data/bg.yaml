@@ -81,8 +81,7 @@ simplifications:
     - два: '2'
     - три: '3'
 
-    # The numeral "1" is optional: a bare unit means "1 unit" ago
-    # Not before another word or a number: "преди месец 5" is not "1 month
-    # ago". This also covers a month name after "месец" without needing to
-    # list them all out
-    - '(?<=преди\s+)месец\b(?!\s+\S)': '1 месец'
+    # The numeral "1" is optional: a bare unit means "1 unit" ago. Not
+    # before a number or an actual month name (built from bg's own month
+    # data): "преди месец 5" is not "1 month ago"
+    - '(?<=преди\s+)месец\b(?!\s+\d)(?!\s+(?:{MONTH_NAMES})\b)': '1 месец'

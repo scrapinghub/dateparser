@@ -1609,6 +1609,29 @@ class TestTranslateSearch(BaseTestCase):
                 languages=["hr"],
                 expected=[("ožujak", datetime.datetime(2020, 3, 13, 0, 0))],
             ),
+            # A month unit followed by an ordinary (non-month, non-numeric)
+            # word still reads as "1 month ago": unlike the other units,
+            # the guard here only excludes a number or an actual month name
+            param(
+                text="prije mjesec bio je lijep dan",
+                languages=["hr"],
+                expected=[("mjesec", relative_base - relativedelta(months=1))],
+            ),
+            param(
+                text="пред месец беше убаво време",
+                languages=["mk"],
+                expected=[("месец", relative_base - relativedelta(months=1))],
+            ),
+            param(
+                text="преди месец беше хубаво време",
+                languages=["bg"],
+                expected=[("преди месец", relative_base - relativedelta(months=1))],
+            ),
+            param(
+                text="před měsíc bylo hezky",
+                languages=["cs"],
+                expected=[("před měsíc", relative_base - relativedelta(months=1))],
+            ),
         ]
     )
     def test_search_dates_with_a_relative_expression_reads_its_direction(
@@ -1637,6 +1660,11 @@ class TestTranslateSearch(BaseTestCase):
             param(text="před den 5", languages=["cs"]),
             param(text="prieš dieną 5", languages=["lt"]),
             param(text="пред ден 5", languages=["mk"]),
+            # A month unit before a number is not "1 month ago" either
+            param(text="prije mjesec 5", languages=["hr"]),
+            param(text="пред месец 5", languages=["mk"]),
+            param(text="преди месец 5", languages=["bg"]),
+            param(text="před měsíc 5", languages=["cs"]),
         ]
     )
     def test_search_dates_does_not_read_a_noun_as_a_relative_date(

@@ -17,10 +17,11 @@ relative-type:
 simplifications:
     # The numeral "1" is optional: a bare unit means "1 unit" ago. Not
     # before another word or a number: "пред час по математика" (before a
-    # math class) and "пред ден 5" are not "1 hour/day ago". This also
-    # covers a month name after "месец" without needing to list them
+    # math class) and "пред ден 5" are not "1 hour/day ago". For "месец",
+    # only a number or an actual month name is excluded (built from mk's
+    # own month data) instead of blocking any following word
     - '(?<=пред\s+)седмица\b(?!\s+\S)': '1 седмица'
-    - '(?<=пред\s+)месец\b(?!\s+\S)': '1 месец'
+    - '(?<=пред\s+)месец\b(?!\s+\d)(?!\s+(?:{MONTH_NAMES})\b)': '1 месец'
     - '(?<=пред\s+)година\b(?!\s+\S)': '1 година'
     - '(?<=пред\s+)ден\b(?!\s+\S)': '1 ден'
     - '(?<=пред\s+)час\b(?!\s+\S)': '1 час'

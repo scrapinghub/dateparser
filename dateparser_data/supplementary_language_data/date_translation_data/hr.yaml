@@ -144,13 +144,15 @@ simplifications:
     - podne: '12:00'
     - ponoć: '00:00'
 
-    # The numeral "1" is optional: a bare unit means "1 unit" ago. Not
-    # before another word or a number beyond the idiomatic "dana"/"vremena"
-    # continuation: "prije mjesec svi su" and "prije dan 5" are not
-    # "1 month/day ago". The generic guard also keeps a month name from
-    # being swallowed, without needing to list them all out
+    # The numeral "1" is optional: a bare unit means "1 unit" ago, except
+    # for the idiomatic "dana"/"vremena" continuation. Not before another
+    # word or a number: "prije dan 5" is not "1 day ago". For "mjesec",
+    # only a number or an actual month name is excluded (built from hr's
+    # own month data, so e.g. "svi", May's abbreviation, is covered)
+    # instead of blocking any following word, since that also swallowed
+    # ordinary sentences like "prije mjesec bio je lijep dan"
     - '(?<=prije\s+)tjedan(?:\s+dana)?(?!\s+\S)': '1 tjedan'
-    - '(?<=prije\s+)mjesec(?:\s+dana)?(?!\s+\S)': '1 mjesec'
+    - '(?<=prije\s+)mjesec(?:\s+dana)?(?!\s+\d)(?!\s+(?:{MONTH_NAMES})\b)': '1 mjesec'
     - '(?<=prije\s+)godinu(?:\s+dana)?(?!\s+\S)': '1 godinu'
     - '(?<=prije\s+)sat(?:\s+vremena)?(?!\s+\S)': '1 sat'
     - '(?<=prije\s+)dan\b(?!\s+\S)': '1 dan'

@@ -3,7 +3,7 @@ simplifications:
     # before another word or a number, same risk as Lithuanian "prieš
     # dieną Kalėdų"/"prieš dieną 5"
     - '(?<=pred\s+)tednom\b(?!\s+\S)': '1 tednom'
-    - '(?<=pred\s+)mesecem\b(?!\s+\S)': '1 mesecem'
+    - '(?<=pred\s+)mesecem\b(?!\s+\d)(?!\s+(?:{MONTH_NAMES})\b)': '1 mesecem'
     - '(?<=pred\s+)letom\b(?!\s+\S)': '1 letom'
     - '(?<=pred\s+)dnevom\b(?!\s+\S)': '1 dnevom'
     - '(?<=pred\s+)uro\b(?!\s+\S)': '1 uro'

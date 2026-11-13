@@ -537,7 +537,7 @@ info = {
             "(?<=před\\s)týden\\b(?!\\s+\\S)": "1 týden"
         },
         {
-            "(?<=před\\s)měsíc\\b(?!\\s+\\S)": "1 měsíc"
+            "(?<=před\\s)měsíc\\b(?!\\s+\\d)(?!\\s+(?:listopadu|listopad|prosince|prosinci|prosinec|července|červenci|červenec|březen|března|březnu|květen|května|květnu|červen|června|červnu|duben|dubna|dubnu|leden|ledna|lednu|srpen|srpna|srpnu|února|únoru|říjen|října|říjnu|září|únor|bře|dub|kvě|led|lis|pro|srp|zář|úno|únr|Čer|Črc|črv|čvc|čvn|říj)\\b)": "1 měsíc"
         },
         {
             "(?<=před\\s)rok\\b(?!\\s+\\S)": "1 rok"

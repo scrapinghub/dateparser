@@ -243,7 +243,7 @@ info = {
             "(?<=pred\\s+)tednom\\b(?!\\s+\\S)": "1 tednom"
         },
         {
-            "(?<=pred\\s+)mesecem\\b(?!\\s+\\S)": "1 mesecem"
+            "(?<=pred\\s+)mesecem\\b(?!\\s+\\d)(?!\\s+(?:september|december|november|februar|oktober|avgust|januar|april|julij|junij|marec|apr|avg|dec|feb|jan|jul|jun|maj|mar|nov|okt|sep)\\b)": "1 mesecem"
         },
         {
             "(?<=pred\\s+)letom\\b(?!\\s+\\S)": "1 letom"
