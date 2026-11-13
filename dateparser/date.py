@@ -307,6 +307,15 @@ def get_date_from_timestamp(
         match = RE_SEARCH_TIMESTAMP.search(date_string)
 
     if match:
+        try:
+            seconds = int(match.group(1))
+            millis = int(match.group(2) or 0)
+            micros = millis * 1000 + int(match.group(3) or 0)
+        except ValueError:
+            # A digit that the regular expression matches but int() does not
+            # know, e.g. one added to Unicode after this Python version.
+            return None
+
         if (
             settings is None
             or settings.TIMEZONE is None
@@ -319,9 +328,6 @@ def get_date_from_timestamp(
             # Otherwise, use the timezone given in settings
             timezone = get_timezone_from_tz_string(settings.TIMEZONE)
 
-        seconds = int(match.group(1))
-        millis = int(match.group(2) or 0)
-        micros = millis * 1000 + int(match.group(3) or 0)
         if negative:
             seconds, micros = divmod(seconds * 1000000 - micros, 1000000)
         date_obj = datetime.fromtimestamp(seconds, timezone).replace(

@@ -21,7 +21,7 @@ from dateparser.search.detection import (
     ExactLanguages,
 )
 from dateparser.utils import normalize_unicode
-from tests import BaseTestCase
+from tests import BaseTestCase, digits_unknown_to_int
 
 
 class TestLocaleTranslation:
@@ -3531,6 +3531,33 @@ class TestRussianNumberPairs:
     def test_compound_ordinal_is_still_combined(self) -> None:
         locale = default_loader.get_locale("ru")
         assert locale.translate("20 3 мая", settings=settings) == "23 may"
+        assert locale.translate("20 ٣ мая", settings=settings) == "23 may"
+
+    def test_number_pair_that_int_rejects_is_not_combined(self) -> None:
+        # int() knows the digits of the Unicode version of this Python only, and
+        # the regular expression of the regex module may know more.
+        locale = default_loader.get_locale("ru")
+        with patch(
+            "dateparser.languages.locale.int", side_effect=ValueError, create=True
+        ):
+            assert locale.translate("20 3 мая", settings=settings) == "20 3 may"
+
+    def test_digit_that_int_rejects_is_not_combined(self) -> None:
+        digits = digits_unknown_to_int()
+        if not digits:
+            pytest.skip("int() knows every digit that the regex module knows")
+        digit = digits[0]
+        locale = default_loader.get_locale("ru")
+        assert locale.translate(f"20 {digit} мая", settings=settings) == (
+            f"20 {digit} may"
+        )
+        for date_string in (
+            f"20 {digit}",
+            f"10:30 UTC+{digit}",
+            f"20 {digit} June 2020",
+        ):
+            assert parse(date_string) is None
+            assert isinstance(search_dates(date_string), (list, type(None)))
 
 
 class TestDictionarySplit:

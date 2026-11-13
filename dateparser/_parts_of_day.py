@@ -87,7 +87,12 @@ def _replace_part_of_day(
     before, after = translated[: match.start()], translated[match.end() :]
     number = _TRAILING_NUMBER_PATTERN.search(before)
     if number and not number["month"]:
-        hour = int(number["hour"])
+        try:
+            hour = int(number["hour"])
+        except ValueError:
+            # A digit that the regular expression matches but int() does not
+            # know, e.g. one added to Unicode after this Python version.
+            return translated, None, False
         if hour > 12:
             return translated, None, False
         time_string = f"{hour}{number['minutes'] or ':00'} {_meridiem(part, hour)}"

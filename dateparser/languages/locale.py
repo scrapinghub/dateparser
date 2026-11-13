@@ -922,7 +922,12 @@ class Locale:
             # Numbers can be too long for int(), so check their digits first.
             if first not in ("20", "30") or len(second) != 1:
                 return match.group(0)
-            result = int(first) + int(second)
+            try:
+                result = int(first) + int(second)
+            except ValueError:
+                # A digit that the regular expression matches but int() does not
+                # know, e.g. one added to Unicode after this Python version.
+                return match.group(0)
             if second != "0" and result <= 31:
                 return str(result)
             return match.group(0)
