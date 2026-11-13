@@ -1033,6 +1033,49 @@ class TestDateParser(BaseTestCase):
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
 
+    @parameterized.expand(
+        [
+            param("2021-04-29T06+02:00", datetime(2021, 4, 29, 6), 120),
+            param("2021-04-29T06-03:30", datetime(2021, 4, 29, 6), -210),
+            param("2021-04-29T00Z", datetime(2021, 4, 29), 0),
+            param("2021-04-29T23+0530", datetime(2021, 4, 29, 23), 330),
+            param("2021-04-29T06", datetime(2021, 4, 29, 6), None),
+            param("2021-04-29T06Z", datetime(2021, 4, 29, 6), 0),
+            param("2021-04-29T06+00:00", datetime(2021, 4, 29, 6), 0),
+        ]
+    )
+    def test_iso_hour_precision(
+        self, date_string: str, expected: datetime, offset_minutes: int | None
+    ) -> None:
+        if offset_minutes is not None:
+            expected = expected.replace(
+                tzinfo=timezone(timedelta(minutes=offset_minutes))
+            )
+        assert parse(date_string, languages=["en"]) == expected
+
+    @parameterized.expand(
+        [
+            param({}, datetime(2021, 4, 29, 6, tzinfo=timezone(timedelta(hours=2)))),
+            param(
+                {"TO_TIMEZONE": "UTC"}, datetime(2021, 4, 29, 4, tzinfo=timezone.utc)
+            ),
+            param({"RETURN_AS_TIMEZONE_AWARE": False}, datetime(2021, 4, 29, 6)),
+        ]
+    )
+    def test_iso_hour_precision_uses_timezone_settings(
+        self, parser_settings: dict[str, Any], expected: datetime
+    ) -> None:
+        for languages in [None, ["en"], ["fr"]]:
+            with self.subTest(languages=languages):
+                assert (
+                    parse(
+                        "2021-04-29T06+02:00",
+                        languages=languages,
+                        settings=parser_settings,
+                    )
+                    == expected
+                )
+
     def test_date_is_parsed_when_skip_tokens_are_supplied(self) -> None:
         self.given_parser(
             settings={"SKIP_TOKENS": ["de"], "RELATIVE_BASE": datetime(2015, 2, 12)}

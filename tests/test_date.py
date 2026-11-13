@@ -1501,6 +1501,23 @@ class TestSanitizeDate(BaseTestCase):
         ):
             self.assertEqual(date.sanitize_date(date_string), date_string)
 
+    @parameterized.expand(
+        [
+            param("2021-04-29T06+02:00", "2021-04-29T06:00+02:00"),
+            param("2021-04-29T00Z", "2021-04-29T00:00Z"),
+            param("2021-04-29T23", "2021-04-29T23:00"),
+            param("2021-04-29T24+02:00", "2021-04-29T24+02:00"),
+            param("2021-04-29T6+02:00", "2021-04-29T6+02:00"),
+            param("2021-04-29T06:30+02:00", "2021-04-29T06:30+02:00"),
+            param("2021-04-29T06:30:45Z", "2021-04-29T06:30:45Z"),
+            param("2021-04-29 06", "2021-04-29 06"),
+            param("2021-04-29T0612", "2021-04-29T0612"),
+            param("2021-04-29T06 words", "2021-04-29T06 words"),
+        ]
+    )
+    def test_sanitize_iso_hour_precision(self, date_string: str, expected: str) -> None:
+        assert date.sanitize_date(date_string) == expected
+
     def test_sanitize_date_decimal_comma(self) -> None:
         self.assertEqual(date.sanitize_date("06:38:49,946"), "06:38:49.946")
         self.assertEqual(date.sanitize_date("06:38:49,12 June"), "06:38:49,12 June")

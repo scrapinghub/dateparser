@@ -58,6 +58,8 @@ Key Features
 -  Support for almost every existing date format: absolute dates,
    relative dates (``"two weeks ago"`` or ``"tomorrow"``), timestamps,
    etc.
+-  Support for hour-precision ISO 8601 dates emitted by
+   ``date --iso-8601=hours`` (``"2021-04-29T06+02:00"``).
 -  Support for more than `200 language
    locales <https://dateparser.readthedocs.io/en/latest/supported_locales.html>`__.
 -  Language autodetection
