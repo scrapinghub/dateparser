@@ -331,7 +331,6 @@ def parse_with_formats(
     """
     period = "day"
     for date_format in date_formats:
-        _missing = _get_missing_parts(date_format)
         now = settings.RELATIVE_BASE or _now(settings)
         try:
             date_obj = patched_strptime(
@@ -340,6 +339,7 @@ def parse_with_formats(
         except ValueError:
             continue
         else:
+            _missing = _get_missing_parts(date_format)
             if "year" in _missing:
                 try:
                     date_obj = date_obj.replace(year=now.year)
