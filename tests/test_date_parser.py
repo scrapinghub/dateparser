@@ -2400,7 +2400,7 @@ class TestDateParser(BaseTestCase):
     def test_prefer_dates_from_with_date_formats_feb29_non_leap(self) -> None:
         """Test that Feb 29 shifted to a non-leap year finds the next valid leap year (Bug #2 fix)."""
         # 2/29/00 parses as 2000-02-29; shifting +100 → 2100 which is not a leap year.
-        # _apply_century_preference finds the next valid leap year: 2104.
+        # _apply_year_preference finds the next valid leap year: 2104.
         result = parse(
             "2/29/00",
             date_formats=["%m/%d/%y"],
@@ -2414,6 +2414,30 @@ class TestDateParser(BaseTestCase):
         self.assertEqual(2104, result.year)
         self.assertEqual(2, result.month)
         self.assertEqual(29, result.day)
+
+    @parameterized.expand(
+        [
+            param("December 25", "past", datetime(2026, 6, 15), datetime(2025, 12, 25)),
+            param("March 10", "future", datetime(2026, 6, 15), datetime(2027, 3, 10)),
+        ]
+    )
+    def test_prefer_dates_from_with_yearless_format(
+        self,
+        date_string: str,
+        prefer_from: str,
+        relative_base: datetime,
+        expected: datetime,
+    ) -> None:
+        """PREFER_DATES_FROM also applies to a date_formats entry with no year."""
+        result = parse(
+            date_string,
+            date_formats=["%B %d"],
+            settings={
+                "PREFER_DATES_FROM": prefer_from,
+                "RELATIVE_BASE": relative_base,
+            },
+        )
+        self.assertEqual(expected, result)
 
     @parameterized.expand(
         [

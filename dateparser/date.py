@@ -337,12 +337,13 @@ def get_date_from_timestamp(
     return None
 
 
-def _apply_century_preference(
-    date_obj: datetime, now: datetime, prefer_from: str
+def _apply_year_preference(
+    date_obj: datetime, now: datetime, prefer_from: str, years: int
 ) -> datetime:
-    """Shift *date_obj* by ±100 years to satisfy PREFER_DATES_FROM.
+    """Shift *date_obj* by ±*years* to satisfy PREFER_DATES_FROM.
 
-    *date_obj* and *now* are compared as naive datetimes, so either of them
+    Used with ``years=100`` for a two-digit-year format and ``years=1`` for a
+    format with no year at all.  *date_obj* and *now* are compared as naive datetimes, so either of them
     can be tz-aware.  When the shifted year falls on Feb 29 in a non-leap
     year, the nearest valid leap year in the preferred direction is used —
     matching the behaviour of the NLP path in :file:`parser.py`.
@@ -353,9 +354,9 @@ def _apply_century_preference(
     date_naive = date_obj.replace(tzinfo=None)
 
     if now_naive < date_naive and prefer_from == "past":
-        target_year = date_obj.year - 100
+        target_year = date_obj.year - years
     elif now_naive >= date_naive and prefer_from == "future":
-        target_year = date_obj.year + 100
+        target_year = date_obj.year + years
     else:
         return date_obj
 
@@ -405,9 +406,12 @@ def parse_with_formats(
             now = settings.RELATIVE_BASE or _now(settings)
             if "year" in _missing:
                 date_obj = date_obj.replace(year=now.year)
+                date_obj = _apply_year_preference(
+                    date_obj, now, settings.PREFER_DATES_FROM, 1
+                )
             elif "%y" in date_format and "%Y" not in date_format:
-                date_obj = _apply_century_preference(
-                    date_obj, now, settings.PREFER_DATES_FROM
+                date_obj = _apply_year_preference(
+                    date_obj, now, settings.PREFER_DATES_FROM, 100
                 )
 
             date_obj = apply_timezone_from_settings(date_obj, settings)
