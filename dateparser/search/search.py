@@ -47,6 +47,10 @@ _GLUED_RELATIVE_REG = re.compile(
     rf"in \d+ (?:{_UNITS})s?(?![a-z])|(?<![\d.])\d+ ?(?:{_UNITS})s? ago(?![a-z])"
 )
 _NUMERIC_DATE_REG = re.compile(r"\d[-/.]\d+[-/.]\d")
+# A number with a symbol before or after it, e.g. "$20", "#3" or "50%", which is
+# an amount rather than a date.
+_SYMBOL = r"[\p{Sc}#%@&*+~]"
+_NUMBER_WITH_SYMBOL_REG = re.compile(rf"{_SYMBOL}+\d+{_SYMBOL}*|\d+{_SYMBOL}+")
 _SEPARATORS = f"{PUNCTUATION}，、 "
 
 _MAX_TRAILING_WORDS = 3
@@ -594,15 +598,20 @@ class _ExactLanguageSearch:
     ) -> list[list[list[str]]]:
         """Split a chunk that starts with a number into that number and the
         rest, to find a date written after a number that is not part of it,
-        e.g. the decimals of “-58.5” before “06 Mar 2009”."""
+        e.g. the decimals of “-58.5” before “06 Mar 2009”, or the amount
+        “$20” before “Jan 5”."""
         number, _, rest = item.partition(" ")
         original_number, _, original_rest = original.partition(" ")
+        with_symbol = _NUMBER_WITH_SYMBOL_REG.fullmatch(number) is not None
         if (
-            not number.isdigit()
+            not (number.isdigit() or with_symbol)
             or number != original_number
             or parser.get_date_data(rest)["date_obj"] is None
         ):
             return []
+        if with_symbol:
+            # The amount is left out, as it would be parsed as a day of its own.
+            return [[[rest], [original_rest]]]
         return [[[number, rest], [original_number, original_rest]]]
 
     def split_if_not_parsed(

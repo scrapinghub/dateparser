@@ -2324,6 +2324,62 @@ class TestTranslateSearch(BaseTestCase):
     @parameterized.expand(
         [
             param(
+                text="Paid $20 on January 5, 2024",
+                expected=[("on January 5, 2024", datetime.datetime(2024, 1, 5))],
+            ),
+            param(
+                text="Paid $20 on Jan 5",
+                expected=[("on Jan 5", datetime.datetime(2024, 1, 5))],
+            ),
+            param(
+                text="Paid $20 on 5 January 2024",
+                expected=[("on 5 January 2024", datetime.datetime(2024, 1, 5))],
+            ),
+            param(
+                text="Paid €20 on January 5, 2024",
+                expected=[("on January 5, 2024", datetime.datetime(2024, 1, 5))],
+            ),
+            param(
+                text="Paid £20 on Jan 5",
+                expected=[("on Jan 5", datetime.datetime(2024, 1, 5))],
+            ),
+            param(
+                text="Paid 20$ on Jan 5",
+                expected=[("on Jan 5", datetime.datetime(2024, 1, 5))],
+            ),
+            param(
+                text="Order #20 on January 5, 2024",
+                expected=[("on January 5, 2024", datetime.datetime(2024, 1, 5))],
+            ),
+            param(
+                text="Up 50% on January 5, 2024",
+                expected=[("on January 5, 2024", datetime.datetime(2024, 1, 5))],
+            ),
+            param(
+                text="Meet @10 on Jan 5",
+                expected=[("on Jan 5", datetime.datetime(2024, 1, 5))],
+            ),
+            param(
+                text="+20 on January 5, 2024",
+                expected=[("on January 5, 2024", datetime.datetime(2024, 1, 5))],
+            ),
+        ]
+    )
+    def test_search_dates_after_a_number_with_a_symbol(
+        self, text: str, expected: list[tuple[str, datetime.datetime]]
+    ) -> None:
+        # An amount such as "$20" is not a date, and should not keep the date
+        # after it from being found.
+        result = search_dates(
+            text,
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)},
+        )
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(
                 text="Ужасное событие произошло в тот день. Двадцатое февраля. Вспоминаю тот день с ужасом.",
                 expected_text="Двадцатое февраля",
                 expected_day=20,
