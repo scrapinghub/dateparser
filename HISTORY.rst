@@ -3,6 +3,18 @@
 History
 =======
 
+1.6.0 (unreleased)
+------------------
+
+Breaking changes:
+
+- Drop support for Python 3.10, the minimum supported version is now Python
+  3.11 (#1567)
+
+New features:
+
+- Add support for Python 3.15 (#1567)
+
 1.5.0 (2026-11-04)
 ------------------
 
