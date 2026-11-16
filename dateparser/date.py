@@ -416,11 +416,16 @@ def parse_with_formats(
             # Resolving settings.TIMEZONE is skipped entirely when nothing
             # was clamped, which is the common case.
             try:
-                effective_tz = (
-                    _effective_tz_for_naive_input(date_obj, settings)
-                    if _get_clamped_leap_second() is not None
-                    else None
-                )
+                effective_tz = None
+                if _get_clamped_leap_second() is not None:
+                    # A format with %z already made date_obj tz-aware from
+                    # the string's own offset; settings.TIMEZONE only applies
+                    # to naive input, and localizing an aware datetime raises.
+                    effective_tz = (
+                        date_obj.tzinfo
+                        if date_obj.tzinfo is not None
+                        else _effective_tz_for_naive_input(date_obj, settings)
+                    )
                 _validate_leap_second(date_obj, effective_tz)
             except ValueError:
                 continue

@@ -1855,6 +1855,23 @@ class TestLeapSecondDateData(BaseTestCase):
         self.assertEqual(result["date_obj"].second, 59)
         self.assertEqual(result["leap_second"], 60)
 
+    def test_leap_second_with_custom_date_formats_offset_and_timezone_setting(
+        self,
+    ) -> None:
+        # The format's own %z already makes date_obj tz-aware; a configured
+        # TIMEZONE must not be localized onto it a second time.
+        settings = {"TIMEZONE": "UTC"}
+        result = date.DateDataParser(settings=settings).get_date_data(
+            "2016-12-31 23:59:60 +0000", date_formats=["%Y-%m-%d %H:%M:%S %z"]
+        )
+        self.assertEqual(result["date_obj"].second, 59)
+        self.assertEqual(result["leap_second"], 60)
+
+        result = date.DateDataParser(settings=settings).get_date_data(
+            "1986-12-31 23:59:60 +0000", date_formats=["%Y-%m-%d %H:%M:%S %z"]
+        )
+        self.assertIsNone(result["date_obj"])
+
     def test_leap_second_is_validated_after_year_is_filled_in(self) -> None:
         # A format missing only the year parses month/day straight from the
         # string, defaulting the year to 1900 until a later correction fills
