@@ -1820,12 +1820,12 @@ class TestTimestampParser(BaseTestCase):
 
 
 class TestLeapSecondDateData(BaseTestCase):
-    """A leap second (`:60`) is clamped to `:59` rather than failing to parse,
-    but only when it matches one of the 27 real leap seconds IERS has
-    inserted (all 23:59:60 UTC on June 30 or December 31). `:61`, and a `:60`
-    on any other date/time, fail to parse. `DateData.leap_second` carries the
-    original raw second (60), since the returned `date_obj` can no longer
-    distinguish the clamp from a plain `:59`.
+    """A leap second (`:60`) is clamped to `:59`, but only when it matches one
+    of the 27 real leap seconds IERS has inserted (all 23:59:60 UTC on June
+    30 or December 31). `:61`, and a `:60` on any other date/time, fail to
+    parse. `DateData.leap_second` carries the original raw second (60), since
+    the returned `date_obj` does not distinguish the clamp from a plain
+    `:59`.
     """
 
     def test_leap_second_is_flagged_on_date_data(self) -> None:
@@ -1833,11 +1833,7 @@ class TestLeapSecondDateData(BaseTestCase):
         self.assertEqual(result["date_obj"].second, 59)
         self.assertEqual(result["leap_second"], 60)
 
-    def test_61_seconds_still_fails_to_parse(self) -> None:
-        result = date.DateDataParser().get_date_data("December 31st, 2016 23:59:61 UTC")
-        self.assertIsNone(result["date_obj"])
-
-    def test_60_seconds_on_a_non_leap_second_date_still_fails_to_parse(self) -> None:
+    def test_60_seconds_on_a_non_leap_second_date_fails_to_parse(self) -> None:
         result = date.DateDataParser().get_date_data("March 15th, 2017 12:34:60")
         self.assertIsNone(result["date_obj"])
 
@@ -1915,7 +1911,7 @@ class TestLeapSecondDateData(BaseTestCase):
         result = date.DateDataParser().get_date_data("December 31st, 1971 23:59:60 UTC")
         self.assertIsNone(result["date_obj"])
 
-    def test_61_seconds_on_a_real_leap_second_date_still_fails_to_parse(self) -> None:
+    def test_61_seconds_on_a_real_leap_second_date_fails_to_parse(self) -> None:
         # :61 is never valid, even on a date that had a real :60.
         result = date.DateDataParser().get_date_data("December 31st, 2016 23:59:61 UTC")
         self.assertIsNone(result["date_obj"])

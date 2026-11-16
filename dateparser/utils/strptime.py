@@ -240,10 +240,10 @@ def strptime(date_string: str, format: str) -> datetime:  # noqa: A002
     date_string, prepared_format, day_of_year_in_format = _prepare_format(
         date_string, format
     )
+    _clamped_leap_second.set(None)
+
     time_tuple = __strptime(date_string, prepared_format)
     year, month, day, hour, minute, second = time_tuple[:6]
-
-    _clamped_leap_second.set(None)
 
     if second == 61:
         # `%S` of 61 is only in stdlib's regex for a theoretical double leap
