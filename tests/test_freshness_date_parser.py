@@ -2058,6 +2058,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
             ),
             # bn
             param("10 সেকেন্ডে", in_future={"seconds": 10}, period="day"),
+            param("৩ সপ্তাহ পর", in_future={"weeks": 3}, period="week"),
+            param("২ দিন ৩ ঘণ্টা পরে", in_future={"days": 2, "hours": 3}, period="day"),
             # br
             param("a-benn 20 vloaz", in_future={"years": 20}, period="year"),
             param(
