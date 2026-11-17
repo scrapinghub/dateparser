@@ -62,6 +62,11 @@ _MAX_EXPRESSION_CUTS = 50
 at which :meth:`_ExactLanguageSearch.split_off_numeric_date` tries to split a
 relative expression, e.g. "后天", off the chunk."""
 
+_MAX_QUANTITY_WORDS = 16
+"""Words, not counting the skipped ones at the end of a chunk, among which
+:meth:`_ExactLanguageSearch.split_off_trailing_quantity` looks for the words a
+quantity is written with, e.g. "in just about twenty five years from now"."""
+
 
 def _is_weekday_modifier(word: str) -> bool:
     return word.strip().strip(PUNCTUATION) in _WEEKDAY_MODIFIERS
@@ -503,7 +508,17 @@ class _ExactLanguageSearch:
             return language.translate_search(" ".join(words), settings=settings)[0]
 
         words = original.split()
-        for size in range(2, len(words)):
+        # Skipped words at the end of the chunk, e.g. "and", stay with the
+        # quantity however many there are, so its words are looked for before
+        # them, and it is not made of skipped words alone.
+        skipped = 0
+        while skipped < len(words) and not language.translate(
+            words[-1 - skipped], settings=settings
+        ):
+            skipped += 1
+        for size in range(
+            2 + skipped, min(len(words), skipped + _MAX_QUANTITY_WORDS + 1)
+        ):
             expression = words[-size:]
             if any(char.isdigit() for char in expression[0]):
                 break
