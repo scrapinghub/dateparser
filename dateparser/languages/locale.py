@@ -376,19 +376,15 @@ class Locale:
         # Remove empty tokens (skip words) and handle adjacent whitespace
         # When a skip token is removed between spaces, keep the maximum number of spaces
         filtered_tokens: list[str] = []
+        # Number of ' ' tokens at the end of filtered_tokens, kept up to date
+        # instead of counted again for every skip word.
+        trailing_spaces = 0
         i = 0
         while i < len(date_string_tokens):
             token = date_string_tokens[i]
 
             # Skip empty tokens (removed skip words)
             if not token:
-                # Count preceding spaces already in filtered_tokens
-                prev_spaces = 0
-                j = len(filtered_tokens) - 1
-                while j >= 0 and filtered_tokens[j] == " ":
-                    prev_spaces += 1
-                    j -= 1
-
                 # Count following spaces in the remaining tokens
                 next_spaces = 0
                 j = i + 1
@@ -396,15 +392,12 @@ class Locale:
                     next_spaces += 1
                     j += 1
 
-                # If surrounded by spaces, keep max(prev_spaces, next_spaces)
-                if prev_spaces > 0 and next_spaces > 0:
-                    # Remove prev_spaces from filtered_tokens
-                    for _ in range(prev_spaces):
-                        filtered_tokens.pop()
-
-                    # Add back the maximum number of spaces
-                    max_spaces = max(prev_spaces, next_spaces)
-                    filtered_tokens.extend(" " * max_spaces)
+                # If surrounded by spaces, keep max(trailing_spaces, next_spaces)
+                if trailing_spaces > 0 and next_spaces > 0:
+                    # Add the spaces missing to reach the maximum
+                    if next_spaces > trailing_spaces:
+                        filtered_tokens.extend(" " * (next_spaces - trailing_spaces))
+                        trailing_spaces = next_spaces
 
                     # Skip the empty token and all following spaces
                     i += next_spaces + 1
@@ -414,6 +407,10 @@ class Locale:
                 continue
 
             filtered_tokens.append(token)
+            if date_string_tokens[i] == " ":
+                trailing_spaces += 1
+            else:
+                trailing_spaces = 0
             i += 1
 
         return self._join(
