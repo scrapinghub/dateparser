@@ -367,7 +367,7 @@ are executed, you can do so through the
 Installation
 ============
 
-Dateparser supports Python 3.10+. You can install it by doing:
+Dateparser supports Python 3.11+. You can install it by doing:
 
 ::
 

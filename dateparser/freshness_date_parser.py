@@ -1,5 +1,5 @@
 import contextlib
-from datetime import datetime, time, timezone, tzinfo
+from datetime import UTC, datetime, time, tzinfo
 from typing import TYPE_CHECKING, Any
 
 import regex as re
@@ -109,7 +109,7 @@ class FreshnessDateDataParser:
                 now = apply_timezone(localized_now, settings.TIMEZONE)
 
         elif "local" not in _settings_tz:
-            utc_dt = datetime.now(tz=timezone.utc)
+            utc_dt = datetime.now(tz=UTC)
             now = apply_timezone(utc_dt, settings.TIMEZONE)
         else:
             now = datetime.now(self.get_local_tz())

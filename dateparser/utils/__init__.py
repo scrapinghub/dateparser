@@ -8,8 +8,8 @@ import unicodedata
 import warnings
 from collections import OrderedDict
 from collections.abc import Callable, Mapping
+from datetime import UTC as dt_UTC
 from datetime import datetime, tzinfo
-from datetime import timezone as dt_timezone
 from typing import TYPE_CHECKING, Any, Literal, TypeVar
 
 import regex as re
@@ -186,7 +186,7 @@ def _now(settings: "Settings", tz: tzinfo | None = None) -> datetime:
         return datetime.now(tz).replace(tzinfo=None)
     if "local" in settings.TIMEZONE.lower():
         return datetime.now()
-    utc_now = datetime.now(dt_timezone.utc)
+    utc_now = datetime.now(dt_UTC)
     return apply_timezone(utc_now, settings.TIMEZONE).replace(tzinfo=None)
 
 

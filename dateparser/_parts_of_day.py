@@ -5,7 +5,7 @@ from enum import Enum
 import regex as re
 
 
-class PartOfDay(str, Enum):
+class PartOfDay(str, Enum):  # noqa: UP042
     """Part of the day that a date string refers to, e.g. ``"tonight"``.
 
     See :attr:`DateData.part_of_day <dateparser.date.DateData.part_of_day>`.

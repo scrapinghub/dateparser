@@ -1,6 +1,6 @@
 import re
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
 from convertdate import french_republican
@@ -71,9 +71,7 @@ class _french_republican_parser:
         year = int(match["year"]) if match["year"] else _roman_to_int(match["roman"])
         if not year:
             raise ValueError(datestring)
-        now = settings.RELATIVE_BASE or datetime.now(tz=timezone.utc).replace(
-            tzinfo=None
-        )
+        now = settings.RELATIVE_BASE or datetime.now(tz=UTC).replace(tzinfo=None)
         _, now_month, now_day = french_republican.from_gregorian(
             now.year, now.month, now.day
         )

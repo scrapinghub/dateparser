@@ -1,7 +1,7 @@
 import re
 import threading
 import warnings
-from datetime import datetime, timedelta, timezone, tzinfo
+from datetime import UTC, datetime, timedelta, tzinfo
 from functools import cache
 from typing import TYPE_CHECKING, Literal, NamedTuple, TypedDict, overload
 
@@ -275,7 +275,7 @@ def _find_tz(
 
 
 def get_local_tz_offset() -> timedelta:
-    offset = datetime.now() - datetime.now(tz=timezone.utc).replace(tzinfo=None)
+    offset = datetime.now() - datetime.now(tz=UTC).replace(tzinfo=None)
     return timedelta(days=offset.days, seconds=round(offset.seconds, -1))
 
 
