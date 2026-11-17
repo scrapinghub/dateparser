@@ -3,6 +3,69 @@
 History
 =======
 
+1.5.1 (unreleased)
+------------------
+
+Security fixes:
+
+- Prevent quadratic regex matching on long whitespace runs in the Jalali
+  calendar (`GHSA-rq5p-ww4m-666c
+  <https://github.com/scrapinghub/dateparser/security/advisories/GHSA-rq5p-ww4m-666c>`_)
+- Prevent quadratic parsing in ``search_dates()`` on a long run of skipped
+  words after a number (`GHSA-c83m-fh72-x3jp
+  <https://github.com/scrapinghub/dateparser/security/advisories/GHSA-c83m-fh72-x3jp>`_)
+- Prevent unbounded recursion and quadratic parsing in ``search_dates()`` on
+  many quantities written in words (`GHSA-8hqv-h88c-f367
+  <https://github.com/scrapinghub/dateparser/security/advisories/GHSA-8hqv-h88c-f367>`_)
+- Prevent quadratic time in ``search_dates()`` on a long text whose words
+  and Unicode-normalized words differ in number (`GHSA-wr9g-q4w6-fp42
+  <https://github.com/scrapinghub/dateparser/security/advisories/GHSA-wr9g-q4w6-fp42>`_)
+- Prevent quadratic parsing in ``parse()`` on a long run of separators
+  followed by skipped words (`GHSA-5g92-f88x-gwj5
+  <https://github.com/scrapinghub/dateparser/security/advisories/GHSA-5g92-f88x-gwj5>`_)
+
+New features:
+
+- Support "less than a minute ago" in Russian, such as "Меньше 1 минуты
+  назад", which was not parsed before (#1546)
+
+Fixes:
+
+- ``search_dates()`` looks for the words of a quantity written in words
+  among at most 16 words, so a longer quantity can give a different result
+- ``search_dates()`` yields at most eight dates from a run of more than
+  eight quantities written in words, where it yielded all of them before
+- Keep a full stop that belongs to a date inside the date in
+  ``search_dates()``, so "Sept. 5, 2020" is no longer split at the full stop
+  (#1577)
+- Use the reference date's year when a custom format has no year, so
+  ``PREFER_DAY_OF_MONTH="last"`` returns February 29 in a leap year instead
+  of February 28, and skip invalid leap days instead of raising
+  ``ValueError``; with ``PREFER_DAY_OF_MONTH`` or ``PREFER_MONTH_OF_YEAR``
+  set to "current", the day or month of ``RELATIVE_BASE`` is used when it is
+  set (#1389)
+- Leave out a time span that does not fit in the years 1 to 9999, instead of
+  raising ``ValueError`` in ``search_dates()`` with ``RETURN_TIME_SPAN``, so
+  the other dates of the text are kept (#1580)
+- Treat digits that the regular expression module matches but ``int()``
+  rejects as not a number, instead of raising ``ValueError`` in ``parse()``
+  and ``search_dates()`` (#1581)
+- Do not raise ``KeyError`` for a month or weekday name in ``date_formats``
+  that is spelled with a letter the regular expression module equates with a
+  letter of the name when ignoring case, such as the long s for "s"; the
+  date is read as that name (#1579)
+- Stop the Vietnamese year simplification from eating the month name "năm",
+  so a month name such as "Tháng năm" (May) followed by a year parses
+  (#1497)
+- Fix parsing time-only strings such as "3pm" when ``RELATIVE_BASE`` is
+  timezone-aware, which returned ``None`` (#1362)
+
+Cleanups and internal improvements:
+
+- Stop a test from depending on the current year (#1578)
+- Move the pytest and coverage settings into ``pyproject.toml``, which
+  requires pytest 9 or later for the tests (#1551)
+
 1.5.0 (2026-11-04)
 ------------------
 
