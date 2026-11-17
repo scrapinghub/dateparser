@@ -2,7 +2,7 @@ import copy
 import threading
 import unicodedata
 from collections.abc import Iterable, Iterator, Mapping, Sequence
-from functools import cache, cached_property
+from functools import cached_property
 from itertools import chain, islice, product
 from typing import TYPE_CHECKING, Any, TypeVar
 
@@ -725,7 +725,7 @@ class Locale:
             None, self._get_sentence_splitter(settings=settings).split(string)
         )
 
-    def _simplify_split_align(  # noqa: PLR0912
+    def _simplify_split_align(
         self, original: str, settings: "Settings | None"
     ) -> tuple[list[str], list[str]]:
         # TODO: Switch to new split method.
@@ -739,45 +739,61 @@ class Locale:
         if len(original_tokens) == len(simplified_tokens):
             return original_tokens, simplified_tokens
 
+        original_keys = [normalize_unicode(token.lower()) for token in original_tokens]
         if len(original_tokens) < len(simplified_tokens):
-            # Inserting empty tokens moves the same original token along, so
-            # it can be compared at every step.
-            @cache
-            def normalize(token: str) -> str:
-                return normalize_unicode(token.lower())
-
-            add_empty = False
-            for i, token in enumerate(simplified_tokens):
-                if i < len(original_tokens):
-                    if token == normalize(original_tokens[i]):
-                        add_empty = False
-                    elif not add_empty:
-                        add_empty = True
-                        continue
-                    else:
-                        original_tokens.insert(i, "")
-                else:
-                    original_tokens.insert(i, "")
+            original_tokens = self._pad_with_empties(
+                original_tokens, original_keys, simplified_tokens
+            )
         else:
-            add_empty = False
-            for i, token in enumerate(original_tokens):
-                if i < len(simplified_tokens):
-                    if normalize_unicode(token.lower()) == simplified_tokens[i]:
-                        add_empty = False
-                    elif not add_empty:
-                        add_empty = True
-                        continue
-                    else:
-                        simplified_tokens.insert(i, "")
-                else:
-                    simplified_tokens.insert(i, "")
-
-        while len(original_tokens) != len(simplified_tokens):
-            if len(original_tokens) > len(simplified_tokens):
-                original_tokens.remove("")
-            else:
-                simplified_tokens.remove("")
+            simplified_tokens = self._pad_with_empties(
+                simplified_tokens, simplified_tokens, original_keys
+            )
         return original_tokens, simplified_tokens
+
+    @staticmethod
+    def _pad_with_empties(
+        tokens: list[str], keys: list[str], other_keys: list[str]
+    ) -> list[str]:
+        """Return ``tokens``, the shorter of two lists, padded with empty
+        strings to ``len(other_keys)`` items so that it lines up with the other
+        list. ``keys[i]`` and ``other_keys[j]`` are the forms of ``tokens[i]``
+        and of the other list's j-th token that are compared.
+
+        A token is held back by an empty string when it does not match the
+        other list's token at its position, but only after one token that
+        did not match has been kept in place. The empty strings are appended,
+        never inserted into the list, and the surplus ones, if any, are dropped
+        in one more pass, so the time grows linearly with the lengths.
+        """
+        padded: list[str] = []
+        position = 0
+        add_empty = False
+        for key in other_keys:
+            if position < len(tokens):
+                if keys[position] == key:
+                    add_empty = False
+                elif add_empty:
+                    padded.append("")
+                    continue
+                else:
+                    add_empty = True
+                padded.append(tokens[position])
+                position += 1
+            else:
+                padded.append("")
+        # Tokens left over make the list too long: the first empty strings
+        # go, which there are enough of, as the other list is longer.
+        surplus = len(tokens) - position
+        padded.extend(tokens[position:])
+        if not surplus:
+            return padded
+        kept: list[str] = []
+        for token in padded:
+            if surplus and not token:
+                surplus -= 1
+            else:
+                kept.append(token)
+        return kept
 
     def _get_split_dictionary(
         self, settings: "Settings | None"
@@ -810,18 +826,19 @@ class Locale:
         (e.g. the acute accent "´" in "C´1997") when it is glued to
         non-space characters on both sides.
         """
-        chars = list(string)
-        for i in reversed(range(len(chars))):
-            char = chars[i]
+        last = len(string) - 1
+        pieces: list[str] = []
+        for i, char in enumerate(string):
+            pieces.append(char)
             if (
-                not char.isspace()
+                0 < i < last
+                and not char.isspace()
                 and normalize_unicode(char) == " "
-                and 0 < i < len(chars) - 1
-                and not chars[i - 1].isspace()
-                and not chars[i + 1].isspace()
+                and not string[i - 1].isspace()
+                and not string[i + 1].isspace()
             ):
-                chars.insert(i + 1, " ")
-        return "".join(chars)
+                pieces.append(" ")
+        return "".join(pieces)
 
     def _word_split(self, string: str, settings: "Settings | None") -> list[str]:
         if "no_word_spacing" in self.info:
