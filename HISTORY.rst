@@ -3,7 +3,7 @@
 History
 =======
 
-1.5.1 (unreleased)
+1.5.1 (2026-11-17)
 ------------------
 
 Security fixes:
