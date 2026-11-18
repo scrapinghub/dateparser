@@ -320,3 +320,19 @@ def test_generate_time_span_without_base_date_or_settings_deprecated() -> None:
             datetime(2020, 1, 1),
             datetime(2020, 1, 31),
         )
+
+
+@pytest.mark.parametrize(
+    ("date", "tz_string", "offset"),
+    [
+        (datetime(1, 1, 1), "Asia/Tokyo", timedelta(hours=9, minutes=19)),
+        (datetime(9999, 12, 31, 23), "America/New_York", timedelta(hours=-5)),
+        (datetime(9999, 12, 31, 23), "Australia/Sydney", timedelta(hours=11)),
+    ],
+)
+def test_localize_timezone_range_edges(
+    date: datetime, tz_string: str, offset: timedelta
+) -> None:
+    tzaware_dt = localize_timezone(date, tz_string)
+    assert tzaware_dt.replace(tzinfo=None) == date
+    assert tzaware_dt.utcoffset() == offset

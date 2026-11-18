@@ -7,7 +7,11 @@ from typing import Any, ClassVar
 
 import regex as re
 
-from dateparser.data.languages_info import language_locale_dict, language_order
+from dateparser.data.languages_info import (
+    _language_default_region,
+    language_locale_dict,
+    language_order,
+)
 
 from .locale import Locale
 
@@ -36,6 +40,18 @@ def _from_posix_locale(locale: str) -> str:
         return locale
     script = _POSIX_SCRIPT_MODIFIERS.get(match["modifier"] or "")
     return "-".join(filter(None, (match["language"], script, match["region"])))
+
+
+def _normalize_locale(locale: str) -> str:
+    """Return *locale* as the bare language if it names the language's default
+    region, e.g. ``fi`` for ``fi-FI``, since dateparser has no separate locale
+    for those."""
+    if _isvalidlocale(locale):
+        return locale
+    language, *region = LOCALE_SPLIT_PATTERN.split(locale)
+    if region and _language_default_region.get(language) == region[0]:
+        return language
+    return locale
 
 
 class LocaleDataLoader:
@@ -164,7 +180,10 @@ class LocaleDataLoader:
         locale_dict: dict[str, tuple[str, ...]] = {}
         if locales:
             given_locales = list(locales)
-            locales = [_from_posix_locale(locale) for locale in given_locales]
+            locales = [
+                _normalize_locale(_from_posix_locale(locale))
+                for locale in given_locales
+            ]
             invalid_locales = []
             for given_locale, locale in zip(given_locales, locales, strict=True):
                 split_locale = LOCALE_SPLIT_PATTERN.split(locale)

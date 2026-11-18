@@ -12,6 +12,9 @@ If you already know the full locale code, pass it directly through
 ``locales`` also accepts POSIX locale names, e.g. ``sr_ME.UTF-8@latin`` for
 ``sr-Latn-ME``.
 
+A language also accepts its default region, e.g. ``fi-FI`` or ``pt-BR``, which
+uses the language itself, e.g. ``fi`` or ``pt``.
+
 ============    ================================================================
   Language            Locales
 ============    ================================================================
