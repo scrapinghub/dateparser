@@ -2938,6 +2938,7 @@ class TestNumberFragments(unittest.TestCase):
         [
             param("Il y a 5 min", datetime(2020, 6, 15, 11, 55)),
             param("Il y a 40 min", datetime(2020, 6, 15, 11, 20)),
+            param("Il y a 100 min", datetime(2020, 6, 15, 10, 20)),
             param("il y a 2 h 30 min", datetime(2020, 6, 15, 9, 30)),
         ]
     )

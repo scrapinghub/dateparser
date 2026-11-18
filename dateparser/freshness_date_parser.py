@@ -43,6 +43,8 @@ _GROUPED_NUMBER_PATTERN = re.compile(_GROUPED_NUMBER)
 # Matches the text before a number that is the end of a longer one, e.g. the
 # day in "2024-06-01 3 days".
 _NUMERIC_PREFIX = re.compile(r"(?<![\d:])\d[\d.,/-]*[.,\s/-]*$")
+_SPACE_GROUP = re.compile(r"\d+\s+")
+_BARE_UNIT = re.compile(rf"\b(?:{_UNITS})\s+$", re.IGNORECASE)
 # "the 1st of last month" translates to " 1 1 month ago".
 _DAY_OF_MONTH = re.compile(r"^\s*(\d{1,2})\s+(?!\d{3}\s)(?=(?:in\s+)?\d+\s+month\b)")
 
@@ -267,7 +269,13 @@ class FreshnessDateDataParser:
             # could be a digit group of it. A sign after whitespace starts a
             # new number.
             signed = num[0] in "+-" and date_string[start - 1 : start].isspace()
-            if not signed and (
+            if (space_group := _SPACE_GROUP.match(num)) and _BARE_UNIT.search(
+                date_string, previous_end, start
+            ):
+                # In "year 1 100 minute", e.g. "y a 100 min" read as English,
+                # the 1 goes with the year, not with the 100.
+                num = num[space_group.end() :]
+            elif not signed and (
                 prefix := _NUMERIC_PREFIX.search(date_string, previous_end, start)
             ):
                 before = prefix.group()
