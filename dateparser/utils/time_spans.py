@@ -104,7 +104,11 @@ def detect_time_span(text: str) -> dict[str, Any] | None:
             }
 
             if match.groups():
-                result["number"] = int(match.group(1))
+                try:
+                    result["number"] = int(match.group(1))
+                except ValueError:
+                    # More digits than int() accepts, so not a usable quantity.
+                    continue
 
             return result
 

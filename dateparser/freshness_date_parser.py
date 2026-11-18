@@ -29,7 +29,7 @@ _GROUPED_NUMBER = r"[1-9]\d{0,2}(?:[.,\s]\d{3}(?!\d)){1,6}"
 # A number that continues a date or a time, e.g. the year in "03/06/2020 year",
 # is not a quantity, and a string with one is not a relative date.
 _PATTERN = (
-    rf"(?<![\d/.:])([+-]?\s*(?>(?:{_GROUPED_NUMBER}|\d+)(?:[.,]\d*)?))"
+    rf"(?<![\d/.:])((?:[+-]\s*+)?(?>(?:{_GROUPED_NUMBER}|\d+)(?:[.,]\d*)?))"
     rf"\s*({_UNITS})\b"
 )
 PATTERN: "re.Pattern[str] | regex.Pattern[str]"
