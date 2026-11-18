@@ -342,3 +342,19 @@ def test_local_timezone_offset(
         reload_localzone()
     assert date_obj is not None
     assert date_obj.utcoffset() == timedelta(hours=offset)
+
+
+@pytest.mark.parametrize(
+    ("date", "tz_string", "offset"),
+    [
+        (datetime(1, 1, 1), "Asia/Tokyo", timedelta(hours=9, minutes=19)),
+        (datetime(9999, 12, 31, 23), "America/New_York", timedelta(hours=-5)),
+        (datetime(9999, 12, 31, 23), "Australia/Sydney", timedelta(hours=11)),
+    ],
+)
+def test_localize_timezone_range_edges(
+    date: datetime, tz_string: str, offset: timedelta
+) -> None:
+    tzaware_dt = localize_timezone(date, tz_string)
+    assert tzaware_dt.replace(tzinfo=None) == date
+    assert tzaware_dt.utcoffset() == offset
