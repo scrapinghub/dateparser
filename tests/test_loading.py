@@ -409,11 +409,20 @@ class TestLocaleDataLoader(BaseTestCase):
 
     def test_posix_locales(self) -> None:
         self.load_data(
-            ["en_US", "pt_AO.UTF-8", "sr_ME.UTF-8@latin", "de_AT@euro", "zh-Hant-HK"],
+            [
+                "en_US",
+                "pt_AO.UTF-8",
+                "sr_ME.UTF-8@latin",
+                "sr_RS@latin",
+                "de_AT@euro",
+                "de_DE.UTF-8",
+                "zh-Hant-HK",
+            ],
             use_given_order=True,
+            allow_conflicting_locales=True,
         )
         self.then_locales_are_yielded_in_order(
-            ["en-US", "pt-AO", "sr-Latn-ME", "de-AT", "zh-Hant-HK"]
+            ["en-US", "pt-AO", "sr-Latn-ME", "sr-Latn", "de-AT", "de", "zh-Hant-HK"]
         )
 
     @parameterized.expand(
