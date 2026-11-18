@@ -113,9 +113,11 @@ class TestHijriParser(BaseTestCase):
     )
     def test_out_of_range(self, dt_string: str) -> None:
         settings.DATE_ORDER = "DMY"
-        self.when_date_is_given(dt_string, None, None)
-        self.assertIsNone(self.result)
-        settings.DATE_ORDER = "MDY"
+        try:
+            self.when_date_is_given(dt_string, None, None)
+            self.assertIsNone(self.result)
+        finally:
+            settings.DATE_ORDER = "MDY"
 
     @parameterized.expand(
         [
