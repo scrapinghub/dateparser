@@ -348,6 +348,8 @@ class TestDateParser(BaseTestCase):
         [
             param("hr", "02/10/2016 u 17:20", datetime(2016, 10, 2, 17, 20)),
             param("es", "8-12 de junio de 2021", datetime(2021, 6, 8)),
+            param("pt", "5-20 de junho", datetime(2012, 6, 5)),
+            param("en", "June 5-20", datetime(2012, 6, 5)),
         ]
     )
     def test_dates_parsing_with_language(

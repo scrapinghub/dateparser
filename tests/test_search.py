@@ -2497,6 +2497,7 @@ class TestTranslateSearch(BaseTestCase):
             param("Publicado em 10/13/2020", ["pt"], datetime.datetime(2020, 10, 13)),
             param("03/17 16:14", ["ar"], datetime.datetime(2020, 3, 17, 16, 14)),
             param("8-12 de febrero de 2020", ["es"], datetime.datetime(2020, 2, 8)),
+            param("Evento 5-25 de junho", ["pt"], datetime.datetime(2020, 6, 5)),
             param(
                 "Posted 5/3/2020 10:30 PM EST",
                 None,

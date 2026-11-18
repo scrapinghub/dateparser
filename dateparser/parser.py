@@ -637,13 +637,16 @@ class _parser:
         self.auto_order.append("day")
         return [("month", int(day_token[0])), ("day", int(token))]
 
-    def _replace_range_end(self, token: str, month: int) -> list[tuple[str, int]]:
-        """Read the month name *token* as the month, dropping the number read
-        as the month, which is the end of a range that starts at the day, e.g.
-        12 in “8-12 June” with DMY."""
-        self.auto_order.remove("month")
-        self._token_month = token, 1
-        return [("month", month)]
+    def _is_range_end(self, token: str) -> bool:
+        """Return whether *token* is the end of a range of days that starts at
+        the number read as the day, e.g. 20 in “5-20 June” with DMY."""
+        day_token = self._token_day
+        return (
+            isinstance(day_token, tuple)
+            and day_token[1] == 0
+            and self._is_range(day_token[0], token)
+            and self._has_month_name(self.tokens)
+        )
 
     def _is_valid(self, token: str, directive: str) -> bool:
         try:
@@ -976,6 +979,9 @@ class _parser:
                     k: self.num_directives[k] for k in ("month", "day", "year")
                 }
 
+            if self._is_range_end(token):
+                return []
+
             if swapped := self._swap_day_and_month(token):
                 return swapped
 
@@ -1061,11 +1067,6 @@ class _parser:
                                 (component, getattr(do, component)),
                                 ("day", prev_value),
                             ]
-                        if component == "month" and self._is_range(
-                            self._token_day[0],  # type: ignore[index]
-                            self._token_month[0],  # type: ignore[index]
-                        ):
-                            return self._replace_range_end(token, do.month)
             raise ValueError(f"Unable to parse: {token}")
 
         handlers: dict[int, Callable[[str, str | None], list[tuple[str, int]]]] = {
