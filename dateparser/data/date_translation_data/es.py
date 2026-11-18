@@ -625,6 +625,12 @@ info = {
             "(?:de|por|en) la madrugada": "madrugada"
         },
         {
+            "(?:al? )?mediodía": "12:00"
+        },
+        {
+            "(?:a (?:la )?)?medianoche": "00:00"
+        },
+        {
             "una": "1"
         },
         {
