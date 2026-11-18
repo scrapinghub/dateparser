@@ -6,6 +6,7 @@ from typing import Any
 from unittest.mock import Mock, patch
 
 import pytest
+import pytz
 from parameterized import param, parameterized
 
 import dateparser.timezone_parser
@@ -21,6 +22,70 @@ from tests import BaseTestCase
 
 
 class TestDateParser(BaseTestCase):
+    @parameterized.expand(
+        [
+            (2024, "first", 1),
+            (2024, "current", 15),
+            (2024, "last", 29),
+            (2023, "last", 28),
+        ]
+    )
+    def test_yearless_format_uses_reference_day_preference(
+        self, year: int, preference: str, day: int
+    ) -> None:
+        result = parse(
+            "February",
+            date_formats=["%B"],
+            settings={
+                "RELATIVE_BASE": datetime(year, 6, 15),
+                "PREFER_DAY_OF_MONTH": preference,
+                "PARSERS": ["custom-formats"],
+            },
+        )
+        self.assertEqual(result, datetime(year, 2, day))
+
+    @parameterized.expand([("first", 1), ("current", 7), ("last", 12)])
+    def test_year_only_format_uses_reference_month_and_day(
+        self, preference: str, month: int
+    ) -> None:
+        result = parse(
+            "2030",
+            date_formats=["%Y"],
+            settings={
+                "RELATIVE_BASE": datetime(2024, 7, 17),
+                "PREFER_MONTH_OF_YEAR": preference,
+                "PREFER_DAY_OF_MONTH": "current",
+                "PARSERS": ["custom-formats"],
+            },
+        )
+        self.assertEqual(result, datetime(2030, month, 17))
+
+    @parameterized.expand([(2024, datetime(2024, 2, 29)), (2023, None)])
+    def test_yearless_leap_day_respects_reference_year(
+        self, year: int, expected: datetime | None
+    ) -> None:
+        result = parse(
+            "29 February",
+            date_formats=["%d %B"],
+            settings={
+                "RELATIVE_BASE": datetime(year, 6, 15),
+                "PARSERS": ["custom-formats"],
+            },
+        )
+        self.assertEqual(result, expected)
+
+    def test_yearless_format_without_relative_base_uses_current_date(self) -> None:
+        with patch("dateparser.date._now", return_value=datetime(2024, 7, 17)):
+            result = parse(
+                "February",
+                date_formats=["%B"],
+                settings={
+                    "PREFER_DAY_OF_MONTH": "current",
+                    "PARSERS": ["custom-formats"],
+                },
+            )
+        self.assertEqual(result, datetime(2024, 2, 17))
+
     def setUp(self) -> None:
         super().setUp()
         self.parser: DateDataParser = NotImplemented
@@ -41,6 +106,7 @@ class TestDateParser(BaseTestCase):
             param("December 13, 2014 at midnight", datetime(2014, 12, 13, 0, 0)),
             param("Nov 25 2014 10:17 pm", datetime(2014, 11, 25, 22, 17)),
             param("Wed Aug 05 12:00:00 2015", datetime(2015, 8, 5, 12, 0)),
+            param("Tue Jan 5 10:00:00,2021", datetime(2021, 1, 5, 10, 0)),
             param("April 9, 2013 at 6:11 a.m.", datetime(2013, 4, 9, 6, 11)),
             param("Aug. 9, 2012 at 2:57 p.m.", datetime(2012, 8, 9, 14, 57)),
             param("December 10, 2014, 11:02:21 pm", datetime(2014, 12, 10, 23, 2, 21)),
@@ -159,6 +225,7 @@ class TestDateParser(BaseTestCase):
                 "Tháng Mười Hai 29, 2013, 14:14", datetime(2013, 12, 29, 14, 14)
             ),  # bpsosrcs.wordpress.com
             param("05 Tháng một 2015 - 03:54 AM", datetime(2015, 1, 5, 3, 54)),
+            param("15 Tháng năm 2020", datetime(2020, 5, 15)),  # May
             # Belarusian dates
             param("11 траўня", datetime(2012, 5, 11)),
             param("4 мая", datetime(2012, 5, 4)),
@@ -434,6 +501,7 @@ class TestDateParser(BaseTestCase):
                 "Tháng Mười Hai 29, 2013, 14:14", datetime(2013, 12, 29, 14, 14)
             ),  # bpsosrcs.wordpress.com
             param("05 Tháng một 2015 - 03:54 AM", datetime(2015, 1, 5, 3, 54)),
+            param("15 Tháng năm 2020", datetime(2020, 5, 15)),  # May
             # Belarusian dates
             param("11 траўня", datetime(2012, 5, 11)),
             param("4 мая", datetime(2012, 5, 4)),
@@ -601,6 +669,10 @@ class TestDateParser(BaseTestCase):
             ),
             param(
                 "30 May 2024 10:13:10 -0500 CDT",
+                datetime(2024, 5, 30, 15, 13, 10),
+            ),
+            param(
+                "Thu, 30 May 2024 10:13:10 -0500 CDT (CDT)",
                 datetime(2024, 5, 30, 15, 13, 10),
             ),
             param(
@@ -783,6 +855,27 @@ class TestDateParser(BaseTestCase):
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param("3pm", "past", datetime(2020, 6, 15, 18, 0)),
+            param("3pm", "future", datetime(2020, 6, 15, 12, 0)),
+        ]
+    )
+    def test_time_only_with_timezone_aware_relative_base(
+        self, date_string: str, prefer_dates_from: str, relative_base: datetime
+    ) -> None:
+        tz = pytz.timezone("America/Los_Angeles")
+        self.given_parser(
+            settings={
+                "TIMEZONE": "America/Los_Angeles",
+                "PREFER_DATES_FROM": prefer_dates_from,
+                "RELATIVE_BASE": tz.localize(relative_base),
+            }
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_period_is("day")
 
     @parameterized.expand(
         [
@@ -1004,6 +1097,49 @@ class TestDateParser(BaseTestCase):
         self.when_date_is_parsed("February")
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param("2021-04-29T06+02:00", datetime(2021, 4, 29, 6), 120),
+            param("2021-04-29T06-03:30", datetime(2021, 4, 29, 6), -210),
+            param("2021-04-29T00Z", datetime(2021, 4, 29), 0),
+            param("2021-04-29T23+0530", datetime(2021, 4, 29, 23), 330),
+            param("2021-04-29T06", datetime(2021, 4, 29, 6), None),
+            param("2021-04-29T06Z", datetime(2021, 4, 29, 6), 0),
+            param("2021-04-29T06+00:00", datetime(2021, 4, 29, 6), 0),
+        ]
+    )
+    def test_iso_hour_precision(
+        self, date_string: str, expected: datetime, offset_minutes: int | None
+    ) -> None:
+        if offset_minutes is not None:
+            expected = expected.replace(
+                tzinfo=timezone(timedelta(minutes=offset_minutes))
+            )
+        assert parse(date_string, languages=["en"]) == expected
+
+    @parameterized.expand(
+        [
+            param({}, datetime(2021, 4, 29, 6, tzinfo=timezone(timedelta(hours=2)))),
+            param(
+                {"TO_TIMEZONE": "UTC"}, datetime(2021, 4, 29, 4, tzinfo=timezone.utc)
+            ),
+            param({"RETURN_AS_TIMEZONE_AWARE": False}, datetime(2021, 4, 29, 6)),
+        ]
+    )
+    def test_iso_hour_precision_uses_timezone_settings(
+        self, parser_settings: dict[str, Any], expected: datetime
+    ) -> None:
+        for languages in [None, ["en"], ["fr"]]:
+            with self.subTest(languages=languages):
+                assert (
+                    parse(
+                        "2021-04-29T06+02:00",
+                        languages=languages,
+                        settings=parser_settings,
+                    )
+                    == expected
+                )
 
     def test_date_is_parsed_when_skip_tokens_are_supplied(self) -> None:
         self.given_parser(
@@ -1231,6 +1367,7 @@ class TestDateParser(BaseTestCase):
             param(
                 "April MCCCCLXXVIIII", expected=datetime(1479, 4, 15), period="month"
             ),
+            param("April MMX", expected=datetime(2010, 4, 15), period="month"),
             # Russian
             param("1000 год", expected=datetime(1000, 2, 15), period="year"),
             param("1001 год", expected=datetime(1001, 2, 15), period="year"),
