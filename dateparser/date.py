@@ -118,6 +118,10 @@ RE_SANITIZE_PERIOD = re.compile(r"(?<=[^0-9\s])\.", flags=re.U)
 RE_SANITIZE_DECIMAL_COMMA = re.compile(
     r"(?<=\d:\d{2}:\d{2}),(?=(\d{3,})(\s*[ap]\.?m\b)?)", flags=re.I
 )
+RE_SANITIZE_ISO_HOUR = re.compile(
+    r"^([0-9]{4}-[0-9]{2}-[0-9]{2}T(?:[01][0-9]|2[0-3]))"
+    r"(?=Z?$|[+-][0-9]{2}:?[0-9]{2}$)"
+)
 RE_SANITIZE_ON = re.compile(r"^.*?on:\s+(.*)")
 RE_SANITIZE_APOSTROPHE = re.compile("|".join(APOSTROPHE_LOOK_ALIKE_CHARS))
 RE_SANITIZE_DASH = re.compile("|".join(DASH_LOOK_ALIKE_CHARS))
@@ -247,6 +251,8 @@ def sanitize_date(date_string: str) -> str:
         r"\1.\2.\3 ", date_string
     )  # extra '.' and 'u' interferes with parsing relative fractional dates
     date_string = sanitize_spaces(date_string)
+    # Expand the hour-only format emitted by GNU date --iso-8601=hours.
+    date_string = RE_SANITIZE_ISO_HOUR.sub(r"\1:00", date_string)
     date_string = RE_SANITIZE_PERIOD.sub("", date_string)
     date_string = _RE_ROMAN_YEAR.sub(_roman_year_to_digits, date_string)
     four_digits = _RE_FOUR_DIGITS.search(date_string)
