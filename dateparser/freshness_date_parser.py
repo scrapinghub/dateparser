@@ -122,7 +122,11 @@ class FreshnessDateDataParser:
         )
 
         if date and day is not None:
-            if period != "month":
+            # A number other than the time, e.g. the year in "the 15th of the
+            # month, 2015", does not fit a day of a relative month.
+            if period != "month" or (
+                _time is None and re.search(r"\d", PATTERN.sub("", date_string))
+            ):
                 return None, None, ()
             try:
                 date = date.replace(day=day)

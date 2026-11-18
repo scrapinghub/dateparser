@@ -2419,6 +2419,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("the 31st of the month"),
             param("the 31st of this month"),
             param("the 1st of last month 2 days ago"),
+            param("the 15th of the month 2 days ago"),
+            param("the 15th of the month, 2015"),
         ]
     )
     def test_insane_dates(self, date_string: str) -> None:

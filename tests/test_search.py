@@ -1372,6 +1372,15 @@ class TestTranslateSearch(BaseTestCase):
                 ],
             ),
             param(
+                text="the 15th of the month, 2015",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2010, 7, 14, 13, 15)},
+                expected=[
+                    ("the 15th of the month", datetime.datetime(2010, 7, 15, 13, 15)),
+                    ("2015", datetime.datetime(2015, 7, 14, 0, 0)),
+                ],
+            ),
+            param(
                 text="in the 15th of the month",
                 languages=["en"],
                 settings={"RELATIVE_BASE": datetime.datetime(2010, 7, 14, 13, 15)},
