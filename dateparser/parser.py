@@ -608,6 +608,53 @@ class _parser:
             )
         return ValueError(f"Unable to parse: {token}")
 
+    def _swap_day_and_month(self, token: str) -> list[tuple[str, int]]:
+        """Return the day and month to set if *token* cannot be the month that
+        the date order expects after the day, but can be the day, and the
+        number read as the day can be the month, e.g. 13 in 10/13/2020 with
+        DMY: they are read the other way around, as MDY reads 13/10/2020.
+
+        With a DATE_ORDER set by the caller, parse() swaps them instead,
+        and only when the date does not fit that order at all."""
+        order = list(self.ordered_num_directives)
+        day_token = self._token_day
+        if not (
+            "DATE_ORDER" not in self.settings._mod_settings
+            and self.month is None
+            and isinstance(day_token, tuple)
+            and day_token[1] == 0
+            and order.index("day") < order.index("month")
+            and self._is_valid(token, "%d")
+            and not self._is_valid(token, "%m")
+            and self._is_valid(day_token[0], "%m")
+            and not self._is_range(day_token[0], token)
+            and not self._has_month_name(self.tokens)
+        ):
+            return []
+        self._token_month = day_token
+        self._token_day = token, 0
+        self.auto_order[self.auto_order.index("day")] = "month"
+        self.auto_order.append("day")
+        return [("month", int(day_token[0])), ("day", int(token))]
+
+    def _is_range_end(self, token: str) -> bool:
+        """Return whether *token* is the end of a range of days that starts at
+        the number read as the day, e.g. 20 in “5-20 June” with DMY."""
+        day_token = self._token_day
+        return (
+            isinstance(day_token, tuple)
+            and day_token[1] == 0
+            and self._is_range(day_token[0], token)
+            and self._has_month_name(self.tokens)
+        )
+
+    def _is_valid(self, token: str, directive: str) -> bool:
+        try:
+            self._get_date_obj(token, directive)
+        except ValueError:
+            return False
+        return True
+
     def _is_date_part(self, token: str) -> bool:
         """Return whether *token* can be read as a day, month or year."""
         for directives in self.num_directives.values():
@@ -931,6 +978,12 @@ class _parser:
                 num_directives = {
                     k: self.num_directives[k] for k in ("month", "day", "year")
                 }
+
+            if self._is_range_end(token):
+                return []
+
+            if swapped := self._swap_day_and_month(token):
+                return swapped
 
             def try_directives(
                 skip_directive: str | None = None,
