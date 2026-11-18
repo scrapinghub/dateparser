@@ -396,6 +396,9 @@ class TestLocaleDataLoader(BaseTestCase):
                 given_locales=["ru-MD", "my-MY", "zz"], unknown_locales=["my-MY", "zz"]
             ),
             param(given_locales=["nl-SX", "be-BE", "ca-FR"], unknown_locales=["be-BE"]),
+            param(
+                given_locales=["en_US", "es_AB.UTF-8"], unknown_locales=["es_AB.UTF-8"]
+            ),
         ]
     )
     def test_error_raised_for_unknown_locales(
@@ -403,6 +406,24 @@ class TestLocaleDataLoader(BaseTestCase):
     ) -> None:
         self.given_locale_map(locales=given_locales)
         self.then_error_for_unknown_locales_raised(unknown_locales)
+
+    def test_posix_locales(self) -> None:
+        self.load_data(
+            [
+                "en_US",
+                "pt_AO.UTF-8",
+                "sr_ME.UTF-8@latin",
+                "sr_RS@latin",
+                "de_AT@euro",
+                "de_DE.UTF-8",
+                "zh-Hant-HK",
+            ],
+            use_given_order=True,
+            allow_conflicting_locales=True,
+        )
+        self.then_locales_are_yielded_in_order(
+            ["en-US", "pt-AO", "sr-Latn-ME", "sr-Latn", "de-AT", "de", "zh-Hant-HK"]
+        )
 
     @parameterized.expand(
         [
