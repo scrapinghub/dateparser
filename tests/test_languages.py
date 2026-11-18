@@ -1146,6 +1146,7 @@ class TestBundledLanguages(BaseTestCase):
             param("ht", "nan 5 minit", "in 5 minute"),
             param("ht", "sa gen 5 min", "5 minute ago"),
             param("ht", "nan minit sa", "0 minute ago"),
+            param("ht", "Sa gen 2 deseni", "2 decenny ago"),
             # Spanish
             param("es", "anteayer", "2 day ago"),
             param("es", "ayer", "1 day ago"),

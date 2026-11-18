@@ -1,6 +1,7 @@
 info = {
     "name": "ht",
     "date_order": "DMY",
+    "sentence_splitter_group": 1,
     "january": [
         "janv",
         "janvye",
@@ -80,6 +81,9 @@ info = {
     ],
     "pm": [
         "pm"
+    ],
+    "decade": [
+        "deseni"
     ],
     "year": [
         "ane",
@@ -257,7 +261,6 @@ info = {
         "|",
         "，"
     ],
-    "sentence_splitter_group": 1,
     "ago": [
         "sa gen",
         "sa genyen",

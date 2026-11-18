@@ -1,5 +1,7 @@
 name: ht
 date_order: DMY
+sentence_splitter_group: 1
+
 january:
     - janv
     - janvye
@@ -36,6 +38,7 @@ november:
 december:
     - des
     - desanm
+
 monday:
     - lendi
 tuesday:
@@ -55,10 +58,13 @@ saturday:
 sunday:
     - dim
     - dimanch
+
 am:
     - am
 pm:
     - pm
+decade:
+    - deseni
 year:
     - ane
     - lane
@@ -87,6 +93,7 @@ second:
     - sec
     - segonn
     - segond
+
 relative-type:
     0 day ago:
         - jodi a
@@ -125,6 +132,7 @@ relative-type:
         - avan yè
     in 2 day:
         - aprè demen
+
 relative-type-regex:
     \1 day ago:
         - sa gen (\d+[.,]?\d*) jou
@@ -177,12 +185,13 @@ relative-type-regex:
     in \1 year:
         - nan (\d+[.,]?\d*) an
         - nan (\d+[.,]?\d*) ane
+
 skip:
     - anviwon
     - le
     - li
     - a
-sentence_splitter_group: 1
+
 ago:
     - sa gen
     - sa genyen
@@ -190,6 +199,7 @@ ago:
 in:
     - nan
     - aprè
+
 simplifications:
     - yon: '1'
     - midi: '12:00'
