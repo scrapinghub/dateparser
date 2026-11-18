@@ -1,14 +1,19 @@
+import subprocess
+import sys
 from datetime import datetime, timedelta, tzinfo
+from pathlib import Path
 from typing import Any
 
 import pytest
 from parameterized import param, parameterized
 
-from dateparser import DateDataParser, parse
+import dateparser
+from dateparser import DateDataParser, PartsOfDay, parse
 from dateparser.conf import Settings, SettingValidationError, apply_settings, settings
 from dateparser.languages.dictionary import Dictionary
 from dateparser.languages.loader import default_loader
 from dateparser.search import search_dates
+from dateparser_data.settings import default_parsers
 from tests import BaseTestCase
 
 
@@ -455,3 +460,34 @@ def test_skip_tokens_get_their_own_cache_entry() -> None:
     ):
         dictionary = locale._get_dictionary(settings.replace(SKIP_TOKENS=skip_tokens))
         assert dictionary.split("2000 foo") == expected
+
+
+def test_get_key_deprecated() -> None:
+    with pytest.warns(FutureWarning, match="get_key"):
+        assert Settings.get_key() == "default"
+    with pytest.warns(FutureWarning, match="get_key"):
+        assert Settings.get_key({"DATE_ORDER": "DMY"}) == Settings.get_key(
+            {"DATE_ORDER": "DMY"}
+        )
+
+
+class DataModuleImportTest(BaseTestCase):
+    """The dateparser_data modules can be imported on their own, for example to
+    reuse default_parsers, as documented."""
+
+    def test_settings_module_can_be_the_first_import(self) -> None:
+        root = Path(dateparser.__file__).resolve().parent.parent
+        # A fresh interpreter: in this process dateparser is already imported.
+        code = "from dateparser_data.settings import default_parsers; print(default_parsers)"
+        result = subprocess.run(
+            [sys.executable, "-c", code],
+            cwd=root,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        assert result.returncode == 0, result.stderr
+        assert result.stdout.strip() == str(default_parsers)
+
+    def test_parts_of_day_default_is_still_set(self) -> None:
+        assert isinstance(Settings().PARTS_OF_DAY, PartsOfDay)

@@ -68,7 +68,7 @@ def search_dates(
         detected language. ``time`` and ``part_of_day`` require the
         ``RETURN_TIME_AS_PERIOD`` :ref:`setting <settings>`.
 
-        .. versionadded:: VERSION
+        .. versionadded:: 1.5.0
     :type add_period: bool
 
     :return: Returns list of tuples containing:

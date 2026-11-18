@@ -11,10 +11,10 @@ from dateutil.relativedelta import relativedelta
 from parameterized import param, parameterized
 
 import dateparser
-import dateparser.data.date_translation_data.en as en_data
 from dateparser.conf import Settings, settings
 from dateparser.date import DateData, DateDataParser
 from dateparser.freshness_date_parser import PATTERN, freshness_date_parser
+from dateparser.languages import default_loader
 from dateparser.languages.dictionary import Dictionary
 from dateparser.utils import normalize_unicode
 from tests import BaseTestCase
@@ -2787,24 +2787,40 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.then_time_is(time(13, 15))
 
     def test_long_digit_run_does_not_hang(self) -> None:
-        # Possessive quantifiers (\d++[.,]?\d*+) prevent quadratic backtracking.
-        # Without the fix, PATTERN.findall('9' * 3200) takes ~23 s; with it, ~0.02 s.
-        long_digits = "9" * 3200
+        long_digits = "9" * 100_000
 
         start = monotonic()
         PATTERN.findall(long_digits)
+        PATTERN.sub("", long_digits)
         elapsed = monotonic() - start
-        self.assertLess(elapsed, 1.0, "PATTERN.findall backtracked on long digit run")
+        self.assertLess(elapsed, 1.0, "PATTERN is superlinear on long digit runs")
 
-        d = Dictionary(en_data.info, settings)
-        split_re = d._get_split_relative_regex_cache()
+        for shortname in ("en", "ja", "zh"):
+            split_re = Dictionary(
+                default_loader.get_locale(shortname).info, settings
+            )._get_split_relative_regex_cache()
+            start = monotonic()
+            split_re.split(long_digits)
+            elapsed = monotonic() - start
+            self.assertLess(
+                elapsed,
+                1.0,
+                f"{shortname} split_relative_regex is superlinear on long digit runs",
+            )
 
-        start = monotonic()
-        split_re.split(long_digits)
-        elapsed = monotonic() - start
-        self.assertLess(
-            elapsed, 1.0, "split_relative_regex backtracked on long digit run"
-        )
+    def test_long_run_is_linear(self) -> None:
+        ja_split_re = Dictionary(
+            default_loader.get_locale("ja").info, settings
+        )._get_split_relative_regex_cache()
+
+        for call, string in (
+            (PATTERN.findall, "9" * 32000),
+            (PATTERN.findall, " " * 32000),
+            (ja_split_re.split, "9" * 32000),
+        ):
+            start = monotonic()
+            call(string)
+            self.assertLess(monotonic() - start, 0.5, (call, string[0]))
 
     def given_date_string(self, date_string: str) -> None:
         self.date_string = date_string
