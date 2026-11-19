@@ -618,8 +618,12 @@ class _ExactLanguageSearch:
         e.g. the decimals of “-58.5” before “06 Mar 2009”."""
         number, _, rest = item.partition(" ")
         original_number, _, original_rest = original.partition(" ")
+        # A number wrapped in symbols, e.g. the price “$20” or “50%”, is
+        # still a leading number: strip the symbols before the digit check,
+        # or the date after it is never split off and found.
+        core = re.sub(r"^\W+|\W+$", "", number)
         if (
-            not number.isdigit()
+            not core.isdigit()
             or number != original_number
             or parser.get_date_data(rest)["date_obj"] is None
         ):

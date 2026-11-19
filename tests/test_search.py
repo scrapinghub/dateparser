@@ -2122,6 +2122,21 @@ class TestTranslateSearch(BaseTestCase):
             result, [("at 22h tomorrow", datetime.datetime(2026, 9, 25, 22))]
         )
 
+    def test_search_dates_after_a_number_wrapped_in_symbols(self) -> None:
+        settings = {"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)}
+        for text in (
+            "Paid $20 on January 5, 2024",
+            "Paid 20$ on January 5, 2024",
+            "Paid 50% on January 5, 2024",
+            "Paid €20 on January 5, 2024",
+        ):
+            result = search_dates(text, languages=["en"], settings=settings)
+            assert result is not None
+            self.assertIn(("on January 5, 2024", datetime.datetime(2024, 1, 5)), result)
+        result = search_dates("Paid $20 on Jan 5", languages=["en"], settings=settings)
+        assert result is not None
+        self.assertIn(("on Jan 5", datetime.datetime(2024, 1, 5)), result)
+
     def test_search_dates_long_skipped_word_run(self) -> None:
         start = process_time()
         search_dates(", " * 800, languages=["zh"])
