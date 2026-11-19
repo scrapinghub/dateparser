@@ -182,6 +182,11 @@ relative-type-regex:
 
 simplifications:
     - (\d+[.,]?\d*)\s*mons?\b: \1 month
+    # Before "a: 1" below, so that "a.m." does not turn into "1.m." (with "m"
+    # then read as the "minute" abbreviation) and "8:45 p.m." does not lose
+    # its "p.m." and parse 12 hours off as "8:45 am".
+    - a\.m\.?: am
+    - p\.m\.?: pm
     - an: '1'
     - a: '1'
     - (?:12\s+)?noon: '12:00'

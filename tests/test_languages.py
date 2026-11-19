@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 from io import StringIO
+from time import monotonic, process_time
 from typing import Any
 from unittest.mock import patch
 
@@ -20,7 +21,7 @@ from dateparser.search.detection import (
     ExactLanguages,
 )
 from dateparser.utils import normalize_unicode
-from tests import BaseTestCase
+from tests import BaseTestCase, digits_unknown_to_int
 
 
 class TestLocaleTranslation:
@@ -78,6 +79,53 @@ class TestLocaleTranslation:
                 assert len(translations) == 1, (date_string, translations)
 
 
+class TestApplicabilityCounts:
+    def test_zero_padded_numerals_are_not_words_of_any_locale(self) -> None:
+        # Locale.count_applicability counts the words of a text that a locale
+        # knows, and the language detection of search_dates picks the locale
+        # with the most of them. The numerals that any date is written with are
+        # not words of a language, so a locale that lists one (like the "09" of
+        # an alias such as "tháng 09") would win over the language of the text.
+        text = " ".join(f"0{number}" for number in range(1, 10))
+        for locale in default_loader.get_locales():
+            counts = locale.count_applicability(text, settings=settings)
+            assert counts == [0, 9], (locale.shortname, counts)
+
+
+class TestVietnameseZeroPaddedMonths:
+    @pytest.mark.parametrize(
+        ("date_string", "expected"),
+        [
+            ("21 tháng 09 năm 2025", datetime(2025, 9, 21)),
+            ("21 thg 09 năm 2025", datetime(2025, 9, 21)),
+            ("ngày 05 tháng 03 năm 2024 lúc 10:30", datetime(2024, 3, 5, 10, 30)),
+            ("21tháng 09 năm 2025", datetime(2025, 9, 21)),
+            ("5 Tháng 01 2020", datetime(2020, 1, 5)),
+        ],
+    )
+    @pytest.mark.parametrize("languages", [["vi"], None])
+    def test_parse(
+        self, date_string: str, expected: datetime, languages: list[str] | None
+    ) -> None:
+        result = parse(
+            date_string,
+            languages=languages,
+            settings={"RELATIVE_BASE": datetime(2026, 9, 23, 12)},
+        )
+        assert result == expected
+
+    def test_search_dates(self) -> None:
+        result = search_dates(
+            "Sinh ngày 3 thg 09 năm 1990, mất ngày 12 tháng 07 năm 2020.",
+            languages=["vi"],
+            settings={"RELATIVE_BASE": datetime(2026, 9, 23, 12)},
+        )
+        assert result == [
+            ("ngày 3 thg 09 năm 1990", datetime(1990, 9, 3)),
+            ("ngày 12 tháng 07 năm 2020", datetime(2020, 7, 12)),
+        ]
+
+
 class TestBundledLanguages(BaseTestCase):
     def setUp(self) -> None:
         super().setUp()
@@ -98,6 +146,9 @@ class TestBundledLanguages(BaseTestCase):
             param("zh", "2015年04月08日10点05", "2015-04-08 10:05"),
             param("zh", "2015年04月08日10:05", "2015-04-08 10:05"),
             param("zh", "2013年04月08日", "2013-04-08"),
+            param("zh", "3月前", "3 month ago"),
+            param("zh", "5月2天前", "5 month 2 day ago"),
+            param("zh", "3月1日", "march 1 day"),
             param("zh", "周一", "monday"),
             param("zh", "礼拜一", "monday"),
             param("zh", "周二", "tuesday"),
@@ -166,6 +217,8 @@ class TestBundledLanguages(BaseTestCase):
             param("pt", "22 de dezembro de 2014 às 02:38", "22 december 2014 02:38"),
             # Russian
             param("ru", "5 августа 2014 г. в 12:00", "5 august 2014 year. 12:00"),
+            param("ru", "двадцать первое мая", "21 may"),
+            param("ru", "тридцать второе мая", "30 2 may"),
             # Turkish
             param("tr", "2 Ocak 2015 Cuma, 16:49", "2 january 2015 friday 16:49"),
             # Czech
@@ -231,8 +284,15 @@ class TestBundledLanguages(BaseTestCase):
                 "vi", "9 Tháng 1 2015 lúc 15:08", "9 january 2015 15:08"
             ),  # Issue #1302: "lúc" removed, whitespace preserved
             param(
+                "vi", "15 Tháng năm 2020", "15 may 2020"
+            ),  # "năm" of the month name is not the year marker
+            param(
                 "vi", "21 tháng 09 năm 2025", "21 september 2025"
             ),  # Issue #1297: zero-padded month "09"
+            param("vi", "21 thg 09 năm 2025", "21 september 2025"),
+            param("vi", "Tháng 03 2024", "march 2024"),
+            param("vi", "21tháng 09 năm 2025", "21 september 2025"),
+            param("vi", "ngày 05 tháng 01 năm 2024 lúc 10:30", "05 january 2024 10:30"),
             # Thai
             param(
                 "th",
@@ -1274,6 +1334,9 @@ class TestBundledLanguages(BaseTestCase):
             param("ru", "8 недель", "8 week"),
             param("ru", "7 лет", "7 year"),
             param("ru", "позавчера", "2 day ago"),
+            param("ru", "меньше минуты назад", "45 second ago"),
+            param("ru", "меньше 1 минуты назад", "45 second ago"),
+            param("ru", "менее одной минуты назад", "45 second ago"),
             param("ru", "сейчас", "0 second ago"),
             param("ru", "спустя 2 дня", "in 2 day"),
             param("ru", "вчера", "1 day ago"),
@@ -3366,6 +3429,189 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         assert result == expected
 
 
+class TestSentenceSplit:
+    @pytest.mark.parametrize(
+        ("shortname", "punctuation"),
+        [("hi", "!"), ("ja", "。"), ("ar", "؟")],
+    )
+    def test_long_punctuation_run(self, shortname: str, punctuation: str) -> None:
+        locale = default_loader.get_locale(shortname)
+        text = punctuation * 100_000 + "x"
+        assert list(locale._sentence_split(text, settings=settings)) == [text]
+
+    @pytest.mark.parametrize(
+        "month_abbreviation",
+        [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Sept",
+            "Oct",
+            "Nov",
+            "Dec",
+        ],
+    )
+    def test_dotted_month_abbreviation_does_not_end_sentence(
+        self, month_abbreviation: str
+    ) -> None:
+        locale = default_loader.get_locale("en")
+        text = f"Posted {month_abbreviation}. 5, 2020 by staff."
+        assert list(locale._sentence_split(text, settings=settings)) == [text[:-1]]
+
+    def test_full_month_and_weekday_names_still_end_a_sentence(self) -> None:
+        # Only a full stop with the rest of a date around it is kept, so a
+        # month name that merely ends a sentence is unaffected.
+        locale = default_loader.get_locale("en")
+        text = "See you on Monday. The event is in May. It may. Or may not."
+        assert list(locale._sentence_split(text, settings=settings)) == [
+            "See you on Monday",
+            "The event is in May",
+            "It may",
+            "Or may not",
+        ]
+
+    @pytest.mark.parametrize(
+        ("text", "expected"),
+        [
+            # A day number without a year is not a date.
+            (
+                "The event is in May. 12 people attended.",
+                ["The event is in May", "12 people attended"],
+            ),
+            # A year alone after a month name that no day number precedes is
+            # not one either.
+            (
+                "It ended in May. 2020 was better.",
+                ["It ended in May", "2020 was better"],
+            ),
+            # A number before a month name need not be a day number. Only the
+            # locales that write dates that way keep its full stop, through
+            # the digit lookbehind below, and English is not one of them.
+            (
+                "Chapter 5. November 2019 was cold.",
+                ["Chapter 5", "November 2019 was cold"],
+            ),
+            (
+                "Step 2. May the force be with you",
+                ["Step 2", "May the force be with you"],
+            ),
+        ],
+    )
+    def test_month_name_outside_a_date_still_ends_a_sentence(
+        self, text: str, expected: list[str]
+    ) -> None:
+        locale = default_loader.get_locale("en")
+        assert list(locale._sentence_split(text, settings=settings)) == expected
+
+    @pytest.mark.parametrize(
+        ("shortname", "text", "expected"),
+        [
+            # "август" is shorter than the genitive "августа", but it is a
+            # full name rather than an abbreviation of it.
+            (
+                "ru",
+                "Сейчас август. Завтра 5 мая 2020 года.",
+                ["Сейчас август", "Завтра 5 мая 2020 года"],
+            ),
+            (
+                "uk",
+                "Зараз листопад. Завтра 5 травня 2020 року.",
+                ["Зараз листопад", "Завтра 5 травня 2020 року"],
+            ),
+            (
+                "pl",
+                "Teraz styczeń. Jutro 5 maja 2020 roku.",
+                ["Teraz styczeń", "Jutro 5 maja 2020 roku"],
+            ),
+        ],
+    )
+    def test_shorter_spelling_of_a_month_is_not_an_abbreviation(
+        self, shortname: str, text: str, expected: list[str]
+    ) -> None:
+        locale = default_loader.get_locale(shortname)
+        assert list(locale._sentence_split(text, settings=settings)) == expected
+
+    @pytest.mark.parametrize(
+        ("shortname", "text", "expected"),
+        [
+            # CLDR's shortest weekday names are ordinary words as well, so a
+            # full stop is never kept for a weekday: it would glue whatever
+            # sentence ends in one to the date that follows.
+            (
+                "en",
+                "So do we. 5 May 2020 is the date.",
+                ["So do we", "5 May 2020 is the date"],
+            ),
+            (
+                "en",
+                "We all sat. 5 May 2020 is the date.",
+                ["We all sat", "5 May 2020 is the date"],
+            ),
+            (
+                "de",
+                "Mach es so. 5. Mai 2020 ist das Datum.",
+                ["Mach es so", "5. Mai 2020 ist das Datum"],
+            ),
+            (
+                "fr",
+                "On voit la mer. 5 mai 2020 est la date.",
+                ["On voit la mer", "5 mai 2020 est la date"],
+            ),
+        ],
+    )
+    def test_weekday_name_does_not_keep_its_full_stop(
+        self, shortname: str, text: str, expected: list[str]
+    ) -> None:
+        locale = default_loader.get_locale(shortname)
+        assert list(locale._sentence_split(text, settings=settings)) == expected
+
+    @pytest.mark.parametrize(
+        ("text", "expected"),
+        [
+            (
+                "It happened at 8:45 a.m. yesterday.",
+                ["It happened at 8:45 a.m. yesterday"],
+            ),
+            ("I saw it at 11:00 P.M.", ["I saw it at 11:00 P.M."]),
+            # "am" alone, without periods, is an ordinary word and still ends
+            # a sentence.
+            ("I am. Really.", ["I am", "Really"]),
+        ],
+    )
+    def test_am_pm_does_not_end_sentence(self, text: str, expected: list[str]) -> None:
+        locale = default_loader.get_locale("en")
+        assert list(locale._sentence_split(text, settings=settings)) == expected
+
+
+class TestTranslateNumerals:
+    def test_non_ascii_digits_keep_leading_zeros(self) -> None:
+        locale = default_loader.get_locale("ar")
+        assert locale._translate_numerals("\u0660\u0661\u0662 \u0663") == "012 3"
+
+    def test_long_digit_run(self) -> None:
+        locale = default_loader.get_locale("en")
+        digits = "1" * 10_000
+        assert locale._translate_numerals(digits) == digits
+
+
+class TestSimplify:
+    @pytest.mark.parametrize(
+        ("shortname", "unit"),
+        [("zh", "年"), ("zh", "月"), ("zh-Hant", "年"), ("ja", "時")],
+    )
+    def test_long_digit_run(self, shortname: str, unit: str) -> None:
+        locale = default_loader.get_locale(shortname)
+        date_string = "1" * 100_000 + unit
+        start = monotonic()
+        locale._simplify(date_string, settings=settings)
+        assert monotonic() - start < 1.0
+
+
 class TestNoWordSpacingSecurity:
     def test_dictionary_does_not_evaluate_no_word_spacing(self) -> None:
         locale_info = {
@@ -3395,3 +3641,93 @@ class TestNoWordSpacingSecurity:
 
         os_system.assert_not_called()
         assert simplifications
+
+
+class TestSimplifyLongRun:
+    @pytest.mark.parametrize(
+        ("shortname", "date_string"),
+        [
+            ("ru", "1" * 5000 + " 1"),
+            ("ko", "1" * 20_000),
+            ("ko", "_" * 20_000),
+            ("ko", "00:" * 5000),
+        ],
+        ids=["ru-digits", "ko-digits", "ko-underscores", "ko-colons"],
+    )
+    def test_long_run(self, shortname: str, date_string: str) -> None:
+        locale = default_loader.get_locale(shortname)
+        start = process_time()
+        assert locale._simplify(date_string, settings=settings) == date_string
+        assert process_time() - start < 1.0
+
+
+class TestRussianNumberPairs:
+    """Numbers next to each other in a numeric date are not combined like the
+    words of a compound ordinal, e.g. "двадцать" and "первое"."""
+
+    @pytest.mark.parametrize(
+        ("date_string", "expected"),
+        [
+            ("20 03 2021", datetime(2021, 3, 20)),
+            ("30 01 2020", datetime(2020, 1, 30)),
+        ],
+    )
+    def test_numeric_date_with_spaces(
+        self, date_string: str, expected: datetime
+    ) -> None:
+        assert parse(date_string, languages=["ru"]) == expected
+
+    def test_compound_ordinal_is_still_combined(self) -> None:
+        locale = default_loader.get_locale("ru")
+        assert locale.translate("20 3 мая", settings=settings) == "23 may"
+        assert locale.translate("20 ٣ мая", settings=settings) == "23 may"
+
+    def test_number_pair_that_int_rejects_is_not_combined(self) -> None:
+        # int() knows the digits of the Unicode version of this Python only, and
+        # the regular expression of the regex module may know more.
+        locale = default_loader.get_locale("ru")
+        with patch(
+            "dateparser.languages.locale.int", side_effect=ValueError, create=True
+        ):
+            assert locale.translate("20 3 мая", settings=settings) == "20 3 may"
+
+    def test_digit_that_int_rejects_is_not_combined(self) -> None:
+        digits = digits_unknown_to_int()
+        if not digits:
+            pytest.skip("int() knows every digit that the regex module knows")
+        digit = digits[0]
+        locale = default_loader.get_locale("ru")
+        assert locale.translate(f"20 {digit} мая", settings=settings) == (
+            f"20 {digit} may"
+        )
+        for date_string in (
+            f"20 {digit}",
+            f"10:30 UTC+{digit}",
+            f"20 {digit} June 2020",
+        ):
+            assert parse(date_string) is None
+            assert isinstance(search_dates(date_string), (list, type(None)))
+
+
+class TestDictionarySplit:
+    @pytest.mark.parametrize(
+        ("shortname", "word", "count"),
+        [("en", "Jan ", 50_000), ("ja", "月曜日", 100_000)],
+    )
+    def test_long_word_run(self, shortname: str, word: str, count: int) -> None:
+        dictionary = Dictionary(default_loader.get_locale(shortname).info, settings)
+        start = monotonic()
+        dictionary.split(word * count)
+        assert monotonic() - start < 2.0
+
+    def test_newline(self) -> None:
+        dictionary = Dictionary(default_loader.get_locale("en").info, settings)
+        assert dictionary.split("Jan 1\nFeb 2", keep_formatting=True) == [
+            "Jan",
+            " ",
+            "1",
+            "\n",
+            "Feb",
+            " ",
+            "2",
+        ]

@@ -25,7 +25,7 @@ _UNITS = r"century|decade|fortnight|year|month|week|day|hour|minute|second"
 # A number that continues a date or a time, e.g. the year in "03/06/2020 year",
 # is not a quantity, and a string with one is not a relative date.
 PATTERN = re.compile(
-    rf"(?<![\d/.:])([+-]?\s*\d++[.,]?\d*+)\s*({_UNITS})\b", re.I | re.S | re.U
+    rf"(?<![\d/.:])((?:[+-]\s*+)?\d++[.,]?\d*+)\s*({_UNITS})\b", re.I | re.S | re.U
 )
 _GLUED_QUANTITY = re.compile(rf"\d\s*(?:{_UNITS})\b", re.I)
 # "the 1st of last month" translates to " 1 1 month ago".
@@ -58,7 +58,13 @@ class FreshnessDateDataParser:
     def get_local_tz(self) -> tzinfo:
         return _get_localzone()
 
-    def parse(  # noqa: PLR0912, PLR0915
+    def parse(
+        self, date_string: str, settings: "Settings"
+    ) -> tuple[datetime | None, str | None]:
+        date, period, _ = self._parse_with_parts(date_string, settings)
+        return date, period
+
+    def _parse_with_parts(  # noqa: PLR0912, PLR0915
         self, date_string: str, settings: "Settings"
     ) -> tuple[datetime | None, str | None, tuple[str, ...]]:
         date_string = strip_braces(date_string)
@@ -254,7 +260,7 @@ class FreshnessDateDataParser:
     def get_date_data(self, date_string: str, settings: "Settings") -> "DateData":
         from dateparser.date import DateData  # noqa: PLC0415
 
-        date, period, parts = self.parse(date_string, settings)
+        date, period, parts = self._parse_with_parts(date_string, settings)
         return DateData(date_obj=date, period=period, parts=parts)
 
 

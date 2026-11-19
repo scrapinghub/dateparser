@@ -147,7 +147,9 @@ class jalali_parser(non_gregorian_parser):
         result = re.sub(hour_pattern, only_numbers, source)
         result = re.sub(minute_pattern, only_numbers, result)
         result = re.sub(second_pattern, only_numbers, result)
-        result = re.sub(r"\s+و\s+", ":", result)
+        # Attempt a match only at the beginning of a run of whitespace: a plain
+        # ``\s+`` scans to the end of the run from every character of it.
+        result = re.sub(r"(?<!\s)\s+و\s+", ":", result)
         return result.replace("ساعت", "")
 
     @classmethod
