@@ -358,7 +358,7 @@ info = {
             "zwölf": "12"
         },
         {
-            "(?<![:.,])([01]?\\d|2[0-3])\\s*uhr\\s*([0-5]\\d)(?!\\.?\\s*(?:[\\d%]|jan|jän|feb|mär|mrz|apr|mai|jun|jul|aug|sep|okt|nov|dez))": "\\1:\\2"
+            "(?<![:.,])([01]?\\d|2[0-3])\\s*uhr\\s*([0-5]\\d)(?![-./]?\\s*(?:[\\d%]|jan|jän|feb|mär|mrz|apr|mai|jun|jul|aug|sep|okt|nov|dez))": "\\1:\\2"
         },
         {
             "(?<![:.,])([01]?\\d|2[0-3])\\s*uhr": "\\1:00"

@@ -199,6 +199,7 @@ class TestBundledLanguages(BaseTestCase):
             param("de", "18Uhr30", "18:30"),
             param("de", "18 Uhr 15 Mai", "18:00 15 may"),
             param("de", "18 Uhr 15. Mai", "18:00 15. may"),
+            param("de", "18 Uhr 15-05-2020", "18:00 15-05-2020"),
             param("de", "6 Uhr 19%", "6:00 19"),
             param("de", "118 Uhr", "118 "),
             param("de", "24 Uhr", "24 "),
