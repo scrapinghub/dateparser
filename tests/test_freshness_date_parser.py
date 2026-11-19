@@ -123,6 +123,17 @@ class TestFreshnessDateDataParser(BaseTestCase):
             ),  # We've fixed .now in setUp
             param("2010 years", ago={"years": 2010}, period="year"),
             param("2010 year ago", ago={"years": 2010}, period="year"),
+            param("2010 year before", ago={"years": 2010}, period="year"),
+            param(
+                "2010 year, 2 months ago",
+                ago={"years": 2010, "months": 2},
+                period="month",
+            ),
+            param(
+                "2010 year and 2 months",
+                ago={"years": 2010, "months": 2},
+                period="month",
+            ),
             param("5000 months ago", ago={"years": 416, "months": 8}, period="month"),
             param(
                 f"{2013 * 12 + 8} months ago",
@@ -1850,6 +1861,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("in 2 mins", in_future={"minutes": 2}, period="day"),
             param("in 3 sec", in_future={"seconds": 3}, period="day"),
             param("in 1000 years", in_future={"years": 1000}, period="year"),
+            param("1000 year from now", in_future={"years": 1000}, period="year"),
+            param("2010 year after", in_future={"years": 2010}, period="year"),
             param(
                 "in 5000 months", in_future={"years": 416, "months": 8}, period="month"
             ),

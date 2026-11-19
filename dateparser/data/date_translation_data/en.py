@@ -1315,6 +1315,9 @@ info = {
             "\\b((?:19|20)\\d\\d,? |\\d{4}-\\d{2}-\\d{2} )([01]?\\d|2[0-3])h\\b(?!\\s+ago\\b)": "\\1\\2:00"
         },
         {
+            "(?<![.,\\-–—]|\\bin\\s+|(?:century|centuries|decades?|fortnights?|years?|months?|weeks?|days?|hours?|minutes?|seconds?)\\s+)(\\d{4})\\s*year(?![\\-–—]|\\s+(?:ago|before|after|later|from\\s+now)\\b|(?:\\s*,|\\s+and)?\\s*\\d)": "\\1 ad"
+        },
+        {
             "from\\s+now": "in"
         },
         {
@@ -1430,9 +1433,6 @@ info = {
         },
         {
             "(?<!\\d\\s|hundred\\s|hundred and\\s)ninety(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "90"
-        },
-        {
-            "(?<![.,\\-–—]|\\bin\\s+|(?:century|centuries|decades?|fortnights?|years?|months?|weeks?|days?|hours?|minutes?|seconds?)\\s+)(\\d{4})\\s*year(?![\\-–—]|\\s+(?:ago|later)\\b|\\s*\\d)": "\\1 ad"
         },
         {
             "(\\d++[.,]?\\d*+) (centur(?:y|ies)|decade|fortnight|year|month|week|day|hour|minute|second)s? later": "in \\1 \\2"
