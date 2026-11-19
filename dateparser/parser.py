@@ -145,7 +145,7 @@ def _parse_absolute(
     tz: tzinfo | None = None,
     date_order: str | None = None,
 ) -> tuple[datetime, str | None, tuple[str, ...]]:
-    return _parser.parse(datestring, settings, tz, date_order=date_order)
+    return _parser._parse_with_parts(datestring, settings, tz, date_order=date_order)
 
 
 def _parse_nospaces(
@@ -427,6 +427,7 @@ class _parser:
         skip_index: list[int] = []
         skip_component: str | None = None
         skip_tokens = ["t", "year", "hour", "minute"]
+        nothing_to_parse = True
 
         for index, token_type_original_index in enumerate(self.filtered_tokens):
             if index in skip_index:
@@ -436,6 +437,7 @@ class _parser:
 
             if token in skip_tokens:
                 continue
+            nothing_to_parse = False
 
             if token in _WEEKDAY_MODIFIERS:
                 if self._weekday_modifier:
@@ -517,6 +519,8 @@ class _parser:
                     skip_component = "year"
                 setattr(self, *res)
 
+        if nothing_to_parse:
+            raise ValueError("Nothing to parse")
         known, unknown = get_unresolved_attrs(self)
         unset_tokens = [
             unset_token
@@ -807,7 +811,9 @@ class _parser:
                 # Convert dateobj to utc time to compare with RELATIVE_BASE
                 try:
                     tz = tz or get_timezone_from_tz_string(self.settings.TIMEZONE)
-                    tz_offset = tz.utcoffset(dateobj) or tz_offset
+                    # `dateobj` may have been localized above when `self.now` is
+                    # offset-aware; `utcoffset()` requires a naive datetime.
+                    tz_offset = tz.utcoffset(dateobj.replace(tzinfo=None)) or tz_offset
                 except (pytz.UnknownTimeZoneError, pytz.NonExistentTimeError):
                     pass
 
@@ -847,7 +853,7 @@ class _parser:
         )
 
     @classmethod
-    def parse(
+    def _parse_with_parts(
         cls,
         datestring: str,
         settings: "Settings",
