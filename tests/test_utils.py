@@ -9,6 +9,7 @@ import pytest
 from parameterized import param, parameterized
 from pytz import UnknownTimeZoneError, utc
 from pytz.tzinfo import BaseTzInfo
+from tzlocal import reload_localzone
 
 import dateparser
 from dateparser.conf import settings
@@ -320,3 +321,40 @@ def test_generate_time_span_without_base_date_or_settings_deprecated() -> None:
             datetime(2020, 1, 1),
             datetime(2020, 1, 31),
         )
+
+
+@pytest.mark.parametrize(
+    ("date_string", "offset"),
+    [("15 January 2024 12:00", 1), ("15 June 2024 12:00", 2)],
+)
+def test_local_timezone_offset(
+    date_string: str, offset: int, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("TZ", "Europe/Warsaw")
+    reload_localzone()
+    try:
+        date_obj = dateparser.parse(
+            date_string,
+            settings={"TIMEZONE": "local", "RETURN_AS_TIMEZONE_AWARE": True},
+        )
+    finally:
+        monkeypatch.undo()
+        reload_localzone()
+    assert date_obj is not None
+    assert date_obj.utcoffset() == timedelta(hours=offset)
+
+
+@pytest.mark.parametrize(
+    ("date", "tz_string", "offset"),
+    [
+        (datetime(1, 1, 1), "Asia/Tokyo", timedelta(hours=9, minutes=19)),
+        (datetime(9999, 12, 31, 23), "America/New_York", timedelta(hours=-5)),
+        (datetime(9999, 12, 31, 23), "Australia/Sydney", timedelta(hours=11)),
+    ],
+)
+def test_localize_timezone_range_edges(
+    date: datetime, tz_string: str, offset: timedelta
+) -> None:
+    tzaware_dt = localize_timezone(date, tz_string)
+    assert tzaware_dt.replace(tzinfo=None) == date
+    assert tzaware_dt.utcoffset() == offset

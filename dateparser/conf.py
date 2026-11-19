@@ -106,6 +106,12 @@ class Settings:
         if not cls._pyfile_data:
             from dateparser_data import settings  # noqa: PLC0415
 
+            # PARTS_OF_DAY is added here and not in dateparser_data/settings.py:
+            # that module has to stay importable on its own, and importing
+            # dateparser._parts_of_day there makes it import the dateparser
+            # package, which reads it back while it is still being executed
+            # whenever it is the first thing imported.
+            settings.settings.setdefault("PARTS_OF_DAY", PartsOfDay())
             cls._pyfile_data = settings.settings
         return cls._pyfile_data
 
