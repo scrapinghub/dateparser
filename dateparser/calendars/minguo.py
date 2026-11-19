@@ -37,14 +37,14 @@ class _minguo_parser(non_gregorian_parser):
         return super()._get_date_obj(token, directive)
 
     @classmethod
-    def parse(
+    def _parse_with_parts(
         cls,
         datestring: str,
         settings: Settings,
         tz: tzinfo | None = None,
         date_order: str | None = None,
     ) -> tuple[datetime, str | None, tuple[str, ...]]:
-        return super(non_gregorian_parser, cls).parse(
+        return super(non_gregorian_parser, cls)._parse_with_parts(
             datestring, settings, tz, date_order or "YMD"
         )
 

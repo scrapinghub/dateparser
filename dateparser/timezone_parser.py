@@ -16,6 +16,10 @@ if TYPE_CHECKING:
 
     from .conf import Settings
 
+_MAX_EXTRA_TZ = 2
+"""Timezone tokens equivalent to the first one, e.g. "CDT" and "(CDT)" after
+"-0500", that :func:`pop_tz_offset_from_string` also removes."""
+
 
 class _TzOffsetInfo(TypedDict):
     regex: regex.Pattern[str]
@@ -117,13 +121,14 @@ def pop_tz_offset_from_string(
     # A date string may carry both a numeric UTC offset and a redundant,
     # equivalent timezone abbreviation, e.g. the RFC 2822 email form
     # ``-0500 (CDT)`` (the parenthesised name is informational and the numeric
-    # offset is authoritative). Only one token is removed above; strip a second,
-    # equivalent one so the leftover does not break the rest of the parser.
-    # The remainder is right-stripped first because the numeric-offset regexes
-    # are anchored at the end of the string. An abbreviation that follows
-    # daylight saving time, such as ``CT``, is equivalent to both of its
-    # offsets, so the numeric offset decides which one applies.
-    while True:
+    # offset is authoritative). Only one token is removed above; strip up to
+    # _MAX_EXTRA_TZ more, equivalent ones so the leftover does not break the
+    # rest of the parser. The remainder is right-stripped first because the
+    # numeric-offset regexes are anchored at the end of the string. An
+    # abbreviation that follows daylight saving time, such as ``CT``, is
+    # equivalent to both of its offsets, so the numeric offset decides which
+    # one applies.
+    for _ in range(_MAX_EXTRA_TZ):
         extra = _search_and_pop_tz(date_string.rstrip())
         if extra is None:
             break
@@ -297,9 +302,16 @@ def _find_tz(
             # overlapped: in "EST/EDT" both matches share the "/"
             matches = pattern.finditer(string, overlapped=True)
         best: tuple[int, tuple[int, int]] | None = None
+        # The same timezone text always matches the same group, and finding
+        # that group means checking hundreds of them, so do it once per text.
+        # Group 1 and the last group match the characters around the text.
+        indexes: dict[str, int] = {}
         for match in matches:
-            group = next(k for k, v in match.groupdict().items() if v is not None)
-            index = int(group[2:])
+            text = string[match.end(1) : match.start(pattern.groups)].lower()
+            if text not in indexes:
+                group = next(k for k, v in match.groupdict().items() if v is not None)
+                indexes[text] = int(group[2:])
+            index = indexes[text]
             if best is None or index < best[0]:
                 best = (index, match.span())
         if best:
