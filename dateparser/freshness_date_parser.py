@@ -202,9 +202,8 @@ class FreshnessDateDataParser:
                 adjusted_kwargs[key] = -value
 
         # Fold ``decades`` into ``years`` after each component's sign has been
-        # resolved so that an unsigned component combined with an explicitly
-        # signed one still follows the default ago/future context (fixes
-        # #1304).
+        # resolved, since components of the same string can have different
+        # signs.
         for unit, factor, base in (
             ("centuries", 100, "years"),
             ("decades", 10, "years"),
@@ -242,12 +241,18 @@ class FreshnessDateDataParser:
 
         kwargs: dict[str, float] = {}
         explicit_signs: dict[str, bool] = {}
+        sign = ""
 
-        for num, unit in m:
-            has_explicit_sign = num.startswith(("+", "-"))
+        for raw_num, unit in m:
+            num = raw_num.replace(",", ".").replace(" ", "")
+            if num[0] in "+-":
+                sign = num[0]
+            else:
+                # "+1d2h" means "+1d +2h".
+                num = sign + num
             key = "centuries" if unit.lower() == "century" else unit.lower() + "s"
-            explicit_signs[key] = has_explicit_sign
-            kwargs[key] = float(num.replace(",", ".").replace(" ", ""))
+            explicit_signs[key] = bool(sign)
+            kwargs[key] = float(num)
 
         return kwargs, explicit_signs
 
