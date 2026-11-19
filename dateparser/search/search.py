@@ -658,19 +658,19 @@ class _ExactLanguageSearch:
             if item.count(splitter) != original.count(splitter):
                 continue
             possible_splits.extend(self.split_by(item, original, splitter))
-        if not possible_splits or misaligned:
-            # Only when no splitter lines up, or skipped words keep spaces from
-            # doing so, so that a chunk which already splits keeps being split
-            # exactly the way it is split today.
-            possible_splits += self.split_by_relative_expression(
-                parser, item, original, language, settings
-            ) or self.split_around_skipped_words(item, original, language, settings)
-        elif skipped_words:
-            # Other splitters cannot separate a relative expression from a date
-            # next to it, e.g. "in just 3 seconds" from "Sep 26, 2026".
-            possible_splits += self.split_by_relative_expression(
+        extra_splits: list[list[list[str]]] = []
+        if not possible_splits or skipped_words:
+            # Even when other splitters split the chunk, they cannot separate a
+            # relative expression from a date next to it, e.g. "in just 3
+            # seconds" from "Sep 26, 2026".
+            extra_splits = self.split_by_relative_expression(
                 parser, item, original, language, settings
             )
+        if not extra_splits and (not possible_splits or misaligned):
+            extra_splits = self.split_around_skipped_words(
+                item, original, language, settings
+            )
+        possible_splits += extra_splits
         return possible_splits
 
     def parse_item(
