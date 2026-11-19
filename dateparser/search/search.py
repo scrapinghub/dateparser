@@ -22,7 +22,7 @@ RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
 # turns into several words ("0 day ago"), which is why the translation of a
 # chunk can hold more words than the text it was translated from.
 TRANSLATED_RELATIVE_REG = re.compile(
-    rf"\bin \d+ (?:{_UNITS})s?\b|\b\d+ (?:{_UNITS})s? ago\b"
+    rf"\bin \d+(?:\.\d+)? (?:{_UNITS})s?\b|\b\d+(?:\.\d+)? (?:{_UNITS})s? ago\b"
 )
 
 # Drop "am" unless it follows a 12-hour time: German "am" ("on the") also
@@ -637,8 +637,9 @@ class _ExactLanguageSearch:
         splitters = [",", "،", "——", "—", "–", ".", " "]
         possible_splits = self.split_off_leading_number(parser, item, original)
         misaligned = False
+        skipped_words = False
         for splitter in splitters:
-            if splitter not in item or item.count(splitter) != original.count(splitter):
+            if splitter not in item:
                 continue
             if (
                 splitter == " "
@@ -651,16 +652,25 @@ class _ExactLanguageSearch:
                 # A skipped word, e.g. "and", has no counterpart in the
                 # translation, so the words of both only line up by chance,
                 # unless the language is searched untranslated.
-                misaligned = True
+                skipped_words = True
+                misaligned = item.count(splitter) == original.count(splitter)
+                continue
+            if item.count(splitter) != original.count(splitter):
                 continue
             possible_splits.extend(self.split_by(item, original, splitter))
-        if not possible_splits or misaligned:
-            # Only when no splitter lines up, or skipped words keep spaces from
-            # doing so, so that a chunk which already splits keeps being split
-            # exactly the way it is split today.
-            possible_splits += self.split_by_relative_expression(
+        extra_splits: list[list[list[str]]] = []
+        if not possible_splits or skipped_words:
+            # Even when other splitters split the chunk, they cannot separate a
+            # relative expression from a date next to it, e.g. "in just 3
+            # seconds" from "Sep 26, 2026".
+            extra_splits = self.split_by_relative_expression(
                 parser, item, original, language, settings
-            ) or self.split_around_skipped_words(item, original, language, settings)
+            )
+        if not extra_splits and (not possible_splits or misaligned):
+            extra_splits = self.split_around_skipped_words(
+                item, original, language, settings
+            )
+        possible_splits += extra_splits
         return possible_splits
 
     def parse_item(
