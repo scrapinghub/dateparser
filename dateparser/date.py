@@ -381,8 +381,9 @@ def _apply_date_preference(
     *date_obj* and *now* are compared at the precision of the date *parts*
     the format provides, or as full datetimes if it provides none, so a date
     equal to *now* at that precision is never shifted. Steps that *shift*
-    rejects with :exc:`ValueError`, e.g. a month without the requested day,
-    are skipped.
+    rejects, e.g. a month without the requested day, are skipped. If no date
+    within the :class:`~datetime.datetime` range satisfies the preference,
+    *date_obj* is returned unchanged.
     """
     if prefer_from == "past":
         step = -1
@@ -412,13 +413,19 @@ def _apply_date_preference(
             value.microsecond,
         )[:precision]
 
-    shifted, steps = date_obj, 0
+    shifted, steps, failed = date_obj, 0, False
     while (key(shifted) > key(now)) if step < 0 else (key(shifted) < key(now)):
         steps += step
         try:
             shifted = shift(date_obj, steps)
-        except ValueError:
-            continue
+        except (OverflowError, ValueError):
+            # A day missing from a month fails a single step, so two failures
+            # in a row mean that steps are past the datetime range.
+            if failed:
+                return date_obj
+            failed = True
+        else:
+            failed = False
     return shifted
 
 

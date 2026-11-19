@@ -2523,6 +2523,27 @@ class TestDateParser(BaseTestCase):
                 datetime(2028, 2, 29),
                 {"PREFER_DAY_OF_MONTH": "last", "RELATIVE_BASE": datetime(2028, 6, 1)},
             ),
+            param(
+                "January 1",
+                "%B %d",
+                "future",
+                datetime(9999, 1, 1),
+                {"RELATIVE_BASE": datetime(9999, 6, 1)},
+            ),
+            param(
+                "1",
+                "%d",
+                "future",
+                datetime(9999, 12, 1),
+                {"RELATIVE_BASE": datetime(9999, 12, 15)},
+            ),
+            param(
+                "00:00",
+                "%H:%M",
+                "future",
+                datetime(9999, 12, 31),
+                {"RELATIVE_BASE": datetime(9999, 12, 31, 12)},
+            ),
         ]
     )
     def test_prefer_dates_from_with_partial_date_formats(
