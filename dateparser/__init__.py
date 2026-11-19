@@ -10,6 +10,7 @@ from ._parts_of_day import PartsOfDay as PartsOfDay
 from .conf import Settings, apply_settings
 from .date import DateDataParser as DateDataParser
 from .parser import date_order_chart
+from .utils import _now
 
 _default_parser = DateDataParser()
 
@@ -94,20 +95,6 @@ def parse(
     return date_obj
 
 
-class AmbiguousDateOrderError(ValueError):
-    """Raised by :func:`parse_many` when more than one date order fits the date
-    strings. *date_strings* holds the pending date strings, which
-    :func:`parse_many` has not yielded, and *date_orders* the date orders that
-    fit them."""
-
-    def __init__(self, date_strings: list[str], date_orders: list[str]):
-        super().__init__(
-            f"Ambiguous date order, could be any of: {', '.join(date_orders)}"
-        )
-        self.date_strings = date_strings
-        self.date_orders = date_orders
-
-
 def parse_many(
     date_strings: Iterable[str],
     languages: list[str] | None = None,
@@ -123,8 +110,11 @@ def parse_many(
     Returns an iterator of :class:`~datetime.datetime` objects. For example, in
     ``['2015/2/3', '2015/31/12']``, the second date string shows that the first
     one is 2 March 2015, while :func:`parse` would read it as 3 February 2015.
-    Date strings that cannot be parsed become ``None``, and do not count when
-    finding the date order.
+    Date strings that cannot be parsed become ``None``. Date strings that fit
+    none of the date orders that fit the previous ones are parsed with the
+    ``DATE_ORDER`` setting set to the date order of the others, so the
+    ``STRICT_DATE_ORDER`` setting decides whether they become ``None``. Neither
+    counts when finding the date order.
 
     *date_orders* limits the candidate date orders, e.g. to ``["DMY", "MDY"]``
     to only tell days and months apart. By default, all date orders are
@@ -133,28 +123,23 @@ def parse_many(
     Date strings that different date orders parse differently stay pending
     until a later date string settles the date order, so input that settles it
     late keeps many date strings in memory. Shuffling the input, where
-    feasible, helps. If more than *max_pending* date strings are pending, or
-    the input ends while some are, :exc:`AmbiguousDateOrderError` is raised,
-    unless the ``DATE_ORDER`` setting is one of the date orders that fit, in
-    which case it is used.
-
-    Raises :exc:`ValueError` if a date string does not fit any date order that
-    fits the previous ones.
+    feasible, helps. Date strings still pending when the input ends, or once
+    more than *max_pending* are pending, are parsed as :func:`parse` would.
     """
     orders = list(date_order_chart if date_orders is None else date_orders)
     if not orders or not set(orders) <= set(date_order_chart):
         raise ValueError(f"Invalid date_orders: {date_orders!r}")
-    settings = settings or {}
     parser_kwargs: dict[str, Any] = {
         "languages": languages,
         "locales": locales,
         "region": region,
         "detect_languages_function": detect_languages_function,
     }
+    settings = settings or {}
     parser = DateDataParser(settings=settings, **parser_kwargs)
     # Relative dates must not change from one date order to the next while
     # finding the date order.
-    strict_settings = {"RELATIVE_BASE": datetime.now(), **settings}
+    strict_settings = {"RELATIVE_BASE": _now(parser._settings), **settings}
     strict_parsers: dict[tuple[str, str], DateDataParser] = {}
     order_parsers: dict[str, DateDataParser] = {}
 
@@ -178,55 +163,45 @@ def parse_many(
     def parse_in_order(date_string: str, order: str) -> datetime | None:
         if order not in order_parsers:
             order_parsers[order] = DateDataParser(
-                settings={**settings, "DATE_ORDER": order, "STRICT_DATE_ORDER": "all"},
-                **parser_kwargs,
+                settings={**settings, "DATE_ORDER": order}, **parser_kwargs
             )
         date_obj: datetime | None = order_parsers[order].get_date_data(date_string)[
             "date_obj"
         ]
-        if date_obj is None and parser.get_date_data(date_string)["date_obj"]:
-            raise ValueError(f"{date_string!r} does not fit the {order} date order")
         return date_obj
 
-    def settle() -> str:
-        if settings.get("DATE_ORDER") in orders:
-            return str(settings["DATE_ORDER"])
-        raise AmbiguousDateOrderError(
-            [date_string for date_string, _ in pending], orders
-        )
-
-    def pop() -> datetime | None:
-        date_string, dates = pending.popleft()
-        if dates[orders[0]] is None:
+    def pop(order: str | None) -> datetime | None:
+        date_string = pending.popleft()[0]
+        if date_string is None:
             return None
-        return parse_in_order(date_string, orders[0])
+        if order is None:
+            date_obj: datetime | None = parser.get_date_data(date_string)["date_obj"]
+            return date_obj
+        return parse_in_order(date_string, order)
 
-    pending: deque[tuple[str, dict[str, datetime | None]]] = deque()
+    # Pending date strings, or None for those that cannot be parsed, with what
+    # they become in each date order.
+    pending: deque[tuple[str | None, dict[str, datetime | None]]] = deque()
     for date_string in date_strings:
         if len(orders) == 1:
             yield parse_in_order(date_string, orders[0])
             continue
         data = parser.get_date_data(date_string)
         if data["locale"] is None:
-            dates = dict.fromkeys(orders)
+            pending.append((None, dict.fromkeys(orders)))
         else:
             dates = {
                 order: parse_strictly(date_string, order, data["locale"])
                 for order in orders
             }
-            orders = [order for order in orders if dates[order]]
-            if not orders:
-                raise ValueError(
-                    f"No date order fits {date_string!r} and the previous date strings"
-                )
-        pending.append((date_string, dates))
+            if any(dates.values()):
+                orders = [order for order in orders if dates[order]]
+            else:
+                dates = {order: parse_in_order(date_string, order) for order in orders}
+            pending.append((date_string, dates))
         while pending and len({pending[0][1][order] for order in orders}) == 1:
-            yield pop()
+            yield pop(orders[0])
         if max_pending is not None and len(pending) > max_pending:
-            orders = [settle()]
-            while pending:
-                yield pop()
-    if pending:
-        orders = [settle()]
+            yield pop(None)
     while pending:
-        yield pop()
+        yield pop(None)

@@ -710,31 +710,26 @@ class TestParseMany(BaseTestCase):
         self.assertEqual(datetime(2015, 12, 31), next(dates))
 
     def test_ambiguous(self) -> None:
-        with self.assertRaises(dateparser.AmbiguousDateOrderError) as cm:
-            list(dateparser.parse_many(["3 March 2015", "01/02/2015", "03/04/2015"]))
-        self.assertEqual(["01/02/2015", "03/04/2015"], cm.exception.date_strings)
-        self.assertEqual(["DMY", "MDY"], cm.exception.date_orders)
-        result = dateparser.parse_many(["01/02/2015"], settings={"DATE_ORDER": "DMY"})
-        self.assertEqual([datetime(2015, 2, 1)], list(result))
+        date_strings = ["3 March 2015", "01/02/2015"]
+        result = dateparser.parse_many(date_strings)
+        self.assertEqual([datetime(2015, 3, 3), datetime(2015, 1, 2)], list(result))
+        result = dateparser.parse_many(date_strings, settings={"DATE_ORDER": "DMY"})
+        self.assertEqual([datetime(2015, 3, 3), datetime(2015, 2, 1)], list(result))
 
     def test_max_pending(self) -> None:
         date_strings = ["01/02/2015", "03/04/2015", "25/12/2015"]
-        with self.assertRaises(dateparser.AmbiguousDateOrderError) as cm:
-            list(dateparser.parse_many(date_strings, max_pending=1))
-        self.assertEqual(["01/02/2015", "03/04/2015"], cm.exception.date_strings)
-        result = dateparser.parse_many(
-            date_strings, settings={"DATE_ORDER": "MDY"}, max_pending=1
+        result = dateparser.parse_many(date_strings, max_pending=1)
+        self.assertEqual(
+            [datetime(2015, 1, 2), datetime(2015, 4, 3), datetime(2015, 12, 25)],
+            list(result),
         )
-        with self.assertRaisesRegex(ValueError, "25/12/2015"):
-            list(result)
 
     def test_date_orders(self) -> None:
         date_orders = ["DMY", "MDY"]
-        result = dateparser.parse_many(["31.12.13"], date_orders=date_orders)
-        self.assertEqual([datetime(2013, 12, 31)], list(result))
-        with self.assertRaises(dateparser.AmbiguousDateOrderError) as cm:
-            list(dateparser.parse_many(["11.12.13"], date_orders=date_orders))
-        self.assertEqual(date_orders, cm.exception.date_orders)
+        result = dateparser.parse_many(
+            ["31.12.13", "11.12.13"], date_orders=date_orders
+        )
+        self.assertEqual([datetime(2013, 12, 31), datetime(2013, 12, 11)], list(result))
 
     @parameterized.expand([param([]), param(["DMY", "XYZ"])])
     def test_invalid_date_orders(self, date_orders: list[str]) -> None:
@@ -743,11 +738,19 @@ class TestParseMany(BaseTestCase):
 
     @parameterized.expand(
         [
-            param(["13/01/2015", "01/13/2015"]),
-            param(["2015/31/12", "12/31/2015"]),
-            param(["01/02/2015", "2015/31/12"]),
+            param(["01/02/2015", "25/12/2015", "12/25/2015"], "DMY", 2),
+            param(["01/02/2015", "12/25/2015", "25/12/2015"], "MDY", 1),
         ]
     )
-    def test_no_fitting_order(self, date_strings: list[str]) -> None:
-        with self.assertRaisesRegex(ValueError, date_strings[-1]):
-            list(dateparser.parse_many(date_strings))
+    def test_no_fitting_order(
+        self, date_strings: list[str], order: str, month: int
+    ) -> None:
+        date_strings = [*date_strings, "01/01/2016"]
+        expected = [datetime(2015, month, 3 - month), datetime(2015, 12, 25)]
+        result = dateparser.parse_many(date_strings)
+        self.assertEqual(
+            [*expected, datetime(2015, 12, 25), datetime(2016, 1, 1)], list(result)
+        )
+        settings = {"DATE_ORDER": order, "STRICT_DATE_ORDER": "all"}
+        result = dateparser.parse_many(date_strings, settings=settings)
+        self.assertEqual([*expected, None, datetime(2016, 1, 1)], list(result))
