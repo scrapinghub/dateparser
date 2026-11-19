@@ -172,6 +172,7 @@ Sets which day starts the week for time span calculations. Options: ``'monday'``
 **default**: ``30``
 
 Sets the number of days to use for "past month" and similar expressions in time span detection.
+Passing a bool is deprecated. ``False`` is still accepted as ``0`` and ``True`` as ``1``, and both emit ``DeprecationWarning``. A future release will reject them.
 
 ``STRICT_PARSING``: defaults to ``False``.
 
@@ -389,3 +390,4 @@ Dateparser in the future. For example, to ignore relative times:
 
 ``CACHE_SIZE_LIMIT``: limits the size of caches, that store data for already processed dates.
 Default to ``1000``, but you can set ``0`` for turning off the limit.
+Passing a bool is deprecated. ``False`` is still accepted as ``0`` and ``True`` as ``1``, and both emit ``DeprecationWarning``. A future release will reject them.
