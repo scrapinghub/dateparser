@@ -150,6 +150,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("1y2w ago", ago={"years": 1, "weeks": 2}, period="week"),
             param("now-1W", ago={"weeks": 1}, period="week"),
             param("in -1d2h", ago={"days": 1, "hours": 2}, period="day"),
+            param("in -2 days 3 hours", ago={"days": 2, "hours": 3}, period="day"),
             # Word numbers
             param("nine hours ago", ago={"hours": 9}, period="day"),
             param("fifteen minutes ago", ago={"minutes": 15}, period="day"),

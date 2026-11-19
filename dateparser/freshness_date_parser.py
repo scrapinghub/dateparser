@@ -202,9 +202,8 @@ class FreshnessDateDataParser:
                 adjusted_kwargs[key] = -value
 
         # Fold ``decades`` into ``years`` after each component's sign has been
-        # resolved so that an unsigned component combined with an explicitly
-        # signed one still follows the default ago/future context (fixes
-        # #1304).
+        # resolved, since components of the same string can have different
+        # signs.
         for unit, factor, base in (
             ("centuries", 100, "years"),
             ("decades", 10, "years"),
