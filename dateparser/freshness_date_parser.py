@@ -1,9 +1,10 @@
 import contextlib
-from datetime import datetime, time, timezone, tzinfo
+from datetime import datetime, time, timedelta, timezone, tzinfo
 from typing import TYPE_CHECKING, Any
 
 import regex as re
 from dateutil.relativedelta import relativedelta
+from pytz.tzinfo import DstTzInfo
 
 from dateparser.utils import (
     _get_localzone,
@@ -30,6 +31,15 @@ PATTERN = re.compile(
 _GLUED_QUANTITY = re.compile(rf"\d\s*(?:{_UNITS})\b", re.I)
 # "the 1st of last month" translates to " 1 1 month ago".
 _DAY_OF_MONTH = re.compile(r"^\s*(\d{1,2})\s+(?=(?:in\s+)?\d+\s+month\b)")
+
+
+def _localize(date: datetime) -> datetime:
+    """Give *date* the offset that its pytz timezone uses at its local time,
+    which date arithmetic and :meth:`~datetime.datetime.replace` leave as it
+    was."""
+    if not isinstance(date.tzinfo, DstTzInfo):
+        return date
+    return date.tzinfo.localize(date.replace(tzinfo=None), is_dst=bool(date.dst()))
 
 
 class FreshnessDateDataParser:
@@ -143,6 +153,8 @@ class FreshnessDateDataParser:
             if isinstance(_time, time) and "time" not in parts:
                 parts += ("time",)
 
+            date = _localize(date)
+
             if settings.TO_TIMEZONE:
                 date = apply_timezone(date, settings.TO_TIMEZONE)
 
@@ -215,9 +227,17 @@ class FreshnessDateDataParser:
                     base, 0
                 ) + factor * adjusted_kwargs.pop(unit)
 
-        td = relativedelta(**adjusted_kwargs)
-
-        date = now + td
+        # Units of a day or longer keep the local time, shorter units the
+        # elapsed time, across daylight saving time changes.
+        short_units = {
+            unit: adjusted_kwargs.pop(unit)
+            for unit in ("hours", "minutes", "seconds")
+            if unit in adjusted_kwargs
+        }
+        date = _localize(now + relativedelta(**adjusted_kwargs))
+        date += timedelta(**short_units)
+        if isinstance(date.tzinfo, DstTzInfo):
+            date = date.tzinfo.normalize(date)
 
         # The smallest unit in the string determines which parts of the
         # resulting date are meaningful.
