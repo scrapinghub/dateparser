@@ -590,7 +590,7 @@ _ISO_PATTERNS = (
 
 def _parse_iso(
     date_string: str,
-    settings: Settings | None = None,
+    settings: Settings,
     tz: tzinfo | None = None,
     date_order: str | None = None,
 ) -> tuple[datetime, str, tuple[str, ...]]:
@@ -600,6 +600,10 @@ def _parse_iso(
             break
     else:
         raise ValueError(f"{date_string!r} is not an ISO 8601 date")
+    # Outside these years, 8 bare digits are far more often a phone number or
+    # an ID than a date.
+    if date_string.isdigit() and not 1900 <= int(match["year"]) <= 2099:
+        raise ValueError(f"{date_string!r} is not a date from 1900 to 2099")
     seconds = float((match["second"] or "0").replace(",", "."))
     date_obj = datetime(
         int(match["year"]),
@@ -612,7 +616,8 @@ def _parse_iso(
     )
     if match["hour"] is None:
         return date_obj, "day", ("year", "month", "day")
-    return date_obj, "time", ("year", "month", "day", "time")
+    period = "time" if settings.RETURN_TIME_AS_PERIOD else "day"
+    return date_obj, period, ("year", "month", "day", "time")
 
 
 class _DateLocaleParser:

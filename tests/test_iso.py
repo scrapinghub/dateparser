@@ -10,7 +10,9 @@ from dateparser.date import DateDataParser
 
 
 def _parse_iso_date(date_string: str) -> dict[str, Any] | None:
-    date_data = DateDataParser(settings={"PARSERS": ["iso"]}).get_date_data(date_string)
+    date_data = DateDataParser(
+        settings={"PARSERS": ["iso"], "RETURN_TIME_AS_PERIOD": True}
+    ).get_date_data(date_string)
     if date_data.date_obj is None:
         return None
     return {
@@ -164,6 +166,19 @@ class TestISOParser(TestCase):
                 f"{MINYEAR - 1:04}-12-31",
                 None,
             ),
+            # year limits of 8 bare digits
+            param("18991231", None),
+            param("19000101", {"date_obj": datetime(1900, 1, 1), "period": "day"}),
+            param("20991231", {"date_obj": datetime(2099, 12, 31), "period": "day"}),
+            param("21000101", None),
+            param(
+                "21000101T0000",
+                {"date_obj": datetime(2100, 1, 1), "period": "time"},
+            ),
+            param(
+                "+0000021000101", {"date_obj": datetime(2100, 1, 1), "period": "day"}
+            ),
+            param("2100-01-01", {"date_obj": datetime(2100, 1, 1), "period": "day"}),
             # month limits
             param(
                 "2020-00-01",
@@ -377,6 +392,12 @@ class TestISOParser(TestCase):
     )
     def test_parse(self, date_string: str, expected: datetime) -> None:
         self.assertEqual(parse(date_string), expected)
+
+    def test_time_period_setting(self) -> None:
+        date_data = DateDataParser(settings={"PARSERS": ["iso"]}).get_date_data(
+            "2020-01-02T03:04"
+        )
+        self.assertEqual(date_data.period, "day")
 
     def test_disabled(self) -> None:
         parsers = [p for p in settings.PARSERS if p != "iso"]

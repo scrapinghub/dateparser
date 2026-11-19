@@ -375,8 +375,9 @@ The following parsers exist:
 -   ``'iso'``: Parses complete `ISO 8601
     <https://en.wikipedia.org/wiki/ISO_8601>`_ dates, optionally with a time,
     in both the extended and basic formats (e.g. “2021-06-29T12:30:45Z”,
-    “20210629T123045Z”). It is tried after all other parsers, regardless of
-    its position in the list.
+    “20210629T123045Z”). Dates written as 8 digits alone must be from the
+    years 1900 to 2099. It is tried after all other parsers, regardless of its
+    position in the list.
 
     .. versionadded:: VERSION
 
