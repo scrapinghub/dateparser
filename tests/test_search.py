@@ -15,6 +15,7 @@ from dateparser.search.search import DateSearchWithDetection
 from dateparser.timezone_parser import StaticTzInfo
 from dateparser_data.settings import default_parsers
 from tests import BaseTestCase
+from tests.linear_time import assert_fast
 
 today = datetime.datetime.now()
 relative_base = datetime.datetime(2020, 2, 13, 20, 7, 6)
@@ -1086,7 +1087,9 @@ class TestTranslateSearch(BaseTestCase):
             param("en", "next week"),
             param("en", "next month"),
             param("en", "I will see you next week at noon"),
+            param("en", "Meet me on 5 June next week"),
             param("en", "between last week and next week"),
+            param("es", "mañana a las 10"),
         ]
     )
     def test_detection(self, shortname: str, text: str) -> None:
@@ -2066,7 +2069,11 @@ class TestTranslateSearch(BaseTestCase):
             ),
             param(
                 text="114 this week",
-                expected=[("114 this week", datetime.datetime(2026, 9, 23, 12))],
+                expected=[("this week", datetime.datetime(2026, 9, 23, 12))],
+            ),
+            param(
+                text="this week 114",
+                expected=[("this week", datetime.datetime(2026, 9, 23, 12))],
             ),
         ]
     )
@@ -3151,6 +3158,12 @@ class TestTranslateSearch(BaseTestCase):
         result = search_dates("2021年5月5日 上午8点", languages=["zh"])
         assert result
         self.assertEqual(result[0], ("2021年5月5日", datetime.datetime(2021, 5, 5)))
+
+    def test_trailing_number_search_is_linear_on_long_whitespace_runs(self) -> None:
+        assert_fast(
+            "from dateparser.search.search import _TRAILING_NUMBER_REG",
+            ["_TRAILING_NUMBER_REG.search('a' + ' ' * 100_000 + 'x')"],
+        )
 
 
 class TestNgramSearch(BaseTestCase):

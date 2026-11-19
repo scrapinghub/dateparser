@@ -47,7 +47,7 @@ _GLUED_RELATIVE_REG = re.compile(
     rf"in \d+ (?:{_UNITS})s?(?![a-z])|(?<![\d.])\d+ ?(?:{_UNITS})s? ago(?![a-z])"
 )
 _NUMERIC_DATE_REG = re.compile(r"\d[-/.]\d+[-/.]\d")
-_TRAILING_NUMBER_REG = re.compile(r"\s+(\d+)$")
+_TRAILING_NUMBER_REG = re.compile(r"(?<!\s)\s+(\d+)$")
 _SEPARATORS = f"{PUNCTUATION}，、 "
 
 _MAX_TRAILING_WORDS = 3
@@ -627,6 +627,38 @@ class _ExactLanguageSearch:
             return []
         return [[[number, rest], [original_number, original_rest]]]
 
+    def strip_ignored_numbers(
+        self,
+        parser: DateDataParser,
+        item: str,
+        original: str,
+        parsed_item: DateData,
+        relative_base: datetime | None,
+        need_relative_base: bool,
+    ) -> str:
+        """Return *original* without the numbers at either end that do not
+        change its date, e.g. "114" in "114 this week"."""
+        for index in (0, -1):
+            while True:
+                words, original_words = item.split(), original.split()
+                number = words.pop(index)
+                if (
+                    not words
+                    or not number.isdigit()
+                    or number != original_words.pop(index)
+                ):
+                    break
+                parsed_rest = self.parse_item(
+                    parser, " ".join(words), "", relative_base, need_relative_base
+                )[0]
+                if any(
+                    parsed_rest[key] != parsed_item[key]
+                    for key in ("date_obj", "period", "parts")
+                ):
+                    break
+                item, original = " ".join(words), " ".join(original_words)
+        return original
+
     def split_off_trailing_number_word(
         self,
         parser: DateDataParser,
@@ -651,8 +683,6 @@ class _ExactLanguageSearch:
         # Skipped words before the number, e.g. "of", belong to neither part.
         while date and not language.translate(date[-1], settings=settings).strip():
             date.pop()
-        if not date:
-            return []
         rest = item[: match.start()]
         if parser.get_date_data(rest)["date_obj"] is not None:
             return [[[rest], [" ".join(date)]]]
@@ -766,9 +796,17 @@ class _ExactLanguageSearch:
                     parser, item, original[i], language, settings
                 )
                 if not possible_splits:
+                    substring = self.strip_ignored_numbers(
+                        parser,
+                        item,
+                        original[i],
+                        parsed_item,
+                        relative_base,
+                        need_relative_base,
+                    )
                     parsed.append((parsed_item, is_relative))
                     relative_base = _last_relative_base(parsed[-1:], relative_base)
-                    substrings.append(_clean_substring(original[i], skip))
+                    substrings.append(_clean_substring(substring, skip))
                     continue
             else:
                 quantity_split = (
