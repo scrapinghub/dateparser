@@ -182,6 +182,11 @@ relative-type-regex:
 
 simplifications:
     - (\d+[.,]?\d*)\s*mons?\b: \1 month
+    # Before "a: 1" below, so that "a.m." does not turn into "1.m." (with "m"
+    # then read as the "minute" abbreviation) and "8:45 p.m." does not lose
+    # its "p.m." and parse 12 hours off as "8:45 am".
+    - a\.m\.?: am
+    - p\.m\.?: pm
     - an: '1'
     - a: '1'
     - (?:12\s+)?noon: '12:00'
@@ -191,6 +196,8 @@ simplifications:
     - this ((?:early )?morning|afternoon|evening|night): today \1
     - in the ((?:early )?morning|afternoon|evening|night|small hours|wee hours): \1
     - (\d+[.,]?\d*)h(\d+[.,]?\d*): \1:\2
+    - \bat ([01]?\d|2[0-3])h\b(?!\s+ago\b): at \1:00
+    - \b((?:19|20)\d\d,? |\d{4}-\d{2}-\d{2} )([01]?\d|2[0-3])h\b(?!\s+ago\b): \1\2:00
     - from\s+now: in
     - less than 1 minute ago: 45 second ago
     - (\d+(?:st|nd|rd|th)) day: \1

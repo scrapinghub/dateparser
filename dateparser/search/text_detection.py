@@ -1,9 +1,13 @@
+import re
 from typing import Any
 
 from dateparser.conf import Settings, apply_settings
 from dateparser.languages.locale import Locale
 from dateparser.search.detection import BaseLanguageDetector
 from dateparser.utils import normalize_unicode
+
+# Hiragana and katakana, except the middle dot, which Chinese also uses.
+_KANA = re.compile(r"[\u3041-\u3096\u30a1-\u30fa\u30fc-\u30ff]")
 
 
 class FullTextLanguageDetector(BaseLanguageDetector):
@@ -54,6 +58,13 @@ class FullTextLanguageDetector(BaseLanguageDetector):
         if date_string_set & symbol_set == date_string_set:
             self.languages = [self.languages[0]]
             return
+        if _KANA.search(date_string):
+            # Chinese words are also Japanese ones, e.g. 後天 ("acquired").
+            self.languages = [
+                language
+                for language in self.languages
+                if language.shortname.split("-")[0] not in {"zh", "yue"}
+            ] or self.languages
         self.get_unique_characters(settings=settings)
         for i in range(len(self.languages)):
             for char in self.language_unique_chars[i]:

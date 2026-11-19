@@ -179,7 +179,7 @@ info = {
         "2 day ago": [
             "predvčerom"
         ],
-        "in 2 days": [
+        "in 2 day": [
             "pozajtra"
         ]
     },
