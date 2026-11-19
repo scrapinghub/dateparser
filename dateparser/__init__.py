@@ -1,4 +1,4 @@
-__version__ = "1.4.3"
+__version__ = "1.5.1"
 
 from collections import deque
 from collections.abc import Callable, Iterable, Iterator
@@ -35,7 +35,9 @@ def parse(
         `here <https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior>`_.
         The parser applies formats one by one, taking into account the detected
         languages/locales. A UTC offset matched by ``%z`` is kept, while a time
-        zone name matched by ``%Z`` is ignored.
+        zone name matched by ``%Z`` is ignored. If no format matches, the other
+        parsers of the :ref:`PARSERS <settings>` setting are tried; set it to
+        ``['custom-formats']`` to use only these formats.
     :type date_formats: list
 
     :param languages:

@@ -123,7 +123,12 @@ class TestThreadSafety(BaseTestCase):
 
         def search(
             i: int,
-        ) -> list[tuple[str, datetime]] | list[tuple[str, datetime, str | None]] | None:
+        ) -> (
+            list[tuple[str, datetime]]
+            | list[tuple[str, datetime, str | None]]
+            | list[tuple[str, datetime, str | None, str | None]]
+            | None
+        ):
             return search_dates(text, languages=["ru"])
 
         watcher = threading.Thread(target=watch)
