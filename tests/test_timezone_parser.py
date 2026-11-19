@@ -336,6 +336,47 @@ class TestDaylightSavingAbbreviations(BaseTestCase):
         assert date is not None
         self.assertEqual(relative_base.date(), date.date())
 
+    def test_aware_relative_base(self) -> None:
+        relative_base = timezone("UTC").localize(datetime(2022, 8, 24, 12))
+        date = parse("10:00 ET", settings={"RELATIVE_BASE": relative_base})
+        assert date is not None
+        self.assertEqual(timedelta(hours=-4), date.utcoffset())
+
+    @parameterized.expand(
+        [
+            param(
+                "in 2 hours", datetime(2022, 11, 6, 0, 30), datetime(2022, 11, 6, 1, 30)
+            ),
+            param(
+                "in 1 hour", datetime(2022, 3, 13, 1, 30), datetime(2022, 3, 13, 3, 30)
+            ),
+            param("in 1 day", datetime(2022, 11, 5, 12), datetime(2022, 11, 6, 12)),
+            param(
+                "in 1 day 2 hours",
+                datetime(2022, 11, 5, 23, 30),
+                datetime(2022, 11, 7, 1, 30),
+            ),
+            param(
+                "2 days ago at 10:00",
+                datetime(2022, 11, 7, 12),
+                datetime(2022, 11, 5, 10),
+            ),
+        ]
+    )
+    def test_relative_date_across_daylight_saving_change(
+        self, date_string: str, relative_base: datetime, expected: datetime
+    ) -> None:
+        for tz in ("ET", "America/New_York"):
+            date = parse(
+                date_string,
+                settings={
+                    "RELATIVE_BASE": relative_base,
+                    "TIMEZONE": tz,
+                    "RETURN_AS_TIMEZONE_AWARE": True,
+                },
+            )
+            self.assertEqual(timezone("America/New_York").localize(expected), date)
+
 
 class TestStaticTzInfo(BaseTestCase):
     def setUp(self) -> None:

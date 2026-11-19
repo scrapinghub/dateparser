@@ -16,6 +16,7 @@ import regex as re
 from pytz import UTC, UnknownTimeZoneError, timezone
 from tzlocal import get_localzone
 
+from dateparser.timezone_parser import StaticTzInfo as StaticTzInfo
 from dateparser.timezone_parser import _find_tz
 
 if TYPE_CHECKING:
