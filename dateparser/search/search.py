@@ -615,16 +615,27 @@ class _ExactLanguageSearch:
     ) -> list[list[list[str]]]:
         """Split a chunk that starts with a number into that number and the
         rest, to find a date written after a number that is not part of it,
-        e.g. the decimals of “-58.5” before “06 Mar 2009”."""
+        e.g. the decimals of “-58.5” before “06 Mar 2009”.
+
+        A number wrapped in symbols, e.g. “$20” or “50%”, is treated the
+        same way: the symbols are stripped for the split, so the date after
+        it can still be found, while the stripped number itself is only kept
+        when it parses as a date on its own.
+        """
         number, _, rest = item.partition(" ")
         original_number, _, original_rest = original.partition(" ")
+        stripped_number = re.sub(r"^[^0-9A-Za-z]+|[^0-9A-Za-z]+$", "", number)
+        stripped_original = re.sub(
+            r"^[^0-9A-Za-z]+|[^0-9A-Za-z]+$", "", original_number
+        )
         if (
-            not number.isdigit()
+            not stripped_number.isdigit()
             or number != original_number
+            or stripped_number != stripped_original
             or parser.get_date_data(rest)["date_obj"] is None
         ):
             return []
-        return [[[number, rest], [original_number, original_rest]]]
+        return [[[stripped_number, rest], [stripped_original, original_rest]]]
 
     def split_if_not_parsed(
         self,

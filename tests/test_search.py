@@ -1323,6 +1323,30 @@ class TestTranslateSearch(BaseTestCase):
                 ],
             ),
             param(
+                text="Paid $20 on January 5, 2024",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)},
+                expected=[("on January 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
+            ),
+            param(
+                text="Paid $20 on Jan 5",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)},
+                expected=[("on Jan 5", datetime.datetime(2024, 1, 5, 0, 0))],
+            ),
+            param(
+                text="Paid 50% on January 5, 2024",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)},
+                expected=[("on January 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
+            ),
+            param(
+                text="Paid 20$ on January 5, 2024",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)},
+                expected=[("on January 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
+            ),
+            param(
                 text="The conference is June 12-14, 2021 in Boston.",
                 languages=["en"],
                 settings=None,
