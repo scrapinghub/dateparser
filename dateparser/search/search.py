@@ -14,6 +14,7 @@ from dateparser.languages.loader import LocaleDataLoader
 from dateparser.languages.locale import _WEEKDAY_MODIFIERS, PUNCTUATION, Locale
 from dateparser.search.ngram_search import _DateResult, _NgramDateSearch
 from dateparser.search.text_detection import FullTextLanguageDetector
+from dateparser.utils import _now
 from dateparser.utils.time_spans import detect_time_span, generate_time_span
 
 RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
@@ -230,7 +231,7 @@ def _add_time_span_results(
     if getattr(settings, "RETURN_TIME_SPAN", False):
         span_info = detect_time_span(text)
         if span_info:
-            base_date = getattr(settings, "RELATIVE_BASE", None) or datetime.now()
+            base_date = settings.RELATIVE_BASE or _now(settings)
             try:
                 start_date, end_date = generate_time_span(
                     span_info, base_date, settings

@@ -159,6 +159,8 @@ For example, assuming current date is `June 16, 2015`:
 
 When enabled, `search_dates` detects time span expressions (e.g., "past month", "last week") and returns start/end dates instead of single dates.
 
+The spans are relative to the current time in the ``TIMEZONE`` setting, or to ``RELATIVE_BASE`` when that is set.
+
 ``DEFAULT_START_OF_WEEK``
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
