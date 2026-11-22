@@ -2460,6 +2460,44 @@ class TestTranslateSearch(BaseTestCase):
         ]
         assert result == expected
 
+    @parameterized.expand(
+        [
+            param(
+                text="Paid $20 on January 5, 2024",
+                expected=[("on January 5, 2024", datetime.datetime(2024, 1, 5))],
+            ),
+            param(
+                text="Paid $20 on Jan 5",
+                expected=[("on Jan 5", datetime.datetime(2024, 1, 5))],
+            ),
+            param(
+                text="Paid 20$ on Jan 5",
+                expected=[("on Jan 5", datetime.datetime(2024, 1, 5))],
+            ),
+            param(
+                text="Paid €20 on Jan 5",
+                expected=[("on Jan 5", datetime.datetime(2024, 1, 5))],
+            ),
+            param(
+                text="Up 20% on Jan 5",
+                expected=[("on Jan 5", datetime.datetime(2024, 1, 5))],
+            ),
+            param(
+                text="Ticket #20 on Jan 5",
+                expected=[("on Jan 5", datetime.datetime(2024, 1, 5))],
+            ),
+        ]
+    )
+    def test_search_dates_after_a_number_with_a_symbol(
+        self, text: str, expected: list[tuple[str, datetime.datetime]]
+    ) -> None:
+        result = search_dates(
+            text,
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)},
+        )
+        assert result == expected
+
     def test_search_dates_with_standalone_accent_mark_before_a_date(self) -> None:
         """A standalone accent mark glued to a date should not swallow its text."""
         result = search_dates(

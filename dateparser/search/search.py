@@ -18,6 +18,8 @@ from dateparser.utils.time_spans import detect_time_span, generate_time_span
 
 RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
 
+_NUMBER_WITH_SYMBOLS_REG = re.compile(r"[\p{Sc}#%@&+*~]*\d+[\p{Sc}#%@&+*~]*")
+
 # How a relative expression looks once translated. A single word such as "today"
 # turns into several words ("0 day ago"), which is why the translation of a
 # chunk can hold more words than the text it was translated from.
@@ -619,11 +621,13 @@ class _ExactLanguageSearch:
         number, _, rest = item.partition(" ")
         original_number, _, original_rest = original.partition(" ")
         if (
-            not number.isdigit()
+            not _NUMBER_WITH_SYMBOLS_REG.fullmatch(number)
             or number != original_number
             or parser.get_date_data(rest)["date_obj"] is None
         ):
             return []
+        if not number.isdigit():
+            return [[[rest], [original_rest]]]
         return [[[number, rest], [original_number, original_rest]]]
 
     def split_if_not_parsed(
