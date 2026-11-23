@@ -798,6 +798,40 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param(
+                "10:30",
+                datetime(1, 1, 1, tzinfo=timezone.utc),
+                {"TIMEZONE": "America/New_York"},
+                datetime(1, 1, 1, 10, 30),
+            ),
+            param(
+                "10:30 JST",
+                datetime(9999, 12, 31, 23, 59, tzinfo=timezone.utc),
+                {},
+                datetime(9999, 12, 31, 10, 30),
+            ),
+        ]
+    )
+    def test_relative_base_at_the_edge_of_the_year_range(
+        self,
+        date_string: str,
+        base: datetime,
+        settings: dict[str, Any],
+        expected: datetime,
+    ) -> None:
+        self.given_parser(
+            settings={
+                "RELATIVE_BASE": base,
+                "RETURN_AS_TIMEZONE_AWARE": False,
+                **settings,
+            }
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
             param("10 December", datetime(2015, 12, 10)),
             param("March", datetime(2015, 3, 15)),
             param("Friday", datetime(2015, 2, 20)),

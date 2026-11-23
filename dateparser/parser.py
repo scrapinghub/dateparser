@@ -704,12 +704,17 @@ class _parser:
                 self._now_is_utc = is_local
                 return
             now = localize_timezone(now, settings_tz)
-        if self._tz:
-            now = now.astimezone(self._tz)
-        elif is_local:
-            now = now.astimezone(_get_localzone())
-        else:
-            now = apply_timezone(now, settings_tz)
+        try:
+            if self._tz:
+                now = now.astimezone(self._tz)
+            elif is_local:
+                now = now.astimezone(_get_localzone())
+            else:
+                now = apply_timezone(now, settings_tz)
+        except OverflowError:
+            # Near the edges of the supported year range, the converted base
+            # may not be representable; keep its wall time instead.
+            pass
         self.now = now.replace(tzinfo=None)
 
     def _get_datetime_obj_params(self) -> dict[str, int]:
