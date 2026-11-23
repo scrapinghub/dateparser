@@ -40,6 +40,30 @@ class TestTranslateSearch(BaseTestCase):
 
     @parameterized.expand(
         [
+            ("Il giorno martedì 23 aprile 2019", datetime.datetime(2019, 4, 23)),
+            ("il giorno 23 aprile 2019", datetime.datetime(2019, 4, 23)),
+            ("1 giorno fa", datetime.datetime(2019, 5, 1)),
+            ("2 giorni fa", datetime.datetime(2019, 4, 30)),
+        ]
+    )
+    def test_italian_day_prefix(self, text: str, expected: datetime.datetime) -> None:
+        settings = {
+            "DATE_ORDER": "DMY",
+            "RELATIVE_BASE": datetime.datetime(2019, 5, 2),
+        }
+        self.assertEqual(
+            search_dates(text, languages=["it"], settings=settings),
+            [(text, expected)],
+        )
+        self.assertEqual(
+            DateDataParser(languages=["it"], settings=settings).get_date_data(text)[
+                "date_obj"
+            ],
+            expected,
+        )
+
+    @parameterized.expand(
+        [
             # English
             param("en", "Sep 03 2014"),
             param("en", "friday, 03 september 2014"),
