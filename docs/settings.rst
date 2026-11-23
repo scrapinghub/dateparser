@@ -172,9 +172,8 @@ For example, assuming current date is `June 16, 2019`:
     datetime.datetime(2012, 3, 12, 0, 0)
 
 .. note:: ``STRICT_PARSING`` and ``REQUIRE_PARTS`` only apply to dates handled by the
-   ``absolute-time`` and ``no-spaces-time`` parsers, the only ones that can tell which
-   parts of the date were given in the input. To only accept dates handled by those
-   parsers, filter the ``PARSERS`` setting as described below.
+   ``absolute-time`` and ``no-spaces-time`` parsers. To only accept dates handled by
+   those parsers, filter the ``PARSERS`` setting as described below.
 
 ``IGNORE_SURROUNDING_TEXT``: defaults to ``False``. By default, the whole input string
 must be a date, so a date wrapped in surrounding text is not parsed. When this setting
