@@ -14,6 +14,7 @@ from parameterized import param, parameterized
 
 import dateparser
 from dateparser import date
+from dateparser.calendars.minguo import MinguoCalendar
 from dateparser.conf import Settings
 from dateparser.date import DateData
 from dateparser.languages.loader import default_loader
@@ -2024,6 +2025,44 @@ class TestLeapSecondDateData(BaseTestCase):
         )
         self.assertEqual(result["date_obj"], datetime(2016, 12, 31, 23, 59, 59))
         self.assertEqual(result["leap_second"], 60)
+
+    def test_leap_second_flag_does_not_leak_into_non_gregorian_calendars(self) -> None:
+        # The calendars bypass `_DateLocaleParser` and call `_parser.parse()`
+        # directly, so a flag left set by an unrelated prior leap-second
+        # parse must not spuriously reject a calendar date that never went
+        # through `strptime()` at all.
+        date.DateDataParser().get_date_data("December 31st, 2016 23:59:60 UTC")
+
+        result = MinguoCalendar("105年01月01日").get_date()
+        self.assertIsNotNone(result)
+        self.assertEqual(result["date_obj"], datetime(2016, 1, 1))
+
+    def test_leap_second_validated_against_the_parsed_dates_own_dst_offset(
+        self,
+    ) -> None:
+        # A relative shift can move the date across a DST change; `now`'s
+        # offset (EDT, in effect on the RELATIVE_BASE date) must not be
+        # reused to validate a leap second landing in EST, or a real one
+        # gets rejected and a fake one on the same wall-clock time (just one
+        # day off) gets wrongly validated against the stale offset instead.
+        settings = {
+            "TIMEZONE": "America/New_York",
+            "RELATIVE_BASE": datetime(2017, 7, 2, 12, 0, 0),
+            "PARSERS": ["relative-time"],
+        }
+        # 183 days before the (EDT) RELATIVE_BASE is Dec 31, 2016 (EST);
+        # 18:59:60 EST is 23:59:60 UTC, a real leap second.
+        result = date.DateDataParser(settings=settings).get_date_data(
+            "183 days ago at 18:59:60"
+        )
+        self.assertEqual(result["date_obj"], datetime(2016, 12, 31, 18, 59, 59))
+        self.assertEqual(result["leap_second"], 60)
+
+        # One day off (Dec 30 EST) was never a real leap second.
+        result = date.DateDataParser(settings=settings).get_date_data(
+            "182 days ago at 18:59:60"
+        )
+        self.assertIsNone(result["date_obj"])
 
     def test_60_seconds_in_a_relative_date_fails_without_a_real_leap_second(
         self,

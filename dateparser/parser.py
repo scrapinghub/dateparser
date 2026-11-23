@@ -24,6 +24,7 @@ from dateparser.utils import (
 from dateparser.utils.strptime import (
     _effective_tz_for_naive_input,
     _get_clamped_leap_second,
+    _reset_leap_second_flag,
     _validate_leap_second,
     strptime,
 )
@@ -871,6 +872,12 @@ class _parser:
         tz: tzinfo | None = None,
         date_order: str | None = None,
     ) -> tuple[datetime, str | None, tuple[str, ...]]:
+        # Entry point for callers that bypass `_DateLocaleParser` (e.g. the
+        # non-Gregorian calendars), which otherwise reset this themselves
+        # between candidates; a stale value here would wrongly flag an
+        # unrelated date as needing leap-second validation.
+        _reset_leap_second_flag()
+
         tokens = list(tokenizer(datestring).tokenize())
         date_order = date_order or settings.DATE_ORDER
         try:
