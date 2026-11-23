@@ -5,7 +5,7 @@ from typing import Any, ClassVar, Protocol
 from dateparser.conf import Settings, settings
 from dateparser.date import DateData
 from dateparser.parser import _parser
-from dateparser.utils.strptime import _get_clamped_leap_second
+from dateparser.utils.strptime import _get_clamped_leap_second, _reset_leap_second_flag
 
 
 class _CalendarParser(Protocol):
@@ -34,6 +34,11 @@ class CalendarBase:
         self.source = source
 
     def get_date(self) -> DateData | None:
+        # Not every calendar parser routes through `_parser._parse_with_parts`
+        # (e.g. `_french_republican_parser` does not), so a flag left set by
+        # an unrelated prior leap-second parse must be cleared here too, or
+        # it leaks into this date's `DateData.leap_second`.
+        _reset_leap_second_flag()
         try:
             if hasattr(self.parser, "_parse_with_parts"):
                 date_obj, period, parts = self.parser._parse_with_parts(
