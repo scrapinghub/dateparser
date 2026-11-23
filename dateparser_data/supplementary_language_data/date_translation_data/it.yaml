@@ -1,4 +1,4 @@
-skip: ["circa", "e", "alle"]
+skip: ["circa", "e", "alle", "il giorno"]
 
 sentence_splitter_group: 1
 
