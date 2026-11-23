@@ -1,5 +1,7 @@
 import datetime as real_datetime
+import functools
 import os
+import sys
 import unittest
 from collections.abc import Iterable
 from datetime import datetime, timedelta
@@ -10,6 +12,7 @@ from typing import Any
 from unittest.mock import Mock, patch
 
 import pytest
+import regex
 from parameterized import param, parameterized
 
 import dateparser
@@ -19,7 +22,7 @@ from dateparser.date import DateData
 from dateparser.languages.loader import default_loader
 from dateparser.languages.locale import _MAX_TRANSLATIONS, Locale
 from dateparser.search import search_dates
-from tests import BaseTestCase
+from tests import BaseTestCase, digits_unknown_to_int
 
 
 class TestDateRangeFunction(BaseTestCase):
@@ -774,6 +777,27 @@ class TestParseWithFormatsFunction(BaseTestCase):
         self.assertEqual(period, self.result["period"])
 
 
+@functools.cache
+def _english_letter_variants() -> tuple[tuple[str, str], ...]:
+    """Return the pairs of a letter of the English month and weekday names and
+    a letter that the regex module takes for it when ignoring case and that
+    ``str.lower()`` does not turn into it."""
+    letters = sorted({c for w in (*date._MONTHS, *date._WEEKDAYS) for c in w})
+    candidates = [
+        c
+        for c in map(chr, range(sys.maxunicode + 1))
+        if (c.lower() != c or c.upper() != c or c.casefold() != c)
+        and regex.fullmatch(r"\w", c)
+    ]
+    return tuple(
+        (letter, c)
+        for letter in letters
+        for c in candidates
+        if c.lower() != letter
+        and regex.fullmatch(regex.escape(letter), c, flags=regex.IGNORECASE)
+    )
+
+
 class TestDateDataParser(BaseTestCase):
     def setUp(self) -> None:
         super().setUp()
@@ -1029,6 +1053,123 @@ class TestDateDataParser(BaseTestCase):
         readings = list(date._translate_names(date_string, "%a %d %b %Y", locale))
         assert len(readings) == _MAX_TRANSLATIONS
         assert len(set(readings)) == _MAX_TRANSLATIONS
+
+    @parameterized.expand(
+        [
+            param("5 September 2020", ["%d %B %Y"], "en"),
+            param("5 SEPTEMBER 2020", ["%d %B %Y"], "en"),
+            param("5 sEpTeMbEr 2020", ["%d %B %Y"], "en"),
+            param("5 Sep 2020", ["%d %b %Y"], "en"),
+            param("SATURDAY 5 September 2020", ["%A %d %B %Y"], "en"),
+            param("Sat 5 September 2020", ["%a %d %B %Y"], "en"),
+            param(
+                "5 \u03bc\u03ac\u03c1 2020", ["%d %B %Y"], "el", datetime(2020, 3, 5)
+            ),
+            param(
+                "5 \u039c\u03ac\u03c1 2020", ["%d %B %Y"], "el", datetime(2020, 3, 5)
+            ),
+            param("5 Aral\u0131k 2020", ["%d %B %Y"], "tr", datetime(2020, 12, 5)),
+        ]
+    )
+    def test_parse_date_using_format_with_names_of_known_spelling(
+        self,
+        date_string: str,
+        date_formats: list[str],
+        language: str,
+        expected_result: datetime = datetime(2020, 9, 5),
+    ) -> None:
+        result = dateparser.parse(
+            date_string, date_formats=date_formats, languages=[language]
+        )
+        assert result == expected_result
+
+    @parameterized.expand(
+        [
+            # (date string, date formats, language, letter, the letter that
+            # the pattern of the names takes it for, expected result)
+            param("\u017feptember 5 2020", ["%B %d %Y"], "en", "\u017f", "s"),
+            param("5 \u017fep 2020", ["%d %b %Y"], "en", "\u017f", "s"),
+            param(
+                "\u017faturday 5 September 2020", ["%A %d %B %Y"], "en", "\u017f", "s"
+            ),
+            param("\u017fat 5 September 2020", ["%a %d %B %Y"], "en", "\u017f", "s"),
+            param(
+                "5 \u03c2\u03b5\u03c0\u03c4\u03b5\u03bc\u03b2\u03c1\u03af\u03bf\u03c5 2020",
+                ["%d %B %Y"],
+                "el",
+                "\u03c2",
+                "\u03c3",
+            ),
+            param(
+                "5 \u00b5\u03ac\u03c1 2020",
+                ["%d %B %Y"],
+                "el",
+                "\u00b5",
+                "\u03bc",
+                datetime(2020, 3, 5),
+            ),
+            param(
+                "5 APR\u0130L 2020",
+                ["%d %B %Y"],
+                "en",
+                "\u0130",
+                "i",
+                datetime(2020, 4, 5),
+            ),
+            param(
+                "5 ARALIK 2020",
+                ["%d %B %Y"],
+                "tr",
+                "I",
+                "\u0131",
+                datetime(2020, 12, 5),
+            ),
+        ]
+    )
+    def test_parse_date_using_format_with_a_letter_equal_to_another_in_names(
+        self,
+        date_string: str,
+        date_formats: list[str],
+        language: str,
+        letter: str,
+        same_as: str,
+        expected_result: datetime = datetime(2020, 9, 5),
+    ) -> None:
+        # The regex module ignores case in a way that str.lower() does not
+        # follow, e.g. it takes "\u017f" for "s", which "\u017f".lower() does not.
+        flags = regex.IGNORECASE
+        if not regex.fullmatch(regex.escape(same_as), letter, flags=flags):
+            self.skipTest(f"the regex module does not take {letter!r} for {same_as!r}")
+        result = dateparser.parse(
+            date_string, date_formats=date_formats, languages=[language]
+        )
+        assert result == expected_result
+
+    def test_translate_names_reads_every_spelling_that_the_pattern_matches(
+        self,
+    ) -> None:
+        variants = _english_letter_variants()
+        if not variants:
+            self.skipTest("the regex module takes no such letter for an English one")
+        locale = default_loader.get_locale("en")
+        date_format = "%A %B"
+        for letter, variant in variants:
+            word = next(w for w in (*date._MONTHS, *date._WEEKDAYS) if letter in w)
+            expected = list(date._translate_names(f"5 {word}", date_format, locale))
+            assert expected
+            spelled = f"5 {word.replace(letter, variant, 1)}"
+            assert list(date._translate_names(spelled, date_format, locale)) == expected
+        if ("s", "\u017f") in variants:
+            # An expected value that does not come from the function itself.
+            assert list(date._translate_names("5 \u017feptember", "%d %B", locale)) == [
+                "5 september"
+            ]
+
+    def test_translate_names_yields_nothing_for_a_name_it_cannot_map(self) -> None:
+        locale = default_loader.get_locale("en")
+        names = (regex.compile("x", flags=regex.IGNORECASE), {"y": ["may"]})
+        with patch.object(date, "_get_name_translations", return_value=names):
+            assert list(date._translate_names("5 X 2020", "%d %B %Y", locale)) == []
 
     @parameterized.expand(
         [
@@ -1501,6 +1642,23 @@ class TestSanitizeDate(BaseTestCase):
         ):
             self.assertEqual(date.sanitize_date(date_string), date_string)
 
+    @parameterized.expand(
+        [
+            param("2021-04-29T06+02:00", "2021-04-29T06:00+02:00"),
+            param("2021-04-29T00Z", "2021-04-29T00:00Z"),
+            param("2021-04-29T23", "2021-04-29T23:00"),
+            param("2021-04-29T24+02:00", "2021-04-29T24+02:00"),
+            param("2021-04-29T6+02:00", "2021-04-29T6+02:00"),
+            param("2021-04-29T06:30+02:00", "2021-04-29T06:30+02:00"),
+            param("2021-04-29T06:30:45Z", "2021-04-29T06:30:45Z"),
+            param("2021-04-29 06", "2021-04-29 06"),
+            param("2021-04-29T0612", "2021-04-29T0612"),
+            param("2021-04-29T06 words", "2021-04-29T06 words"),
+        ]
+    )
+    def test_sanitize_iso_hour_precision(self, date_string: str, expected: str) -> None:
+        assert date.sanitize_date(date_string) == expected
+
     def test_sanitize_date_decimal_comma(self) -> None:
         self.assertEqual(date.sanitize_date("06:38:49,946"), "06:38:49.946")
         self.assertEqual(date.sanitize_date("06:38:49,12 June"), "06:38:49,12 June")
@@ -1817,6 +1975,69 @@ class TestTimestampParser(BaseTestCase):
     )
     def test_timestamp_with_wrong_length(self, date_string: str) -> None:
         self.assertEqual(date.get_date_from_timestamp(date_string, None), None)
+
+    @parameterized.expand([param(negative=False), param(negative=True)])
+    def test_timestamp_is_none_when_int_rejects_its_digits(
+        self, negative: bool
+    ) -> None:
+        """int() knows the digits of the Unicode version of this Python only,
+        and the regular expression of the regex module may know more."""
+        with patch("dateparser.date.int", side_effect=ValueError, create=True):
+            self.assertIsNone(
+                date.get_date_from_timestamp(
+                    ("-" if negative else "") + "1570308760263",
+                    # An invalid timezone is not looked up for such a text.
+                    Settings(settings={"TIMEZONE": "Not/A_Zone"}),
+                    negative=negative,
+                )
+            )
+
+    @parameterized.expand([param(negative=False), param(negative=True)])
+    def test_timestamp_with_digits_that_int_rejects(self, negative: bool) -> None:
+        digits = digits_unknown_to_int()
+        if not digits:
+            self.skipTest("int() knows every digit that the regex module knows")
+        digit = digits[0]
+        sign = "-" if negative else ""
+        for date_string in (
+            digit * 10,
+            "123456789" + digit,
+            "1570308760" + digit * 3,
+            "1570308760263" + digit * 3,
+        ):
+            with self.subTest(date_string=date_string):
+                self.assertIsNone(
+                    date.get_date_from_timestamp(
+                        sign + date_string, None, negative=negative
+                    )
+                )
+
+    def test_parse_digits_that_int_rejects(self) -> None:
+        digits = digits_unknown_to_int()
+        if not digits:
+            self.skipTest("int() knows every digit that the regex module knows")
+        digit = digits[0]
+        settings = {"DEFAULT_LANGUAGES": ["en"]}
+        for date_string in (digit * 10, "123456789" + digit):
+            with self.subTest(date_string=date_string):
+                self.assertIsNone(dateparser.parse(date_string, settings=settings))
+                self.assertIsNone(search_dates(date_string, settings=settings))
+
+    def test_parse_digits_that_int_rejects_when_ignoring_surrounding_text(
+        self,
+    ) -> None:
+        digits = digits_unknown_to_int()
+        if not digits:
+            self.skipTest("int() knows every digit that the regex module knows")
+        date_string = digits[0] + "123456789.5"
+        settings = {"IGNORE_SURROUNDING_TEXT": True}
+        # Not a timestamp, so it is parsed like any other text.
+        self.assertIsInstance(
+            dateparser.parse(date_string, settings=settings), (datetime, type(None))
+        )
+        self.assertIsInstance(
+            search_dates(date_string, settings=settings), (list, type(None))
+        )
 
 
 class TestLeapSecondDateData(BaseTestCase):

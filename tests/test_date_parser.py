@@ -22,6 +22,70 @@ from tests import BaseTestCase
 
 
 class TestDateParser(BaseTestCase):
+    @parameterized.expand(
+        [
+            (2024, "first", 1),
+            (2024, "current", 15),
+            (2024, "last", 29),
+            (2023, "last", 28),
+        ]
+    )
+    def test_yearless_format_uses_reference_day_preference(
+        self, year: int, preference: str, day: int
+    ) -> None:
+        result = parse(
+            "February",
+            date_formats=["%B"],
+            settings={
+                "RELATIVE_BASE": datetime(year, 6, 15),
+                "PREFER_DAY_OF_MONTH": preference,
+                "PARSERS": ["custom-formats"],
+            },
+        )
+        self.assertEqual(result, datetime(year, 2, day))
+
+    @parameterized.expand([("first", 1), ("current", 7), ("last", 12)])
+    def test_year_only_format_uses_reference_month_and_day(
+        self, preference: str, month: int
+    ) -> None:
+        result = parse(
+            "2030",
+            date_formats=["%Y"],
+            settings={
+                "RELATIVE_BASE": datetime(2024, 7, 17),
+                "PREFER_MONTH_OF_YEAR": preference,
+                "PREFER_DAY_OF_MONTH": "current",
+                "PARSERS": ["custom-formats"],
+            },
+        )
+        self.assertEqual(result, datetime(2030, month, 17))
+
+    @parameterized.expand([(2024, datetime(2024, 2, 29)), (2023, None)])
+    def test_yearless_leap_day_respects_reference_year(
+        self, year: int, expected: datetime | None
+    ) -> None:
+        result = parse(
+            "29 February",
+            date_formats=["%d %B"],
+            settings={
+                "RELATIVE_BASE": datetime(year, 6, 15),
+                "PARSERS": ["custom-formats"],
+            },
+        )
+        self.assertEqual(result, expected)
+
+    def test_yearless_format_without_relative_base_uses_current_date(self) -> None:
+        with patch("dateparser.date._now", return_value=datetime(2024, 7, 17)):
+            result = parse(
+                "February",
+                date_formats=["%B"],
+                settings={
+                    "PREFER_DAY_OF_MONTH": "current",
+                    "PARSERS": ["custom-formats"],
+                },
+            )
+        self.assertEqual(result, datetime(2024, 2, 17))
+
     def setUp(self) -> None:
         super().setUp()
         self.parser: DateDataParser = NotImplemented
@@ -1034,6 +1098,49 @@ class TestDateParser(BaseTestCase):
         self.when_date_is_parsed("February")
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param("2021-04-29T06+02:00", datetime(2021, 4, 29, 6), 120),
+            param("2021-04-29T06-03:30", datetime(2021, 4, 29, 6), -210),
+            param("2021-04-29T00Z", datetime(2021, 4, 29), 0),
+            param("2021-04-29T23+0530", datetime(2021, 4, 29, 23), 330),
+            param("2021-04-29T06", datetime(2021, 4, 29, 6), None),
+            param("2021-04-29T06Z", datetime(2021, 4, 29, 6), 0),
+            param("2021-04-29T06+00:00", datetime(2021, 4, 29, 6), 0),
+        ]
+    )
+    def test_iso_hour_precision(
+        self, date_string: str, expected: datetime, offset_minutes: int | None
+    ) -> None:
+        if offset_minutes is not None:
+            expected = expected.replace(
+                tzinfo=timezone(timedelta(minutes=offset_minutes))
+            )
+        assert parse(date_string, languages=["en"]) == expected
+
+    @parameterized.expand(
+        [
+            param({}, datetime(2021, 4, 29, 6, tzinfo=timezone(timedelta(hours=2)))),
+            param(
+                {"TO_TIMEZONE": "UTC"}, datetime(2021, 4, 29, 4, tzinfo=timezone.utc)
+            ),
+            param({"RETURN_AS_TIMEZONE_AWARE": False}, datetime(2021, 4, 29, 6)),
+        ]
+    )
+    def test_iso_hour_precision_uses_timezone_settings(
+        self, parser_settings: dict[str, Any], expected: datetime
+    ) -> None:
+        for languages in [None, ["en"], ["fr"]]:
+            with self.subTest(languages=languages):
+                assert (
+                    parse(
+                        "2021-04-29T06+02:00",
+                        languages=languages,
+                        settings=parser_settings,
+                    )
+                    == expected
+                )
 
     def test_date_is_parsed_when_skip_tokens_are_supplied(self) -> None:
         self.given_parser(

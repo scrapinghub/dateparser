@@ -52,7 +52,7 @@ class CalendarBase:
             if clamped_second is not None:
                 date_data.leap_second = clamped_second
             return date_data
-        except ValueError:
+        except (ValueError, OverflowError):
             return None
 
 
