@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 from parameterized import param, parameterized
 
 from dateparser.calendars.hijri import HijriCalendar
+from dateparser.calendars.hijri_parser import hijri_parser
 from dateparser.conf import settings
 from tests import BaseTestCase
 
@@ -106,9 +107,29 @@ class TestHijriParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param(dt_string="02-10-1004"),
+            param(dt_string="30-01-1501"),
+        ]
+    )
+    def test_out_of_range(self, dt_string: str) -> None:
+        settings.DATE_ORDER = "DMY"
+        try:
+            self.when_date_is_given(dt_string, None, None)
+            self.assertIsNone(self.result)
+        finally:
+            settings.DATE_ORDER = "MDY"
+
+    @parameterized.expand(
+        [
             param(dt_string="1 جمادى 1445"),
             param(dt_string="ربيع 1445"),
         ]
     )
     def test_incomplete_month_name(self, dt_string: str) -> None:
         assert HijriCalendar(dt_string).get_date() is None
+
+    def test_public_parse_returns_date_and_period(self) -> None:
+        assert hijri_parser.parse("1445-01-01", settings) == (
+            datetime(2023, 7, 19),
+            "day",
+        )

@@ -146,7 +146,7 @@ def _parse_absolute(
     tz: tzinfo | None = None,
     date_order: str | None = None,
 ) -> tuple[datetime, str | None, tuple[str, ...]]:
-    return _parser.parse(datestring, settings, tz, date_order=date_order)
+    return _parser._parse_with_parts(datestring, settings, tz, date_order=date_order)
 
 
 def _parse_nospaces(
@@ -430,6 +430,7 @@ class _parser:
         skip_index: list[int] = []
         skip_component: str | None = None
         skip_tokens = ["t", "year", "hour", "minute"]
+        nothing_to_parse = True
 
         for index, token_type_original_index in enumerate(self.filtered_tokens):
             if index in skip_index:
@@ -439,6 +440,7 @@ class _parser:
 
             if token in skip_tokens:
                 continue
+            nothing_to_parse = False
 
             if token in _WEEKDAY_MODIFIERS:
                 if self._weekday_modifier:
@@ -520,6 +522,8 @@ class _parser:
                     skip_component = "year"
                 setattr(self, *res)
 
+        if nothing_to_parse:
+            raise ValueError("Nothing to parse")
         known, unknown = get_unresolved_attrs(self)
         unset_tokens = [
             unset_token
@@ -853,7 +857,7 @@ class _parser:
         )
 
     @classmethod
-    def parse(
+    def _parse_with_parts(
         cls,
         datestring: str,
         settings: "Settings",

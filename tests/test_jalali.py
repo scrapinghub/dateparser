@@ -177,6 +177,28 @@ class TestJalaliParser(BaseTestCase):
         self.when_date_is_given(persian)
         self.then_numeral_parsed_is(numeral)
 
+    # Pins the current behaviour of the time separator conversion, quirks included.
+    @parameterized.expand(
+        [
+            param(source="12 و 30", expected="12:30"),
+            param(source="12  و  30", expected="12:30"),
+            param(source="12\tو\n30", expected="12:30"),
+            param(source="12\u00a0و\u00a030", expected="12:30"),
+            param(source="12   و   30   و   45", expected="12:30:45"),
+            param(source="a و b و c", expected="a:b:c"),
+            param(source=" و ", expected=":"),
+            param(source="12 و و 30", expected="12:و 30"),
+            param(source="  و  و  ", expected=":و  "),
+            param(source="12 و 30 و", expected="12:30 و"),
+            param(source="12 و", expected="12 و"),
+            param(source="و 30", expected="و 30"),
+            param(source="xوy", expected="xوy"),
+            param(source="   ", expected="   "),
+        ]
+    )
+    def test_replace_time_separator(self, source: str, expected: str) -> None:
+        self.assertEqual(jalali_parser._replace_time(source), expected)
+
 
 class TestJalaliCalendar(BaseTestCase):
     def setUp(self) -> None:
