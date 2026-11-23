@@ -14,7 +14,6 @@ from parameterized import param, parameterized
 
 import dateparser
 from dateparser import date
-from dateparser.calendars.minguo import MinguoCalendar
 from dateparser.conf import Settings
 from dateparser.date import DateData
 from dateparser.languages.loader import default_loader
@@ -1960,6 +1959,24 @@ class TestLeapSecondDateData(BaseTestCase):
         result = date.DateDataParser(settings=settings).get_date_data("20161231235961")
         self.assertIsNone(result["date_obj"])
 
+    def test_leap_second_with_no_spaces_parser_and_explicit_offset(self) -> None:
+        # The no-spaces-time parser must validate against the string's own
+        # offset, not just settings.TIMEZONE, same as the absolute-time
+        # parser does.
+        settings = {"PARSERS": ["no-spaces-time"], "DATE_ORDER": "YMD"}
+        # 23:59:60 +03:00 is 20:59:60 UTC: not a real leap second.
+        result = date.DateDataParser(settings=settings).get_date_data(
+            "20150630235960+0300"
+        )
+        self.assertIsNone(result["date_obj"])
+
+        # 23:59:60 +00:00 is a real leap second.
+        result = date.DateDataParser(settings=settings).get_date_data(
+            "20161231235960+0000"
+        )
+        self.assertEqual(result["date_obj"].second, 59)
+        self.assertEqual(result["leap_second"], 60)
+
     def test_leap_second_offset_rolls_over_to_the_next_utc_day(self) -> None:
         # Local time is Jan 1st, but the +01:00 offset makes the UTC instant
         # Dec 31st 23:59:60 — a real leap second.
@@ -2025,17 +2042,6 @@ class TestLeapSecondDateData(BaseTestCase):
         )
         self.assertEqual(result["date_obj"], datetime(2016, 12, 31, 23, 59, 59))
         self.assertEqual(result["leap_second"], 60)
-
-    def test_leap_second_flag_does_not_leak_into_non_gregorian_calendars(self) -> None:
-        # The calendars bypass `_DateLocaleParser` and call `_parser.parse()`
-        # directly, so a flag left set by an unrelated prior leap-second
-        # parse must not spuriously reject a calendar date that never went
-        # through `strptime()` at all.
-        date.DateDataParser().get_date_data("December 31st, 2016 23:59:60 UTC")
-
-        result = MinguoCalendar("105年01月01日").get_date()
-        self.assertIsNotNone(result)
-        self.assertEqual(result["date_obj"], datetime(2016, 1, 1))
 
     def test_leap_second_validated_against_the_parsed_dates_own_dst_offset(
         self,

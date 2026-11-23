@@ -1,7 +1,9 @@
 from datetime import datetime
 
 from dateparser.calendars import CalendarBase, non_gregorian_parser
+from dateparser.calendars.minguo import MinguoCalendar
 from dateparser.conf import Settings
+from dateparser.date import DateDataParser
 
 
 def test_to_latin_defaults() -> None:
@@ -26,3 +28,23 @@ def test_get_date_with_partless_parser() -> None:
         "day",
         (),
     )
+
+
+def test_leap_second_is_flagged_on_calendar_date_data() -> None:
+    date_data = MinguoCalendar("105-12-31 23:59:60").get_date()
+    assert date_data is not None
+    assert date_data.date_obj == datetime(2016, 12, 31, 23, 59, 59)
+    assert date_data.leap_second == 60
+
+
+def test_leap_second_flag_does_not_leak_from_a_prior_gregorian_parse() -> None:
+    # Calendars bypass `_DateLocaleParser`'s resets and call `_parser.parse()`
+    # directly, so a flag left set by a prior, unrelated leap-second parse
+    # must not leak in and reject a calendar date that never touched
+    # `strptime()` with a clamped second.
+    DateDataParser().get_date_data("December 31st, 2016 23:59:60 UTC")
+
+    date_data = MinguoCalendar("105-01-01").get_date()
+    assert date_data is not None
+    assert date_data.date_obj == datetime(2016, 1, 1)
+    assert date_data.leap_second is None

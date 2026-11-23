@@ -5,6 +5,7 @@ from typing import Any, ClassVar, Protocol
 from dateparser.conf import Settings, settings
 from dateparser.date import DateData
 from dateparser.parser import _parser
+from dateparser.utils.strptime import _get_clamped_leap_second
 
 
 class _CalendarParser(Protocol):
@@ -41,7 +42,11 @@ class CalendarBase:
             else:
                 date_obj, period = self.parser.parse(self.source, settings)
                 parts = ()
-            return DateData(date_obj=date_obj, period=period, parts=parts)
+            date_data = DateData(date_obj=date_obj, period=period, parts=parts)
+            clamped_second = _get_clamped_leap_second()
+            if clamped_second is not None:
+                date_data.leap_second = clamped_second
+            return date_data
         except ValueError:
             return None
 
