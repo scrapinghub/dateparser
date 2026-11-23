@@ -195,6 +195,10 @@ For example, assuming current date is `June 16, 2019`:
     >>> parse('March 12, 2012', settings={'REQUIRE_PARTS': ['day', 'month', 'year']})
     datetime.datetime(2012, 3, 12, 0, 0)
 
+.. note:: ``STRICT_PARSING`` and ``REQUIRE_PARTS`` only apply to dates handled by the
+   ``absolute-time`` and ``no-spaces-time`` parsers. To only accept dates handled by
+   those parsers, filter the ``PARSERS`` setting as described below.
+
 ``IGNORE_SURROUNDING_TEXT``: defaults to ``False``. By default, the whole input string
 must be a date, so a date wrapped in surrounding text is not parsed. When this setting
 is enabled and the whole string could not be parsed as a date, dateparser retries
