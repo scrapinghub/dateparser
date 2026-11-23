@@ -120,22 +120,21 @@ _time_suffix_regex = re.compile(
 
 def _strip_tz(
     date_string: str, settings: "Settings | None" = None
-) -> tuple[str | None, bool]:
+) -> tuple[str | None, str | None]:
     """Return *date_string* without its timezone, or ``None`` if it has none,
-    and whether that timezone is unambiguous, i.e. unlikely to be a word of
-    some language instead: without lowercase letters, like ``MART`` or
-    ``+03:00``, or right after a time, like ``4:30 pm est``, as opposed to the
-    Turkish month ``Mart``."""
+    and that timezone if it is ambiguous, i.e. it may be a word of some
+    language instead, like the Turkish month ``Mart``, as opposed to ``MART``,
+    ``+03:00`` or ``4:30 pm est``."""
     found = _find_tz(date_string)
     if not found:
-        return None, False
+        return None, None
     (start, stop), _, _ = found
     before, tz = date_string[: start + 1], date_string[start + 1 : stop]
     unambiguous = tz == tz.upper() or bool(_time_suffix_regex.search(before))
     stripped, _ = pop_tz_offset_from_string(
         date_string, as_offset=False, settings=settings
     )
-    return stripped, unambiguous
+    return stripped, None if unambiguous else re.sub(r"^\W+|\W+$", "", tz)
 
 
 def word_is_tz(word: str) -> bool:

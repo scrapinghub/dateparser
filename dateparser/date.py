@@ -20,7 +20,7 @@ from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.languages.locale import _MAX_TRANSLATIONS, _VARIANT_LETTERS
 from dateparser.parser import _parse_absolute, _parse_nospaces, _StrictDateOrderError
-from dateparser.timezone_parser import _strip_tz
+from dateparser.timezone_parser import _strip_tz, is_timezone_token
 from dateparser.utils import (
     _get_localzone,
     _get_missing_parts,
@@ -131,6 +131,7 @@ _RE_ROMAN_YEAR = re.compile(
     r"\bM{1,3}(?:CM|CD|D?C{0,4})(?:XC|XL|L?X{0,4})(?:IX|IV|V?I{0,4})\b"
 )
 _RE_FOUR_DIGITS = re.compile(r"\d{4}")
+_RE_WORD = re.compile(r"[^\W\d_]+")
 _RE_COPYRIGHT = re.compile(r"(?:©|\(c\)|\bcopyright)\s*$", flags=re.I)
 _ROMAN_NUMERAL_VALUES = {
     "M": 1000,
@@ -149,6 +150,21 @@ _RE_QUARTER = re.compile(
 
 RE_SEARCH_TIMESTAMP = re.compile(r"^(\d{10})(\d{3})?(\d{3})?(?![^.])")
 RE_SEARCH_NEGATIVE_TIMESTAMP = re.compile(r"^([-]\d{10})(\d{3})?(\d{3})?(?![^.])")
+
+
+@functools.cache
+def _month_names() -> frozenset[str]:
+    """Return the lowercase month names of every locale."""
+    return frozenset(
+        itertools.chain.from_iterable(
+            locale._get_base_dictionary()._month_translations
+            for locale in DateDataParser._get_locale_loader().get_locales()
+        )
+    )
+
+
+def _is_month_of(locale: "Locale", word: str) -> bool:
+    return word.lower() in locale._get_base_dictionary()._month_translations
 
 
 def sanitize_spaces(date_string: str) -> str:
@@ -1185,20 +1201,30 @@ class DateDataParser:
             self.use_given_order or self._settings.USE_GIVEN_LANGUAGE_ORDER
         )
 
-        strip_tz_cache: list[tuple[str | None, bool]] = []
+        strip_tz_cache: list[tuple[str | None, str | None]] = []
 
-        def stripped_date_string() -> tuple[str | None, bool]:
-            """Return date_string without its timezone, or None, and whether
-            that timezone is unambiguous, computed only if the first locale
-            does not match the unmodified date_string."""
+        def stripped_date_string() -> tuple[str | None, str | None]:
+            """Return date_string without its timezone, or None, and that
+            timezone if some locale may read it as a month instead, computed
+            only when needed."""
             if not strip_tz_cache:
-                strip_tz_cache.append(_strip_tz(date_string, self._settings))
+                stripped, tz = _strip_tz(date_string, self._settings)
+                if tz is not None and tz.lower() not in _month_names():
+                    tz = None
+                strip_tz_cache.append((stripped, tz))
             return strip_tz_cache[0]
 
-        def date_strings() -> Iterator[str]:
-            yield date_string
-            stripped, unambiguous = stripped_date_string()
-            if stripped is not None and unambiguous:
+        def date_strings(locale: "Locale") -> Iterator[str]:
+            # Once the timezone is known to be ambiguous, only a locale that
+            # reads it as a month may match the whole string.
+            if (
+                not strip_tz_cache
+                or (tz := strip_tz_cache[0][1]) is None
+                or _is_month_of(locale, tz)
+            ):
+                yield date_string
+            stripped, ambiguous_tz = stripped_date_string()
+            if stripped is not None and ambiguous_tz is None:
                 yield stripped
 
         def candidates() -> Iterator[tuple["Locale", "Locale | None", Iterable[str]]]:
@@ -1212,7 +1238,7 @@ class DateDataParser:
                     previous_locales = list(self.previous_locales.keys())
                 for locale in previous_locales:
                     tried.append((locale, locale._native))
-                    yield locale, locale._native, date_strings()
+                    yield locale, locale._native, date_strings(locale._native)
 
             if (
                 self.detect_languages_function
@@ -1236,19 +1262,19 @@ class DateDataParser:
                 use_given_order=use_given_order,
             ):
                 tried.append((locale, locale._native))
-                yield locale, locale._native, date_strings()
+                yield locale, locale._native, date_strings(locale._native)
                 if locale._native is not locale:
                     letter_variant_locales.append(locale)
             if _VARIANT_LETTERS.intersection(date_string):
                 for locale in letter_variant_locales:
                     tried.append((locale, locale))
-                    yield locale, locale, date_strings()
+                    yield locale, locale, date_strings(locale)
 
             # An ambiguous timezone, such as the Turkish month "Mart" read as
-            # the MART timezone, is only stripped once no locale matches the
-            # whole string.
-            stripped, unambiguous = stripped_date_string()
-            if stripped is not None and not unambiguous:
+            # the MART timezone, is only stripped once no locale reads it as a
+            # month.
+            stripped, ambiguous_tz = stripped_date_string()
+            if stripped is not None and ambiguous_tz is not None:
                 for locale, applicable_locale in tried:
                     yield locale, applicable_locale, (stripped,)
 
@@ -1276,12 +1302,39 @@ class DateDataParser:
                 self._is_applicable_locale(
                     applicable_locale, s, ignore_surrounding_text
                 )
+                and (
+                    s != date_string
+                    or not self._reads_tz_as_non_month(
+                        applicable_locale, date_string, stripped_date_string
+                    )
+                )
                 for s in strings
             ):
                 continue
             yielded_orders.add(order)
             yielded_locales.add(locale)
             yield locale
+
+    def _reads_tz_as_non_month(
+        self,
+        locale: "Locale",
+        date_string: str,
+        strip_tz: Callable[[], tuple[str | None, str | None]],
+    ) -> bool:
+        """Whether *locale* reads the ambiguous timezone of *date_string*,
+        which *strip_tz* returns alongside the stripped string, as a word other
+        than a month, e.g. French "et"."""
+        dictionary = locale._get_dictionary(self._settings)
+        words = {w.lower() for w in _RE_WORD.findall(date_string) if not w.isupper()}
+        if not any(
+            w in dictionary
+            and w not in dictionary._month_translations
+            and is_timezone_token(w)
+            for w in words
+        ):
+            return False
+        _, ambiguous_tz = strip_tz()
+        return ambiguous_tz is not None and not _is_month_of(locale, ambiguous_tz)
 
     def _is_applicable_locale(
         self,

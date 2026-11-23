@@ -43,6 +43,14 @@ AUTODETECTED_DATE_STRINGS = [
     "vor 3 Tagen",
 ]
 
+# Lowercase timezones may be words instead, e.g. "Mart" is also a Turkish month.
+TIMEZONE_DATE_STRINGS = [
+    "10 Jan 2020 10:00 EST",
+    "12 Feb 2015 4:30 pm est",
+    "2015-02-10 et",
+    "10 Feb 2015 Mart",
+]
+
 # Values that a scraped date field carries in practice but that are not dates.
 UNPARSEABLE_STRINGS = [
     "—",
@@ -81,6 +89,10 @@ def test_parse_absolute_date_strings(benchmark: BenchmarkFixture) -> None:
 
 def test_parse_autodetected_date_strings(benchmark: BenchmarkFixture) -> None:
     _benchmark_parse(benchmark, AUTODETECTED_DATE_STRINGS)
+
+
+def test_parse_timezone_date_strings(benchmark: BenchmarkFixture) -> None:
+    _benchmark_parse(benchmark, TIMEZONE_DATE_STRINGS)
 
 
 def test_parse_unparseable_strings(benchmark: BenchmarkFixture) -> None:
