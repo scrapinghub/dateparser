@@ -57,10 +57,21 @@ _MAX_CONTEXT_WORDS = 3
 """Skipped words before a word, e.g. "a las" before "13h", that
 :meth:`_ExactLanguageSearch.split_around_skipped_words` translates it with."""
 
+_MAX_QUANTITY_SPLITS = 8
+"""Quantities, e.g. "fifty years after" in "Sep 15, 2026 10:50 AM fifty years
+after fifty years after", that :meth:`_ExactLanguageSearch.parse_found_objects`
+splits off the end of a chunk, one after the other, before it treats what is
+left like any other chunk that does not parse."""
+
 _MAX_EXPRESSION_CUTS = 50
 """Positions, closest to the end of a chunk opposite to a numeric date first,
 at which :meth:`_ExactLanguageSearch.split_off_numeric_date` tries to split a
 relative expression, e.g. "后天", off the chunk."""
+
+_MAX_QUANTITY_WORDS = 16
+"""Words, not counting the skipped ones at the end of a chunk, among which
+:meth:`_ExactLanguageSearch.split_off_trailing_quantity` looks for the words a
+quantity is written with, e.g. "in just about twenty five years from now"."""
 
 
 def _is_weekday_modifier(word: str) -> bool:
@@ -224,8 +235,9 @@ def _add_time_span_results(
                 start_date, end_date = generate_time_span(
                     span_info, base_date, settings
                 )
-            except OverflowError:
-                # The quantity is too large for the span to be a date.
+            except (OverflowError, ValueError):
+                # The quantity is too large for the span to be a date: an
+                # end before the year 1 or after 9999 raises ValueError.
                 return results
             matched_text = span_info["matched_text"]
             results.append((matched_text + " (start)", start_date, "day"))
@@ -502,7 +514,17 @@ class _ExactLanguageSearch:
             return language.translate_search(" ".join(words), settings=settings)[0]
 
         words = original.split()
-        for size in range(2, len(words)):
+        # Skipped words at the end of the chunk, e.g. "and", stay with the
+        # quantity however many there are, so its words are looked for before
+        # them, and it is not made of skipped words alone.
+        skipped = 0
+        while skipped < len(words) and not language.translate(
+            words[-1 - skipped], settings=settings
+        ):
+            skipped += 1
+        for size in range(
+            2 + skipped, min(len(words), skipped + _MAX_QUANTITY_WORDS + 1)
+        ):
             expression = words[-size:]
             if any(char.isdigit() for char in expression[0]):
                 break
@@ -674,12 +696,17 @@ class _ExactLanguageSearch:
         settings: Settings,
         language: Locale,
         relative_base: datetime | None = None,
+        quantity_splits_left: int = _MAX_QUANTITY_SPLITS,
     ) -> tuple[list[tuple[DateData, bool]], list[str]]:
         """Parse the chunks found in a text, and return the dates found in them
         with the text of each.
 
         *relative_base* is the date that the first of them is relative to, if
         any, e.g. one found before them.
+
+        *quantity_splits_left* is how many more quantities this call and the
+        calls nested in it may split off the end of a chunk, along any chain
+        of nested calls.
         """
         parsed: list[tuple[DateData, bool]] = []
         substrings = []
@@ -704,8 +731,12 @@ class _ExactLanguageSearch:
                     substrings.append(_clean_substring(original[i], skip))
                     continue
             else:
-                quantity_split = self.split_off_trailing_quantity(
-                    item, original[i], language, settings
+                quantity_split = (
+                    self.split_off_trailing_quantity(
+                        item, original[i], language, settings
+                    )
+                    if quantity_splits_left
+                    else None
                 )
                 if quantity_split:
                     sub_parsed, sub_substrings = self.parse_found_objects(
@@ -716,6 +747,7 @@ class _ExactLanguageSearch:
                         settings,
                         language,
                         relative_base=relative_base,
+                        quantity_splits_left=quantity_splits_left - 1,
                     )
                     parsed.extend(sub_parsed)
                     relative_base = _last_relative_base(sub_parsed, relative_base)
@@ -779,6 +811,7 @@ class _ExactLanguageSearch:
                     settings,
                     language,
                     relative_base=relative_base,
+                    quantity_splits_left=quantity_splits_left,
                 )
                 parsed.extend(sub_parsed)
                 relative_base = _last_relative_base(sub_parsed, relative_base)

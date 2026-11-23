@@ -6,7 +6,7 @@ requires = [
 
 [project]
 name = "dateparser"
-version = "1.5.0"
+version = "1.5.1"
 description = "Date parsing library designed to parse dates from HTML pages"
 authors = [
     { name = "Scrapinghub", email = "opensource@zyte.com" },
@@ -32,7 +32,7 @@ dependencies = [
     "python-dateutil>=2.7.0",
     "pytz>=2024.2",
     "regex>=2024.9.11",
-    "tzlocal>=0.2",
+    "tzlocal>=3.0",
 ]
 
 [project.optional-dependencies]

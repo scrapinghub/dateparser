@@ -5,6 +5,7 @@ from unittest.mock import patch
 from parameterized import param, parameterized
 
 from dateparser.date import DateData
+from dateparser.languages.locale import Locale
 from dateparser.search import search_dates
 from tests import BaseTestCase
 
@@ -100,3 +101,60 @@ class TestSearchDatesRunsOfWordsThatDoNotParse(BaseTestCase):
                 datetime.datetime(2021, 6, 5),
             ],
         )
+
+
+class TestSearchDatesQuantityAndSkippedWords(BaseTestCase):
+    @parameterized.expand(
+        [
+            param("Sep 15 2026 50 years ago", " and", ""),
+            param("Sep 15, 2026 10:50 AM fifty years ago", " and", ""),
+            param("Sep 15 2026 50 years ago", " of the", ""),
+            param("Sep 15 2026 50", " and", " years after"),
+        ]
+    )
+    def test_search_dates_work_for_a_quantity_does_not_grow_with_the_skipped_words(
+        self, before: str, filler: str, after: str
+    ) -> None:
+        """Doubling a run of skipped words, e.g. "and", after a number must not
+        much more than double the work. The work is counted, instead of timed,
+        as the number of words that are translated."""
+        words = 0
+        translate_search = Locale.translate_search
+
+        def counting_translate_search(
+            locale: Locale, string: str, *args: Any, **kwargs: Any
+        ) -> Any:
+            nonlocal words
+            words += len(string.split())
+            return translate_search(locale, string, *args, **kwargs)
+
+        def count_words(fillers: int) -> int:
+            nonlocal words
+            words = 0
+            with patch.object(Locale, "translate_search", counting_translate_search):
+                search_dates(before + filler * fillers + after, languages=["en"])
+            return words
+
+        self.assertLess(count_words(400), 2.5 * count_words(200))
+
+    @parameterized.expand(
+        [
+            param("Sep 15, 2026 10:50 AM in just about twenty five years from now"),
+            param("Sep 15, 2026 10:50 AM fifty years ago"),
+            param("Sep 15, 2026 10:50 AM fifty years ago" + " and" * 3),
+            param("Sep 15, 2026 10:50 AM fifty years ago" + " and" * 14),
+            param("Sep 15, 2026 10:50 AM fifty years ago" + " of the" * 100),
+        ]
+    )
+    def test_search_dates_splits_a_quantity_off_the_date_before_it(
+        self, text: str
+    ) -> None:
+        result = search_dates(
+            text,
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+        )
+        assert result is not None
+        self.assertEqual(len(result), 2)
+        self.assertEqual(result[0][1], datetime.datetime(2026, 9, 15, 10, 50))
+        self.assertEqual(result[1][1].year, 1970 if "ago" in text else 2045)
