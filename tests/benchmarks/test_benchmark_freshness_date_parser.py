@@ -28,9 +28,9 @@ def test_freshness_pattern_findall(benchmark: BenchmarkFixture) -> None:
     # inputs, the benchmark would get faster instead of failing.
     assert PATTERN.findall(TRANSLATED_RELATIVE_STRINGS[-1]) == [
         ("1", "day"),
-        (" 2", "hour"),
-        (" 3", "minute"),
-        (" 4", "second"),
+        ("2", "hour"),
+        ("3", "minute"),
+        ("4", "second"),
     ]
 
     benchmark(run)
