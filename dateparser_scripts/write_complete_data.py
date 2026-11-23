@@ -27,10 +27,40 @@ all_languages = set(cldr_languages).union(set(supplementary_languages))
 
 RELATIVE_PATTERN = re.compile(r"\{0\}")
 POSSESSIVE_DIGIT_PATTERN = re.compile(r"\\d\+\[\.,\]\?\\d\*")
+MONTH_NAMES_PATTERN = re.compile(r"\{MONTH_NAMES\}")
+MONTH_KEYS = (
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+)
 
 
 def _make_possessive(s: str) -> str:
     return POSSESSIVE_DIGIT_PATTERN.sub(r"\\d++[.,]?\\d*+", s)
+
+
+def _month_names_alternation(language_data: dict[str, Any]) -> str:
+    names: set[str] = set()
+    for key in MONTH_KEYS:
+        names.update(language_data.get(key) or [])
+    sorted_names = sorted(names, key=lambda name: (-len(name), name))
+    return "|".join(re.escape(name) for name in sorted_names)
+
+
+def _inject_month_names(pattern: str, language_data: dict[str, Any]) -> str:
+    if "{MONTH_NAMES}" not in pattern:
+        return pattern
+    alternation = _month_names_alternation(language_data)
+    return MONTH_NAMES_PATTERN.sub(lambda _: alternation, pattern)
 
 
 def _to_plain_types(obj: Any) -> Any:
@@ -65,10 +95,13 @@ def _modify_relative_data(
     return modified_relative_data
 
 
-def _modify_simplifications(simplifications: list[dict[str, Any]]) -> None:
+def _modify_simplifications(
+    simplifications: list[dict[str, Any]], language_data: dict[str, Any]
+) -> None:
     for simplification in simplifications:
         for pattern in list(simplification.keys()):
-            new_pattern = _make_possessive(pattern)
+            new_pattern = _inject_month_names(pattern, language_data)
+            new_pattern = _make_possessive(new_pattern)
             if new_pattern != pattern:
                 simplification[new_pattern] = simplification.pop(pattern)
 
@@ -77,7 +110,7 @@ def _modify_data(language_data: dict[str, Any]) -> None:
     relative_data = language_data.get("relative-type-regex", {})
     relative_data = _modify_relative_data(relative_data)
     simplifications = language_data.get("simplifications", [])
-    _modify_simplifications(simplifications)
+    _modify_simplifications(simplifications, language_data)
     locale_specific_data = language_data.get("locale_specific", {})
     for info in locale_specific_data.values():
         locale_relative_data = info.get("relative-type-regex", {})

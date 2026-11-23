@@ -6,6 +6,7 @@ from unittest.mock import patch
 
 import pytz
 import regex
+from dateutil.relativedelta import relativedelta
 from parameterized import param, parameterized
 
 from dateparser.conf import Settings, apply_settings
@@ -1702,6 +1703,102 @@ class TestTranslateSearch(BaseTestCase):
                 languages=["en"],
                 expected=[("in three weeks", relative_base + timedelta(weeks=3))],
             ),
+            # A weekday named with "يوم" is not "1 day ago"
+            param(
+                text="قبل يوم الجمعة",
+                languages=["ar"],
+                expected=[("الجمعة", datetime.datetime(2020, 2, 7, 0, 0))],
+            ),
+            param(
+                text="قبل يوم",
+                languages=["ar"],
+                expected=[("يوم", relative_base - timedelta(days=1))],
+            ),
+            # "month" next to a month name is not "1 month ago"
+            param(
+                text="منذ شهر مايو",
+                languages=["ar"],
+                expected=[("مايو", datetime.datetime(2020, 5, 13, 0, 0))],
+            ),
+            # "year" before a number is "since the year 2010", not "1 year ago"
+            param(
+                text="منذ سنة 2010",
+                languages=["ar"],
+                expected=[("2010", datetime.datetime(2010, 2, 13, 0, 0))],
+            ),
+            param(
+                text="пред година 2010",
+                languages=["mk"],
+                expected=[("година 2010", datetime.datetime(2010, 2, 13, 0, 0))],
+            ),
+            param(
+                text="prije godinu 2010",
+                languages=["hr"],
+                expected=[("2010", datetime.datetime(2010, 2, 13, 0, 0))],
+            ),
+            param(
+                text="před rok 2010",
+                languages=["cs"],
+                expected=[("2010", datetime.datetime(2010, 2, 13, 0, 0))],
+            ),
+            param(
+                text="pred letom 2010",
+                languages=["sl"],
+                expected=[("2010", datetime.datetime(2010, 2, 13, 0, 0))],
+            ),
+            param(
+                text="prieš metus 2010",
+                languages=["lt"],
+                expected=[("2010", datetime.datetime(2010, 2, 13, 0, 0))],
+            ),
+            param(
+                text="pirms gada 2010",
+                languages=["lv"],
+                expected=[("2010", datetime.datetime(2010, 2, 13, 0, 0))],
+            ),
+            param(
+                text="לפני חודש מרץ",
+                languages=["he"],
+                expected=[("מרץ", datetime.datetime(2020, 3, 13, 0, 0))],
+            ),
+            param(
+                text="преди месец май",
+                languages=["bg"],
+                expected=[("май", datetime.datetime(2020, 5, 13, 0, 0))],
+            ),
+            param(
+                text="пред месец мај",
+                languages=["mk"],
+                expected=[("мај", datetime.datetime(2020, 5, 13, 0, 0))],
+            ),
+            param(
+                text="prije mjesec ožujak",
+                languages=["hr"],
+                expected=[("ožujak", datetime.datetime(2020, 3, 13, 0, 0))],
+            ),
+            # A month unit followed by an ordinary (non-month, non-numeric)
+            # word still reads as "1 month ago": unlike the other units,
+            # the guard here only excludes a number or an actual month name
+            param(
+                text="prije mjesec bio je lijep dan",
+                languages=["hr"],
+                expected=[("mjesec", relative_base - relativedelta(months=1))],
+            ),
+            param(
+                text="пред месец беше убаво време",
+                languages=["mk"],
+                expected=[("месец", relative_base - relativedelta(months=1))],
+            ),
+            param(
+                text="преди месец беше хубаво време",
+                languages=["bg"],
+                expected=[("преди месец", relative_base - relativedelta(months=1))],
+            ),
+            param(
+                text="před měsíc bylo hezky",
+                languages=["cs"],
+                expected=[("před měsíc", relative_base - relativedelta(months=1))],
+            ),
         ]
     )
     def test_search_dates_with_a_relative_expression_reads_its_direction(
@@ -1714,6 +1811,73 @@ class TestTranslateSearch(BaseTestCase):
             text, languages=languages, settings={"RELATIVE_BASE": relative_base}
         )
         self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(text="Počkej minutu.", languages=["cs"]),
+            param(text="před dnem nezávislosti", languages=["cs"]),
+            param(text="לפני יום הולדת", languages=["he"]),
+            param(text="לפני יום כיפור", languages=["he"]),
+            # A unit before another word is not "1 unit ago", same as the
+            # cs/he cases above
+            param(text="před den D", languages=["cs"]),
+            param(text="prieš dieną Kalėdų", languages=["lt"]),
+            param(text="пред час по математика", languages=["mk"]),
+            # A unit before a number is not "1 unit ago" either
+            param(text="před den 5", languages=["cs"]),
+            param(text="prieš dieną 5", languages=["lt"]),
+            param(text="пред ден 5", languages=["mk"]),
+            # A month unit before a number is not "1 month ago" either
+            param(text="prije mjesec 5", languages=["hr"]),
+            param(text="пред месец 5", languages=["mk"]),
+            param(text="преди месец 5", languages=["bg"]),
+            param(text="před měsíc 5", languages=["cs"]),
+        ]
+    )
+    def test_search_dates_does_not_read_a_noun_as_a_relative_date(
+        self, text: str, languages: list[str]
+    ) -> None:
+        result = search_dates(
+            text, languages=languages, settings={"RELATIVE_BASE": relative_base}
+        )
+        self.assertIsNone(result)
+
+    @parameterized.expand(
+        [
+            param(
+                text="قبل ساعة الصفر",
+                languages=["ar"],
+                not_expected=relative_base - timedelta(hours=1),
+            ),
+            param(
+                text="قبل سنة الهجرة",
+                languages=["ar"],
+                not_expected=relative_base - relativedelta(years=1),
+            ),
+            param(
+                text="قبل أسبوع الامتحانات",
+                languages=["ar"],
+                not_expected=relative_base - timedelta(weeks=1),
+            ),
+            param(
+                text="לפני שבוע הספר",
+                languages=["he"],
+                not_expected=relative_base - timedelta(weeks=1),
+            ),
+            param(
+                text="לפני שנה הבאה",
+                languages=["he"],
+                not_expected=relative_base - relativedelta(years=1),
+            ),
+        ]
+    )
+    def test_search_dates_does_not_read_a_unit_before_a_definite_noun_as_ago(
+        self, text: str, languages: list[str], not_expected: datetime.datetime
+    ) -> None:
+        result = search_dates(
+            text, languages=languages, settings={"RELATIVE_BASE": relative_base}
+        )
+        self.assertNotIn(not_expected, [item[1] for item in result or []])
 
     @parameterized.expand(
         [

@@ -249,6 +249,29 @@ info = {
         ]
     },
     "locale_specific": {},
+    "simplifications": [
+        {
+            "(?<=pirms\\s+)nedēļas\\b(?!\\s+\\S)": "1 nedēļas"
+        },
+        {
+            "(?<=pirms\\s+)mēneša\\b(?!\\s+\\d)(?!\\s+(?:septembris|decembris|februāris|novembris|janvāris|oktobris|aprīlis|augusts|jūlijs|jūnijs|maijs|marts|febr|janv|sept|apr|aug|dec|jūl|jūn|nov|okt)\\b)": "1 mēneša"
+        },
+        {
+            "(?<=pirms\\s+)gada\\b(?!\\s+\\S)": "1 gada"
+        },
+        {
+            "(?<=pirms\\s+)dienas\\b(?!\\s+\\S)": "1 dienas"
+        },
+        {
+            "(?<=pirms\\s+)stundas\\b(?!\\s+\\S)": "1 stundas"
+        },
+        {
+            "(?<=pirms\\s+)minūtes\\b(?!\\s+\\S)": "1 minūtes"
+        },
+        {
+            "(?<=pirms\\s+)sekundes\\b(?!\\s+\\S)": "1 sekundes"
+        }
+    ],
     "skip": [
         " ",
         "'",
