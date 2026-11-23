@@ -259,6 +259,7 @@ info = {
         "circa",
         "e",
         "alle",
+        "il giorno",
         " ",
         "'",
         ",",
