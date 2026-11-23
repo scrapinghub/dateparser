@@ -21,7 +21,27 @@ from dateparser.utils import (
     set_correct_day_from_settings,
     set_correct_month_from_settings,
 )
-from dateparser.utils.strptime import strptime
+from dateparser.utils.strptime import (
+    _effective_tz_for_naive_input,
+    _get_clamped_leap_second,
+    _reset_leap_second_flag,
+    _validate_leap_second,
+    strptime,
+)
+
+
+def _validate_clamped_leap_second(
+    date_obj: datetime, tz: tzinfo | None, settings: "Settings"
+) -> None:
+    """`_validate_leap_second`, resolving `settings.TIMEZONE` for *date_obj*'s
+    own instant when the string carried no explicit offset of its own."""
+    if _get_clamped_leap_second() is None:
+        return
+    effective_tz = (
+        tz if tz is not None else _effective_tz_for_naive_input(date_obj, settings)
+    )
+    _validate_leap_second(date_obj, effective_tz)
+
 
 if TYPE_CHECKING:
     from dateparser.conf import Settings
@@ -154,7 +174,7 @@ def _parse_nospaces(
     tz: tzinfo | None = None,
     date_order: str | None = None,
 ) -> tuple[datetime, str, tuple[str, ...]]:
-    return _no_spaces_parser.parse(datestring, settings, date_order=date_order)
+    return _no_spaces_parser.parse(datestring, settings, tz, date_order=date_order)
 
 
 class _time_parser:
@@ -276,7 +296,11 @@ class _no_spaces_parser:
 
     @classmethod
     def parse(
-        cls, datestring: str, settings: "Settings", date_order: str | None = None
+        cls,
+        datestring: str,
+        settings: "Settings",
+        tz: tzinfo | None = None,
+        date_order: str | None = None,
     ) -> tuple[datetime, str, tuple[str, ...]]:
         if not no_space_parser_eligibile(datestring):
             raise ValueError(f"Unable to parse date from: {datestring}")
@@ -301,6 +325,7 @@ class _no_spaces_parser:
             for fmt in nsp.date_formats[order]:
                 with contextlib.suppress(Exception):
                     dt = strptime(token, fmt), cls._get_period(fmt), _get_parts(fmt)
+                    _validate_clamped_leap_second(dt[0], tz, settings)
                     if len(str(dt[0].year)) < 4:
                         ambiguous = dt, fmt
                         continue
@@ -860,6 +885,12 @@ class _parser:
         tz: tzinfo | None = None,
         date_order: str | None = None,
     ) -> tuple[datetime, str | None, tuple[str, ...]]:
+        # Entry point for callers that bypass `_DateLocaleParser` (e.g. the
+        # non-Gregorian calendars), which otherwise reset this themselves
+        # between candidates; a stale value here would wrongly flag an
+        # unrelated date as needing leap-second validation.
+        _reset_leap_second_flag()
+
         tokens = list(tokenizer(datestring).tokenize())
         date_order = date_order or settings.DATE_ORDER
         try:
@@ -892,6 +923,10 @@ class _parser:
 
         # correction for preference of day: beginning, current, end
         dateobj = po._correct_for_day(dateobj)
+
+        # Validate against the final date, after the corrections above, since
+        # not every caller of this method goes through date_parser.py.
+        _validate_clamped_leap_second(dateobj, tz, settings)
 
         period = po._get_period()
 

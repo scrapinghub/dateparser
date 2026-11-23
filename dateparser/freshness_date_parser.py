@@ -16,6 +16,11 @@ from dateparser.utils import (
 
 from .parser import time_parser
 from .timezone_parser import pop_tz_offset_from_string
+from .utils.strptime import (
+    _effective_tz_for_naive_input,
+    _get_clamped_leap_second,
+    _validate_leap_second,
+)
 
 if TYPE_CHECKING:
     from .conf import Settings
@@ -138,6 +143,29 @@ class FreshnessDateDataParser:
                 date = set_correct_day_from_settings(date, settings, date.day)
             old_date = date
             date = apply_time(date, _time)
+            # The string's own offset converts to UTC for leap-second
+            # validation as is, since it is explicit and fixed. settings.TIMEZONE,
+            # if configured, must instead be re-resolved for *date*'s own
+            # instant: `now`'s offset (baked into `date.tzinfo` above) can be
+            # stale once a relative shift moves the date across a DST change,
+            # so validate the naive wall-clock value against a freshly
+            # resolved zone rather than reusing the stale aware `date`
+            # (passing both a stale-zone-aware datetime and a freshly
+            # resolved zone of the same family makes pytz raise). The
+            # default ("local") does not convert, since that is just the
+            # host's zone.
+            validate_date = date
+            if ptz:
+                convert_tz = date.tzinfo
+            elif "local" not in _settings_tz and _get_clamped_leap_second() is not None:
+                validate_date = date.replace(tzinfo=None)
+                convert_tz = _effective_tz_for_naive_input(validate_date, settings)
+            else:
+                convert_tz = None
+            try:
+                _validate_leap_second(validate_date, convert_tz)
+            except ValueError:
+                return None, None, ()
             if settings.RETURN_TIME_AS_PERIOD and old_date != date:
                 period = "time"
             if isinstance(_time, time) and "time" not in parts:
@@ -255,7 +283,11 @@ class FreshnessDateDataParser:
         from dateparser.date import DateData  # noqa: PLC0415
 
         date, period, parts = self._parse_with_parts(date_string, settings)
-        return DateData(date_obj=date, period=period, parts=parts)
+        date_data = DateData(date_obj=date, period=period, parts=parts)
+        clamped_second = _get_clamped_leap_second()
+        if clamped_second is not None:
+            date_data.leap_second = clamped_second
+        return date_data
 
 
 freshness_date_parser = FreshnessDateDataParser()
