@@ -1,6 +1,7 @@
 from collections.abc import Callable, Iterable, Sequence
 from collections.abc import Set as AbstractSet
 from datetime import datetime
+from datetime import timezone as dt_timezone
 from itertools import chain, islice
 from typing import Any, TypedDict
 
@@ -14,6 +15,7 @@ from dateparser.languages.loader import LocaleDataLoader
 from dateparser.languages.locale import _WEEKDAY_MODIFIERS, PUNCTUATION, Locale
 from dateparser.search.ngram_search import _DateResult, _NgramDateSearch
 from dateparser.search.text_detection import FullTextLanguageDetector
+from dateparser.utils import _get_localzone, _now, apply_timezone, localize_timezone
 from dateparser.utils.time_spans import detect_time_span, generate_time_span
 
 RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
@@ -223,6 +225,44 @@ def date_is_relative(translation: str) -> bool:
     return re.search(RELATIVE_REG, translation) is not None
 
 
+def _time_span_base_date(settings: Settings) -> datetime:
+    """Return the base date of a time span.
+
+    Unless TO_TIMEZONE or RETURN_AS_TIMEZONE_AWARE=True needs an aware date,
+    it is RELATIVE_BASE or the current time in TIMEZONE, as given. Otherwise
+    it is made aware the way FreshnessDateParser makes the base date of a
+    relative date such as "1 day ago".
+    """
+    if not (settings.TO_TIMEZONE or settings.RETURN_AS_TIMEZONE_AWARE is True):
+        return settings.RELATIVE_BASE or _now(settings)
+    local = "local" in settings.TIMEZONE.lower()
+    if settings.RELATIVE_BASE:
+        base_date = settings.RELATIVE_BASE
+        if not local:
+            base_date = localize_timezone(base_date, settings.TIMEZONE)
+        if not base_date.tzinfo:
+            base_date = base_date.replace(tzinfo=_get_localzone())
+        return base_date
+    if local:
+        return datetime.now(_get_localzone())
+    return apply_timezone(datetime.now(dt_timezone.utc), settings.TIMEZONE)
+
+
+def _apply_output_timezone(date_obj: datetime, settings: Settings) -> datetime:
+    """Apply TO_TIMEZONE and RETURN_AS_TIMEZONE_AWARE to a time span date, as
+    FreshnessDateParser applies them to a relative date found in text without
+    a time zone. One difference: with the default RETURN_AS_TIMEZONE_AWARE,
+    a span from an aware RELATIVE_BASE stays aware, as it was before these
+    settings applied to spans."""
+    if settings.TO_TIMEZONE:
+        date_obj = apply_timezone(date_obj, settings.TO_TIMEZONE)
+    aware = settings.RETURN_AS_TIMEZONE_AWARE
+    aware_base = bool(settings.RELATIVE_BASE and settings.RELATIVE_BASE.tzinfo)
+    if not aware or (aware == "default" and not aware_base):
+        date_obj = date_obj.replace(tzinfo=None)
+    return date_obj
+
+
 def _add_time_span_results(
     results: list[_DateResult], text: str, settings: Settings
 ) -> list[_DateResult]:
@@ -230,14 +270,19 @@ def _add_time_span_results(
     if getattr(settings, "RETURN_TIME_SPAN", False):
         span_info = detect_time_span(text)
         if span_info:
-            base_date = getattr(settings, "RELATIVE_BASE", None) or datetime.now()
             try:
                 start_date, end_date = generate_time_span(
-                    span_info, base_date, settings
+                    span_info, _time_span_base_date(settings), settings
                 )
+                start_date = _apply_output_timezone(start_date, settings)
+                end_date = _apply_output_timezone(end_date, settings)
             except (OverflowError, ValueError):
                 # The quantity is too large for the span to be a date: an
-                # end before the year 1 or after 9999 raises ValueError.
+                # end before the year 1 or after 9999 raises ValueError, and
+                # a time zone change past those years raises OverflowError.
+                # A local time zone that cannot be determined raises
+                # ValueError too (after a FutureWarning), and the span is not
+                # returned, as a relative date is not.
                 return results
             matched_text = span_info["matched_text"]
             results.append((matched_text + " (start)", start_date, "day"))
