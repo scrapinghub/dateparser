@@ -3109,6 +3109,90 @@ class TestTranslateSearch(BaseTestCase):
         assert result
         self.assertEqual(result[0], ("2021年5月5日", datetime.datetime(2021, 5, 5)))
 
+    @parameterized.expand(
+        [
+            param(
+                "Paid $20 on January 5, 2024",
+                [("on January 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
+            ),
+            param(
+                "Paid $20 on Jan 5",
+                [("on Jan 5", datetime.datetime(2024, 1, 5, 0, 0))],
+            ),
+            param(
+                "Paid 20$ on January 5, 2024",
+                [("on January 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
+            ),
+            param(
+                "Discount 50% on January 5, 2024",
+                [("on January 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
+            ),
+            param(
+                "Discount 50% on Jan 5",
+                [("on Jan 5", datetime.datetime(2024, 1, 5, 0, 0))],
+            ),
+            param(
+                "Paid €20 on January 5, 2024",
+                [("on January 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
+            ),
+            param(
+                "Paid £20 on January 5, 2024",
+                [("on January 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
+            ),
+            param(
+                "Order #1234 on January 5, 2024",
+                [("on January 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
+            ),
+            param(
+                "Item @20 on January 5, 2024",
+                [("on January 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
+            ),
+            param(
+                "Cost &20 on January 5, 2024",
+                [("on January 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
+            ),
+            param(
+                "Paid +20 on January 5, 2024",
+                [("on January 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
+            ),
+            param(
+                "Paid *20 on January 5, 2024",
+                [("on January 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
+            ),
+            param(
+                "Paid ~20 on January 5, 2024",
+                [("on January 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
+            ),
+            param(
+                "Paid $20.50 on January 5, 2024",
+                [("on January 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
+            ),
+            param(
+                "Paid $20,000 on January 5, 2024",
+                [("on January 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
+            ),
+            param(
+                "Meet @5pm on Jan 5",
+                [("@5pm on Jan 5", datetime.datetime(2024, 1, 5, 17, 0))],
+            ),
+            param(
+                "Jan 5 @10:00",
+                [("Jan 5 @10:00", datetime.datetime(2024, 1, 5, 10, 0))],
+            ),
+        ]
+    )
+    def test_search_dates_after_symbol_decorated_number(
+        self,
+        text: str,
+        expected: list[tuple[str, datetime.datetime]],
+    ) -> None:
+        result = search_dates(
+            text,
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)},
+        )
+        self.assertEqual(result, expected)
+
 
 class TestNgramSearch(BaseTestCase):
     def setUp(self) -> None:

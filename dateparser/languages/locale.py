@@ -99,6 +99,12 @@ _CLOSING_MARKS = (")", "]", "}", '"')
 _ENCLOSED_TIME = re.compile(r"\d{1,2}(?::\d{2}(?::\d{2})?)?(?:am|pm)?")
 _ENCLOSED_WORDS = {"am", "pm", *_WEEKDAYS}
 _BLANK_OR_WEEKDAYS = {"", *_WEEKDAYS}
+_CURRENCY_OR_PERCENT_RE = re.compile(r"[\p{Sc}%‰]")
+_NON_DATE_NUMBER_SYMBOLS = r"#&@+*~"
+_SYMBOL_NUMBER_RE = re.compile(
+    rf"^(?:[{_NON_DATE_NUMBER_SYMBOLS}]+\d[\d,]*[{_NON_DATE_NUMBER_SYMBOLS}]*"
+    rf"|\d[\d,]*[{_NON_DATE_NUMBER_SYMBOLS}]+)$"
+)
 
 
 def _first_non_weekday(chunk: Sequence[str | None], start: int) -> int:
@@ -951,7 +957,14 @@ class Locale:
         if "no_word_spacing" in self.info:
             return re.search(r"[\d\.:\-/]+", token) is not None
 
-        return re.search(r"\d+", token) is not None
+        if re.search(r"\d+", token) is None:
+            return False
+        if _CURRENCY_OR_PERCENT_RE.search(token):
+            return False
+        stripped = token.strip(PUNCTUATION + ";!?")
+        return not (
+            _SYMBOL_NUMBER_RE.match(stripped) and not is_timezone_token(stripped)
+        )
 
     def _simplify(self, date_string: str, settings: "Settings | None" = None) -> str:
         date_string = date_string.lower()
