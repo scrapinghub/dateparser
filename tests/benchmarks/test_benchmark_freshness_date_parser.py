@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 
 
 def test_freshness_pattern_findall(benchmark: BenchmarkFixture) -> None:
-    def run():
+    def run() -> None:
         for date_string in TRANSLATED_RELATIVE_STRINGS:
             PATTERN.findall(date_string)
 
@@ -28,9 +28,9 @@ def test_freshness_pattern_findall(benchmark: BenchmarkFixture) -> None:
     # inputs, the benchmark would get faster instead of failing.
     assert PATTERN.findall(TRANSLATED_RELATIVE_STRINGS[-1]) == [
         ("1", "day"),
-        (" 2", "hour"),
-        (" 3", "minute"),
-        (" 4", "second"),
+        ("2", "hour"),
+        ("3", "minute"),
+        ("4", "second"),
     ]
 
     benchmark(run)
@@ -50,7 +50,7 @@ def test_freshness_pattern_sub_long_digit_run(benchmark: BenchmarkFixture) -> No
 
 
 def test_freshness_get_kwargs(benchmark: BenchmarkFixture) -> None:
-    def run():
+    def run() -> None:
         for date_string in TRANSLATED_RELATIVE_STRINGS:
             freshness_date_parser.get_kwargs(date_string)
 

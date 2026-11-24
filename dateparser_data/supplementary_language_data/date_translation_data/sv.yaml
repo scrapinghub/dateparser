@@ -69,5 +69,6 @@ relative-type:
     0 month ago:
         - denna månad
 simplifications:
+    - (\d+):[ae]\b: \1
     - en: '1'
     - två: '2'

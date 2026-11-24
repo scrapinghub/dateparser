@@ -607,6 +607,10 @@ info = {
         "del"
     ],
     "sentence_splitter_group": 2,
+    "early_morning": [
+        "de madrugada",
+        "madrugada"
+    ],
     "ago": [
         "hace"
     ],
@@ -614,6 +618,12 @@ info = {
         "en"
     ],
     "simplifications": [
+        {
+            "esta madrugada": "hoy madrugada"
+        },
+        {
+            "(?:de|por|en) la madrugada": "madrugada"
+        },
         {
             "una": "1"
         },

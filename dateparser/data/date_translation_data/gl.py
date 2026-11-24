@@ -247,6 +247,17 @@ info = {
         ]
     },
     "locale_specific": {},
+    "early_morning": [
+        "de madrugada",
+        "na madrugada",
+        "pola madrugada",
+        "madrugada"
+    ],
+    "simplifications": [
+        {
+            "esta madrugada": "hoxe madrugada"
+        }
+    ],
     "skip": [
         " ",
         "'",

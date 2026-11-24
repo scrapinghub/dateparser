@@ -10,7 +10,6 @@ on:
       - dateparser/**
       - dateparser_data/**
       - tests/benchmarks/**
-      - pytest.ini
       - tox.ini
       - pyproject.toml
       - .github/workflows/codspeed.yml
@@ -37,9 +36,11 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: "3.13"
       - name: Install dependencies
@@ -48,7 +49,7 @@ jobs:
           pip install tox
           tox -e benchmark --notest
       - name: Run benchmarks
-        uses: CodSpeedHQ/action@v5
+        uses: CodSpeedHQ/action@78102a468f96d8e0ccb92d0ec49425753fc42062 # v5.6.0
         with:
           mode: simulation
           # The step above already built the environment, so the measured command
