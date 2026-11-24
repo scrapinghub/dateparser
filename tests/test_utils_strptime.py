@@ -1,3 +1,4 @@
+import contextlib
 import locale
 import warnings
 from datetime import datetime
@@ -7,6 +8,7 @@ from parameterized import param, parameterized
 
 from dateparser.utils.strptime import strptime
 from tests import BaseTestCase
+from tests.year_warning import DAY_WITHOUT_YEAR_WARNING
 
 
 class TestStrptime(BaseTestCase):
@@ -194,12 +196,28 @@ class TestStrptime(BaseTestCase):
             warnings.simplefilter("always")
             self.when_date_string_is_parsed(date_string, fmt)
             year_warnings = [
-                warn
-                for warn in w
-                if "day of month without a year specified is ambiguious"
-                in str(warn.message)
+                warn for warn in w if DAY_WITHOUT_YEAR_WARNING in str(warn.message)
             ]
             self.assertEqual(len(year_warnings), 0)
+
+    def test_year_warning_filter_matches_the_message_of_the_std_lib(self) -> None:
+        """Test that the filter of the previous test and of the one in
+        tests/test_parser.py finds the warning that this Python's own strptime
+        gives for a day of month without a year. The message was respelled
+        between Python versions, and a filter that matches nothing cannot fail."""
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            with contextlib.suppress(ValueError):
+                datetime.strptime("5 6", "%d %m")
+        if not w:
+            raise SkipTest("This Python does not warn about a day without a year")
+        year_warnings = [
+            warn for warn in w if DAY_WITHOUT_YEAR_WARNING in str(warn.message)
+        ]
+        self.assertTrue(
+            year_warnings,
+            f"No warning matches {DAY_WITHOUT_YEAR_WARNING!r}: {[str(x.message) for x in w]}",
+        )
 
     @parameterized.expand(
         [

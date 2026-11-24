@@ -126,6 +126,9 @@ class Settings:
             if v is None:
                 raise TypeError(f'Invalid {{"{k}": {v}}}')
 
+        strict_date_order = kwds.get("STRICT_DATE_ORDER")
+        date_order = kwds.get("DATE_ORDER")
+
         for x in self._get_settings_from_pyfile():
             kwds.setdefault(x, getattr(self, x))
 
@@ -135,6 +138,27 @@ class Settings:
         # order of the locale.
         if mod_settings is None:
             mod_settings = self._mod_settings
+            recorded = dict(mod_settings)
+            # A STRICT_DATE_ORDER given replaces the one recorded, even "none".
+            # Without a DATE_ORDER on record, check_settings() rejects an enforced
+            # one, as it does for a dict.
+            if strict_date_order is not None and (
+                strict_date_order != "none" or "STRICT_DATE_ORDER" in mod_settings
+            ):
+                recorded["STRICT_DATE_ORDER"] = strict_date_order
+            # STRICT_DATE_ORDER only enforces a DATE_ORDER that the caller set, so
+            # a DATE_ORDER given replaces the one recorded, when there is one or the
+            # order is enforced, and the checks see the value that is used.
+            if date_order is not None and (
+                "DATE_ORDER" in recorded
+                or recorded.get("STRICT_DATE_ORDER", "none") != "none"
+            ):
+                recorded["DATE_ORDER"] = date_order
+            mod_settings = recorded
+        else:
+            # A copy, so that the caller changing their dict later does not
+            # change which settings these are said to have set.
+            mod_settings = dict(mod_settings)
         if mod_settings:
             kwds["_mod_settings"] = mod_settings
 
