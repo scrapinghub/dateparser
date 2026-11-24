@@ -588,3 +588,25 @@ class TestBuildTzOffsets(BaseTestCase):
         assert offsets["CEST"]["offset"] == timedelta(hours=2)
         assert offsets["CEST"]["regex"].search(" CEST")
         assert "CEST" in parts
+
+
+class TestStaticTzInfoNormalize(BaseTestCase):
+    def test_normalize_preserves_same_tz(self) -> None:
+        parsed = parse("2026-11-21T05:00+01:00")
+        assert parsed is not None
+        assert isinstance(parsed.tzinfo, StaticTzInfo)
+        normalized = parsed.tzinfo.normalize(parsed)
+        self.assertEqual(normalized, parsed)
+        self.assertIs(normalized.tzinfo, parsed.tzinfo)
+
+    def test_normalize_converts_other_tz(self) -> None:
+        tz = StaticTzInfo("UTC+02:00", timedelta(hours=2))
+        utc_dt = datetime(2026, 11, 21, 10, 0, tzinfo=dt.timezone.utc)
+        normalized = tz.normalize(utc_dt)
+        self.assertEqual(normalized, datetime(2026, 11, 21, 12, 0, tzinfo=tz))
+        self.assertIs(normalized.tzinfo, tz)
+
+    def test_normalize_rejects_naive_datetime(self) -> None:
+        tz = StaticTzInfo("UTC+01:00", timedelta(hours=1))
+        with self.assertRaises(ValueError):
+            tz.normalize(datetime(2026, 11, 21, 5, 0))
