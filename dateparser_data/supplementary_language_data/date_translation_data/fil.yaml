@@ -1,0 +1,5 @@
+relative-type-regex:
+    \1 hour ago:
+        - (\d+[.,]?\d*) oras nakalipas
+    \1 second ago:
+        - (\d+[.,]?\d*) seg nakalipas

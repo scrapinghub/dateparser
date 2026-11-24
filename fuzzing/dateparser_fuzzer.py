@@ -1,5 +1,4 @@
 import sys
-from typing import List
 
 import atheris
 from fuzz_helpers import EnhancedFuzzedDataProvider
@@ -60,14 +59,14 @@ parsers = [
 ]
 
 
-def _get_format_strings(fdp: EnhancedFuzzedDataProvider) -> List[str]:
-    format_strings = []
-    for _ in range(fdp.ConsumeIntInRange(0, 5)):
-        format_strings.append(fdp.ConsumeString(1).join(fdp.ConsumeSublist(directives)))
-    return format_strings
+def _get_format_strings(fdp: EnhancedFuzzedDataProvider) -> list[str]:
+    return [
+        fdp.ConsumeString(1).join(fdp.ConsumeSublist(directives))
+        for _ in range(fdp.ConsumeIntInRange(0, 5))
+    ]
 
 
-def TestOneInput(data):
+def TestOneInput(data: bytes) -> int | None:
     fdp = EnhancedFuzzedDataProvider(data)
 
     settings = {
@@ -103,9 +102,10 @@ def TestOneInput(data):
         )
     except re.error:
         return -1
+    return None
 
 
-def main():
+def main() -> None:
     atheris.Setup(sys.argv, TestOneInput)
     atheris.Fuzz()
 

@@ -1,0 +1,3 @@
+relative-type-regex:
+    \1 year ago:
+        - (\d+[.,]?\d*) વર્ષ પહેલા

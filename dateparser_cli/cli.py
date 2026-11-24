@@ -1,18 +1,20 @@
 import argparse
 import logging
+import warnings
 
-from .fasttext_manager import fasttext_downloader
 from .utils import clear_cache
 
+logger = logging.getLogger(__name__)
 
-def entrance():
+
+def entrance() -> None:
     dateparser_argparse = argparse.ArgumentParser(
         description="dateparser download manager."
     )
     dateparser_argparse.add_argument(
         "--fasttext",
         type=str,
-        help='To download a fasttext language detection models. Supported models are "small" and "large"',
+        help="[DEPRECATED] fastText is no longer supported. Please use langdetect instead.",
     )
     dateparser_argparse.add_argument(
         "--clear",
@@ -25,12 +27,20 @@ def entrance():
 
     if args.clear:
         clear_cache()
-        logging.info("dateparser-download: All cache deleted")
+        logger.info("dateparser-download: All cache deleted")
 
     if args.fasttext:
-        fasttext_downloader(args.fasttext)
-
-    if not (args.clear or args.fasttext):
+        warnings.warn(
+            "fastText support has been removed as the library is archived and unmaintained. "
+            "Please migrate to langdetect. Install with: pip install dateparser[langdetect]",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         dateparser_argparse.error(
-            "dateparser-download: You need to specify the command (i.e.: --fasttext or --clear)"
+            "fastText is no longer supported. Please use langdetect for language detection."
+        )
+
+    if not args.clear:
+        dateparser_argparse.error(
+            "dateparser-download: You need to specify the command (i.e.: --clear)"
         )

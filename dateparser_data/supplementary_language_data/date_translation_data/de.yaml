@@ -1,6 +1,10 @@
+am:
+    - vorm
+pm:
+    - nachm
 skip: ["etwa", "uhr", "um", "und"]
 
-sentence_splitter_group : 1
+sentence_splitter_group: 1
 
 monday:
     - Mon

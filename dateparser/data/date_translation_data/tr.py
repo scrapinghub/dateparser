@@ -138,7 +138,8 @@ info = {
             "şimdi"
         ],
         "0 week ago": [
-            "bu hafta"
+            "bu hafta",
+            "bu hf"
         ],
         "0 year ago": [
             "bu yıl"
@@ -151,7 +152,8 @@ info = {
             "geçen ay"
         ],
         "1 week ago": [
-            "geçen hafta"
+            "geçen hafta",
+            "geçen hf"
         ],
         "1 year ago": [
             "geçen yıl"
@@ -166,6 +168,7 @@ info = {
         ],
         "in 1 week": [
             "gelecek hafta",
+            "gelecek hf",
             "haftaya",
             "önümüzdeki hafta"
         ],
@@ -176,54 +179,54 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+[.,]?\\d*) gün önce"
+            "(\\d++[.,]?\\d*+) gün önce"
         ],
         "\\1 hour ago": [
-            "(\\d+[.,]?\\d*) sa önce",
-            "(\\d+[.,]?\\d*) saat önce"
+            "(\\d++[.,]?\\d*+) sa önce",
+            "(\\d++[.,]?\\d*+) saat önce"
         ],
         "\\1 minute ago": [
-            "(\\d+[.,]?\\d*) dakika önce",
-            "(\\d+[.,]?\\d*) dk önce"
+            "(\\d++[.,]?\\d*+) dakika önce",
+            "(\\d++[.,]?\\d*+) dk önce"
         ],
         "\\1 month ago": [
-            "(\\d+[.,]?\\d*) ay önce"
+            "(\\d++[.,]?\\d*+) ay önce"
         ],
         "\\1 second ago": [
-            "(\\d+[.,]?\\d*) saniye önce",
-            "(\\d+[.,]?\\d*) sn önce"
+            "(\\d++[.,]?\\d*+) saniye önce",
+            "(\\d++[.,]?\\d*+) sn önce"
         ],
         "\\1 week ago": [
-            "(\\d+[.,]?\\d*) hafta önce",
-            "(\\d+[.,]?\\d*) hf önce"
+            "(\\d++[.,]?\\d*+) hafta önce",
+            "(\\d++[.,]?\\d*+) hf önce"
         ],
         "\\1 year ago": [
-            "(\\d+[.,]?\\d*) yıl önce"
+            "(\\d++[.,]?\\d*+) yıl önce"
         ],
         "in \\1 day": [
-            "(\\d+[.,]?\\d*) gün sonra"
+            "(\\d++[.,]?\\d*+) gün sonra"
         ],
         "in \\1 hour": [
-            "(\\d+[.,]?\\d*) sa sonra",
-            "(\\d+[.,]?\\d*) saat sonra"
+            "(\\d++[.,]?\\d*+) sa sonra",
+            "(\\d++[.,]?\\d*+) saat sonra"
         ],
         "in \\1 minute": [
-            "(\\d+[.,]?\\d*) dakika sonra",
-            "(\\d+[.,]?\\d*) dk sonra"
+            "(\\d++[.,]?\\d*+) dakika sonra",
+            "(\\d++[.,]?\\d*+) dk sonra"
         ],
         "in \\1 month": [
-            "(\\d+[.,]?\\d*) ay sonra"
+            "(\\d++[.,]?\\d*+) ay sonra"
         ],
         "in \\1 second": [
-            "(\\d+[.,]?\\d*) saniye sonra",
-            "(\\d+[.,]?\\d*) sn sonra"
+            "(\\d++[.,]?\\d*+) saniye sonra",
+            "(\\d++[.,]?\\d*+) sn sonra"
         ],
         "in \\1 week": [
-            "(\\d+[.,]?\\d*) hafta sonra",
-            "(\\d+[.,]?\\d*) hf sonra"
+            "(\\d++[.,]?\\d*+) hafta sonra",
+            "(\\d++[.,]?\\d*+) hf sonra"
         ],
         "in \\1 year": [
-            "(\\d+[.,]?\\d*) yıl sonra"
+            "(\\d++[.,]?\\d*+) yıl sonra"
         ]
     },
     "locale_specific": {

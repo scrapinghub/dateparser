@@ -78,9 +78,11 @@ info = {
         "sul"
     ],
     "am": [
+        "am",
         "yb"
     ],
     "pm": [
+        "pm",
         "yh"
     ],
     "year": [
@@ -94,10 +96,12 @@ info = {
         "wythnos"
     ],
     "day": [
+        "diwrnod",
         "dydd"
     ],
     "hour": [
-        "awr"
+        "awr",
+        "oriau"
     ],
     "minute": [
         "mun",
@@ -123,6 +127,7 @@ info = {
             "nawr"
         ],
         "0 week ago": [
+            "yr ws hon",
             "yr wythnos hon"
         ],
         "0 year ago": [
@@ -135,6 +140,7 @@ info = {
             "mis diwethaf"
         ],
         "1 week ago": [
+            "ws ddiwethaf",
             "wythnos ddiwethaf"
         ],
         "1 year ago": [
@@ -147,56 +153,63 @@ info = {
             "mis nesaf"
         ],
         "in 1 week": [
+            "ws nesaf",
             "wythnos nesaf"
         ],
         "in 1 year": [
+            "bl nesaf",
             "blwyddyn nesaf"
         ]
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+[.,]?\\d*) diwrnod yn ôl"
+            "(\\d++[.,]?\\d*+) diwrnod yn ôl"
         ],
         "\\1 hour ago": [
-            "(\\d+[.,]?\\d*) awr yn ôl"
+            "(\\d++[.,]?\\d*+) awr yn ôl"
         ],
         "\\1 minute ago": [
-            "(\\d+[.,]?\\d*) mun yn ôl",
-            "(\\d+[.,]?\\d*) munud yn ôl"
+            "(\\d++[.,]?\\d*+) mun yn ôl",
+            "(\\d++[.,]?\\d*+) munud yn ôl"
         ],
         "\\1 month ago": [
-            "(\\d+[.,]?\\d*) mis yn ôl"
+            "(\\d++[.,]?\\d*+) mis yn ôl"
         ],
         "\\1 second ago": [
-            "(\\d+[.,]?\\d*) eiliad yn ôl"
+            "(\\d++[.,]?\\d*+) eil yn ôl",
+            "(\\d++[.,]?\\d*+) eiliad yn ôl"
         ],
         "\\1 week ago": [
-            "(\\d+[.,]?\\d*) wythnos yn ôl"
+            "(\\d++[.,]?\\d*+) ws yn ôl",
+            "(\\d++[.,]?\\d*+) wythnos yn ôl"
         ],
         "\\1 year ago": [
-            "(\\d+[.,]?\\d*) o flynyddoedd yn ôl"
+            "(\\d++[.,]?\\d*+) bl yn ôl",
+            "(\\d++[.,]?\\d*+) o flynyddoedd yn ôl"
         ],
         "in \\1 day": [
-            "ymhen (\\d+[.,]?\\d*) diwrnod"
+            "ymhen (\\d++[.,]?\\d*+) diwrnod"
         ],
         "in \\1 hour": [
-            "ymhen (\\d+[.,]?\\d*) awr"
+            "ymhen (\\d++[.,]?\\d*+) awr"
         ],
         "in \\1 minute": [
-            "ymhen (\\d+[.,]?\\d*) mun",
-            "ymhen (\\d+[.,]?\\d*) munud"
+            "ymhen (\\d++[.,]?\\d*+) mun",
+            "ymhen (\\d++[.,]?\\d*+) munud"
         ],
         "in \\1 month": [
-            "ymhen (\\d+[.,]?\\d*) mis"
+            "ymhen (\\d++[.,]?\\d*+) mis"
         ],
         "in \\1 second": [
-            "ymhen (\\d+[.,]?\\d*) eiliad"
+            "ymhen (\\d++[.,]?\\d*+) eil",
+            "ymhen (\\d++[.,]?\\d*+) eiliad"
         ],
         "in \\1 week": [
-            "ymhen (\\d+[.,]?\\d*) wythnos"
+            "ymhen (\\d++[.,]?\\d*+) ws",
+            "ymhen (\\d++[.,]?\\d*+) wythnos"
         ],
         "in \\1 year": [
-            "ymhen (\\d+[.,]?\\d*) mlynedd"
+            "ymhen (\\d++[.,]?\\d*+) mlynedd"
         ]
     },
     "locale_specific": {},

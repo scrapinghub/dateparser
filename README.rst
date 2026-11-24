@@ -2,15 +2,27 @@
 
 .. raw:: html
 
-    <h1 align="center">
-        <br/>
-        <a href="https://github.com/scrapinghub/dateparser">
-            <img src="https://raw.githubusercontent.com/scrapinghub/dateparser/master/artwork/dateparser-logo.png" alt="Dateparser" width="500">
-        </a>
-        <br/>
-    </h1>
+    <div align="center">
 
-    <h3 align="center">Python parser for human readable dates</h4>
+
+.. image:: artwork/dateparser-logo.png
+   :alt: Dateparser
+   :width: 500
+   :target: https://github.com/scrapinghub/dateparser
+
+
+**Python parser for human readable dates**
+
+
+.. raw:: html
+
+    </div>
+
+
+.. docs-include-marker
+
+
+.. raw:: html
 
     <p align="center">
         <a href="https://pypi.python.org/pypi/dateparser">
@@ -41,7 +53,7 @@
 
 
 Key Features
-------------
+============
 
 -  Support for almost every existing date format: absolute dates,
    relative dates (``"two weeks ago"`` or ``"tomorrow"``), timestamps,
@@ -52,24 +64,23 @@ Key Features
 -  Customizable behavior through
    `settings <https://dateparser.readthedocs.io/en/latest/settings.html>`__.
 -  Support for `non-Gregorian calendar
-   systems <https://dateparser.readthedocs.io/en/latest/introduction.html#supported-calendars>`__.
+   systems <#supported-calendars>`__.
 -  Support for dates with timezones abbreviations or UTC offsets
    (``"August 14, 2015 EST"``, ``"21 July 2013 10:15 pm +0500"``...)
--  `Search
-   dates <https://dateparser.readthedocs.io/en/latest/introduction.html#search-for-dates-in-longer-chunks-of-text>`__
+-  `Search dates <#search-for-dates-in-longer-chunks-of-text>`__
    in longer texts.
 -  Time span detection for expressions like "past month", "last week".
 
 Online demo
------------
+===========
 
 Do you want to try it out without installing any dependency? Now you can test
-it quickly by visiting `this online demo <https://dateparser-demo.netlify.app/>`__!
+it quickly by visiting `this online demo <https://gnyman.github.io/dateparser-demo-app/>`__!
 
 
 
 How To Use
-----------
+==========
 
 The most straightforward way to parse dates with **dateparser** is to
 use the ``dateparser.parse()`` function, that wraps around most of the
@@ -94,8 +105,7 @@ functionality of the module.
     >>> dateparser.parse('January 12, 2012 10:00 PM EST')
     datetime.datetime(2012, 1, 12, 22, 0, tzinfo=<StaticTzInfo 'EST'>)
 
-As you can see, **dateparser** works with different date formats, but it
-can also be used directly with strings in different languages:
+**dateparser** also works with strings in different languages:
 
 .. code:: python
 
@@ -117,6 +127,207 @@ can also be used directly with strings in different languages:
     >>> dateparser.parse('2小时前')  # Chinese (2 hours ago), current time: 22:30
     datetime.datetime(2018, 5, 31, 20, 30)
 
+You can specify the language(s), if known, using the ``languages`` argument.
+In this case, given languages are used and language detection is skipped:
+
+.. code:: python
+
+    >>> dateparser.parse('2015, Ago 15, 1:08 pm', languages=['pt', 'es'])
+    datetime.datetime(2015, 8, 15, 13, 8)
+
+If you know the possible formats of the dates, you can use the
+``date_formats`` argument:
+
+.. code:: python
+
+    >>> dateparser.parse('22 Décembre 2010', date_formats=['%d %B %Y'])
+    datetime.datetime(2010, 12, 22, 0, 0)
+
+The formats are tried first. A date string that none of them parses is then
+parsed as if no formats were given, so a number that is out of range for a
+format can be read as another part of the date (``32`` is not a day, but it is
+a valid two-digit year). To accept only the given formats, set ``PARSERS`` to
+``['custom-formats']``, which also turns off timestamps, relative dates and
+free-form dates:
+
+.. code:: python
+
+    >>> dateparser.parse('32 DEC 10', date_formats=['%d %b %y'])
+    datetime.datetime(2032, 12, 10, 0, 0)
+
+    >>> dateparser.parse('32 DEC 10', date_formats=['%d %b %y'], settings={'PARSERS': ['custom-formats']})
+    None
+
+Relative Dates
+--------------
+
+.. code:: python
+
+    >>> from dateparser import parse
+    >>> parse('1 hour ago')
+    datetime.datetime(2015, 5, 31, 23, 0)
+    >>> parse('Il ya 2 heures')  # French (2 hours ago)
+    datetime.datetime(2015, 5, 31, 22, 0)
+    >>> parse('1 anno 2 mesi')  # Italian (1 year 2 months)
+    datetime.datetime(2014, 4, 1, 0, 0)
+    >>> parse('yaklaşık 23 saat önce')  # Turkish (23 hours ago)
+    datetime.datetime(2015, 5, 31, 1, 0)
+    >>> parse('Hace una semana')  # Spanish (a week ago)
+    datetime.datetime(2015, 5, 25, 0, 0)
+    >>> parse('2小时前')  # Chinese (2 hours ago)
+    datetime.datetime(2015, 5, 31, 22, 0)
+    >>> parse('next Wednesday')
+    datetime.datetime(2015, 6, 3, 0, 0)
+
+In English, ``last``, ``this`` and ``next`` before a weekday mean its closest
+occurrence before, on or after, and after the current date, respectively,
+regardless of the ``PREFER_DATES_FROM`` setting. So ``this Wednesday`` and
+``next Wednesday`` are the same date except on a Wednesday. They do not apply
+to ``wed``, ``sat`` and ``sun``, which are also common English words.
+
+.. note:: Testing above code might return different values depending on your environment's current date and time.
+
+.. note:: For the ``Finnish`` language, please specify ``settings={'SKIP_TOKENS': []}`` to correctly parse relative dates.
+
+Date Order
+----------
+
+.. code:: python
+
+    >>> # parsing ambiguous date
+    >>> parse('02-03-2016')  # assumes english language, uses MDY date order
+    datetime.datetime(2016, 2, 3, 0, 0)
+    >>> parse('le 02-03-2016')  # detects french, uses DMY date order
+    datetime.datetime(2016, 3, 2, 0, 0)
+
+.. note:: Ordering is not locale-based — do not expect ``DMY`` order for UK/Australia English.
+   You can specify date order explicitly:
+
+   .. code:: python
+
+       >>> parse('18-12-15 06:00', settings={'DATE_ORDER': 'DMY'})
+       datetime.datetime(2015, 12, 18, 6, 0)
+
+For more on date order, see the `settings documentation <https://dateparser.readthedocs.io/en/latest/settings.html>`__.
+
+Timezone and UTC Offset
+-----------------------
+
+By default, `dateparser` returns a timezone-aware ``datetime`` if a timezone is
+present in the date string. Otherwise it returns a naive ``datetime`` object.
+
+.. code:: python
+
+    >>> parse('January 12, 2012 10:00 PM EST')
+    datetime.datetime(2012, 1, 12, 22, 0, tzinfo=<StaticTzInfo 'EST'>)
+
+    >>> parse('January 12, 2012 10:00 PM -0500')
+    datetime.datetime(2012, 1, 12, 22, 0, tzinfo=<StaticTzInfo 'UTC\-05:00'>)
+
+    >>> parse('2 hours ago EST')
+    datetime.datetime(2017, 3, 10, 15, 55, 39, 579667, tzinfo=<StaticTzInfo 'EST'>)
+
+If the date has no timezone name/abbreviation or offset, you can specify it
+using the ``TIMEZONE`` setting:
+
+.. code:: python
+
+    >>> parse('January 12, 2012 10:00 PM', settings={'TIMEZONE': 'US/Eastern'})
+    datetime.datetime(2012, 1, 12, 22, 0)
+
+    >>> parse('January 12, 2012 10:00 PM', settings={'TIMEZONE': 'US/Eastern', 'RETURN_AS_TIMEZONE_AWARE': True})
+    datetime.datetime(2012, 1, 12, 22, 0, tzinfo=<DstTzInfo 'US/Eastern' EST-1 day, 19:00:00 STD>)
+
+    >>> parse('10:00 am', settings={'TIMEZONE': 'EST', 'TO_TIMEZONE': 'EDT'})
+    datetime.datetime(2016, 9, 25, 11, 0)
+
+    >>> parse('10:00 am EST', settings={'TO_TIMEZONE': 'EDT'})
+    datetime.datetime(2017, 3, 12, 11, 0, tzinfo=<StaticTzInfo 'EDT'>)
+
+For more on timezones, see the `settings documentation <https://dateparser.readthedocs.io/en/latest/settings.html>`__.
+
+Incomplete Dates
+----------------
+
+.. code:: python
+
+    >>> from dateparser import parse
+    >>> parse('December 2015')  # default behavior
+    datetime.datetime(2015, 12, 16, 0, 0)
+    >>> parse('December 2015', settings={'PREFER_DAY_OF_MONTH': 'last'})
+    datetime.datetime(2015, 12, 31, 0, 0)
+    >>> parse('December 2015', settings={'PREFER_DAY_OF_MONTH': 'first'})
+    datetime.datetime(2015, 12, 1, 0, 0)
+
+    >>> parse('March')
+    datetime.datetime(2015, 3, 16, 0, 0)
+    >>> parse('March', settings={'PREFER_DATES_FROM': 'future'})
+    datetime.datetime(2016, 3, 16, 0, 0)
+
+    >>> import dateparser
+    >>> dateparser.parse("2015")  # default behavior
+    datetime.datetime(2015, 3, 27, 0, 0)
+    >>> dateparser.parse("2015", settings={"PREFER_MONTH_OF_YEAR": "last"})
+    datetime.datetime(2015, 12, 27, 0, 0)
+    >>> dateparser.parse("2015", settings={"PREFER_MONTH_OF_YEAR": "current"})
+    datetime.datetime(2015, 3, 27, 0, 0)
+
+You can also ignore incomplete dates by setting the ``STRICT_PARSING`` flag:
+
+.. code:: python
+
+    >>> parse('December 2015', settings={'STRICT_PARSING': True})
+    None
+
+For more on handling incomplete dates, see the `settings documentation <https://dateparser.readthedocs.io/en/latest/settings.html>`__.
+
+Search for Dates in Longer Chunks of Text
+-----------------------------------------
+
+.. warning:: Support for date searching is limited and needs improvement.
+   Contributions are welcome — see `contributing <https://dateparser.readthedocs.io/en/latest/contributing.html>`__.
+
+You can extract dates from longer strings of text. Results are returned as a
+list of ``(substring, datetime)`` tuples:
+
+.. code:: python
+
+    >>> from dateparser.search import search_dates
+    >>> search_dates('Today is 25 of October 2017, so the 27th is in 2 days.')
+    [('25 of October 2017', datetime.datetime(2017, 10, 25, 0, 0)), ('the 27th is in 2 days', datetime.datetime(2017, 10, 27, 0, 0))]
+
+Pass ``languages`` when you know them: language detection is slow and
+error-prone on short text. If no date is found, ``None`` is returned:
+
+.. code:: python
+
+    >>> search_dates('Lancé le 4 octobre 1957.', languages=['fr'])
+    [('le 4 octobre 1957', datetime.datetime(1957, 10, 4, 0, 0))]
+    >>> search_dates('Rien à voir.', languages=['fr'])
+    None
+
+See the `API reference
+<https://dateparser.readthedocs.io/en/latest/dateparser.html#dateparser.search.search_dates>`__
+for other parameters, such as ``strategy``.
+
+Time Span Detection
+-------------------
+
+The ``search_dates`` function can also detect time spans such as "past month"
+or "last week". When ``RETURN_TIME_SPAN`` is enabled it returns start and end
+dates for the detected period.
+
+For example, assuming the current date and time is `December 7, 2024, 15:30`:
+
+.. code:: python
+
+    >>> search_dates("Messages from the past month", settings={'RETURN_TIME_SPAN': True})
+    [('past month (start)', datetime.datetime(2024, 11, 7, 15, 30)),
+     ('past month (end)', datetime.datetime(2024, 12, 7, 15, 30))]
+
+Settings
+--------
+
 You can control multiple behaviors by using the ``settings`` parameter:
 
 .. code:: python
@@ -133,12 +344,11 @@ You can control multiple behaviors by using the ``settings`` parameter:
     >>> dateparser.parse('tomorrow', settings={'RELATIVE_BASE': datetime.datetime(1992, 1, 1)})
     datetime.datetime(1992, 1, 2, 0, 0)
 
-To see more examples on how to use the ``settings``, check the `settings
-section <https://dateparser.readthedocs.io/en/latest/settings.html>`__
-in the docs.
+To see all available settings, check the `settings
+documentation <https://dateparser.readthedocs.io/en/latest/settings.html>`__.
 
 False positives
-^^^^^^^^^^^^^^^
+---------------
 
 **dateparser** will do its best to return a date, dealing with multiple formats and different locales.
 For that reason it is important that the input is a valid date, otherwise it could return false positives.
@@ -155,7 +365,7 @@ are executed, you can do so through the
 `settings PARSERS <https://dateparser.readthedocs.io/en/latest/usage.html#handling-incomplete-dates>`_.
 
 Installation
-------------
+============
 
 Dateparser supports Python 3.10+. You can install it by doing:
 
@@ -163,21 +373,83 @@ Dateparser supports Python 3.10+. You can install it by doing:
 
     $ pip install dateparser
 
-If you want to use the jalali or hijri calendar, you need to install the
+If you want to use a non-Gregorian calendar, you need to install the
 ``calendars`` extra:
 
 ::
 
     $ pip install dateparser[calendars]
 
+Supported Calendars
+===================
+
+Apart from the Gregorian calendar, `dateparser` supports the `Persian Jalali
+calendar`, the `Hijri/Islamic calendar`, the `French Republican calendar` and
+the `Minguo calendar`. To use the first three, install the ``calendars`` extra
+(see `Installation`_).
+
+Example using the `Persian Jalali calendar
+<https://en.wikipedia.org/wiki/Iranian_calendars#Zoroastrian_calendar>`_:
+
+.. code:: python
+
+    >>> from dateparser.calendars.jalali import JalaliCalendar
+    >>> JalaliCalendar('جمعه سی ام اسفند ۱۳۸۷').get_date()
+    DateData(date_obj=datetime.datetime(2009, 3, 20, 0, 0), period='day', locale=None, parts=('year', 'month', 'day'))
+
+Example using the `Hijri/Islamic calendar
+<https://en.wikipedia.org/wiki/Islamic_calendar>`_:
+
+.. code:: python
+
+    >>> from dateparser.calendars.hijri import HijriCalendar
+    >>> HijriCalendar('17-01-1437 هـ 08:30 مساءً').get_date()
+    DateData(date_obj=datetime.datetime(2015, 10, 30, 20, 30), period='day', locale=None, parts=('year', 'month', 'day', 'time'))
+
+Example using the `French Republican calendar
+<https://en.wikipedia.org/wiki/French_Republican_calendar>`_:
+
+.. code:: python
+
+    >>> from dateparser.calendars.french_republican import FrenchRepublicanCalendar
+    >>> FrenchRepublicanCalendar('18 brumaire an VIII').get_date()
+    DateData(date_obj=datetime.datetime(1799, 11, 9, 0, 0), period='day', locale=None)
+
+Example using the `Minguo calendar
+<https://en.wikipedia.org/wiki/Republic_of_China_calendar>`_:
+
+.. code:: python
+
+    >>> from dateparser.calendars.minguo import MinguoCalendar
+    >>> MinguoCalendar('民國101年5月25日 08:36').get_date()
+    DateData(date_obj=datetime.datetime(2012, 5, 25, 8, 36), period='day', locale=None)
+
+Dependencies
+============
+
+`dateparser` relies on the following libraries:
+
+* dateutil_'s module ``relativedelta`` for its freshness parser.
+* convertdate_ to convert *Jalali* and *French Republican* dates to
+  *Gregorian*.
+* hijridate_ to convert *Hijri* dates to *Gregorian*.
+* tzlocal_ to reliably get local timezone.
+* ruamel.yaml_ (optional) for operations on language files.
+
+.. _dateutil: https://pypi.python.org/pypi/python-dateutil
+.. _convertdate: https://pypi.python.org/pypi/convertdate
+.. _hijridate: https://pypi.python.org/pypi/hijridate
+.. _tzlocal: https://pypi.python.org/pypi/tzlocal
+.. _ruamel.yaml: https://pypi.python.org/pypi/ruamel.yaml
+
 Common use cases
-----------------
+================
 
 **dateparser** can be used for a wide variety of purposes,
 but it stands out when it comes to:
 
 Consuming data from different sources:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------
 
 -  **Scraping**: extract dates from different places with several
    different formats and languages
@@ -188,7 +460,7 @@ Consuming data from different sources:
    different files (PDF, CSV, etc.) to other formats (database, etc).
 
 Offering natural interaction with users:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------------
 
 -  **Tooling and CLI**: allow users to write “3 days ago” to retrieve
    information.
@@ -197,7 +469,7 @@ Offering natural interaction with users:
 -  **Bots**: allow users to interact with a bot easily
 
 You may also like...
---------------------
+====================
 
 -  `price-parser <https://github.com/scrapinghub/price-parser/>`__ - A
    small library for extracting price and currency from raw text
@@ -209,6 +481,6 @@ You may also like...
    scraping framework
 
 License
--------
+=======
 
 `BSD3-Clause <https://github.com/scrapinghub/dateparser/blob/master/LICENSE>`__

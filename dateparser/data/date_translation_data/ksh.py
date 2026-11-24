@@ -105,6 +105,7 @@ info = {
     "hour": [
         "s",
         "schtund",
+        "schtunde",
         "std"
     ],
     "minute": [
@@ -166,12 +167,12 @@ info = {
     },
     "relative-type-regex": {
         "\\1 year ago": [
-            "vör (\\d+[.,]?\\d*) johr",
-            "vör (\\d+[.,]?\\d*) johre"
+            "vör (\\d++[.,]?\\d*+) johr",
+            "vör (\\d++[.,]?\\d*+) johre"
         ],
         "in \\1 year": [
-            "en (\\d+[.,]?\\d*) johr",
-            "en (\\d+[.,]?\\d*) johre"
+            "en (\\d++[.,]?\\d*+) johr",
+            "en (\\d++[.,]?\\d*+) johre"
         ]
     },
     "locale_specific": {},

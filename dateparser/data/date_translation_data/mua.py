@@ -96,7 +96,8 @@ info = {
         "zah'nane/ comme"
     ],
     "hour": [
-        "cok comme"
+        "cok comme",
+        "hr"
     ],
     "minute": [
         "cok comme ma laŋne"

@@ -153,56 +153,56 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+[.,]?\\d*) dei lyn",
-            "(\\d+[.,]?\\d*) deien lyn"
+            "(\\d++[.,]?\\d*+) dei lyn",
+            "(\\d++[.,]?\\d*+) deien lyn"
         ],
         "\\1 hour ago": [
-            "(\\d+[.,]?\\d*) oere lyn"
+            "(\\d++[.,]?\\d*+) oere lyn"
         ],
         "\\1 minute ago": [
-            "(\\d+[.,]?\\d*) minuten lyn",
-            "(\\d+[.,]?\\d*) minút lyn"
+            "(\\d++[.,]?\\d*+) minuten lyn",
+            "(\\d++[.,]?\\d*+) minút lyn"
         ],
         "\\1 month ago": [
-            "(\\d+[.,]?\\d*) moanne lyn",
-            "(\\d+[.,]?\\d*) moannen lyn"
+            "(\\d++[.,]?\\d*+) moanne lyn",
+            "(\\d++[.,]?\\d*+) moannen lyn"
         ],
         "\\1 second ago": [
-            "(\\d+[.,]?\\d*) sekonde lyn",
-            "(\\d+[.,]?\\d*) sekonden lyn"
+            "(\\d++[.,]?\\d*+) sekonde lyn",
+            "(\\d++[.,]?\\d*+) sekonden lyn"
         ],
         "\\1 week ago": [
-            "(\\d+[.,]?\\d*) wike lyn",
-            "(\\d+[.,]?\\d*) wiken lyn"
+            "(\\d++[.,]?\\d*+) wike lyn",
+            "(\\d++[.,]?\\d*+) wiken lyn"
         ],
         "\\1 year ago": [
-            "(\\d+[.,]?\\d*) jier lyn"
+            "(\\d++[.,]?\\d*+) jier lyn"
         ],
         "in \\1 day": [
-            "oer (\\d+[.,]?\\d*) dei",
-            "oer (\\d+[.,]?\\d*) deien"
+            "oer (\\d++[.,]?\\d*+) dei",
+            "oer (\\d++[.,]?\\d*+) deien"
         ],
         "in \\1 hour": [
-            "oer (\\d+[.,]?\\d*) oere"
+            "oer (\\d++[.,]?\\d*+) oere"
         ],
         "in \\1 minute": [
-            "oer (\\d+[.,]?\\d*) minuten",
-            "oer (\\d+[.,]?\\d*) minút"
+            "oer (\\d++[.,]?\\d*+) minuten",
+            "oer (\\d++[.,]?\\d*+) minút"
         ],
         "in \\1 month": [
-            "oer (\\d+[.,]?\\d*) moanne",
-            "oer (\\d+[.,]?\\d*) moannen"
+            "oer (\\d++[.,]?\\d*+) moanne",
+            "oer (\\d++[.,]?\\d*+) moannen"
         ],
         "in \\1 second": [
-            "oer (\\d+[.,]?\\d*) sekonde",
-            "oer (\\d+[.,]?\\d*) sekonden"
+            "oer (\\d++[.,]?\\d*+) sekonde",
+            "oer (\\d++[.,]?\\d*+) sekonden"
         ],
         "in \\1 week": [
-            "oer (\\d+[.,]?\\d*) wike",
-            "oer (\\d+[.,]?\\d*) wiken"
+            "oer (\\d++[.,]?\\d*+) wike",
+            "oer (\\d++[.,]?\\d*+) wiken"
         ],
         "in \\1 year": [
-            "oer (\\d+[.,]?\\d*) jier"
+            "oer (\\d++[.,]?\\d*+) jier"
         ]
     },
     "locale_specific": {},

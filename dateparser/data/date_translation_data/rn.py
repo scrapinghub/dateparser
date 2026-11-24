@@ -96,6 +96,7 @@ info = {
         "umusi"
     ],
     "hour": [
+        "hr",
         "isaha"
     ],
     "minute": [

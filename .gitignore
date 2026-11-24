@@ -50,5 +50,11 @@ docs/_build
 .idea
 .vscode/
 
+# CLDR
+/cldr-json/
+
+# CodSpeed
+.codspeed
+
 # Other
 raw_data

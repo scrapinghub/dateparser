@@ -116,6 +116,7 @@ info = {
     "hour": [
         "h",
         "heure",
+        "heures",
         "heures"
     ],
     "minute": [
@@ -183,75 +184,75 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "il y a (\\d+[.,]?\\d*) j",
-            "il y a (\\d+[.,]?\\d*) jour",
-            "il y a (\\d+[.,]?\\d*) jours"
+            "il y a (\\d++[.,]?\\d*+) j",
+            "il y a (\\d++[.,]?\\d*+) jour",
+            "il y a (\\d++[.,]?\\d*+) jours"
         ],
         "\\1 hour ago": [
-            "il y a (\\d+[.,]?\\d*) h",
-            "il y a (\\d+[.,]?\\d*) heure",
-            "il y a (\\d+[.,]?\\d*) heures",
-            "il y a (\\d+[.,]?\\d*)h"
+            "il y a (\\d++[.,]?\\d*+) h",
+            "il y a (\\d++[.,]?\\d*+) heure",
+            "il y a (\\d++[.,]?\\d*+) heures",
+            "il y a (\\d++[.,]?\\d*+)h"
         ],
         "\\1 minute ago": [
-            "il y a (\\d+[.,]?\\d*) min",
-            "il y a (\\d+[.,]?\\d*) minute",
-            "il y a (\\d+[.,]?\\d*) minutes",
-            "il y a (\\d+[.,]?\\d*)min"
+            "il y a (\\d++[.,]?\\d*+) min",
+            "il y a (\\d++[.,]?\\d*+) minute",
+            "il y a (\\d++[.,]?\\d*+) minutes",
+            "il y a (\\d++[.,]?\\d*+)min"
         ],
         "\\1 month ago": [
-            "il y a (\\d+[.,]?\\d*) m",
-            "il y a (\\d+[.,]?\\d*) mois"
+            "il y a (\\d++[.,]?\\d*+) m",
+            "il y a (\\d++[.,]?\\d*+) mois"
         ],
         "\\1 second ago": [
-            "il y a (\\d+[.,]?\\d*) s",
-            "il y a (\\d+[.,]?\\d*) seconde",
-            "il y a (\\d+[.,]?\\d*) secondes"
+            "il y a (\\d++[.,]?\\d*+) s",
+            "il y a (\\d++[.,]?\\d*+) seconde",
+            "il y a (\\d++[.,]?\\d*+) secondes"
         ],
         "\\1 week ago": [
-            "il y a (\\d+[.,]?\\d*) sem",
-            "il y a (\\d+[.,]?\\d*) semaine",
-            "il y a (\\d+[.,]?\\d*) semaines"
+            "il y a (\\d++[.,]?\\d*+) sem",
+            "il y a (\\d++[.,]?\\d*+) semaine",
+            "il y a (\\d++[.,]?\\d*+) semaines"
         ],
         "\\1 year ago": [
-            "il y a (\\d+[.,]?\\d*) a",
-            "il y a (\\d+[.,]?\\d*) an",
-            "il y a (\\d+[.,]?\\d*) ans"
+            "il y a (\\d++[.,]?\\d*+) a",
+            "il y a (\\d++[.,]?\\d*+) an",
+            "il y a (\\d++[.,]?\\d*+) ans"
         ],
         "in \\1 day": [
-            "dans (\\d+[.,]?\\d*) j",
-            "dans (\\d+[.,]?\\d*) jour",
-            "dans (\\d+[.,]?\\d*) jours"
+            "dans (\\d++[.,]?\\d*+) j",
+            "dans (\\d++[.,]?\\d*+) jour",
+            "dans (\\d++[.,]?\\d*+) jours"
         ],
         "in \\1 hour": [
-            "dans (\\d+[.,]?\\d*) h",
-            "dans (\\d+[.,]?\\d*) heure",
-            "dans (\\d+[.,]?\\d*) heures",
-            "dans (\\d+[.,]?\\d*)h"
+            "dans (\\d++[.,]?\\d*+) h",
+            "dans (\\d++[.,]?\\d*+) heure",
+            "dans (\\d++[.,]?\\d*+) heures",
+            "dans (\\d++[.,]?\\d*+)h"
         ],
         "in \\1 minute": [
-            "dans (\\d+[.,]?\\d*) min",
-            "dans (\\d+[.,]?\\d*) minute",
-            "dans (\\d+[.,]?\\d*) minutes"
+            "dans (\\d++[.,]?\\d*+) min",
+            "dans (\\d++[.,]?\\d*+) minute",
+            "dans (\\d++[.,]?\\d*+) minutes"
         ],
         "in \\1 month": [
-            "dans (\\d+[.,]?\\d*) m",
-            "dans (\\d+[.,]?\\d*) mois"
+            "dans (\\d++[.,]?\\d*+) m",
+            "dans (\\d++[.,]?\\d*+) mois"
         ],
         "in \\1 second": [
-            "dans (\\d+[.,]?\\d*) s",
-            "dans (\\d+[.,]?\\d*) seconde",
-            "dans (\\d+[.,]?\\d*) secondes"
+            "dans (\\d++[.,]?\\d*+) s",
+            "dans (\\d++[.,]?\\d*+) seconde",
+            "dans (\\d++[.,]?\\d*+) secondes"
         ],
         "in \\1 week": [
-            "dans (\\d+[.,]?\\d*) sem",
-            "dans (\\d+[.,]?\\d*) semaine",
-            "dans (\\d+[.,]?\\d*) semaines"
+            "dans (\\d++[.,]?\\d*+) sem",
+            "dans (\\d++[.,]?\\d*+) semaine",
+            "dans (\\d++[.,]?\\d*+) semaines"
         ],
         "in \\1 year": [
-            "dans (\\d+[.,]?\\d*) a",
-            "dans (\\d+[.,]?\\d*) an",
-            "dans (\\d+[.,]?\\d*) ans"
+            "dans (\\d++[.,]?\\d*+) a",
+            "dans (\\d++[.,]?\\d*+) an",
+            "dans (\\d++[.,]?\\d*+) ans"
         ]
     },
     "locale_specific": {
@@ -466,22 +467,28 @@ info = {
             "un": "1"
         },
         {
-            "(\\d+[.,]?\\d*)\\s+h\\s+(\\d+[.,]?\\d*)\\s+min": "\\1h\\2m"
+            "(\\d++[.,]?\\d*+)\\s+h\\s+(\\d++[.,]?\\d*+)\\s+min": "\\1h\\2m"
         },
         {
-            "(\\d+[.,]?\\d*)h(\\d+[.,]?\\d*)m?": "\\1:\\2"
+            "(\\d++[.,]?\\d*+)h(\\d++[.,]?\\d*+)m?": "\\1:\\2"
         },
         {
-            "moins\\s(?:de\\s)?(\\d+[.,]?\\d*)\\s?(minute|seconde|heure)": "\\1 \\2"
+            "(?<!\\by )(?<!\\by a )\\bà ([01]?\\d|2[0-3])h\\b": "à \\1:00"
         },
         {
-            "moins\\s(?:de\\s)?(\\d+[.,]?\\d*)\\s?s": "\\1 seconde"
+            "(?<!\\by a )\\b((?:19|20)\\d\\d,? |\\d{4}-\\d{2}-\\d{2} )([01]?\\d|2[0-3])h\\b": "\\1\\2:00"
         },
         {
-            "moins\\s(?:de\\s)?(\\d+[.,]?\\d*)\\s?m": "\\1 minute"
+            "moins\\s(?:de\\s)?(\\d++[.,]?\\d*+)\\s?(minute|seconde|heure)": "\\1 \\2"
         },
         {
-            "moins\\s(?:de\\s)?(\\d+[.,]?\\d*)\\s?h": "\\1 heure"
+            "moins\\s(?:de\\s)?(\\d++[.,]?\\d*+)\\s?s": "\\1 seconde"
+        },
+        {
+            "moins\\s(?:de\\s)?(\\d++[.,]?\\d*+)\\s?m": "\\1 minute"
+        },
+        {
+            "moins\\s(?:de\\s)?(\\d++[.,]?\\d*+)\\s?h": "\\1 heure"
         },
         {
             "deux": "2"
@@ -499,7 +506,7 @@ info = {
             "six": "6"
         },
         {
-            "sept": "7"
+            "sept(?=:\\d|\\s*(?:années|année|ans|an|semaines|semaine|sem|secondes|seconde|minutes|minute|min|mois|heures|heure|jours|jour|[jhms])\\b|\\s*a\\b(?!\\s*\\d))": "7"
         },
         {
             "huit": "8"
@@ -515,6 +522,9 @@ info = {
         },
         {
             "douze": "12"
+        },
+        {
+            "(?<!(?:apr[eè]s|avant)(?:[\\W_]+le)?[\\W_]+)midi": "12:00"
         }
     ]
 }

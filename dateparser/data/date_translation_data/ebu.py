@@ -96,6 +96,7 @@ info = {
         "mũthenya"
     ],
     "hour": [
+        "hr",
         "ithaa"
     ],
     "minute": [

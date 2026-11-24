@@ -115,6 +115,7 @@ info = {
     "hour": [
         "h",
         "hora",
+        "horas",
         "horas"
     ],
     "minute": [
@@ -144,6 +145,7 @@ info = {
             "ahora"
         ],
         "0 week ago": [
+            "esta sem",
             "esta semana"
         ],
         "0 year ago": [
@@ -156,7 +158,8 @@ info = {
             "el mes pasado"
         ],
         "1 week ago": [
-            "la semana pasada"
+            "la semana pasada",
+            "sem ant"
         ],
         "1 year ago": [
             "el año pasado"
@@ -168,7 +171,8 @@ info = {
             "el próximo mes"
         ],
         "in 1 week": [
-            "la próxima semana"
+            "la próxima semana",
+            "próx sem"
         ],
         "in 1 year": [
             "el próximo año"
@@ -179,142 +183,197 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "hace (\\d+[.,]?\\d*) día",
-            "hace (\\d+[.,]?\\d*) días"
+            "hace (\\d++[.,]?\\d*+) d",
+            "hace (\\d++[.,]?\\d*+) día",
+            "hace (\\d++[.,]?\\d*+) días"
         ],
         "\\1 hour ago": [
-            "hace (\\d+[.,]?\\d*) h",
-            "hace (\\d+[.,]?\\d*) hora",
-            "hace (\\d+[.,]?\\d*) horas"
+            "hace (\\d++[.,]?\\d*+) h",
+            "hace (\\d++[.,]?\\d*+) hora",
+            "hace (\\d++[.,]?\\d*+) horas"
         ],
         "\\1 minute ago": [
-            "hace (\\d+[.,]?\\d*) min",
-            "hace (\\d+[.,]?\\d*) minuto",
-            "hace (\\d+[.,]?\\d*) minutos"
+            "hace (\\d++[.,]?\\d*+) min",
+            "hace (\\d++[.,]?\\d*+) minuto",
+            "hace (\\d++[.,]?\\d*+) minutos"
         ],
         "\\1 month ago": [
-            "hace (\\d+[.,]?\\d*) m",
-            "hace (\\d+[.,]?\\d*) mes",
-            "hace (\\d+[.,]?\\d*) meses"
+            "hace (\\d++[.,]?\\d*+) m",
+            "hace (\\d++[.,]?\\d*+) mes",
+            "hace (\\d++[.,]?\\d*+) meses"
         ],
         "\\1 second ago": [
-            "hace (\\d+[.,]?\\d*) s",
-            "hace (\\d+[.,]?\\d*) segundo",
-            "hace (\\d+[.,]?\\d*) segundos"
+            "hace (\\d++[.,]?\\d*+) s",
+            "hace (\\d++[.,]?\\d*+) segundo",
+            "hace (\\d++[.,]?\\d*+) segundos"
         ],
         "\\1 week ago": [
-            "hace (\\d+[.,]?\\d*) sem",
-            "hace (\\d+[.,]?\\d*) semana",
-            "hace (\\d+[.,]?\\d*) semanas"
+            "hace (\\d++[.,]?\\d*+) sem",
+            "hace (\\d++[.,]?\\d*+) semana",
+            "hace (\\d++[.,]?\\d*+) semanas"
         ],
         "\\1 year ago": [
-            "hace (\\d+[.,]?\\d*) a",
-            "hace (\\d+[.,]?\\d*) año",
-            "hace (\\d+[.,]?\\d*) años"
+            "hace (\\d++[.,]?\\d*+) a",
+            "hace (\\d++[.,]?\\d*+) año",
+            "hace (\\d++[.,]?\\d*+) años"
         ],
         "in \\1 day": [
-            "dentro de (\\d+[.,]?\\d*) día",
-            "dentro de (\\d+[.,]?\\d*) días"
+            "dentro de (\\d++[.,]?\\d*+) d",
+            "dentro de (\\d++[.,]?\\d*+) día",
+            "dentro de (\\d++[.,]?\\d*+) días"
         ],
         "in \\1 hour": [
-            "dentro de (\\d+[.,]?\\d*) h",
-            "dentro de (\\d+[.,]?\\d*) hora",
-            "dentro de (\\d+[.,]?\\d*) horas"
+            "dentro de (\\d++[.,]?\\d*+) h",
+            "dentro de (\\d++[.,]?\\d*+) hora",
+            "dentro de (\\d++[.,]?\\d*+) horas"
         ],
         "in \\1 minute": [
-            "dentro de (\\d+[.,]?\\d*) min",
-            "dentro de (\\d+[.,]?\\d*) minuto",
-            "dentro de (\\d+[.,]?\\d*) minutos"
+            "dentro de (\\d++[.,]?\\d*+) min",
+            "dentro de (\\d++[.,]?\\d*+) minuto",
+            "dentro de (\\d++[.,]?\\d*+) minutos"
         ],
         "in \\1 month": [
-            "dentro de (\\d+[.,]?\\d*) m",
-            "dentro de (\\d+[.,]?\\d*) mes",
-            "dentro de (\\d+[.,]?\\d*) meses"
+            "dentro de (\\d++[.,]?\\d*+) m",
+            "dentro de (\\d++[.,]?\\d*+) mes",
+            "dentro de (\\d++[.,]?\\d*+) meses"
         ],
         "in \\1 second": [
-            "dentro de (\\d+[.,]?\\d*) s",
-            "dentro de (\\d+[.,]?\\d*) segundo",
-            "dentro de (\\d+[.,]?\\d*) segundos"
+            "dentro de (\\d++[.,]?\\d*+) s",
+            "dentro de (\\d++[.,]?\\d*+) segundo",
+            "dentro de (\\d++[.,]?\\d*+) segundos"
         ],
         "in \\1 week": [
-            "dentro de (\\d+[.,]?\\d*) sem",
-            "dentro de (\\d+[.,]?\\d*) semana",
-            "dentro de (\\d+[.,]?\\d*) semanas"
+            "dentro de (\\d++[.,]?\\d*+) sem",
+            "dentro de (\\d++[.,]?\\d*+) semana",
+            "dentro de (\\d++[.,]?\\d*+) semanas"
         ],
         "in \\1 year": [
-            "dentro de (\\d+[.,]?\\d*) a",
-            "dentro de (\\d+[.,]?\\d*) año",
-            "dentro de (\\d+[.,]?\\d*) años"
+            "dentro de (\\d++[.,]?\\d*+) a",
+            "dentro de (\\d++[.,]?\\d*+) año",
+            "dentro de (\\d++[.,]?\\d*+) años"
         ]
     },
     "locale_specific": {
         "es-419": {
             "name": "es-419",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
         },
         "es-AR": {
             "name": "es-AR",
-            "september": [
-                "sep"
+            "hour": [
+                "hs"
             ],
             "second": [
                 "seg"
             ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "relative-type-regex": {
                 "\\1 second ago": [
-                    "hace (\\d+[.,]?\\d*) seg"
+                    "hace (\\d++[.,]?\\d*+) seg"
                 ],
                 "in \\1 second": [
-                    "dentro de (\\d+[.,]?\\d*) seg"
+                    "dentro de (\\d++[.,]?\\d*+) seg"
                 ]
-            }
+            },
+            "september": [
+                "sep"
+            ]
         },
         "es-BO": {
             "name": "es-BO",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
         },
         "es-BR": {
             "name": "es-BR",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
         },
         "es-BZ": {
             "name": "es-BZ",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
         },
         "es-CL": {
             "name": "es-CL",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
         },
         "es-CO": {
             "name": "es-CO",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
         },
         "es-CR": {
             "name": "es-CR",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
         },
         "es-CU": {
             "name": "es-CU",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
         },
         "es-DO": {
             "name": "es-DO",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
@@ -324,6 +383,11 @@ info = {
         },
         "es-EC": {
             "name": "es-EC",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
@@ -333,12 +397,22 @@ info = {
         },
         "es-GT": {
             "name": "es-GT",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
         },
         "es-HN": {
             "name": "es-HN",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
@@ -352,6 +426,9 @@ info = {
                 "sep"
             ],
             "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ],
                 "in 1 month": [
                     "el mes próximo"
                 ],
@@ -364,34 +441,39 @@ info = {
             },
             "relative-type-regex": {
                 "in \\1 day": [
-                    "en (\\d+[.,]?\\d*) día",
-                    "en (\\d+[.,]?\\d*) días"
+                    "en (\\d++[.,]?\\d*+) día",
+                    "en (\\d++[.,]?\\d*+) días"
                 ],
                 "in \\1 hour": [
-                    "en (\\d+[.,]?\\d*) h",
-                    "en (\\d+[.,]?\\d*) n"
-                ],
-                "in \\1 minute": [
-                    "en (\\d+[.,]?\\d*) min"
+                    "en (\\d++[.,]?\\d*+) h",
+                    "en (\\d++[.,]?\\d*+) n"
                 ],
                 "in \\1 month": [
-                    "en (\\d+[.,]?\\d*) m",
-                    "en (\\d+[.,]?\\d*) mes",
-                    "en (\\d+[.,]?\\d*) meses"
+                    "en (\\d++[.,]?\\d*+) m",
+                    "en (\\d++[.,]?\\d*+) mes",
+                    "en (\\d++[.,]?\\d*+) meses"
                 ],
                 "in \\1 second": [
-                    "en (\\d+[.,]?\\d*) s"
+                    "en (\\d++[.,]?\\d*+) s"
                 ],
                 "in \\1 week": [
-                    "en (\\d+[.,]?\\d*) sem"
+                    "en (\\d++[.,]?\\d*+) sem"
                 ],
                 "in \\1 year": [
-                    "en (\\d+[.,]?\\d*) a"
+                    "en (\\d++[.,]?\\d*+) a"
+                ],
+                "in \\1 minute": [
+                    "en (\\d++[.,]?\\d*+) min"
                 ]
             }
         },
         "es-NI": {
             "name": "es-NI",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
@@ -399,6 +481,11 @@ info = {
         "es-PA": {
             "name": "es-PA",
             "date_order": "MDY",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
@@ -408,7 +495,12 @@ info = {
             "september": [
                 "set",
                 "setiembre"
-            ]
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
         },
         "es-PH": {
             "name": "es-PH"
@@ -416,6 +508,11 @@ info = {
         "es-PR": {
             "name": "es-PR",
             "date_order": "MDY",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
@@ -425,23 +522,41 @@ info = {
             "second": [
                 "seg"
             ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "relative-type-regex": {
                 "\\1 second ago": [
-                    "hace (\\d+[.,]?\\d*) seg"
+                    "hace (\\d++[.,]?\\d*+) seg"
                 ],
                 "in \\1 second": [
-                    "dentro de (\\d+[.,]?\\d*) seg"
+                    "dentro de (\\d++[.,]?\\d*+) seg"
                 ]
             }
         },
         "es-SV": {
             "name": "es-SV",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
         },
         "es-US": {
             "name": "es-US",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pasada"
+                ],
+                "in 1 week": [
+                    "próxima sem"
+                ]
+            },
             "september": [
                 "sep"
             ]
@@ -451,10 +566,20 @@ info = {
             "september": [
                 "set",
                 "setiembre"
-            ]
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
         },
         "es-VE": {
-            "name": "es-VE"
+            "name": "es-VE",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
         }
     },
     "skip": [
@@ -482,6 +607,10 @@ info = {
         "del"
     ],
     "sentence_splitter_group": 2,
+    "early_morning": [
+        "de madrugada",
+        "madrugada"
+    ],
     "ago": [
         "hace"
     ],
@@ -489,6 +618,12 @@ info = {
         "en"
     ],
     "simplifications": [
+        {
+            "esta madrugada": "hoy madrugada"
+        },
+        {
+            "(?:de|por|en) la madrugada": "madrugada"
+        },
         {
             "una": "1"
         },

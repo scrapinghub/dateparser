@@ -96,6 +96,7 @@ info = {
         "chieng'"
     ],
     "hour": [
+        "hr",
         "saa"
     ],
     "minute": [

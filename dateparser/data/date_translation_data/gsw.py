@@ -99,6 +99,7 @@ info = {
         "tag"
     ],
     "hour": [
+        "hr",
         "schtund"
     ],
     "minute": [

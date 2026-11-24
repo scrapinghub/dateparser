@@ -44,6 +44,14 @@ dateparser.freshness_date_parser module
    :undoc-members:
    :show-inheritance:
 
+dateparser.search module
+------------------------
+
+.. automodule:: dateparser.search
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 dateparser.timezone_parser module
 ---------------------------------
 
@@ -51,6 +59,7 @@ dateparser.timezone_parser module
    :members:
    :undoc-members:
    :show-inheritance:
+   :exclude-members: build_tz_offsets
 
 dateparser.timezones module
 ---------------------------

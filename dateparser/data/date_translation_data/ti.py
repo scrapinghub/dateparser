@@ -52,9 +52,9 @@ info = {
         "ሰኑይ"
     ],
     "tuesday": [
-        "ሠሉስ",
         "ሰሉ",
-        "ሰሉስ"
+        "ሰሉስ",
+        "ሠሉስ"
     ],
     "wednesday": [
         "ረቡ",
@@ -78,77 +78,148 @@ info = {
         "ሰንበት"
     ],
     "am": [
+        "ቅቀ",
         "ንጉሆ ሰዓተ"
     ],
     "pm": [
+        "ድቀ",
         "ድሕር ሰዓት"
     ],
     "year": [
+        "ዓመት",
         "year"
     ],
     "month": [
+        "ወርሒ",
         "month"
     ],
     "week": [
+        "ሰሙን",
         "week"
     ],
     "day": [
+        "መዓልቲ",
         "day"
     ],
     "hour": [
+        "hr",
+        "ሰዓት",
         "hour"
     ],
     "minute": [
+        "ደቒ",
+        "ደቒቕ",
         "minute"
     ],
     "second": [
+        "ካልኢት",
         "second"
     ],
     "relative-type": {
         "0 day ago": [
+            "ሎሚ",
             "today"
         ],
         "0 hour ago": [
+            "ኣብዚ ሰዓት",
             "this hour"
         ],
         "0 minute ago": [
+            "ኣብዚ ደቒቕ",
             "this minute"
         ],
         "0 month ago": [
+            "ህሉው ወርሒ",
             "this month"
         ],
         "0 second ago": [
+            "ሕጂ",
             "now"
         ],
         "0 week ago": [
+            "ህሉው ሰሙን",
             "this week"
         ],
         "0 year ago": [
+            "ሎሚ ዓመት",
             "this year"
         ],
         "1 day ago": [
+            "ትማሊ",
             "yesterday"
         ],
         "1 month ago": [
+            "ዝሓለፈ ወርሒ",
             "last month"
         ],
         "1 week ago": [
+            "ዝሓለፈ ሰሙን",
             "last week"
         ],
         "1 year ago": [
+            "ዓሚ",
             "last year"
         ],
         "in 1 day": [
+            "ጽባሕ",
             "tomorrow"
         ],
         "in 1 month": [
+            "ዝመጽእ ወርሒ",
             "next month"
         ],
         "in 1 week": [
+            "ዝመጽእ ሰሙን",
             "next week"
         ],
         "in 1 year": [
+            "ንዓመታ",
             "next year"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "ቅድሚ (\\d++[.,]?\\d*+) መዓልቲ",
+            "ኣብ (\\d++[.,]?\\d*+) መዓልቲ"
+        ],
+        "\\1 hour ago": [
+            "ቅድሚ (\\d++[.,]?\\d*+) ሰዓት"
+        ],
+        "\\1 minute ago": [
+            "ቅድሚ (\\d++[.,]?\\d*+) ደቒቕ"
+        ],
+        "\\1 month ago": [
+            "ቅድሚ (\\d++[.,]?\\d*+) ወርሒ"
+        ],
+        "\\1 second ago": [
+            "ቅድሚ (\\d++[.,]?\\d*+) ካልኢት"
+        ],
+        "\\1 week ago": [
+            "ቅድሚ (\\d++[.,]?\\d*+) ሰሙን"
+        ],
+        "\\1 year ago": [
+            "ቅድሚ (\\d++[.,]?\\d*+) ዓ"
+        ],
+        "in \\1 day": [
+            "ኣብ (\\d++[.,]?\\d*+) መዓልቲ"
+        ],
+        "in \\1 hour": [
+            "ኣብ (\\d++[.,]?\\d*+) ሰዓት"
+        ],
+        "in \\1 minute": [
+            "ኣብ (\\d++[.,]?\\d*+) ደቒቕ"
+        ],
+        "in \\1 month": [
+            "ኣብ (\\d++[.,]?\\d*+) ወርሒ"
+        ],
+        "in \\1 second": [
+            "ኣብ (\\d++[.,]?\\d*+) ካልኢት"
+        ],
+        "in \\1 week": [
+            "ኣብ (\\d++[.,]?\\d*+) ሰሙን"
+        ],
+        "in \\1 year": [
+            "ኣብ (\\d++[.,]?\\d*+) ዓ"
         ]
     },
     "locale_specific": {

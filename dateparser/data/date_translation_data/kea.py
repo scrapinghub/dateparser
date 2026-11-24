@@ -71,8 +71,8 @@ info = {
     ],
     "saturday": [
         "sab",
-        "sabadu",
-        "sábadu"
+        "sábadu",
+        "sabadu"
     ],
     "sunday": [
         "dum",
@@ -116,15 +116,18 @@ info = {
             "oji"
         ],
         "0 hour ago": [
+            "es ora li",
             "this hour"
         ],
         "0 minute ago": [
+            "es minutu li",
             "this minute"
         ],
         "0 month ago": [
             "es mes li"
         ],
         "0 second ago": [
+            "agora",
             "now"
         ],
         "0 week ago": [
@@ -146,6 +149,7 @@ info = {
             "anu pasadu"
         ],
         "in 1 day": [
+            "manhan",
             "manha"
         ],
         "in 1 month": [
@@ -160,56 +164,56 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "a ten (\\d+[.,]?\\d*) dia"
+            "a ten (\\d++[.,]?\\d*+) dia"
         ],
         "\\1 hour ago": [
-            "a ten (\\d+[.,]?\\d*) ora"
+            "a ten (\\d++[.,]?\\d*+) ora"
         ],
         "\\1 minute ago": [
-            "a ten (\\d+[.,]?\\d*) m",
-            "a ten (\\d+[.,]?\\d*) min",
-            "a ten (\\d+[.,]?\\d*) minutu"
+            "a ten (\\d++[.,]?\\d*+) m",
+            "a ten (\\d++[.,]?\\d*+) min",
+            "a ten (\\d++[.,]?\\d*+) minutu"
         ],
         "\\1 month ago": [
-            "a ten (\\d+[.,]?\\d*) mes"
+            "a ten (\\d++[.,]?\\d*+) mes"
         ],
         "\\1 second ago": [
-            "a ten (\\d+[.,]?\\d*) s",
-            "a ten (\\d+[.,]?\\d*) sig",
-            "a ten (\\d+[.,]?\\d*) sigundu"
+            "a ten (\\d++[.,]?\\d*+) s",
+            "a ten (\\d++[.,]?\\d*+) sig",
+            "a ten (\\d++[.,]?\\d*+) sigundu"
         ],
         "\\1 week ago": [
-            "a ten (\\d+[.,]?\\d*) sim",
-            "a ten (\\d+[.,]?\\d*) simana"
+            "a ten (\\d++[.,]?\\d*+) sim",
+            "a ten (\\d++[.,]?\\d*+) simana"
         ],
         "\\1 year ago": [
-            "a ten (\\d+[.,]?\\d*) anu"
+            "a ten (\\d++[.,]?\\d*+) anu"
         ],
         "in \\1 day": [
-            "di li (\\d+[.,]?\\d*) dia"
+            "di li (\\d++[.,]?\\d*+) dia"
         ],
         "in \\1 hour": [
-            "di li (\\d+[.,]?\\d*) ora"
+            "di li (\\d++[.,]?\\d*+) ora"
         ],
         "in \\1 minute": [
-            "di li (\\d+[.,]?\\d*) m",
-            "di li (\\d+[.,]?\\d*) min",
-            "di li (\\d+[.,]?\\d*) minutu"
+            "di li (\\d++[.,]?\\d*+) m",
+            "di li (\\d++[.,]?\\d*+) min",
+            "di li (\\d++[.,]?\\d*+) minutu"
         ],
         "in \\1 month": [
-            "di li (\\d+[.,]?\\d*) mes"
+            "di li (\\d++[.,]?\\d*+) mes"
         ],
         "in \\1 second": [
-            "di li (\\d+[.,]?\\d*) s",
-            "di li (\\d+[.,]?\\d*) sig",
-            "di li (\\d+[.,]?\\d*) sigundu"
+            "di li (\\d++[.,]?\\d*+) s",
+            "di li (\\d++[.,]?\\d*+) sig",
+            "di li (\\d++[.,]?\\d*+) sigundu"
         ],
         "in \\1 week": [
-            "di li (\\d+[.,]?\\d*) sim",
-            "di li (\\d+[.,]?\\d*) simana"
+            "di li (\\d++[.,]?\\d*+) sim",
+            "di li (\\d++[.,]?\\d*+) simana"
         ],
         "in \\1 year": [
-            "di li (\\d+[.,]?\\d*) anu"
+            "di li (\\d++[.,]?\\d*+) anu"
         ]
     },
     "locale_specific": {},

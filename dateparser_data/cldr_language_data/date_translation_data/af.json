@@ -109,7 +109,6 @@
     ],
     "second": [
         "s",
-        "sek",
         "sekonde"
     ],
     "relative-type": {
@@ -123,39 +122,48 @@
             "hierdie minuut"
         ],
         "0 month ago": [
+            "hierdie md",
             "vandeesmaand"
         ],
         "0 second ago": [
             "nou"
         ],
         "0 week ago": [
-            "vandeesweek"
+            "hierdie w",
+            "hierdie week"
         ],
         "0 year ago": [
+            "hierdie j",
             "hierdie jaar"
         ],
         "1 day ago": [
             "gister"
         ],
         "1 month ago": [
-            "verlede maand"
+            "verlede maand",
+            "verlede md"
         ],
         "1 week ago": [
+            "verlede w",
             "verlede week"
         ],
         "1 year ago": [
+            "verlede j",
             "verlede jaar"
         ],
         "in 1 day": [
             "môre"
         ],
         "in 1 month": [
-            "volgende maand"
+            "volgende maand",
+            "volgende md"
         ],
         "in 1 week": [
+            "volgende w",
             "volgende week"
         ],
         "in 1 year": [
+            "volgende j",
             "volgende jaar"
         ]
     },
@@ -165,6 +173,7 @@
             "{0} dag gelede"
         ],
         "\\1 hour ago": [
+            "{0} u gelede",
             "{0} uur gelede"
         ],
         "\\1 minute ago": [
@@ -178,7 +187,7 @@
             "{0} md gelede"
         ],
         "\\1 second ago": [
-            "{0} sek gelede",
+            "{0} s gelede",
             "{0} sekonde gelede",
             "{0} sekondes gelede"
         ],
@@ -188,26 +197,29 @@
             "{0} weke gelede"
         ],
         "\\1 year ago": [
+            "{0} j gelede",
             "{0} jaar gelede"
         ],
         "in \\1 day": [
             "oor {0} dae",
-            "oor {0} dag",
-            "oor {0} minuut"
+            "oor {0} dag"
         ],
         "in \\1 hour": [
+            "oor {0} u",
             "oor {0} uur"
         ],
         "in \\1 minute": [
             "oor {0} min",
+            "oor {0} minute",
             "oor {0} minuut"
         ],
         "in \\1 month": [
-            "oor {0} md",
-            "oor {0} minuut"
+            "oor {0} maand",
+            "oor {0} maande",
+            "oor {0} md"
         ],
         "in \\1 second": [
-            "oor {0} sek",
+            "oor {0} s",
             "oor {0} sekonde",
             "oor {0} sekondes"
         ],
@@ -217,6 +229,7 @@
             "oor {0} weke"
         ],
         "in \\1 year": [
+            "oor {0} j",
             "oor {0} jaar"
         ]
     },

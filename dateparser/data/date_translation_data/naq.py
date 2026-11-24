@@ -96,6 +96,7 @@ info = {
         "tsees"
     ],
     "hour": [
+        "hr",
         "iiri"
     ],
     "minute": [

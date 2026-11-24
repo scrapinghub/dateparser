@@ -1,6 +1,12 @@
+minute:
+    - मि
+am:
+    - पूर्वाह्न
+pm:
+    - अपराह्न
 skip: ["के", "को", "बजे", "सन्", "से"]
 
-sentence_splitter_group : 3
+sentence_splitter_group: 3
 
 september:
     - सितम्बर
@@ -24,6 +30,7 @@ day:
     - दिवस
 hour:
     - घंटे
+    - घं
 
 ago:
     - पहले
@@ -47,3 +54,15 @@ relative-type-regex:
         - (\d+[.,]?\d*) दशक पहले
 
 
+    \1 hour ago:
+        - (\d+[.,]?\d*) घं पहले
+    \1 minute ago:
+        - (\d+[.,]?\d*) मि पहले
+    \1 second ago:
+        - (\d+[.,]?\d*) से पहले
+    in \1 hour:
+        - (\d+[.,]?\d*) घं में
+    in \1 minute:
+        - (\d+[.,]?\d*) मि में
+    in \1 second:
+        - (\d+[.,]?\d*) से में

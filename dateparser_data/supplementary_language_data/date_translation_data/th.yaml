@@ -1,4 +1,6 @@
-sentence_splitter_group : 5
+minute:
+    - น
+sentence_splitter_group: 5
 
 skip: ["น.", "เมื่อ ", "เวลา"]
 
@@ -66,8 +68,11 @@ ago:
     - แต่ก่อน
     - มาแล้ว
     - ก่อน
+    - ที่แล้ว
+    - ที่ผ่านมา
 in:
     - ใน
+    - อีก
 
 simplifications:
     - วันนี้: 0 วัน

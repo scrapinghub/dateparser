@@ -37,6 +37,22 @@ Date Order
     >>> parse('le 02-03-2016', settings={'DATE_ORDER': 'MDY', 'PREFER_LOCALE_DATE_ORDER': False})
     datetime.datetime(2016, 2, 3, 0, 0)  # MDY worked!
 
+``STRICT_DATE_ORDER``: defaults to ``'none'``. ``DATE_ORDER`` is a preference: a number that does not fit where the order puts it is read as another part of the date. ``13`` is not a valid month, so it is read as the day where ``MDY`` puts the month, and any number that is not a valid day or month is a valid two-digit year, so ``32`` becomes the year 2032:
+
+    >>> parse('13/12/10', settings={'DATE_ORDER': 'MDY'})
+    datetime.datetime(2010, 12, 13, 0, 0)
+    >>> parse('32 DEC 10', settings={'DATE_ORDER': 'DMY'})
+    datetime.datetime(2032, 12, 10, 0, 0)
+
+Set it to ``'year'`` to read a two-digit year only from the position ``DATE_ORDER`` gives the year, or to ``'all'`` to read the day, month and year only in the order ``DATE_ORDER`` gives. A date string that does not fit then gives ``None``:
+
+    >>> parse('32 DEC 10', settings={'DATE_ORDER': 'DMY', 'STRICT_DATE_ORDER': 'year'})
+    >>> parse('13/12/10', settings={'DATE_ORDER': 'MDY', 'STRICT_DATE_ORDER': 'year'})
+    datetime.datetime(2010, 12, 13, 0, 0)
+    >>> parse('13/12/10', settings={'DATE_ORDER': 'MDY', 'STRICT_DATE_ORDER': 'all'})
+
+``'year'`` and ``'all'`` raise a ``SettingValidationError`` unless ``DATE_ORDER`` is given too. Only the parts read from numbers are checked, and a four-digit year is read wherever it is, so ``'32 DEC'`` with ``DMY`` is still December 2032. Some dates that are read correctly without the setting are rejected, such as ``'95年12月10日'`` with ``MDY``: once translated, it is ``95-12-10``, with nothing left to mark the year.
+
 
 Timezone Related Configurations
 +++++++++++++++++++++++++++++++
@@ -51,6 +67,23 @@ Timezone Related Configurations
     >>> settings = {'TIMEZONE': 'UTC', 'TO_TIMEZONE': 'US/Eastern'}
     >>> parse('January 12, 2012 10:00 PM', settings=settings)
     datetime.datetime(2012, 1, 12, 17, 0)
+
+``TIMEZONE_ABBREVIATIONS``: maps timezone abbreviations found in date strings
+to the UTC offset to use for them, as a :class:`~datetime.timedelta`. Use it
+for abbreviations with several meanings, e.g. ``IST`` means Israel Standard
+Time by default. Keys are case-sensitive and must be abbreviations that
+dateparser supports, e.g. ``ChST``. ``TIMEZONE`` and ``TO_TIMEZONE`` keep the
+default offsets.
+
+.. versionadded:: 1.5.0
+
+>>> from datetime import timedelta
+>>> settings = {
+...     'TIMEZONE_ABBREVIATIONS': {'IST': timedelta(hours=5, minutes=30)},
+...     'TO_TIMEZONE': 'UTC',
+... }
+>>> parse('12 Feb 2015 10:56 PM IST', settings=settings)
+datetime.datetime(2015, 2, 12, 17, 26, tzinfo=<StaticTzInfo 'UTC'>)
 
 ``RETURN_AS_TIMEZONE_AWARE``: if ``True`` returns tz aware datetime objects in case timezone is detected in the date string.
 
@@ -86,6 +119,13 @@ Handling Incomplete Dates
     >>> parse("2015", settings={"PREFER_MONTH_OF_YEAR": "current"}) # it exactly behaves like default one
     datetime.datetime(2015, 3, 27, 0, 0)
 
+It also picks the month of a calendar quarter, such as ``2015Q2`` or
+``Q2 2015``, where ``current`` means the month that is as far into the quarter
+as the current month is into its own:
+
+    >>> parse("2015Q2", settings={"PREFER_MONTH_OF_YEAR": "last", "PREFER_DAY_OF_MONTH": "last"})
+    datetime.datetime(2015, 6, 30, 0, 0)
+
 ``PREFER_DATES_FROM``: defaults to ``current_period`` and can have ``past`` and ``future`` as values.
 
 If date string is missing some part, this option ensures consistent results depending on the ``past`` or ``future`` preference, for example, assuming current date is `June 16, 2015`:
@@ -97,7 +137,7 @@ If date string is missing some part, this option ensures consistent results depe
     datetime.datetime(2016, 3, 16, 0, 0)
     >>> # parsing with preference set for 'past'
     >>> parse('August', settings={'PREFER_DATES_FROM': 'past'})
-    datetime.datetime(2015, 8, 15, 0, 0)
+    datetime.datetime(2014, 8, 16, 0, 0)
 
 ``RELATIVE_BASE``: allows setting the base datetime to use for interpreting partial or relative date strings.
 Defaults to the current date and time.
@@ -155,6 +195,50 @@ For example, assuming current date is `June 16, 2019`:
     >>> parse('March 12, 2012', settings={'REQUIRE_PARTS': ['day', 'month', 'year']})
     datetime.datetime(2012, 3, 12, 0, 0)
 
+``IGNORE_SURROUNDING_TEXT``: defaults to ``False``. By default, the whole input string
+must be a date, so a date wrapped in surrounding text is not parsed. When this setting
+is enabled and the whole string could not be parsed as a date, dateparser retries
+ignoring the words at the beginning and at the end of the string that the tried
+language does not recognize as date-related:
+
+    >>> parse('Actualisé le 17 avril 2019', languages=['fr'])
+    None
+    >>> parse('Actualisé le 17 avril 2019', languages=['fr'], settings={'IGNORE_SURROUNDING_TEXT': True})
+    datetime.datetime(2019, 4, 17, 0, 0)
+    >>> parse('Published on 16/04/2019', settings={'IGNORE_SURROUNDING_TEXT': True})
+    datetime.datetime(2019, 4, 16, 0, 0)
+
+Only the edges of the string are affected. An unrecognized word inside the date still
+prevents parsing, and strings that can be parsed as a whole are parsed exactly as if
+the setting was disabled:
+
+    >>> parse('17 foobar avril 2019', languages=['fr'], settings={'IGNORE_SURROUNDING_TEXT': True})
+    None
+
+Stripping stops at the first token the language *does* recognize, and a number counts
+as recognized. So surrounding text that contains a number of its own (an id, a page
+number, a count) is not ignored, and the string is not parsed:
+
+    >>> parse('invoice 12345 paid on 3 March 2019', settings={'IGNORE_SURROUNDING_TEXT': True})
+    None
+
+To extract a date out of arbitrary text that does not follow this shape, use
+:func:`dateparser.search.search_dates` instead, which scans the whole string rather
+than only trimming its edges.
+
+.. warning:: When this setting is enabled, discarded edge text is dropped even if it
+   could have changed the meaning of the date, and what remains is parsed as if it
+   were the whole input. As a result, strings that merely contain date-like words can
+   produce a date, e.g. ``'Chapter 12 March of the Penguins'``. A recognized timezone is
+   kept and applied only when it is the last token of the string (e.g.
+   ``'... 1:21 PM EST'``); a timezone before the date, one followed by further
+   unrecognized text, or any timezone name the parser does not recognize, is discarded
+   with the rest of the surrounding text (use
+   :func:`dateparser.search.search_dates` for such input). Enable this setting only when
+   the input is expected to contain a date, and consider combining it with
+   ``STRICT_PARSING`` or ``REQUIRE_PARTS`` to discard remainders that are not complete
+   dates.
+
 
 Language Detection
 ++++++++++++++++++
@@ -163,7 +247,7 @@ Language Detection
 
     >>> from dateparser.date import DateDataParser
     >>> DateDataParser(settings={'SKIP_TOKENS': ['de']}).get_date_data(u'27 Haziran 1981 de')  # Turkish (at 27 June 1981)
-    DateData(date_obj=datetime.datetime(1981, 6, 27, 0, 0), period='day', locale='tr')
+    DateData(date_obj=datetime.datetime(1981, 6, 27, 0, 0), period='day', locale='tr', parts=('year', 'month', 'day'))
 
 ``NORMALIZE``: applies unicode normalization (removing accents, diacritics...) when parsing the words. Defaults to True.
 
@@ -174,16 +258,52 @@ Language Detection
     datetime.datetime(2015, 12, 4, 0, 0)
 
 
-Default Languages
+Default languages
 +++++++++++++++++
 
-``DEFAULT_LANGUAGES``: It is a ``list`` of language codes in ISO 639 that will be used as default
-languages for parsing when language detection fails. eg. ["en", "fr"]:
+``DEFAULT_LANGUAGES``: a ``list`` of ISO 639 language codes to fall back to
+when parsing fails with every other language, i.e. those given through the
+``languages`` or ``locales`` arguments of :func:`dateparser.parse` or those
+detected. These fallback languages are tried even if the input contains no word
+of theirs:
 
     >>> from dateparser import parse
-    >>> parse('3 de marzo de 2020', settings={'DEFAULT_LANGUAGES': ["es"]})
+    >>> parse('3 de marzo de 2020', languages=['en'])
+    >>> parse('3 de marzo de 2020', languages=['en'], settings={'DEFAULT_LANGUAGES': ['es']})
+    datetime.datetime(2020, 3, 3, 0, 0)
 
-.. note:: When using this setting, these languages will be tried after trying with the detected languages with no success. It is especially useful when using ``detect_languages_function``.
+It is especially useful with ``detect_languages_function``, to cover input for
+which language detection fails.
+
+Language Order
+++++++++++++++
+
+``USE_GIVEN_LANGUAGE_ORDER``: defaults to ``False``. By default, the languages and
+locales passed through the ``languages`` and ``locales`` arguments are tried in the
+order of the most common languages, regardless of the order in which they are given.
+Set this to ``True`` to instead try them in the order in which they are given, which
+is useful when that order already reflects a preference (for example, the output of a
+language detector ordered by confidence):
+
+    >>> import dateparser
+    >>> dateparser.parse('11/12/2020', languages=['es', 'en'])
+    datetime.datetime(2020, 11, 12, 0, 0)
+    >>> dateparser.parse('11/12/2020', languages=['es', 'en'], settings={'USE_GIVEN_LANGUAGE_ORDER': True})
+    datetime.datetime(2020, 12, 11, 0, 0)
+
+It also applies to the languages given through the ``DEFAULT_LANGUAGES`` setting when
+they are used as a fallback.
+
+.. note:: This setting only reorders the languages and locales that are given. If
+    neither ``languages`` nor ``locales`` is provided, it has no effect and the default
+    order is used:
+
+    >>> dateparser.parse('11/12/2020', settings={'USE_GIVEN_LANGUAGE_ORDER': True})
+    datetime.datetime(2020, 11, 12, 0, 0)
+
+.. note:: This setting does not affect :func:`dateparser.search.search_dates`, which
+    detects a single most likely language and normalizes the text before parsing, so it
+    does not use the given language order to disambiguate values such as ``11/12``.
 
 Optional language detection
 +++++++++++++++++++++++++++
@@ -202,7 +322,27 @@ Defaults to ``False``.
 
     >>> ddp = DateDataParser(settings={'RETURN_TIME_AS_PERIOD': True})
     >>> ddp.get_date_data('vr jan 24, 2014 12:49')
-    DateData(date_obj=datetime.datetime(2014, 1, 24, 12, 49), period='time', locale='nl')
+    DateData(date_obj=datetime.datetime(2014, 1, 24, 12, 49), period='time', locale='nl', parts=('year', 'month', 'day', 'time'))
+
+``PARTS_OF_DAY``: a :class:`~dateparser.PartsOfDay` object that sets the time
+to use for each part of the day, e.g. for ``tonight``. Defaults to
+``PartsOfDay()``.
+
+.. versionadded:: 1.5.0
+
+    >>> from datetime import time
+    >>> from dateparser import PartsOfDay
+    >>> ddp = DateDataParser(settings={'PARTS_OF_DAY': PartsOfDay(night=time(22)), 'RETURN_TIME_AS_PERIOD': True})
+    >>> ddp.get_date_data('5 January 2026 at night')
+    DateData(date_obj=datetime.datetime(2026, 1, 5, 22, 0), period='part_of_day', locale='en', part_of_day=<PartOfDay.NIGHT: 'night'>)
+
+.. autoclass:: dateparser.PartsOfDay
+    :members:
+    :undoc-members:
+
+.. autoclass:: dateparser.PartOfDay
+    :members:
+    :undoc-members:
 
 ``PARSERS``: it is a list of names of parsers to try, allowing to customize which
 parsers are tried against the input date string, and in which order they are
@@ -223,7 +363,10 @@ The following parsers exist:
 -   ``'custom-formats'``: Parses dates that match one of the date formats in
     the list of the ``date_formats`` parameter of :func:`dateparser.parse` or
     :meth:`DateDataParser.get_date_data
-    <dateparser.date.DateDataParser.get_date_data>`.
+    <dateparser.date.DateDataParser.get_date_data>`. When a date string matches
+    none of the formats, the other parsers still try it. To accept only the
+    given formats, set ``PARSERS`` to ``['custom-formats']``: no other parser is
+    tried then, and without ``date_formats`` nothing is parsed.
 
 -   ``'absolute-time'``: Parses dates and times expressed in absolute form
     (e.g. “May 4th”, “1991-05-17”). It takes into account settings such as

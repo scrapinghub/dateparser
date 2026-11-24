@@ -1,4 +1,9 @@
-sentence_splitter_group : 1
+relative-type-regex:
+    \1 day ago:
+        - לפני (\d+[.,]?\d*) ימ׳
+    in \1 day:
+        - בעוד (\d+[.,]?\d*) ימ׳
+sentence_splitter_group: 1
 
 skip: ["ב-", "בסביבות", "בערך", "בקירוב", "בשעה", "ה-"]
 

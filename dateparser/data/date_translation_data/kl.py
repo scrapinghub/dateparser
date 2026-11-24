@@ -3,50 +3,76 @@ info = {
     "date_order": "YMD",
     "january": [
         "jan",
+        "januaari",
+        "januaarip",
         "januari"
     ],
     "february": [
+        "febr",
+        "februaari",
+        "februaarip",
         "feb",
         "februari"
     ],
     "march": [
         "mar",
+        "marsi",
+        "marsip",
         "martsi"
     ],
     "april": [
         "apr",
+        "apriili",
+        "apriilip",
         "aprili"
     ],
     "may": [
+        "maaji",
+        "maajip",
         "maj",
         "maji"
     ],
     "june": [
         "jun",
+        "juuni",
+        "juunip",
         "juni"
     ],
     "july": [
         "jul",
+        "juuli",
+        "juulip",
         "juli"
     ],
     "august": [
+        "aggusti",
+        "aggustip",
         "aug",
         "augustusi"
     ],
     "september": [
+        "sept",
+        "septembari",
+        "septembarip",
         "sep",
         "septemberi"
     ],
     "october": [
         "okt",
+        "oktobari",
+        "oktobarip",
         "oktoberi"
     ],
     "november": [
         "nov",
+        "novembari",
+        "novembarip",
         "novemberi"
     ],
     "december": [
         "dec",
+        "decembari",
+        "decembarip",
         "decemberi"
     ],
     "monday": [
@@ -74,6 +100,8 @@ info = {
         "arfininngorneq"
     ],
     "sunday": [
+        "sap",
+        "sapaat",
         "sab",
         "sabaat"
     ],
@@ -96,7 +124,8 @@ info = {
         "day"
     ],
     "hour": [
-        "hour"
+        "hour",
+        "hr"
     ],
     "minute": [
         "minute"
@@ -153,46 +182,46 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "for (\\d+[.,]?\\d*) ulloq unnuarlu siden"
+            "for (\\d++[.,]?\\d*+) ulloq unnuarlu siden"
         ],
         "\\1 hour ago": [
-            "for (\\d+[.,]?\\d*) nalunaaquttap-akunnera siden"
+            "for (\\d++[.,]?\\d*+) nalunaaquttap-akunnera siden"
         ],
         "\\1 minute ago": [
-            "for (\\d+[.,]?\\d*) minutsi siden"
+            "for (\\d++[.,]?\\d*+) minutsi siden"
         ],
         "\\1 month ago": [
-            "for (\\d+[.,]?\\d*) qaammat siden"
+            "for (\\d++[.,]?\\d*+) qaammat siden"
         ],
         "\\1 second ago": [
-            "for (\\d+[.,]?\\d*) sekundi siden"
+            "for (\\d++[.,]?\\d*+) sekundi siden"
         ],
         "\\1 week ago": [
-            "for (\\d+[.,]?\\d*) sapaatip-akunnera siden"
+            "for (\\d++[.,]?\\d*+) sapaatip-akunnera siden"
         ],
         "\\1 year ago": [
-            "for (\\d+[.,]?\\d*) ukioq siden"
+            "for (\\d++[.,]?\\d*+) ukioq siden"
         ],
         "in \\1 day": [
-            "om (\\d+[.,]?\\d*) ulloq unnuarlu"
+            "om (\\d++[.,]?\\d*+) ulloq unnuarlu"
         ],
         "in \\1 hour": [
-            "om (\\d+[.,]?\\d*) nalunaaquttap-akunnera"
+            "om (\\d++[.,]?\\d*+) nalunaaquttap-akunnera"
         ],
         "in \\1 minute": [
-            "om (\\d+[.,]?\\d*) minutsi"
+            "om (\\d++[.,]?\\d*+) minutsi"
         ],
         "in \\1 month": [
-            "om (\\d+[.,]?\\d*) qaammat"
+            "om (\\d++[.,]?\\d*+) qaammat"
         ],
         "in \\1 second": [
-            "om (\\d+[.,]?\\d*) sekundi"
+            "om (\\d++[.,]?\\d*+) sekundi"
         ],
         "in \\1 week": [
-            "om (\\d+[.,]?\\d*) sapaatip-akunnera"
+            "om (\\d++[.,]?\\d*+) sapaatip-akunnera"
         ],
         "in \\1 year": [
-            "om (\\d+[.,]?\\d*) ukioq"
+            "om (\\d++[.,]?\\d*+) ukioq"
         ]
     },
     "locale_specific": {},

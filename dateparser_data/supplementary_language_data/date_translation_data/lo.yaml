@@ -1,0 +1,3 @@
+relative-type-regex:
+    in \1 minute:
+        - (\d+[.,]?\d*) ໃນອີກ 0 ນາທີ
