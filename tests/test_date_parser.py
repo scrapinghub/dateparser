@@ -187,6 +187,8 @@ class TestDateParser(BaseTestCase):
             param("вск, 2 окт. 2022 г. 11:17", datetime(2022, 10, 2, 11, 17)),
             # Turkish dates
             param("11 Ağustos, 2014", datetime(2014, 8, 11)),
+            param("15 Ocak 2024 saat 14:30", datetime(2024, 1, 15, 14, 30)),
+            param("15 Ocak 2024 14:30'da", datetime(2024, 1, 15, 14, 30)),
             param(
                 "08.Haziran.2014, 11:07", datetime(2014, 6, 8, 11, 7)
             ),  # forum.andronova.net

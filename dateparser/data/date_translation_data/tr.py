@@ -135,7 +135,11 @@ info = {
             "bu ay"
         ],
         "0 second ago": [
-            "şimdi"
+            "şimdi",
+            "az önce",
+            "demin",
+            "şu an",
+            "şu anda"
         ],
         "0 week ago": [
             "bu hafta",
@@ -149,14 +153,19 @@ info = {
             "geçen gün"
         ],
         "1 month ago": [
-            "geçen ay"
+            "geçen ay",
+            "geçtiğimiz ay"
         ],
         "1 week ago": [
             "geçen hafta",
-            "geçen hf"
+            "geçen hf",
+            "geçtiğimiz hafta"
         ],
         "1 year ago": [
-            "geçen yıl"
+            "geçen yıl",
+            "geçen sene",
+            "geçtiğimiz yıl",
+            "geçtiğimiz sene"
         ],
         "in 1 day": [
             "yarın",
@@ -174,7 +183,17 @@ info = {
         ],
         "in 1 year": [
             "gelecek yıl",
-            "önümüzdeki yıl"
+            "önümüzdeki yıl",
+            "önümüzdeki sene",
+            "gelecek sene",
+            "seneye"
+        ],
+        "2 day ago": [
+            "evvelsi gün",
+            "önceki gün"
+        ],
+        "in 2 day": [
+            "öbür gün"
         ]
     },
     "relative-type-regex": {
@@ -252,11 +271,80 @@ info = {
     ],
     "sentence_splitter_group": 1,
     "ago": [
-        "önce"
+        "önce",
+        "evvel"
     ],
     "in": [
         "içerisinde",
         "içinde",
         "sonra"
+    ],
+    "simplifications": [
+        {
+            "saat (\\d{1,2}[:.]\\d{2})": "\\1"
+        },
+        {
+            "(\\d{1,2}[:.]\\d{2})'?[dt][ae]": "\\1"
+        },
+        {
+            "yarım saat": "30 dakika"
+        },
+        {
+            "bir": "1"
+        },
+        {
+            "iki": "2"
+        },
+        {
+            "üç": "3"
+        },
+        {
+            "dört": "4"
+        },
+        {
+            "beş": "5"
+        },
+        {
+            "altı": "6"
+        },
+        {
+            "yedi": "7"
+        },
+        {
+            "sekiz": "8"
+        },
+        {
+            "dokuz": "9"
+        },
+        {
+            "on (\\d)": "1\\1"
+        },
+        {
+            "yirmi (\\d)": "2\\1"
+        },
+        {
+            "otuz (\\d)": "3\\1"
+        },
+        {
+            "kırk (\\d)": "4\\1"
+        },
+        {
+            "elli (\\d)": "5\\1"
+        },
+        {
+            "on": "10"
+        },
+        {
+            "yirmi": "20"
+        },
+        {
+            "otuz": "30"
+        },
+        {
+            "kırk": "40"
+        },
+        {
+            "elli": "50"
+        }
     ]
 }

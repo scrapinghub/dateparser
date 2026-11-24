@@ -2217,6 +2217,12 @@ class TestBundledLanguages(BaseTestCase):
             param("tr", "11 saat önce", "11 hour ago"),
             param("tr", "10 yıl sonra", "in 10 year"),
             param("tr", "geçen ay", "1 month ago"),
+            param("tr", "geçtiğimiz yıl", "1 year ago"),
+            param("tr", "evvelsi gün", "2 day ago"),
+            param("tr", "öbür gün", "in 2 day"),
+            param("tr", "seneye", "in 1 year"),
+            param("tr", "iki gün evvel", "2 day ago"),
+            param("tr", "kırk beş dakika önce", "45 minute ago"),
             # twq
             param("twq", "hõo", "0 day ago"),
             param("twq", "suba", "in 1 day"),
