@@ -2,7 +2,8 @@ from datetime import datetime
 
 import pytest
 
-from dateparser.date import DateData
+from dateparser import RelativeDelta
+from dateparser.date import DateData, DateDataParser
 
 
 class TestDateData:
@@ -91,3 +92,22 @@ class TestDateData:
     ) -> None:
         dd = DateData(date_obj=date, period=period, locale=locale)
         assert dd.__repr__() == expected
+
+    @pytest.mark.parametrize(
+        ("date_string", "expected"),
+        [
+            ("3 years and 6 months ago", RelativeDelta(years=-3, months=-6)),
+            ("in 5 weeks", RelativeDelta(weeks=5)),
+            ("-5wk", RelativeDelta(weeks=-5)),
+            ("2 decades, +1 year", RelativeDelta(years=-19)),
+            ("hace 2 horas", RelativeDelta(hours=-2)),
+            ("in 1.5 hours", RelativeDelta(hours=1.5)),
+            ("2 days ago at 5pm", RelativeDelta(days=-2)),
+            ("1 may 1990", None),
+        ],
+    )
+    def test_relative_delta(
+        self, date_string: str, expected: RelativeDelta | None
+    ) -> None:
+        parser = DateDataParser(settings={"RELATIVE_BASE": datetime(2000, 1, 1)})
+        assert parser.get_date_data(date_string).relative_delta == expected

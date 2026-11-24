@@ -16,7 +16,7 @@ from dateparser._parts_of_day import PartOfDay, _replace_part_of_day
 from dateparser.conf import Settings, apply_settings, check_settings
 from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date_parser import date_parser
-from dateparser.freshness_date_parser import freshness_date_parser
+from dateparser.freshness_date_parser import RelativeDelta, freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.languages.locale import _MAX_TRANSLATIONS, _VARIANT_LETTERS
 from dateparser.parser import _parse_absolute, _parse_nospaces, _StrictDateOrderError
@@ -786,6 +786,17 @@ class DateData:
     It can be accessed with square brackets like a dict object.
     """
 
+    relative_delta: RelativeDelta | None = None
+    """:class:`~dateparser.RelativeDelta` that the parsed date string adds to
+    the current date, e.g. ``RelativeDelta(hours=-2)`` for ``"2 hours ago"``,
+    or ``None`` if the date string is not relative.
+
+    .. versionadded:: VERSION
+
+    A time of day in the date string, e.g. ``"2 days ago at 5pm"``, sets the
+    time of :attr:`date_obj` and is not part of the delta.
+    """
+
     part_of_day: PartOfDay | None = None
     """:class:`~dateparser.PartOfDay` that the date string refers to, e.g.
     :attr:`~dateparser.PartOfDay.NIGHT` for ``"tonight"``, or ``None``.
@@ -831,6 +842,11 @@ class DateData:
         )
 
         return f"{self.__class__.__name__}({properties_text})"
+
+
+_DateTuple = collections.namedtuple(  # type: ignore[name-match]  # noqa: PYI024
+    "DateData", ("date_obj", "period", "locale")
+)
 
 
 class DateDataParser:
@@ -1168,10 +1184,7 @@ class DateDataParser:
 
     def get_date_tuple(self, *args: Any, **kwargs: Any) -> tuple[Any, ...]:
         date_data = self.get_date_data(*args, **kwargs)
-        fields = {k: v for k, v in date_data.__dict__.items() if k != "parts"}
-        date_tuple = collections.namedtuple("DateData", fields)  # type: ignore[misc]  # noqa: PYI024
-        result: tuple[Any, ...] = date_tuple(**fields)
-        return result
+        return _DateTuple(date_data.date_obj, date_data.period, date_data.locale)
 
     def _get_applicable_locales(
         self, date_string: str, ignore_surrounding_text: bool = False
