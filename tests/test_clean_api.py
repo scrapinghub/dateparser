@@ -727,9 +727,12 @@ class TestParseMany(BaseTestCase):
     def test_date_orders(self) -> None:
         date_orders = ["DMY", "MDY"]
         result = dateparser.parse_many(
-            ["31.12.13", "11.12.13"], date_orders=date_orders
+            ["2015/31/12", "31.12.13", "11.12.13"], date_orders=date_orders
         )
-        self.assertEqual([datetime(2013, 12, 31), datetime(2013, 12, 11)], list(result))
+        self.assertEqual(
+            [datetime(2015, 12, 31), datetime(2013, 12, 31), datetime(2013, 12, 11)],
+            list(result),
+        )
 
     @parameterized.expand([param([]), param(["DMY", "XYZ"])])
     def test_invalid_date_orders(self, date_orders: list[str]) -> None:
