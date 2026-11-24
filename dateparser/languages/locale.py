@@ -10,6 +10,7 @@ from dateparser.utils import combine_dicts, normalize_unicode
 from .dictionary import ALWAYS_KEEP_TOKENS, Dictionary, NormalizedDictionary
 
 NUMERAL_PATTERN = re.compile(r"(\d+)", re.U)
+SYMBOL_ADJACENT_NUMBER_PATTERN = re.compile(r"[$€£#%@&*~]\d|\d[$€£#%@&*~]")
 
 
 class Locale:
@@ -410,6 +411,9 @@ class Locale:
             return re.sub(r"\s{2,}", " ", " ".join(chunk))
 
     def _token_with_digits_is_ok(self, token):
+        if SYMBOL_ADJACENT_NUMBER_PATTERN.search(token):
+            return False
+
         if "no_word_spacing" in self.info:
             if re.search(r"[\d\.:\-/]+", token) is not None:
                 return True
