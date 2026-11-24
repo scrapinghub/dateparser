@@ -288,6 +288,29 @@ class TestStaticTzInfo(BaseTestCase):
     def setUp(self) -> None:
         super().setUp()
 
+    @parameterized.expand(["2026-11-21T05:00+01:00", "2026-11-21 05:00 CET"])
+    def test_normalize_parsed_datetime(self, date_string: str) -> None:
+        parsed = parse(date_string)
+        self.assertIsNotNone(parsed)
+        assert parsed is not None
+        self.assertIsInstance(parsed.tzinfo, StaticTzInfo)
+        assert isinstance(parsed.tzinfo, StaticTzInfo)
+        self.assertIs(parsed.tzinfo.normalize(parsed), parsed)
+        self.assertEqual(parsed.tzinfo.normalize(parsed, is_dst=True), parsed)
+
+    def test_normalize_converts_from_another_timezone(self) -> None:
+        target = StaticTzInfo("UTC+01:00", timedelta(hours=1))
+        source = datetime(2026, 11, 21, 23, 30, tzinfo=timezone("UTC"))
+        normalized = target.normalize(source)
+        self.assertEqual(normalized, source)
+        self.assertEqual(normalized.replace(tzinfo=None), datetime(2026, 11, 22, 0, 30))
+        self.assertIs(normalized.tzinfo, target)
+
+    def test_normalize_rejects_naive_datetime(self) -> None:
+        target = StaticTzInfo("UTC", timedelta(0))
+        with self.assertRaisesRegex(ValueError, "Naive time - no tzinfo set"):
+            target.normalize(datetime(2026, 11, 21))
+
     @parameterized.expand(
         [
             param(given_date=datetime(2007, 1, 18, tzinfo=timezone("UTC"))),

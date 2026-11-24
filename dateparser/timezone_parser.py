@@ -46,6 +46,15 @@ class StaticTzInfo(tzinfo):
             raise ValueError("Not naive datetime (tzinfo is already set)")
         return dt.replace(tzinfo=self)
 
+    def normalize(self, dt: datetime, is_dst: bool = False) -> datetime:
+        """Convert an aware datetime to this fixed-offset timezone.
+
+        ``is_dst`` is accepted for compatibility with pytz; the offset is fixed.
+        """
+        if dt.tzinfo is None:
+            raise ValueError("Naive time - no tzinfo set")
+        return dt.astimezone(self)
+
     def __getinitargs__(self) -> tuple[str, timedelta]:
         return self.__name, self.__offset
 
