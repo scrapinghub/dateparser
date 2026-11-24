@@ -17,6 +17,7 @@ from typing import TYPE_CHECKING
 import dateparser.data.date_translation_data.en as en_data
 from dateparser.conf import settings
 from dateparser.languages.dictionary import Dictionary
+from dateparser.languages.loader import default_loader
 from tests.benchmarks import LONG_DIGIT_RUN
 
 if TYPE_CHECKING:
@@ -38,3 +39,16 @@ def test_dictionary_split_relative_regex_long_digit_run(
     assert split_relative_regex.split(LONG_DIGIT_RUN) == [LONG_DIGIT_RUN]
 
     benchmark(lambda: split_relative_regex.split(LONG_DIGIT_RUN))
+
+
+def test_zh_simplify_long_month_run(benchmark: BenchmarkFixture) -> None:
+    # Every "1月" starts a match of the simplification that splits "N月" into
+    # "N 月" ahead of 前 or 后, so each one must look ahead a bounded distance
+    # only. 4000 characters keep an unbounded lookahead ~50x slower while still
+    # finishing under CodSpeed's instrumentation.
+    locale = default_loader.get_locale("zh")
+    month_run = "1月" * 2000
+
+    assert locale._simplify(month_run, settings=settings) == month_run
+
+    benchmark(lambda: locale._simplify(month_run, settings=settings))
