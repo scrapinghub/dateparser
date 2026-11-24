@@ -1054,8 +1054,9 @@ class tokenizer:
 
             if not nextchar:
                 EOF = True
-                token_type, _ = self._switch(token[-1], nextchar)
-                yield token, token_type
+                if token:
+                    token_type, _ = self._switch(token[-1], nextchar)
+                    yield token, token_type
                 return
 
             if token:

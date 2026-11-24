@@ -695,6 +695,11 @@ class TestDateParser(BaseTestCase):
         self.when_date_is_parsed_by_date_parser("")
         self.then_error_was_raised(ValueError, ["Empty string"])
 
+    def test_string_without_tokens_is_not_parsed(self) -> None:
+        # Only the braces are left once they are stripped.
+        self.when_date_is_parsed_by_date_parser("()")
+        self.then_error_was_raised(ValueError, ["Nothing to parse"])
+
     @parameterized.expand(
         [
             param("invalid date string", "Unable to parse: invalid"),

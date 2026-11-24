@@ -100,6 +100,30 @@ class TestTokenizer(BaseTestCase):
         self.then_tokens_were(expected_tokens)
         self.then_token_types_were(expected_types)
 
+    def test_empty_string_has_no_tokens(self) -> None:
+        self.given_tokenizer("")
+        self.when_tokenized()
+        self.then_tokens_were([])
+        self.then_token_types_were([])
+
+    @parameterized.expand(
+        [
+            param(date_string=" ", expected_tokens=[" "], expected_types=[2]),
+            param(date_string="a", expected_tokens=["a"], expected_types=[1]),
+            param(date_string="7", expected_tokens=["7"], expected_types=[0]),
+            param(date_string="-", expected_tokens=["-"], expected_types=[2]),
+            param(date_string="\t\n", expected_tokens=["\t\n"], expected_types=[2]),
+            param(date_string="1:", expected_tokens=["1:"], expected_types=[0]),
+        ]
+    )
+    def test_short_strings_keep_their_last_token(
+        self, date_string: str, expected_tokens: list[str], expected_types: list[int]
+    ) -> None:
+        self.given_tokenizer(date_string)
+        self.when_tokenized()
+        self.then_tokens_were(expected_tokens)
+        self.then_token_types_were(expected_types)
+
     def given_tokenizer(self, date_string: str) -> None:
         self.tokenizer = tokenizer(date_string)
 
@@ -549,6 +573,23 @@ class TestParser(BaseTestCase):
     def then_error_is_raised_when_date_is_parsed(self, date_string: str) -> None:
         with self.assertRaises(ValueError):
             self.parser._parse_with_parts(date_string, self.settings)
+
+    @parameterized.expand(
+        [
+            param(date_string="", message="Nothing to parse"),
+            param(date_string=" ", message="Nothing to parse"),
+            param(date_string="\t\n", message="Nothing to parse"),
+            param(date_string="!?", message="Nothing to parse"),
+        ]
+    )
+    def test_nothing_to_parse_is_a_value_error(
+        self, date_string: str, message: str
+    ) -> None:
+        for mod_settings in ({}, {"DATE_ORDER": "DMY"}, {"DATE_ORDER": "YMD"}):
+            self.given_parser()
+            self.given_settings(settings=mod_settings)
+            with self.assertRaisesRegex(ValueError, message):
+                self.parser._parse_with_parts(date_string, self.settings)
 
     @parameterized.expand(
         [

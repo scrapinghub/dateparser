@@ -294,3 +294,21 @@ class TestJalaliCalendar(BaseTestCase):
     def test_get_date_invalid(self) -> None:
         self.when_date_is_given("foo")
         self.assertIsNone(self.result)
+
+    @parameterized.expand(
+        [
+            param(date_string=""),
+            param(date_string=" "),
+            param(date_string="   "),
+            param(date_string="\t\n"),
+            # Words that the calendar replaces by nothing, so no tokens are left.
+            param(date_string="ساعت"),
+            param(date_string="م"),
+            # Not dates, and not replaced: the calendar keeps them as tokens.
+            param(date_string="\u0640"),
+            param(date_string="!!!"),
+        ]
+    )
+    def test_text_without_a_date_is_none(self, date_string: str) -> None:
+        self.when_date_is_given(date_string)
+        self.assertIsNone(self.result)
