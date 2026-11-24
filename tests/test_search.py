@@ -924,13 +924,19 @@ class TestTranslateSearch(BaseTestCase):
         from a different, unrelated candidate split explored earlier for the
         same substring.
         """
-        result = search_dates(
-            "March 3, 2001, April 9 2001, May 10, June, 14 2002, July 2",
-            languages=["en"],
-        )
+        text = "March 3, 2001, April 9 2001, May 10, June, 14 2002, July 2"
+
+        result = search_dates(text, languages=["en"])
         self.assertEqual(
             result[0], ("March 3", datetime.datetime(today.year, 3, 3, 0, 0))
         )
+
+        result = search_dates(
+            text,
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+        )
+        self.assertEqual(result[0], ("March 3", datetime.datetime(2000, 3, 3, 0, 0)))
 
     @parameterized.expand(
         [
