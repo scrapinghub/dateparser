@@ -14,7 +14,7 @@ from typing import Any
 
 timezone_info_list: list[dict[str, Any]] = [
     {
-        "regex_patterns": [r"(.)%s$"],
+        "regex_patterns": [r"(\W|\d|_)%s($|[^:\d])"],
         "replace": [
             # UTC+n, UTC-n, GMT+n, GMT-n:
             (r"(?:UTC|GMT)\\(\+|\-)0(\d):00", r"(?:UTC|GMT)\\\1\2"),

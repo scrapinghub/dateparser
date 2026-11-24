@@ -679,6 +679,12 @@ class TestDateParser(BaseTestCase):
                 datetime(2024, 1, 15, 9, 30, 0),
             ),
             param("2019-09-28WIB19:17:34+07:00", datetime(2019, 9, 28, 12, 17, 34)),
+            # Twitter-style date format, with the offset before the trailing
+            # year instead of at the end of the string, see GH-375.
+            param(
+                "Fri Jan 26 16:32:21 +0000 2018",
+                datetime(2018, 1, 26, 16, 32, 21),
+            ),
         ]
     )
     def test_parsing_with_utc_offsets(
