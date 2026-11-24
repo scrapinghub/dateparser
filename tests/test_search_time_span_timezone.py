@@ -1,6 +1,6 @@
 from collections.abc import Iterator
 from contextlib import contextmanager
-from datetime import datetime, tzinfo
+from datetime import datetime, timedelta, tzinfo
 from datetime import timezone as dt_timezone
 from typing import Any
 from unittest.mock import patch
@@ -10,6 +10,8 @@ import pytest
 from dateparser.search import search_dates
 
 _INSTANT = datetime(2020, 5, 5, 23, 30, tzinfo=dt_timezone.utc)
+# A local time zone far from UTC, as a fixed offset that needs no tz database.
+_LOCAL_ZONE = dt_timezone(timedelta(hours=14))
 
 
 class _FrozenDateTime(datetime):
@@ -201,6 +203,35 @@ def test_time_span_past_the_year_9999_in_to_timezone_is_not_returned() -> None:
     )
 
 
+@pytest.mark.parametrize(
+    ("settings", "start", "end"),
+    [
+        (
+            {"RETURN_AS_TIMEZONE_AWARE": True},
+            "2020-05-05T13:30:00+14:00",
+            "2020-05-06T13:30:00+14:00",
+        ),
+        (
+            {
+                "RELATIVE_BASE": datetime(2019, 1, 10, 12, 0),
+                "TO_TIMEZONE": "UTC",
+                "RETURN_AS_TIMEZONE_AWARE": True,
+            },
+            "2019-01-08T22:00:00+00:00",
+            "2019-01-09T22:00:00+00:00",
+        ),
+    ],
+)
+def test_time_span_in_the_local_time_zone(
+    settings: dict[str, Any], start: str, end: str
+) -> None:
+    # The local time zone is set to one far from UTC, so that the test tells
+    # it from UTC on any machine.
+    with patch("dateparser.search.search._get_localzone", lambda: _LOCAL_ZONE):
+        dates = _time_span("see you past 1 day", TIMEZONE="local", **settings)
+    assert _as_text(dates) == {"past 1 day (start)": start, "past 1 day (end)": end}
+
+
 @pytest.mark.parametrize("strategy", ["split", "ngram"])
 def test_time_span_in_the_repeated_hour_keeps_the_offset_of_the_time(
     strategy: str,
@@ -254,6 +285,11 @@ def test_time_span_in_the_repeated_hour_keeps_the_offset_of_the_time(
             {"TIMEZONE": "CET", "TO_TIMEZONE": "UTC"}, _INSTANT, id="abbreviation-to"
         ),
         pytest.param(
+            {"TIMEZONE": "local", "RETURN_AS_TIMEZONE_AWARE": True},
+            _INSTANT,
+            id="local-aware",
+        ),
+        pytest.param(
             {
                 "TIMEZONE": "local",
                 "TO_TIMEZONE": "UTC",
@@ -261,6 +297,16 @@ def test_time_span_in_the_repeated_hour_keeps_the_offset_of_the_time(
             },
             _INSTANT,
             id="local-to-aware",
+        ),
+        pytest.param(
+            {
+                "TIMEZONE": "local",
+                "RELATIVE_BASE": datetime(2019, 1, 10, 12, 0),
+                "TO_TIMEZONE": "UTC",
+                "RETURN_AS_TIMEZONE_AWARE": True,
+            },
+            _INSTANT,
+            id="local-naive-base",
         ),
         pytest.param(
             {
@@ -302,9 +348,15 @@ def test_time_span_starts_at_the_date_found_for_its_quantity(
 ) -> None:
     """Test that "past 1 day" starts at the date that the same call returns
     for "1 day", whatever the time zone settings are."""
+    # The local time zone is set to one far from UTC in the two modules that
+    # read it for these texts, so that the cases with TIMEZONE="local" tell it
+    # from UTC on any machine; test_time_span_in_the_local_time_zone checks
+    # that the span really uses it.
     with (
         _frozen_clock(instant),
         patch("dateparser.freshness_date_parser.datetime", _FrozenDateTime),
+        patch("dateparser.search.search._get_localzone", lambda: _LOCAL_ZONE),
+        patch("dateparser.freshness_date_parser._get_localzone", lambda: _LOCAL_ZONE),
     ):
         result = search_dates(
             "see you past 1 day",
