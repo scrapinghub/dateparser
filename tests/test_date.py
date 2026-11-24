@@ -1334,12 +1334,20 @@ class TestDateDataParser(BaseTestCase):
                 date_string="10 giu 2018",
                 expected_result=(datetime(2018, 6, 10, 0, 0), "day", "it"),
             ),
+            param(
+                date_string="2 hours ago",
+                expected_result=(datetime(2000, 1, 1, 10, 0), "day", "en"),
+            ),
+            param(
+                date_string="tonight",
+                expected_result=(datetime(2000, 1, 1, 20, 0), "day", "en"),
+            ),
         ]
     )
     def test_get_date_tuple(
         self, date_string: str, expected_result: tuple[datetime, str, str]
     ) -> None:
-        self.given_parser()
+        self.given_parser(settings={"RELATIVE_BASE": datetime(2000, 1, 1, 12, 0)})
         self.when_get_date_tuple_is_called(date_string)
         self.then_returned_tuple_is(expected_result)
 

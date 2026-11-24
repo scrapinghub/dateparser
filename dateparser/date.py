@@ -844,6 +844,11 @@ class DateData:
         return f"{self.__class__.__name__}({properties_text})"
 
 
+_DateTuple = collections.namedtuple(  # type: ignore[name-match]  # noqa: PYI024
+    "DateData", ("date_obj", "period", "locale")
+)
+
+
 class DateDataParser:
     """
     Class which handles language detection, translation and subsequent generic parsing of
@@ -1179,10 +1184,7 @@ class DateDataParser:
 
     def get_date_tuple(self, *args: Any, **kwargs: Any) -> tuple[Any, ...]:
         date_data = self.get_date_data(*args, **kwargs)
-        fields = {k: v for k, v in date_data.__dict__.items() if k != "parts"}
-        date_tuple = collections.namedtuple("DateData", fields)  # type: ignore[misc]  # noqa: PYI024
-        result: tuple[Any, ...] = date_tuple(**fields)
-        return result
+        return _DateTuple(date_data.date_obj, date_data.period, date_data.locale)
 
     def _get_applicable_locales(
         self, date_string: str, ignore_surrounding_text: bool = False
