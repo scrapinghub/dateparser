@@ -16,7 +16,7 @@ timezone_info_list: list[dict[str, Any]] = [
     {
         # The replacements below also apply to this pattern, so it spells ":"
         # as \x3a to keep them from removing it.
-        "regex_patterns": [r"(?<=.)%s(\s*\([^)]*\))?(?=$|[^\w\x3a]|\d\d\x3a\d\d)"],
+        "regex_patterns": [r"(?<=.)%s(\s*\([^()]*\))?(?=$|[^\w\x3a]|\d\d\x3a\d\d)"],
         "replace": [
             # UTC+n, UTC-n, GMT+n, GMT-n:
             (r"(?:UTC|GMT)\\(\+|\-)0(\d):00", r"(?:UTC|GMT)\\\1\2"),
@@ -29,10 +29,13 @@ timezone_info_list: list[dict[str, Any]] = [
             # +nn, -nn, only at the end, since elsewhere they are more likely
             # part of a date, e.g. "2023 -04-05":
             (r"(?:UTC|GMT)\\(\+|\-)(\d{2}):00", r"(?<=\\s)\\\1\2$"),
+            # +nn:nn, -nn:nn, +nnnn, -nnnn, only at the end, optionally
+            # followed by a name in parentheses, since elsewhere they are more
+            # likely part of a time range, e.g. "10:00-11:00 +02:00":
+            (r"UTC(.*)", r"\1(?=\\s*+(?:\\([^()]*+\\)\\s*+)?$)"),
+            (r"UTC(.*):(.*)", r"\1\2(?=\\s*+(?:\\([^()]*+\\)\\s*+)?$)"),
             # Others:
-            (r"UTC", r""),
             (r":", r""),
-            (r":|UTC", r""),
             (r"UTC", r"GMT"),
         ],
         "timezones": [
