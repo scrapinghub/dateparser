@@ -317,6 +317,43 @@ class TestStaticTzInfo(BaseTestCase):
         self.assertEqual(self.localized_date.tzname(), expected_tzname)
 
 
+class TestStaticTzInfoNormalize(BaseTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.timezone_info = StaticTzInfo("UTC\\+01:00", timedelta(hours=1))
+
+    def test_normalize_raises_error_for_naive_datetime(self) -> None:
+        self.timezone_info = StaticTzInfo("UTC\\+01:00", timedelta(hours=1))
+        self.when_date_is_normalized(datetime(2026, 11, 21, 5, 0))
+        self.then_error_was_raised(ValueError, ["Naive time - no tzinfo set"])
+
+    def test_normalize_converts_aware_datetime_to_static_zone(self) -> None:
+        given = datetime(2026, 11, 21, 5, 0, tzinfo=timezone("UTC"))
+        normalized = self.timezone_info.normalize(given)
+        self.assertEqual(normalized.tzinfo, self.timezone_info)
+        self.assertEqual(normalized.hour, 6)
+        self.assertEqual(normalized.utcoffset(), timedelta(hours=1))
+
+    def test_normalize_keeps_instant_for_datetime_in_zone(self) -> None:
+        given = datetime(2026, 11, 21, 5, 0, tzinfo=self.timezone_info)
+        normalized = self.timezone_info.normalize(given)
+        self.assertEqual(normalized, given)
+        self.assertEqual(normalized.utcoffset(), timedelta(hours=1))
+
+    def test_normalize_converts_negative_offset(self) -> None:
+        negative = StaticTzInfo("UTC\\-05:00", timedelta(hours=-5))
+        given = datetime(2026, 11, 21, 5, 0, tzinfo=timezone("UTC"))
+        normalized = negative.normalize(given)
+        self.assertEqual(normalized.hour, 0)
+        self.assertEqual(normalized.utcoffset(), timedelta(hours=-5))
+
+    def when_date_is_normalized(self, given_date: datetime) -> None:
+        try:
+            self.normalized_date = self.timezone_info.normalize(given_date)
+        except Exception as error:
+            self.error = error
+
+
 class TestIsTimezoneToken(BaseTestCase):
     """Unit tests for ``is_timezone_token``, used to keep a trailing timezone
     when ``IGNORE_SURROUNDING_TEXT`` strips edge tokens."""
