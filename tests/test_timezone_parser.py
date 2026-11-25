@@ -310,6 +310,30 @@ class TestStaticTzInfo(BaseTestCase):
         except Exception as error:
             self.error = error
 
+    def test_normalize_raises_error_if_date_is_naive(self) -> None:
+        timezone_info = StaticTzInfo("UTC+02:00", timedelta(hours=2))
+        self.assertRaisesRegex(
+            ValueError,
+            "Naive time - no tzinfo set",
+            timezone_info.normalize,
+            datetime(2026, 11, 21, 5, 0),
+        )
+
+    def test_normalize_converts_to_the_static_offset(self) -> None:
+        timezone_info = StaticTzInfo("UTC+02:00", timedelta(hours=2))
+        given = datetime(2026, 11, 21, 5, 0, tzinfo=timezone("UTC"))
+
+        normalized = timezone_info.normalize(given)
+
+        self.assertEqual(datetime(2026, 11, 21, 7, 0, tzinfo=timezone_info), normalized)
+        self.assertEqual(timezone_info, normalized.tzinfo)
+
+    def test_normalize_keeps_wall_time_already_in_the_zone(self) -> None:
+        timezone_info = StaticTzInfo("UTC+02:00", timedelta(hours=2))
+        given = datetime(2026, 11, 21, 5, 0, tzinfo=timezone_info)
+
+        self.assertEqual(given, timezone_info.normalize(given))
+
     def then_localized_date_is(
         self, expected_date: datetime, expected_tzname: str
     ) -> None:

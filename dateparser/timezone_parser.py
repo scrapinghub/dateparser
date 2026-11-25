@@ -46,6 +46,15 @@ class StaticTzInfo(tzinfo):
             raise ValueError("Not naive datetime (tzinfo is already set)")
         return dt.replace(tzinfo=self)
 
+    def normalize(self, dt: datetime) -> datetime:
+        # Fixed-offset zones have no DST transitions, so normalizing is just
+        # converting to this offset.  Matching pytz's fixed-offset behaviour
+        # keeps duck-typed callers (``hasattr(tz, "localize")`` followed by
+        # ``tz.normalize(dt)``) working.
+        if dt.tzinfo is None:
+            raise ValueError("Naive time - no tzinfo set")
+        return dt.astimezone(self)
+
     def __getinitargs__(self) -> tuple[str, timedelta]:
         return self.__name, self.__offset
 
