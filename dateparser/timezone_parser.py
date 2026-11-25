@@ -10,7 +10,7 @@ import regex
 from .timezones import timezone_info_list
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable, Iterator
+    from collections.abc import Iterator
 
     from .conf import Settings
 
@@ -61,11 +61,18 @@ def _search_and_pop_tz(date_string: str) -> tuple[str, str, timedelta] | None:
         return None
     (start, stop), name, offset = found
     # A token glued to the digits that follow, as in
-    # 2019-09-28WIB19:17:34, leaves a space so that the date and time
-    # digits stay apart.
-    glued = stop < len(date_string) and date_string[stop - 1].isalpha()
+    # 2019-09-28WIB19:17:34 or 2018-10-30GMT+000015:46:25, leaves a
+    # space so that the date and time digits stay apart.
+    glued = (
+        stop < len(date_string)
+        and date_string[stop - 1].isalnum()
+        and date_string[stop].isalnum()
+    )
     separator = " " if glued else ""
-    return date_string[: start + 1] + separator + date_string[stop:], name, offset
+    head, tail = date_string[:start], date_string[stop:]
+    if head[-1:].isspace() and tail[:1].isspace():
+        head = head[:-1]
+    return head + separator + tail, name, offset
 
 
 @overload
@@ -101,10 +108,9 @@ def pop_tz_offset_from_string(
     # ``-0500 (CDT)`` (the parenthesised name is informational and the numeric
     # offset is authoritative). Only one token is removed above; strip up to
     # _MAX_EXTRA_TZ more, equivalent ones so the leftover does not break the
-    # rest of the parser. The remainder is right-stripped first because the
-    # numeric-offset regexes are anchored at the end of the string.
+    # rest of the parser.
     for _ in range(_MAX_EXTRA_TZ):
-        extra = _search_and_pop_tz(date_string.rstrip())
+        extra = _search_and_pop_tz(date_string)
         if extra is None or overrides.get(extra[1], extra[2]) != offset:
             break
         date_string = extra[0]
@@ -124,10 +130,7 @@ def is_timezone_token(token: str) -> bool:
     case-insensitive *full* match, so it recognizes an already-lowercased,
     space-padded token such as ``" est"``. Because the match is anchored, an
     ordinary word that merely begins with a timezone abbreviation is not
-    treated as a timezone (e.g. ``"actualisé"`` is not the ``ACT`` zone). This
-    is used only on single edge tokens, so the trailing ``.*`` in the UTC/GMT
-    numeric-offset patterns (which a full match would otherwise let absorb
-    following text) is not a concern here.
+    treated as a timezone (e.g. ``"actualisé"`` is not the ``ACT`` zone).
     """
     return bool(_tz_regexes().names_ignorecase.fullmatch(token.strip()))
 
@@ -220,13 +223,10 @@ def _build_tz_regexes() -> _TzRegexes:
                     names.append(variant)
                     alternatives.append(f"(?P<tz{len(timezones)}>{variant})")
                     timezones.append((name, timedelta(seconds=offset)))
-            flags = regex.IGNORECASE
-            if template.endswith("$"):
-                # Every match ends at the end of the string, so searching
-                # backwards finds the same match much faster.
-                flags |= regex.REVERSE
             pattern = regex.compile(
-                template % f"(?:{'|'.join(alternatives)})", flags, cache_pattern=False
+                template % f"(?P<tz>{'|'.join(alternatives)})",
+                regex.IGNORECASE,
+                cache_pattern=False,
             )
             families.append((pattern, timezones))
     # Only used for anchored matching, which re compiles and runs faster.
@@ -244,30 +244,31 @@ def _find_tz(
     """Return the span, name and offset of the timezone found in *string*,
     or ``None``.
 
+    The span starts at the timezone itself, after any character that the
+    pattern template requires before it.
+
     Earlier pattern templates take precedence over later ones. Within a
     template, the earliest timezone wins, and ties go to the leftmost match.
     """
     for pattern, timezones in _tz_regexes().families:
-        matches: Iterable[regex.Match[str]]
-        if pattern.flags & regex.REVERSE:
-            match = pattern.search(string)
-            matches = [match] if match else []
-        else:
-            # overlapped: in "EST/EDT" both matches share the "/"
-            matches = pattern.finditer(string, overlapped=True)
+        # overlapped: in "EST/EDT" both matches share the "/"
+        matches = pattern.finditer(string, overlapped=True)
         best: tuple[int, tuple[int, int]] | None = None
         # The same timezone text always matches the same group, and finding
         # that group means checking hundreds of them, so do it once per text.
-        # Group 1 and the last group match the characters around the text.
         indexes: dict[str, int] = {}
         for match in matches:
-            text = string[match.end(1) : match.start(pattern.groups)].lower()
+            text = match.group("tz").lower()
             if text not in indexes:
-                group = next(k for k, v in match.groupdict().items() if v is not None)
+                group = next(
+                    k
+                    for k, v in match.groupdict().items()
+                    if v is not None and k != "tz"
+                )
                 indexes[text] = int(group[2:])
             index = indexes[text]
             if best is None or index < best[0]:
-                best = (index, match.span())
+                best = (index, (match.start("tz"), match.end()))
         if best:
             name, offset = timezones[best[0]]
             return best[1], name, offset
