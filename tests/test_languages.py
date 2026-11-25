@@ -89,7 +89,7 @@ class TestApplicabilityCounts:
         text = " ".join(f"0{number}" for number in range(1, 10))
         for locale in default_loader.get_locales():
             counts = locale.count_applicability(text, settings=settings)
-            assert counts == [0, 9], (locale.shortname, counts)
+            assert counts == [0, 9, 0], (locale.shortname, counts)
 
 
 class TestVietnameseZeroPaddedMonths:
