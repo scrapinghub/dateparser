@@ -697,6 +697,7 @@ class _ExactLanguageSearch:
         language: Locale,
         relative_base: datetime | None = None,
         quantity_splits_left: int = _MAX_QUANTITY_SPLITS,
+        limit: int | None = None,
     ) -> tuple[list[tuple[DateData, bool]], list[str]]:
         """Parse the chunks found in a text, and return the dates found in them
         with the text of each.
@@ -709,12 +710,23 @@ class _ExactLanguageSearch:
         of nested calls.
         """
         parsed: list[tuple[DateData, bool]] = []
-        substrings = []
+        substrings: list[str] = []
         skip = {word.lower() for word in language.info.get("skip", [])}
         need_relative_base = True
         if settings.RELATIVE_BASE:
             need_relative_base = False
         for i, item in enumerate(to_parse):
+            if (
+                limit is not None
+                and len(parsed) >= limit
+                # A connector that ends the last date, e.g. "and" in
+                # "yesterday and", is trimmed only if another date follows.
+                and (
+                    len(parsed) > limit
+                    or substrings[-1].rsplit(" ", 1)[-1].lower() not in skip
+                )
+            ):
+                break
             if len(item) <= 2:
                 continue
 
@@ -819,7 +831,11 @@ class _ExactLanguageSearch:
         return parsed, substrings
 
     def search_parse(
-        self, shortname: str, text: str, settings: Settings
+        self,
+        shortname: str,
+        text: str,
+        settings: Settings,
+        limit: int | None = None,
     ) -> list[_DateResult]:
         language = self.get_current_language(shortname)
         translated, original = self.search(shortname, text, settings)
@@ -842,6 +858,7 @@ class _ExactLanguageSearch:
             translated=translated,
             settings=settings,
             language=language,
+            limit=limit,
         )
 
         skip = {word.lower() for word in language.info.get("skip", [])}
@@ -1005,6 +1022,7 @@ class DateSearchWithDetection:
         detect_languages_function: Callable[..., list[str]] | None = None,
         strategy: str = "split",
         date_formats: Iterable[str] | None = None,
+        limit: int | None = None,
     ) -> tuple[str | None, list[_DateResult] | None]:
         if strategy not in ("split", "ngram"):
             raise ValueError(
@@ -1035,14 +1053,18 @@ class DateSearchWithDetection:
 
         if strategy == "ngram":
             dates = self.ngram_search.search_parse(
-                candidate_languages, text, settings=settings, date_formats=date_formats
+                candidate_languages,
+                text,
+                settings=settings,
+                date_formats=date_formats,
+                limit=limit,
             )
             _add_time_span_results(dates, text, settings)
             return language_shortname, dates
 
         for candidate_language in candidate_languages:
             dates = self.search.search_parse(
-                candidate_language, text, settings=settings
+                candidate_language, text, settings=settings, limit=limit
             )
             if dates:
                 return candidate_language, dates

@@ -73,12 +73,13 @@ class _NgramDateSearch:
         text: str,
         settings: Settings,
         date_formats: Sequence[str] | None = None,
+        limit: int | None = None,
     ) -> list[_DateResult]:
         """Find all dates in ``text`` and return ``(substring, date, period)``
         tuples.
 
         ``languages`` are tried in the given order for every candidate
-        n-gram.
+        n-gram. The scan stops once ``limit`` dates are found.
 
         Text that matches ``date_formats`` is found first, in a separate scan.
         A longer n-gram may still contain such a match, e.g. to add a time to
@@ -161,6 +162,8 @@ class _NgramDateSearch:
                     date_data.period,
                 )
             )
+            if len(results) == limit:
+                break
         return results
 
     def _scan(
