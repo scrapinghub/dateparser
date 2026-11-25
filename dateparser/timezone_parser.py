@@ -18,6 +18,14 @@ _MAX_EXTRA_TZ = 2
 """Timezone tokens equivalent to the first one, e.g. "CDT" and "(CDT)" after
 "-0500", that :func:`pop_tz_offset_from_string` also removes."""
 
+_NUMERIC_OFFSET_BEFORE_YEAR = re.compile(r"[+-]\d{1,2}(?::?\d{2})?\s?(\d{4})$")
+"""Matches a numeric offset immediately followed by a trailing 4-digit year,
+e.g. Twitter's "Fri Jan 26 16:32:21 +0000 2018" (GH-375), where the offset
+regexes in :data:`~dateparser.timezones.timezone_info_list` (anchored to the
+true end of the string, so that search stays fast for the common case) would
+otherwise miss it. This is a single, cheap, non-alternating pattern checked
+only once the normal lookup already failed, so it adds no cost there."""
+
 
 class _TzOffsetInfo(TypedDict):
     regex: regex.Pattern[str]
@@ -58,7 +66,7 @@ def _search_and_pop_tz(date_string: str) -> tuple[str, str, timedelta] | None:
     """
     found = _find_tz(date_string)
     if found is None:
-        return None
+        return _search_and_pop_tz_before_year(date_string)
     (start, stop), name, offset = found
     # A token glued to the digits that follow, as in
     # 2019-09-28WIB19:17:34, leaves a space so that the date and time
@@ -66,6 +74,25 @@ def _search_and_pop_tz(date_string: str) -> tuple[str, str, timedelta] | None:
     glued = stop < len(date_string) and date_string[stop - 1].isalpha()
     separator = " " if glued else ""
     return date_string[: start + 1] + separator + date_string[stop:], name, offset
+
+
+def _search_and_pop_tz_before_year(
+    date_string: str,
+) -> tuple[str, str, timedelta] | None:
+    """Like :func:`_search_and_pop_tz`, but for a numeric offset immediately
+    followed by a trailing year instead of being at the very end."""
+    year_match = _NUMERIC_OFFSET_BEFORE_YEAR.search(date_string)
+    if year_match is None:
+        return None
+    trimmed = date_string[: year_match.start(1)].rstrip()
+    found = _find_tz(trimmed)
+    if found is None:
+        return None
+    (start, stop), name, offset = found
+    rest = trimmed[: start + 1] + trimmed[stop:]
+    if rest and not rest[-1].isspace():
+        rest += " "
+    return rest + year_match.group(1), name, offset
 
 
 @overload
