@@ -1,11 +1,14 @@
 from datetime import datetime, time
+from unittest.mock import patch
 
 import pytest
 
 from dateparser import PartOfDay, PartsOfDay, parse
+from dateparser._parts_of_day import _replace_part_of_day
 from dateparser.conf import SettingValidationError
 from dateparser.date import DateDataParser
 from dateparser.search import search_dates
+from tests import digits_unknown_to_int
 
 BASE = datetime(2026, 9, 28, 15, 0)
 
@@ -90,3 +93,31 @@ def test_search_dates() -> None:
         languages=["es"],
         settings={"RELATIVE_BASE": BASE},
     ) == [("a las 5 de la madrugada del 3 de mayo", datetime(2026, 5, 3, 5, 0))]
+
+
+@pytest.mark.parametrize("translated", ["8 evening", "5:30 night"])
+def test_hour_that_int_rejects_is_left_as_it_is(translated: str) -> None:
+    # int() knows the digits of the Unicode version of this Python only, and the
+    # regular expression of the regex module may know more.
+    with patch("dateparser._parts_of_day.int", side_effect=ValueError, create=True):
+        assert _replace_part_of_day(translated, PartsOfDay()) == (
+            translated,
+            None,
+            False,
+        )
+
+
+def test_digit_that_int_rejects_is_not_an_hour() -> None:
+    digits = digits_unknown_to_int()
+    if not digits:
+        pytest.skip("int() knows every digit that the regex module knows")
+    digit = digits[0]
+    for date_string in (
+        f"5 UTC-1200 {digit} night",
+        f"x GMT+0530 {digit} evening",
+        f"5 UTC-1200 1{digit} night",
+        f"5 UTC-1200 January {digit} evening",
+    ):
+        assert isinstance(parse(date_string), (datetime, type(None)))
+        assert isinstance(search_dates(date_string), (list, type(None)))
+    assert parse(f"{digit} night", settings={"DEFAULT_LANGUAGES": ["en"]}) is None

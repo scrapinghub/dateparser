@@ -14,6 +14,10 @@ if TYPE_CHECKING:
 
     from .conf import Settings
 
+_MAX_EXTRA_TZ = 2
+"""Timezone tokens equivalent to the first one, e.g. "CDT" and "(CDT)" after
+"-0500", that :func:`pop_tz_offset_from_string` also removes."""
+
 
 class _TzOffsetInfo(TypedDict):
     regex: regex.Pattern[str]
@@ -102,9 +106,10 @@ def pop_tz_offset_from_string(
     # A date string may carry both a numeric UTC offset and a redundant,
     # equivalent timezone abbreviation, e.g. the RFC 2822 email form
     # ``-0500 (CDT)`` (the parenthesised name is informational and the numeric
-    # offset is authoritative). Only one token is removed above; strip a second,
-    # equivalent one so the leftover does not break the rest of the parser.
-    while True:
+    # offset is authoritative). Only one token is removed above; strip up to
+    # _MAX_EXTRA_TZ more, equivalent ones so the leftover does not break the
+    # rest of the parser.
+    for _ in range(_MAX_EXTRA_TZ):
         extra = _search_and_pop_tz(date_string)
         if extra is None or overrides.get(extra[1], extra[2]) != offset:
             break
@@ -219,7 +224,7 @@ def _build_tz_regexes() -> _TzRegexes:
                     alternatives.append(f"(?P<tz{len(timezones)}>{variant})")
                     timezones.append((name, timedelta(seconds=offset)))
             pattern = regex.compile(
-                template % f"(?:{'|'.join(alternatives)})",
+                template % f"(?P<tz>{'|'.join(alternatives)})",
                 regex.IGNORECASE,
                 cache_pattern=False,
             )
@@ -249,11 +254,21 @@ def _find_tz(
         # overlapped: in "EST/EDT" both matches share the "/"
         matches = pattern.finditer(string, overlapped=True)
         best: tuple[int, tuple[int, int]] | None = None
+        # The same timezone text always matches the same group, and finding
+        # that group means checking hundreds of them, so do it once per text.
+        indexes: dict[str, int] = {}
         for match in matches:
-            group = next(k for k, v in match.groupdict().items() if v is not None)
-            index = int(group[2:])
+            text = match.group("tz").lower()
+            if text not in indexes:
+                group = next(
+                    k
+                    for k, v in match.groupdict().items()
+                    if v is not None and k != "tz"
+                )
+                indexes[text] = int(group[2:])
+            index = indexes[text]
             if best is None or index < best[0]:
-                best = (index, (match.start(group), match.end()))
+                best = (index, (match.start("tz"), match.end()))
         if best:
             name, offset = timezones[best[0]]
             return best[1], name, offset
