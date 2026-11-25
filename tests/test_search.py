@@ -1,9 +1,11 @@
 import datetime
 from datetime import timedelta
+from time import process_time
 from typing import Any
 from unittest.mock import patch
 
 import pytz
+import regex
 from parameterized import param, parameterized
 
 from dateparser.conf import Settings, apply_settings
@@ -1128,6 +1130,148 @@ class TestTranslateSearch(BaseTestCase):
                 settings=None,
                 expected=[("1990 am 3. März in", datetime.datetime(1990, 3, 3, 0, 0))],
             ),
+            # The period of an abbreviated month or weekday name, e.g. "Jan.",
+            # is not mistaken for the end of a sentence.
+            param(
+                text="Jan. 5, 2020 was a holiday.",
+                languages=["en"],
+                settings=None,
+                expected=[("Jan. 5, 2020", datetime.datetime(2020, 1, 5, 0, 0))],
+            ),
+            param(
+                text="The event is on Jan. 5, 2020 at the hall.",
+                languages=["en"],
+                settings=None,
+                expected=[
+                    ("on Jan. 5, 2020 at the", datetime.datetime(2020, 1, 5, 0, 0))
+                ],
+            ),
+            param(
+                text="He left on 31 Jul. 1999 and came back.",
+                languages=["en"],
+                settings=None,
+                expected=[
+                    ("on 31 Jul. 1999 and", datetime.datetime(1999, 7, 31, 0, 0))
+                ],
+            ),
+            param(
+                # Only the month's full stop is kept. A weekday's is not,
+                # because the shortest weekday names are ordinary words.
+                text="Fri. Jan. 3, 2020",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("Fri", datetime.datetime(2020, 6, 12, 0, 0)),
+                    ("Jan. 3, 2020", datetime.datetime(2020, 1, 3, 0, 0)),
+                ],
+            ),
+            param(
+                text="Sept. 5, 2020",
+                languages=["en"],
+                settings=None,
+                expected=[("Sept. 5, 2020", datetime.datetime(2020, 9, 5, 0, 0))],
+            ),
+            param(
+                text="5 déc. 2020",
+                languages=["fr"],
+                settings=None,
+                expected=[("5 déc. 2020", datetime.datetime(2020, 12, 5, 0, 0))],
+            ),
+            # A full, unabbreviated month or weekday name still ends a
+            # sentence.
+            param(
+                text="See you on Monday. 5 people will come.",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("on Monday", datetime.datetime(2020, 6, 15, 0, 0))],
+            ),
+            param(
+                text="The event is in May. 12 people attended.",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("in May", datetime.datetime(2020, 5, 15, 0, 0))],
+            ),
+            param(
+                text="I left on 3 July. On 5 May 2020 I came back.",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2019, 1, 1)},
+                expected=[
+                    ("on 3 July", datetime.datetime(2019, 7, 3, 0, 0)),
+                    ("On 5 May 2020", datetime.datetime(2020, 5, 5, 0, 0)),
+                ],
+            ),
+            # A day number followed by a full stop and a month name, the
+            # day-month-year order some European languages write out in
+            # full, including English when it borrows the month name
+            # untranslated, as CLDR does for "november".
+            param(
+                # The day-first written form belongs to the locales that
+                # write dates that way, where the day number keeps its own
+                # full stop already. English is not one of them, so "5." here
+                # is a list number and ends the sentence.
+                text="Chapter 5. November 2019 was cold.",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("November 2019", datetime.datetime(2019, 11, 15, 0, 0))],
+            ),
+            param(
+                text="Step 2. May the force be with you",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("May the", datetime.datetime(2020, 5, 15, 0, 0))],
+            ),
+            param(
+                # "10. jul. 2017" in a locale that does write dates this way.
+                text="10. jul. 2017",
+                languages=["de"],
+                settings=None,
+                expected=[("10. jul. 2017", datetime.datetime(2017, 7, 10, 0, 0))],
+            ),
+            param(
+                # A month name whose shorter spelling is another full form,
+                # not an abbreviation, still ends the sentence.
+                text="Сейчас август. Завтра 5 мая 2020 года.",
+                languages=["ru"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("Сейчас", datetime.datetime(2020, 6, 15, 12, 0)),
+                    ("август", datetime.datetime(2020, 8, 15, 0, 0)),
+                    ("Завтра", datetime.datetime(2020, 6, 16, 12, 0)),
+                    ("5 мая 2020 года", datetime.datetime(2020, 5, 5, 0, 0)),
+                ],
+            ),
+            param(
+                # The weekday abbreviation "we" is an ordinary word, so its
+                # full stop must not glue the sentence to the date after it.
+                text="So do we. 5 May 2020 is the date.",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("we", datetime.datetime(2020, 6, 10, 0, 0)),
+                    ("5 May 2020", datetime.datetime(2020, 5, 5, 0, 0)),
+                ],
+            ),
+            # A year is not mistaken for a day number, so a full stop after
+            # one still ends a sentence.
+            param(
+                text="2014. July 13th July 14th",
+                languages=["en"],
+                settings=None,
+                expected=[
+                    ("2014", datetime.datetime(2014, today.month, today.day, 0, 0)),
+                    ("July 13th", datetime.datetime(2014, 7, 13, 0, 0)),
+                    ("July 14th", datetime.datetime(2014, 7, 14, 0, 0)),
+                ],
+            ),
+            # "a.m."/"p.m." is not mistaken for two one-letter sentences, and
+            # keeps its meridiem meaning instead of losing it to the
+            # "m" -> "minute" abbreviation and the "a" -> "1" simplification.
+            param(
+                text="Meeting at 8:45 p.m. sharp.",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 1, 1)},
+                expected=[("at 8:45 p.m", datetime.datetime(2020, 1, 1, 20, 45))],
+            ),
             # Dates not found
             param(text="", languages=None, settings=None, expected=None),
             # Language not detected
@@ -1228,10 +1372,34 @@ class TestTranslateSearch(BaseTestCase):
                 expected=[("on 5 June 2019", datetime.datetime(2019, 6, 5, 0, 0))],
             ),
             param(
+                # The sentence splitter used to cut this chunk at "Sept."
+                # (not recognized as an abbreviation) before this point was
+                # reached, so the relative expression and the date were
+                # parsed as two independent chunks, yielding
+                # ("11, 2001", 2001-11-15) -- the day number read as a month.
+                # Keeping "Sept. 11, 2001" together now routes it through
+                # split_if_not_parsed() instead, whose comma-based split wins
+                # the tie-break over its period-based one (both leave the
+                # relative expression unparsed, but the comma split's
+                # surviving pieces all contain a digit), yielding the year
+                # alone. Neither result is the date a reader would pick; a
+                # better one needs choose_best_split()'s tie-break to change.
                 text="Twenty five years after the Sept. 11, 2001, attacks",
                 languages=["en"],
                 settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
-                expected=[("11, 2001", datetime.datetime(2001, 11, 15, 0, 0))],
+                expected=[("2001", datetime.datetime(2001, 6, 15, 0, 0))],
+            ),
+            param(
+                # "thirty two" is one number spelled across two words, so the
+                # "32" it translates to has no single word of the original to
+                # line up with, and split_around_skipped_words() gives up
+                # rather than align them wrongly. Nothing else in this file
+                # reaches that guard, so keep this case even though the
+                # result is None.
+                text="thirty two months after March 2010",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=None,
             ),
             param(
                 text="Sep 15, 2026 10:50 AM Fifty years after Paris",
@@ -1437,6 +1605,14 @@ class TestTranslateSearch(BaseTestCase):
                 ],
             ),
             param(
+                text="2020年9月1日 2天前",
+                languages=["zh"],
+                expected=[
+                    ("2020年9月1日", datetime.datetime(2020, 9, 1, 0, 0)),
+                    ("2天前", relative_base - timedelta(days=2)),
+                ],
+            ),
+            param(
                 text="後天，2020/9/1",
                 languages=["zh-Hant"],
                 expected=[
@@ -1581,6 +1757,55 @@ class TestTranslateSearch(BaseTestCase):
         # Only the words of a multi-word dictionary entry that the splitter keeps
         # whole count for language detection, not those of an unrecognised chunk
         # such as " mai " (the "mai" of Vietnamese "ngày mai").
+        result = search_dates(
+            text,
+            settings={"RELATIVE_BASE": datetime.datetime(2026, 9, 23, 12)},
+            add_detected_language=True,
+        )
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(
+                text="He was born on 4 October 1957 and they married on 02/01/1958.",
+                expected=[
+                    ("on 4 October 1957 and", datetime.datetime(1957, 10, 4), "en"),
+                    ("on 02/01/1958", datetime.datetime(1958, 2, 1), "en"),
+                ],
+            ),
+            param(
+                text="The meeting is on 4 October 1957 and the follow-up on 02/01/1958.",
+                expected=[
+                    (
+                        "on 4 October 1957 and the",
+                        datetime.datetime(1957, 10, 4),
+                        "en",
+                    ),
+                    ("on 02/01/1958", datetime.datetime(1958, 2, 1), "en"),
+                ],
+            ),
+            param(
+                text="The report from 12 May 2018 mentions 08/09/2018 as the deadline.",
+                expected=[
+                    ("from 12 May 2018", datetime.datetime(2018, 5, 12), "en"),
+                    ("08/09/2018", datetime.datetime(2018, 8, 9), "en"),
+                ],
+            ),
+            param(
+                text="Published 3 February 2022 and revised 04/03/2022.",
+                expected=[
+                    ("3 February 2022 and", datetime.datetime(2022, 2, 3), "en"),
+                    ("04/03/2022", datetime.datetime(2022, 4, 3), "en"),
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_numerals_do_not_decide_the_language(
+        self, text: str, expected: list[tuple[str, datetime.datetime, str]]
+    ) -> None:
+        # The numerals of a date are not words of any language. Counting the "01"
+        # and "02" of "02/01/1958" as Vietnamese words, because Vietnamese lists
+        # zero-padded months, made English text look Vietnamese.
         result = search_dates(
             text,
             settings={"RELATIVE_BASE": datetime.datetime(2026, 9, 23, 12)},
@@ -1897,6 +2122,26 @@ class TestTranslateSearch(BaseTestCase):
             result, [("at 22h tomorrow", datetime.datetime(2026, 9, 25, 22))]
         )
 
+    def test_search_dates_long_skipped_word_run(self) -> None:
+        start = process_time()
+        search_dates(", " * 800, languages=["zh"])
+        self.assertLess(process_time() - start, 1.0)
+
+    def test_search_dates_long_punctuation_run_between_dates(self) -> None:
+        start = process_time()
+        search_dates("2020年9月1日" + "，" * 8000 + "后天", languages=["zh"])
+        self.assertLess(process_time() - start, 1.0)
+
+    def test_search_dates_skipped_words_before_relative_expression(self) -> None:
+        result = search_dates("and " * 11 + "in 2 days 2020-09-01", languages=["en"])
+        assert result is not None
+        self.assertEqual(result[-1], ("2020-09-01", datetime.datetime(2020, 9, 1)))
+
+    def test_search_dates_long_skipped_word_run_next_to_numeric_date(self) -> None:
+        start = process_time()
+        search_dates("and " * 800 + "in 2 days 2020-09-01", languages=["en"])
+        self.assertLess(process_time() - start, 1.0)
+
     def test_search_dates_skipped_word_changes_translation(self) -> None:
         result = search_dates(
             "Chaque jour de 9h30 à 18h",
@@ -2137,6 +2382,67 @@ class TestTranslateSearch(BaseTestCase):
             [
                 ("for the past month (start)", base - timedelta(days=30), "day"),
                 ("for the past month (end)", base, "day"),
+            ],
+        )
+
+    @parameterized.expand(
+        [
+            param("next_split", "the next 120000 months", "split"),
+            param("last_split", "the last 120000 months", "split"),
+            param("past_year_0", "the past 24234 months", "split"),
+            param("next_ngram", "the next 120000 months", "ngram"),
+        ]
+    )
+    def test_time_span_outside_the_years_1_to_9999_is_left_out(
+        self, label: str, text: str, strategy: str
+    ) -> None:
+        self.assertIsNone(
+            search_dates(
+                text,
+                languages=["en"],
+                settings={
+                    "RETURN_TIME_SPAN": True,
+                    "RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12, 0),
+                },
+                strategy=strategy,
+            )
+        )
+
+    @parameterized.expand(
+        [
+            param("split", "on 12 January 2020"),
+            param("ngram", "12 January 2020"),
+        ]
+    )
+    def test_time_span_outside_the_years_1_to_9999_keeps_the_other_dates(
+        self, strategy: str, found: str
+    ) -> None:
+        self.assertEqual(
+            search_dates(
+                "Meeting on 12 January 2020. Totals for the last 120000 months.",
+                languages=["en"],
+                settings={
+                    "RETURN_TIME_SPAN": True,
+                    "RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12, 0),
+                },
+                strategy=strategy,
+            ),
+            [(found, datetime.datetime(2020, 1, 12))],
+        )
+
+    def test_time_span_starting_in_the_year_1_is_returned(self) -> None:
+        base = datetime.datetime(2020, 6, 15, 12, 0)
+        result = search_dates(
+            "the past 24233 months",
+            languages=["en"],
+            settings={"RETURN_TIME_SPAN": True, "RELATIVE_BASE": base},
+        )
+        assert result is not None
+        self.assertEqual(
+            result[-2:],
+            [
+                ("past 24233 months (start)", datetime.datetime(1, 1, 15, 12, 0)),
+                ("past 24233 months (end)", base),
             ],
         )
 
@@ -3045,6 +3351,60 @@ class TestNgramSearch(BaseTestCase):
         self.assertEqual(
             result, [("15032024", datetime.datetime(2024, 3, 15), "day", "en")]
         )
+
+    @parameterized.expand(
+        [
+            # (text, date formats, language, letter, the letter that the
+            # pattern of the names takes it for, expected result)
+            param(
+                "on \u017feptember 5 2020 ok",
+                ["%B %d %Y"],
+                "en",
+                "\u017f",
+                "s",
+                [("\u017feptember 5 2020", datetime.datetime(2020, 9, 5))],
+            ),
+            param(
+                "on 5 \u017fep 2020 ok",
+                ["%d %b %Y"],
+                "en",
+                "\u017f",
+                "s",
+                [("5 \u017fep 2020", datetime.datetime(2020, 9, 5))],
+            ),
+            param(
+                "on 5 ARALIK 2020 ok",
+                ["%d %B %Y"],
+                "tr",
+                "I",
+                "\u0131",
+                [("5 ARALIK 2020", datetime.datetime(2020, 12, 5))],
+            ),
+        ]
+    )
+    def test_date_formats_with_a_letter_equal_to_another_in_names(
+        self,
+        text: str,
+        date_formats: list[str],
+        language: str,
+        letter: str,
+        same_as: str,
+        expected: list[tuple[str, datetime.datetime]],
+    ) -> None:
+        # The lookup of the name used to raise KeyError for such a spelling, which
+        # the search caught and logged for each candidate, so only a part of the
+        # date, or a wrong date, was found.
+        if not regex.fullmatch(regex.escape(same_as), letter, flags=regex.IGNORECASE):
+            self.skipTest(f"the regex module does not take {letter!r} for {same_as!r}")
+        with self.assertNoLogs("dateparser.search.ngram_search", "WARNING"):
+            result = search_dates(
+                text,
+                languages=[language],
+                settings={"RELATIVE_BASE": datetime.datetime(2021, 6, 15)},
+                strategy="ngram",
+                date_formats=date_formats,
+            )
+        self.assertEqual(result, expected)
 
     def test_date_formats_require_ngram_strategy(self) -> None:
         with self.assertRaisesRegex(ValueError, "date_formats requires"):
