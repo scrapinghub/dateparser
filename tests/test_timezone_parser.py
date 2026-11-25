@@ -76,6 +76,17 @@ class TestTZPopping(BaseTestCase):
             param("Thu, 19 Jan 2023 10:45:00 +03", 3),
             param("19 Jan 2023 10:45:00 -04", -4),
             param("2015-04-12", None),
+            # Twitter-style dates, with the offset followed by a trailing
+            # 4-digit year instead of being at the very end, see GH-375.
+            param("Fri Jan 26 16:32:21 +0000 2018", 0),
+            param("Fri Jan 26 16:32:21 -0500 2018", -5),
+            param("Fri Jan 26 16:32:21 +00:00 2018", 0),
+            param("Fri Jan 26 16:32:21 +05:30 2018", 5.5),
+            param("Fri Jan 26 16:32:21 +12 2018", 12),
+            # An offset followed by anything other than a 4-digit year is
+            # intentionally left alone, to avoid misreading unrelated
+            # trailing numbers as part of a date (e.g. GH-1599 review).
+            param("01.05.2020 -04.30", None),
         ]
     )
     def test_extracting_valid_offset(
@@ -109,6 +120,8 @@ class TestTZPopping(BaseTestCase):
                 "Thu 30 May 2024 10:13:10 ",
             ),
             param("2019-09-28WIB19:17:34+07:00", "2019-09-28 19:17:34"),
+            param("Fri Jan 26 16:32:21 +0000 2018", "Fri Jan 26 16:32:21 2018"),
+            param("16:32:21+0000 2018", "16:32:21 2018"),
         ]
     )
     def test_timezone_deleted_from_string(
