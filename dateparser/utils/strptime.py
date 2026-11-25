@@ -122,21 +122,27 @@ def _inspect_format(og_format: str) -> tuple[bool, bool]:
     return day_of_month_in_format and not year_in_format, day_of_year_in_format
 
 
-def _prepare_format(date_string: str, og_format: str) -> tuple[str, str, bool]:
+def _prepare_format(
+    date_string: str, og_format: str, reference_year: int | None = None
+) -> tuple[str, str, bool]:
     missing_year, day_of_year_in_format = _inspect_format(og_format)
     if missing_year:
-        current_year = datetime.today().year
+        year = reference_year if reference_year is not None else datetime.today().year
         return (
-            f"{current_year} {date_string}",
+            f"{year} {date_string}",
             f"%Y {og_format}",
             day_of_year_in_format,
         )
     return date_string, og_format, day_of_year_in_format
 
 
-def strptime(date_string: str, format: str) -> datetime:  # noqa: A002
+def strptime(
+    date_string: str,
+    format: str,  # noqa: A002
+    reference_year: int | None = None,
+) -> datetime:
     date_string, prepared_format, day_of_year_in_format = _prepare_format(
-        date_string, format
+        date_string, format, reference_year
     )
     time_tuple = __strptime(date_string, prepared_format)
     obj = datetime(*time_tuple[:-3])
