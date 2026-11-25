@@ -310,8 +310,8 @@ See the `API reference
 <https://dateparser.readthedocs.io/en/latest/dateparser.html#dateparser.search.search_dates>`__
 for other parameters, such as ``strategy``.
 
-``search_first_date`` stops at the first date, which is faster when you only
-need that one:
+``search_first_date()`` stops at the first date, which is faster when you
+only need that one:
 
 .. code:: python
 

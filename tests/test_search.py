@@ -3424,6 +3424,11 @@ class TestSearchFirstDate(BaseTestCase):
                         "RELATIVE_BASE": datetime.datetime(2025, 2, 15),
                     },
                 ),
+                (
+                    "The case was heard yesterday and last Friday.",
+                    ["en"],
+                    {"RELATIVE_BASE": datetime.datetime(2025, 2, 15)},
+                ),
                 ("Hello world", ["en"], None),
             ]
             for strategy in ("split", "ngram")

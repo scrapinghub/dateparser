@@ -710,13 +710,22 @@ class _ExactLanguageSearch:
         of nested calls.
         """
         parsed: list[tuple[DateData, bool]] = []
-        substrings = []
+        substrings: list[str] = []
         skip = {word.lower() for word in language.info.get("skip", [])}
         need_relative_base = True
         if settings.RELATIVE_BASE:
             need_relative_base = False
         for i, item in enumerate(to_parse):
-            if limit is not None and len(parsed) >= limit:
+            if (
+                limit is not None
+                and len(parsed) >= limit
+                # A connector that ends the last date, e.g. "and" in
+                # "yesterday and", is trimmed only if another date follows.
+                and (
+                    len(parsed) > limit
+                    or substrings[-1].rsplit(" ", 1)[-1].lower() not in skip
+                )
+            ):
                 break
             if len(item) <= 2:
                 continue
