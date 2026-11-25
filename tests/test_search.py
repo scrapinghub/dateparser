@@ -2291,6 +2291,8 @@ class TestTranslateSearch(BaseTestCase):
             param(text="bar", strategy="split"),
             param(text="are", strategy="ngram"),
             param(text="car", strategy="ngram"),
+            param(text="Mai", strategy="split"),
+            param(text="lun", strategy="ngram"),
         ]
     )
     def test_search_dates_ignores_short_words_of_a_detected_language(
@@ -2303,6 +2305,8 @@ class TestTranslateSearch(BaseTestCase):
             param(text="See you Mon", languages=None, expected="Mon"),
             param(text="Nos vemos el lun", languages=["es"], expected="lun"),
             param(text="hoy", languages=None, expected="hoy"),
+            param(text="Ouvert le lun", languages=None, expected="le lun"),
+            param(text="Wir sehen uns im Mai", languages=None, expected="im Mai"),
         ]
     )
     def test_search_dates_finds_short_words(
