@@ -1282,6 +1282,24 @@ info = {
             "p\\.m\\.?": "pm"
         },
         {
+            "half an hour": "30 minutes"
+        },
+        {
+            "half a minute": "30 seconds"
+        },
+        {
+            "half a day": "12 hours"
+        },
+        {
+            "half a week": "3.5 days"
+        },
+        {
+            "half a year": "6 months"
+        },
+        {
+            "an? (minute|hour|day|week|year) and a half": "1.5 \\1"
+        },
+        {
             "an": "1"
         },
         {
