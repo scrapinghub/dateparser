@@ -919,7 +919,7 @@ class TestTranslateSearch(BaseTestCase):
         )
         self.assertEqual([date[:2] for date in result], expected)
 
-    def test_no_relative_base_leak_across_split_candidates(self):
+    def test_no_relative_base_leak_across_split_candidates(self) -> None:
         """The first date of a text must not inherit RELATIVE_BASE left over
         from a different, unrelated candidate split explored earlier for the
         same substring.
