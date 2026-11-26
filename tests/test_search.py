@@ -919,6 +919,43 @@ class TestTranslateSearch(BaseTestCase):
         )
         self.assertEqual([date[:2] for date in result], expected)
 
+    def test_no_relative_base_leak_across_split_candidates(self) -> None:
+        """The first date of a text must not inherit RELATIVE_BASE left over
+        from a different, unrelated candidate split explored earlier for the
+        same substring.
+        """
+        text = "March 3, 2001, April 9 2001, May 10, June, 14 2002, July 2"
+
+        result = search_dates(text, languages=["en"])
+        self.assertEqual(
+            result,
+            [
+                ("March 3", datetime.datetime(today.year, 3, 3, 0, 0)),
+                ("2001, April", datetime.datetime(2001, 4, 3, 0, 0)),
+                ("9 2001", datetime.datetime(2001, 9, 3, 0, 0)),
+                ("May 10", datetime.datetime(2001, 5, 10, 0, 0)),
+                ("June, 14", datetime.datetime(2001, 6, 14, 0, 0)),
+                ("2002, July", datetime.datetime(2002, 7, 14, 0, 0)),
+            ],
+        )
+
+        result = search_dates(
+            text,
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+        )
+        self.assertEqual(
+            result,
+            [
+                ("March 3", datetime.datetime(2000, 3, 3, 0, 0)),
+                ("2001, April", datetime.datetime(2001, 4, 1, 0, 0)),
+                ("9 2001", datetime.datetime(2001, 9, 1, 0, 0)),
+                ("May 10", datetime.datetime(2000, 5, 10, 0, 0)),
+                ("June, 14", datetime.datetime(2000, 6, 14, 0, 0)),
+                ("2002, July", datetime.datetime(2002, 7, 1, 0, 0)),
+            ],
+        )
+
     @parameterized.expand(
         [
             # Arabic
