@@ -347,6 +347,83 @@ class TestTranslateSearch(BaseTestCase):
                     ]
                 },
             ),
+            # Issue #1582: a number glued to a currency/symbol shouldn't be
+            # absorbed into an adjacent date.
+            param(
+                "en",
+                "Paid $20 on January 5, 2024",
+                [("on January 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)},
+            ),
+            param(
+                "en",
+                "Paid $20 on Jan 5",
+                [("on Jan 5", datetime.datetime(2024, 1, 5, 0, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)},
+            ),
+            param(
+                "en",
+                "20$ on Jan 5, 2024",
+                [("on Jan 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)},
+            ),
+            param(
+                "en",
+                "Discount 50% on Jan 5, 2024",
+                [("on Jan 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)},
+            ),
+            param(
+                "en",
+                "Item #5 released on Jan 5, 2024",
+                [("on Jan 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)},
+            ),
+            # A number glued to a non-currency symbol (footnote, markdown,
+            # mention/time marker) must stay attached to its date.
+            param(
+                "en",
+                "Released on 5 Jan 2024*",
+                [("on 5 Jan 2024*", datetime.datetime(2024, 1, 5, 0, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)},
+            ),
+            param(
+                "en",
+                "**5 January 2024**",
+                [("**5 January 2024**", datetime.datetime(2024, 1, 5, 0, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)},
+            ),
+            param(
+                "en",
+                "Meeting @10:00 on 5 January 2024",
+                [
+                    (
+                        "@10:00 on 5 January 2024",
+                        datetime.datetime(2024, 1, 5, 10, 0),
+                    )
+                ],
+                settings={"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)},
+            ),
+            # ISO offsets like "+00:00" must still be kept with their date.
+            param(
+                "en",
+                "2014-10-15T16:12:20+00:00",
+                [
+                    (
+                        "2014-10-15T16:12:20+00:00",
+                        datetime.datetime(
+                            2014,
+                            10,
+                            15,
+                            16,
+                            12,
+                            20,
+                            tzinfo=StaticTzInfo("UTC+00:00", datetime.timedelta(0)),
+                        ),
+                    )
+                ],
+                settings={"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)},
+            ),
             param(
                 "en",
                 "25th march 2015 , i need this report today.",

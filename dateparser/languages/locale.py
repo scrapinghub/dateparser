@@ -33,6 +33,7 @@ _MONTH_KEYS = KNOWN_WORD_TOKENS[
 ]
 
 NUMERAL_PATTERN = re.compile(r"(\d+)", re.U)
+SYMBOL_ADJACENT_NUMBER_PATTERN = re.compile(r"[$€£%]\d|\d[$€£%]")
 _MAX_TRANSLATIONS = 16
 
 # Arabic and Persian text is often typed with the yeh and kaf of the other
@@ -948,6 +949,9 @@ class Locale:
         return re.sub(r"\s{2,}", " ", " ".join(chunk))
 
     def _token_with_digits_is_ok(self, token: str) -> bool:
+        if SYMBOL_ADJACENT_NUMBER_PATTERN.search(token):
+            return False
+
         if "no_word_spacing" in self.info:
             return re.search(r"[\d\.:\-/]+", token) is not None
 
