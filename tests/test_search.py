@@ -379,6 +379,31 @@ class TestTranslateSearch(BaseTestCase):
                 [("on Jan 5, 2024", datetime.datetime(2024, 1, 5, 0, 0))],
                 settings={"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)},
             ),
+            # A number glued to a non-currency symbol (footnote, markdown,
+            # mention/time marker) must stay attached to its date.
+            param(
+                "en",
+                "Released on 5 Jan 2024*",
+                [("on 5 Jan 2024*", datetime.datetime(2024, 1, 5, 0, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)},
+            ),
+            param(
+                "en",
+                "**5 January 2024**",
+                [("**5 January 2024**", datetime.datetime(2024, 1, 5, 0, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)},
+            ),
+            param(
+                "en",
+                "Meeting @10:00 on 5 January 2024",
+                [
+                    (
+                        "@10:00 on 5 January 2024",
+                        datetime.datetime(2024, 1, 5, 10, 0),
+                    )
+                ],
+                settings={"RELATIVE_BASE": datetime.datetime(2024, 6, 15, 12)},
+            ),
             # ISO offsets like "+00:00" must still be kept with their date.
             param(
                 "en",

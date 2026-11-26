@@ -33,7 +33,7 @@ _MONTH_KEYS = KNOWN_WORD_TOKENS[
 ]
 
 NUMERAL_PATTERN = re.compile(r"(\d+)", re.U)
-SYMBOL_ADJACENT_NUMBER_PATTERN = re.compile(r"[$€£#%@&*~]\d|\d[$€£#%@&*~]")
+SYMBOL_ADJACENT_NUMBER_PATTERN = re.compile(r"[$€£%]\d|\d[$€£%]")
 _MAX_TRANSLATIONS = 16
 
 # Arabic and Persian text is often typed with the yeh and kaf of the other
