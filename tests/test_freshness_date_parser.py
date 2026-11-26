@@ -1034,6 +1034,15 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("2.5 hours", ago={"hours": 2.5}, period="day"),
             param("10.75 minutes", ago={"minutes": 10.75}, period="day"),
             param("1.5 days", ago={"days": 1.5}, period="day"),
+            # Half units
+            param("half an hour ago", ago={"minutes": 30}, period="day"),
+            param("half a minute ago", ago={"seconds": 30}, period="day"),
+            param("half a day ago", ago={"hours": 12}, period="day"),
+            param("half a week ago", ago={"days": 3.5}, period="day"),
+            param("half a year ago", ago={"months": 6}, period="month"),
+            param("an hour and a half ago", ago={"minutes": 90}, period="day"),
+            param("a day and a half ago", ago={"days": 1.5}, period="day"),
+            param("a week and a half ago", ago={"days": 10.5}, period="week"),
             # French dates
             param("Aujourd'hui", ago={"days": 0}, period="day"),
             param("Aujourd’hui", ago={"days": 0}, period="day"),
@@ -1903,6 +1912,11 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("in 2.5 hours", in_future={"hours": 2.5}, period="day"),
             param("in 10.75 minutes", in_future={"minutes": 10.75}, period="day"),
             param("in 1.5 days", in_future={"days": 1.5}, period="day"),
+            # Half units
+            param("in half an hour", in_future={"minutes": 30}, period="day"),
+            param("in half a day", in_future={"hours": 12}, period="day"),
+            param("in an hour and a half", in_future={"minutes": 90}, period="day"),
+            param("in a day and a half", in_future={"days": 1.5}, period="day"),
             param("in 0,5 hours", in_future={"hours": 0.5}, period="day"),
             param("1.5 days later", in_future={"days": 1.5}, period="day"),
             param("0,5 hours later", in_future={"hours": 0.5}, period="day"),
