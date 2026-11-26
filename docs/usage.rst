@@ -27,12 +27,12 @@ See :ref:`performance` for ways to make parsing faster.
 Getting the date format
 +++++++++++++++++++++++
 
+.. versionadded:: VERSION
+
 The ``date_format`` attribute of the returned ``DateData`` object is a format
 that, passed in *date_formats* to the same parser, parses the same string into
 the same date, or ``None`` if dateparser cannot provide one, e.g. for relative
 dates or, for now, dates with a time or a time zone.
-
-.. versionadded:: VERSION
 
 For example:
 
