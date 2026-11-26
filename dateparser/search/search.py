@@ -14,6 +14,7 @@ from dateparser.languages.loader import LocaleDataLoader
 from dateparser.languages.locale import _WEEKDAY_MODIFIERS, PUNCTUATION, Locale
 from dateparser.search.ngram_search import _DateResult, _NgramDateSearch
 from dateparser.search.text_detection import FullTextLanguageDetector
+from dateparser.utils import _now
 from dateparser.utils.time_spans import detect_time_span, generate_time_span
 
 RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
@@ -248,7 +249,17 @@ def _add_time_span_results(
 _RANGE_CONNECTORS = frozenset(
     ["-", "–", "—", "——", "～", "~", "to", "until", "till", "through", "thru"]
 )
-_PERIODS = ["second", "minute", "hour", "time", "day", "week", "month", "year"]
+_PERIODS = [
+    "second",
+    "minute",
+    "hour",
+    "time",
+    "day",
+    "week",
+    "month",
+    "quarter",
+    "year",
+]
 _DATE_PARTS = frozenset(["year", "month", "day"])
 _DateReading = tuple[datetime, str | None]
 
@@ -276,23 +287,27 @@ class _RangeCompleter:
         date_formats: Sequence[str] | None,
     ) -> None:
         self.date_formats = date_formats
-        base = settings.RELATIVE_BASE or datetime.now()
-        self.parser, self.next_day_parser = (
+        self.parser = DateDataParser(
+            languages=languages, use_given_order=True, settings=settings
+        )
+        base = settings.RELATIVE_BASE or _now(settings)
+        self.base_parsers = [
             DateDataParser(
                 languages=languages,
                 use_given_order=True,
                 settings=settings.replace(RELATIVE_BASE=relative_base),
             )
             for relative_base in (base, base + timedelta(days=1))
-        )
+        ]
 
-    def is_undated(self, substring: str, date_obj: datetime) -> bool:
+    def is_undated(self, substring: str) -> bool:
         # A date that moves with the relative base is not written in the text,
         # e.g. that of “2:30” in “2:30 - 3:30 PM”.
-        next_day = self.next_day_parser.get_date_data(
-            substring, self.date_formats
-        ).date_obj
-        return next_day == date_obj + timedelta(days=1)
+        date_obj, next_day = (
+            parser.get_date_data(substring, self.date_formats).date_obj
+            for parser in self.base_parsers
+        )
+        return date_obj is not None and next_day == date_obj + timedelta(days=1)
 
     def complete(
         self, start: str, end: str
@@ -303,11 +318,13 @@ class _RangeCompleter:
         end_data = self.parser.get_date_data(end, self.date_formats)
         if start_data.date_obj is None or end_data.date_obj is None:
             return None, None
-        start_undated = self.is_undated(start, start_data.date_obj)
-        end_undated = self.is_undated(end, end_data.date_obj)
+        start_undated = self.is_undated(start)
+        end_undated = self.is_undated(end)
         completed_end = None
         if not (start_undated and end_undated):
-            completed_end = self.complete_end(start, start_data, end, end_data)
+            completed_end = self.complete_end(
+                start, start_data, end, end_data, end_undated
+            )
         completed_start = self.complete_start(
             start,
             start_data,
@@ -319,7 +336,12 @@ class _RangeCompleter:
         return completed_start, completed_end
 
     def complete_end(
-        self, start: str, start_data: DateData, end: str, end_data: DateData
+        self,
+        start: str,
+        start_data: DateData,
+        end: str,
+        end_data: DateData,
+        end_undated: bool,
     ) -> _DateReading | None:
         start_date, end_date = start_data.date_obj, end_data.date_obj
         assert start_date is not None
@@ -329,7 +351,7 @@ class _RangeCompleter:
         # “10:14 PM” in “29 September 2026 - 10:14 PM”.
         if missing:
             longest = len(start.split()) - 1
-        elif self.is_undated(end, end_date):
+        elif end_undated:
             longest = len(start.split())
         else:
             return None
@@ -1052,7 +1074,21 @@ class _ExactLanguageSearch:
             (substring, date_data["date_obj"], date_data["period"])
             for substring, (date_data, _) in zip(substrings, parsed, strict=True)
         ]
-        results = _complete_ranges(results, text, [shortname], settings)
+        range_settings = settings
+        if (
+            languages != [shortname]
+            and settings.PREFER_LOCALE_DATE_ORDER
+            and "DATE_ORDER" not in settings._mod_settings
+        ):
+            # The dates were found in the text translated into *languages*, so
+            # their ranges are read in the date order of those languages.
+            range_settings = settings.replace(
+                PREFER_LOCALE_DATE_ORDER=False,
+                DATE_ORDER=next(self.loader.get_locales(languages=languages)).info[
+                    "date_order"
+                ],
+            )
+        results = _complete_ranges(results, text, [shortname], range_settings)
 
         _add_time_span_results(results, text, settings)
 

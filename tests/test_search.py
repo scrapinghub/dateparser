@@ -741,6 +741,13 @@ class TestTranslateSearch(BaseTestCase):
                         ),
                     ],
                 ),
+                (
+                    "2019 to 2021 Q4",
+                    [
+                        ("2019", datetime.datetime(2019, 10, 1)),
+                        ("2021 Q4", datetime.datetime(2021, 10, 1)),
+                    ],
+                ),
             ]
         ]
     )
@@ -861,6 +868,43 @@ class TestTranslateSearch(BaseTestCase):
             [
                 ("May a 2", datetime.datetime(2000, 5, 2)),
                 ("June a 5", datetime.datetime(2000, 6, 5)),
+            ],
+        )
+
+    @parameterized.expand([param("split"), param("ngram")])
+    def test_search_dates_range_in_the_date_order_of_its_ends(
+        self, strategy: str
+    ) -> None:
+        result = search_dates(
+            "3/4/2020 10:00 - 12:00",
+            languages=["es"],
+            settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+            strategy=strategy,
+        )
+        assert result is not None
+        start, end = (date_obj for _, date_obj, *_ in result)
+        self.assertEqual(end, start.replace(hour=12))
+
+    @parameterized.expand([param("split"), param("ngram")])
+    def test_search_dates_range_without_relative_base(self, strategy: str) -> None:
+        class UtilsDateTime(datetime.datetime):
+            @classmethod
+            def now(cls, tz: datetime.tzinfo | None = None) -> datetime.datetime:  # type: ignore[override]
+                now = datetime.datetime(2026, 6, 1, 0, 30, tzinfo=datetime.timezone.utc)
+                return now.astimezone(tz) if tz else now.replace(tzinfo=None)
+
+        with patch("dateparser.utils.datetime", UtilsDateTime):
+            result = search_dates(
+                "10:00 to 11:00 PM",
+                languages=["en"],
+                settings={"TIMEZONE": "America/New_York"},
+                strategy=strategy,
+            )
+        self.assertEqual(
+            result,
+            [
+                ("10:00", datetime.datetime(2026, 5, 31, 22)),
+                ("11:00 PM", datetime.datetime(2026, 5, 31, 23)),
             ],
         )
 
