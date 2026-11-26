@@ -4,13 +4,13 @@ from typing import Any, ClassVar, Protocol
 
 from dateparser.conf import Settings, settings
 from dateparser.date import DateData
-from dateparser.parser import _parser
+from dateparser.parser import _Directives, _parser
 
 
 class _CalendarParser(Protocol):
     def _parse_with_parts(
         self, datestring: str, settings: Settings
-    ) -> tuple[datetime, str | None, tuple[str, ...]]: ...
+    ) -> tuple[datetime, str | None, tuple[str, ...], _Directives]: ...
 
 
 class _PartlessCalendarParser(Protocol):
@@ -35,7 +35,7 @@ class CalendarBase:
     def get_date(self) -> DateData | None:
         try:
             if hasattr(self.parser, "_parse_with_parts"):
-                date_obj, period, parts = self.parser._parse_with_parts(
+                date_obj, period, parts, _ = self.parser._parse_with_parts(
                     self.source, settings
                 )
             else:
@@ -163,7 +163,7 @@ class non_gregorian_parser(_parser):
         tz: tzinfo | None = None,
         date_order: str | None = None,
     ) -> tuple[datetime, str | None]:
-        date_obj, period, _ = cls._parse_with_parts(
+        date_obj, period, *_ = cls._parse_with_parts(
             datestring, settings, tz, date_order
         )
         return date_obj, period
@@ -175,6 +175,6 @@ class non_gregorian_parser(_parser):
         settings: Settings,
         tz: tzinfo | None = None,
         date_order: str | None = None,
-    ) -> tuple[datetime, str | None, tuple[str, ...]]:
+    ) -> tuple[datetime, str | None, tuple[str, ...], _Directives]:
         datestring = cls.to_latin(datestring)
         return super()._parse_with_parts(datestring, settings, tz, date_order)

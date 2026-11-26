@@ -425,7 +425,7 @@ class TestNoSpaceParser(BaseTestCase):
 
     def when_date_is_parsed(self, date_string: str) -> None:
         try:
-            self.result: tuple[datetime, str, tuple[str, ...]] | str = (
+            self.result: tuple[datetime, str, tuple[str, ...], Any] | str = (
                 self.parser.parse(date_string, self.settings)
             )
         except Exception as error:

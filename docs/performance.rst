@@ -26,7 +26,7 @@ setting. To parse many strings with the same parameters and settings, create a
     >>> from dateparser.date import DateDataParser
     >>> ddp = DateDataParser(languages=['es'], settings={'PARSERS': ['absolute-time']})
     >>> ddp.get_date_data('12 de marzo de 2020')
-    DateData(date_obj=datetime.datetime(2020, 3, 12, 0, 0), period='day', locale='es')
+    DateData(date_obj=datetime.datetime(2020, 3, 12, 0, 0), period='day', locale='es', parts=('year', 'month', 'day'), date_format='%d %B %Y')
 
 Limit the parsers
 -----------------

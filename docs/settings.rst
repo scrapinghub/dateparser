@@ -247,7 +247,7 @@ Language Detection
 
     >>> from dateparser.date import DateDataParser
     >>> DateDataParser(settings={'SKIP_TOKENS': ['de']}).get_date_data(u'27 Haziran 1981 de')  # Turkish (at 27 June 1981)
-    DateData(date_obj=datetime.datetime(1981, 6, 27, 0, 0), period='day', locale='tr', parts=('year', 'month', 'day'))
+    DateData(date_obj=datetime.datetime(1981, 6, 27, 0, 0), period='day', locale='tr', parts=('year', 'month', 'day'), date_format='%d %B %Y ')
 
 ``NORMALIZE``: applies unicode normalization (removing accents, diacritics...) when parsing the words. Defaults to True.
 
@@ -322,7 +322,7 @@ Defaults to ``False``.
 
     >>> ddp = DateDataParser(settings={'RETURN_TIME_AS_PERIOD': True})
     >>> ddp.get_date_data('vr jan 24, 2014 12:49')
-    DateData(date_obj=datetime.datetime(2014, 1, 24, 12, 49), period='time', locale='nl', parts=('year', 'month', 'day', 'time'))
+    DateData(date_obj=datetime.datetime(2014, 1, 24, 12, 49), period='time', locale='nl', parts=('year', 'month', 'day', 'time'), date_format=None)
 
 ``PARTS_OF_DAY``: a :class:`~dateparser.PartsOfDay` object that sets the time
 to use for each part of the day, e.g. for ``tonight``. Defaults to
@@ -334,7 +334,7 @@ to use for each part of the day, e.g. for ``tonight``. Defaults to
     >>> from dateparser import PartsOfDay
     >>> ddp = DateDataParser(settings={'PARTS_OF_DAY': PartsOfDay(night=time(22)), 'RETURN_TIME_AS_PERIOD': True})
     >>> ddp.get_date_data('5 January 2026 at night')
-    DateData(date_obj=datetime.datetime(2026, 1, 5, 22, 0), period='part_of_day', locale='en', part_of_day=<PartOfDay.NIGHT: 'night'>)
+    DateData(date_obj=datetime.datetime(2026, 1, 5, 22, 0), period='part_of_day', locale='en', parts=('year', 'month', 'day', 'time'), date_format=None, part_of_day=<PartOfDay.NIGHT: 'night'>)
 
 .. autoclass:: dateparser.PartsOfDay
     :members:
