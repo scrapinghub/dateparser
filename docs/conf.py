@@ -28,10 +28,7 @@ sys.path.insert(0, project_root)
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
-    "sphinx.ext.autodoc",
-    "sphinx.ext.viewcode",
-    "sphinx.ext.intersphinx",
-    "sphinx_rtd_theme",
+    "sphinx_scrapy",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -115,10 +112,6 @@ texinfo_documents = [
         "Miscellaneous",
     ),
 ]
-
-# sphinx.ext.intersphinx confs
-intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
-
 
 html_theme_options = {
     "logo_only": True,
