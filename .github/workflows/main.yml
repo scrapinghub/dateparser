@@ -19,6 +19,9 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # OIDC authentication with Codecov
     strategy:
       fail-fast: false
       matrix:
@@ -73,4 +76,11 @@ jobs:
         if: github.event_name == 'push' || github.event_name == 'pull_request'
         uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          use_oidc: true
+      - name: Upload test results to codecov
+        # See the comment on the coverage upload step above about nightly runs.
+        if: ${{ !cancelled() && (github.event_name == 'push' || github.event_name == 'pull_request') }}
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
+        with:
+          report_type: test_results
+          use_oidc: true

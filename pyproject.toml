@@ -79,6 +79,7 @@ serialize = ["{major}.{minor}"]
 
 [tool.coverage.run]
 source = ["dateparser"]
+branch = true
 
 [tool.mypy]
 strict = true
