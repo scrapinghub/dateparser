@@ -39,6 +39,9 @@ dependencies = [
 calendars = ["convertdate>=2.2.1", "hijridate"]
 langdetect = ["langdetect>=1.0.0"]
 
+[dependency-groups]
+docs = ["sphinx-rtd-theme"]
+
 [project.urls]
 Source = "https://github.com/scrapinghub/dateparser"
 History = "https://dateparser.readthedocs.io/en/latest/history.html"
@@ -53,6 +56,9 @@ zip-safe = false
 [tool.setuptools.packages.find]
 namespaces = false
 exclude = ["tests", "tests.*"]
+
+[tool.sphinx-scrapy]
+python-version = "3.14"  # Keep in sync with .github/workflows/main.yml
 
 [tool.bumpversion]
 commit = true
