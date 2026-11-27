@@ -182,6 +182,12 @@ relative-type-regex:
 
 simplifications:
     - (\d+[.,]?\d*)\s*mons?\b: \1 month
+    # "m" is the abbreviation for "minute", so square and cubic metres ("85 m²",
+    # "85 m2", "85 m^2", "3 m³") were read as minutes. Translate them into words
+    # that are not date words. "5m2s" is still 5 minutes 2 seconds, because a
+    # simplification only matches up to a non-word character or the end.
+    - (\d+[.,]?\d*)\s*m(?:\^?2|²): \1 square metre
+    - (\d+[.,]?\d*)\s*m(?:\^?3|³): \1 cubic metre
     # Before "a: 1" below, so that "a.m." does not turn into "1.m." (with "m"
     # then read as the "minute" abbreviation) and "8:45 p.m." does not lose
     # its "p.m." and parse 12 hours off as "8:45 am".
