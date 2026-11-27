@@ -67,6 +67,8 @@ class TestTZPopping(BaseTestCase):
             param("Fri Sep 23 2016 10:34:51 UTC+13", 13),
             param("Fri Sep 23 2016 10:34:51 GMT+1245 (CST)", 12.75),
             param("Fri Sep 23 2016 10:34:51 UTC+1245", 12.75),
+            param("2021-01-15T10:30:00.000+13:45", 13.75),
+            param("Fri Sep 23 2016 10:34:51 UTC+1345", 13.75),
             param("2019-07-17T12:30:00.000-03:30", -3.5),
             param("2019-07-17T12:30:00.000-02:30", -2.5),
             param("16. srpna 2021 9:59:44 SELČ", 2),
