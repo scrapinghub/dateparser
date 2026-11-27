@@ -16,7 +16,7 @@ import regex as re
 from pytz import UTC, UnknownTimeZoneError, timezone
 from tzlocal import get_localzone
 
-from dateparser.timezone_parser import StaticTzInfo, _find_tz
+from dateparser.timezone_parser import CentralTime, StaticTzInfo, _find_tz
 
 if TYPE_CHECKING:
     from dateparser.conf import Settings
@@ -121,12 +121,16 @@ def _get_missing_parts(fmt: str) -> list[str]:
 
 
 def get_timezone_from_tz_string(tz_string: str) -> tzinfo:
+    if tz_string.strip().upper() == "CT":
+        return CentralTime()
     try:
         return timezone(tz_string)
     except UnknownTimeZoneError:
         found = _find_tz(f" {tz_string}")
         if found:
             _, name, offset = found
+            if name == "CT":
+                return CentralTime()
             return StaticTzInfo(name, offset)
         raise
 

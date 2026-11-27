@@ -166,6 +166,7 @@ timezone_info_list: list[dict[str, Any]] = [
             ("COT", -18000),
             ("CPT", -18000),
             ("CST", -21600),
+            ("CT", -21600),
             ("CUT", 8400),
             ("CVST", -3600),
             ("CVT", -3600),

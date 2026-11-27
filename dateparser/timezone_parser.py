@@ -7,6 +7,8 @@ from typing import TYPE_CHECKING, Literal, NamedTuple, TypedDict, overload
 
 import regex
 
+import pytz
+
 from .timezones import timezone_info_list
 
 if TYPE_CHECKING:
@@ -48,6 +50,37 @@ class StaticTzInfo(tzinfo):
 
     def __getinitargs__(self) -> tuple[str, timedelta]:
         return self.__name, self.__offset
+
+
+class CentralTime(tzinfo):
+    """DST-aware Central Time ("CT").
+
+    "CT" is a derived abbreviation that means CST (UTC-6) in winter and CDT
+    (UTC-5) in summer, so a fixed offset cannot represent it. Delegating to
+    the ``US/Central`` zone keeps the offset correct for the parsed date.
+    """
+
+    _zone = pytz.timezone("US/Central")
+
+    def tzname(self, dt: datetime | None) -> str:
+        return "CT"
+
+    def utcoffset(self, dt: datetime | None) -> timedelta:
+        if dt is None:
+            dt = datetime.now()
+        if dt.tzinfo is not None:
+            dt = dt.replace(tzinfo=None)
+        return self._zone.utcoffset(dt)
+
+    def dst(self, dt: datetime | None) -> timedelta:
+        if dt is None:
+            dt = datetime.now()
+        if dt.tzinfo is not None:
+            dt = dt.replace(tzinfo=None)
+        return self._zone.dst(dt)
+
+    def localize(self, dt: datetime, is_dst: bool = False) -> datetime:
+        return self._zone.localize(dt, is_dst=is_dst)
 
 
 def _search_and_pop_tz(date_string: str) -> tuple[str, str, timedelta] | None:
@@ -94,7 +127,10 @@ def pop_tz_offset_from_string(
 
     date_string, name, offset = match
     offset = overrides.get(name, offset)
-    result = StaticTzInfo(name, offset) if as_offset else name
+    if as_offset and name == "CT":
+        result = CentralTime()
+    else:
+        result = StaticTzInfo(name, offset) if as_offset else name
 
     # A date string may carry both a numeric UTC offset and a redundant,
     # equivalent timezone abbreviation, e.g. the RFC 2822 email form
