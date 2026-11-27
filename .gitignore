@@ -29,6 +29,7 @@ pip-log.txt
 nosetests.xml
 htmlcov
 coverage.xml
+*.junit.xml
 
 # Translations
 *.mo
