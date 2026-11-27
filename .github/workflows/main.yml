@@ -12,6 +12,14 @@ on:
   # workflow answers none of its triggers, which would take pull request runs
   # down with it.
   workflow_call:
+
+# Superseded runs of the same pull request are cancelled. Outside pull requests
+# the group is unique per run, so a master baseline, and the Nightly runs that
+# call this workflow, are never cancelled.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -64,8 +72,9 @@ jobs:
           pip install tox
       - name: Run tests
         run: |
-          TZ=${{ matrix.timezone || 'UTC' }} echo "Running tests with timezone: $TZ"
-          TZ=${{ matrix.timezone || 'UTC' }} tox -e ${{ matrix.toxenv || 'py' }}
+          export TZ=${{ matrix.timezone || 'UTC' }}
+          echo "Running tests with timezone: $TZ"
+          tox -e ${{ matrix.toxenv || 'py' }}
       - name: Upload coverage.xml to codecov
         # A nightly run, scheduled or dispatched, re-tests a commit that already
         # has a coverage report, so uploading again only repeats the Codecov
