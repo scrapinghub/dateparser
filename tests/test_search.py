@@ -1419,6 +1419,13 @@ class TestTranslateSearch(BaseTestCase):
                     ("fifty years after", datetime.datetime(2070, 6, 15, 12, 0)),
                 ],
             ),
+            # Square metres are not minutes.
+            param(
+                text="Apartment 85 m², published on 12 March 2024",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("on 12 March 2024", datetime.datetime(2024, 3, 12, 0, 0))],
+            ),
             param(
                 text="On 5 June 2019, 50 years ago",
                 languages=["en"],

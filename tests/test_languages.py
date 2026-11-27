@@ -140,6 +140,18 @@ class TestBundledLanguages(BaseTestCase):
         [
             param("en", "Sep 03 2014", "september 03 2014"),
             param("en", "friday, 03 september 2014", "friday 03 september 2014"),
+            # "m" is the abbreviation for "minute", but not in square or cubic
+            # metres, which normalization turns from "m²" into "m2".
+            param("en", "85 m²", "85  square metre"),
+            param("en", "50 m2", "50  square metre"),
+            param("en", "50 m^2", "50  square metre"),
+            param("en", "3 m³", "3  cubic metre"),
+            param("en", "5 m", "5 minute"),
+            param("en", "5m", "5 minute"),
+            param("en", "5 m ago", "5 minute ago"),
+            param("en", "in 5 m", "in 5 minute"),
+            param("en", "8 m 2 s", "8 minute 2 second"),
+            param("en", "5m2s", "5 minute 2 second"),
             # Chinese
             param("zh", "1年11个月", "1 year 11 month"),
             param("zh", "1年11個月", "1 year 11 month"),
@@ -1289,6 +1301,9 @@ class TestBundledLanguages(BaseTestCase):
             param("en", "3d29m", "3 day 29 minute"),
             param("en", "1.5d10s", "1.5 day 10 second"),
             param("en", "7m1s", "7 minute 1 second"),
+            # Square and cubic metres are not minutes, without normalization too.
+            param("en", "85 m²", "85  square metre"),
+            param("en", "3 m³", "3  cubic metre"),
             # German
             param("de", "vorgestern", "2 day ago"),
             param("de", "heute", "0 day ago"),
