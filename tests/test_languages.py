@@ -22,6 +22,7 @@ from dateparser.search.detection import (
 )
 from dateparser.utils import normalize_unicode
 from tests import BaseTestCase, digits_unknown_to_int
+from tests.linear_time import assert_fast
 
 
 class TestLocaleTranslation:
@@ -3730,3 +3731,127 @@ class TestDictionarySplit:
             " ",
             "2",
         ]
+
+
+class TestChineseNumeralDates(BaseTestCase):
+    """Chinese numeral dates in 年月日 positions across all Chinese locales."""
+
+    @parameterized.expand(
+        [
+            param(language, date_string, expected)
+            for language in ("zh", "zh-Hans", "zh-Hant")
+            for date_string, expected in (
+                ("二〇一七年三月二十四日", datetime(2017, 3, 24)),
+                ("一九九八年六月十五日", datetime(1998, 6, 15)),
+                ("二零一零年十二月三十一日", datetime(2010, 12, 31)),
+                ("二〇〇〇年一月一日", datetime(2000, 1, 1)),
+                ("二〇一七年十月一日", datetime(2017, 10, 1)),
+                ("一九八九年十二月三十一日", datetime(1989, 12, 31)),
+            )
+        ]
+    )
+    def test_parse(self, language: str, date_string: str, expected: datetime) -> None:
+        self.assertEqual(parse(date_string, languages=[language]), expected)
+
+    @parameterized.expand(
+        [
+            param(language, "2017年3月24日", datetime(2017, 3, 24))
+            for language in ("zh", "zh-Hans", "zh-Hant")
+        ]
+    )
+    def test_arabic_numeral_dates_unchanged(
+        self, language: str, date_string: str, expected: datetime
+    ) -> None:
+        self.assertEqual(parse(date_string, languages=[language]), expected)
+
+    @parameterized.expand([param("zh"), param("zh-Hans")])
+    def test_month_names_keep_working(self, language: str) -> None:
+        self.assertIsNotNone(parse("三月", languages=[language]))
+
+    @parameterized.expand(
+        [
+            param(language, date_string)
+            for language in ("zh", "zh-Hans", "zh-Hant")
+            for date_string in (
+                "去年三月五日",
+                "本月三日",
+                "几月一日游",
+                "三月五日",
+                "一年十二月五日",
+            )
+        ]
+    )
+    def test_phrases_without_a_year_are_untouched(
+        self, language: str, date_string: str
+    ) -> None:
+        self.assertIsNone(parse(date_string, languages=[language]))
+
+    @parameterized.expand(
+        [
+            param(language, text, expected)
+            for language, texts in (
+                (
+                    "zh",
+                    [
+                        ("去年三月五日", None),
+                        ("本月三日", ["本月"]),
+                        ("几月一日游", None),
+                    ],
+                ),
+                (
+                    "zh-Hans",
+                    [
+                        ("去年三月五日", None),
+                        ("本月三日", ["本月"]),
+                        ("几月一日游", None),
+                    ],
+                ),
+                (
+                    "zh-Hant",
+                    [
+                        ("去年三月五日", ["去年"]),
+                        ("本月三日", ["本月"]),
+                        ("几月一日游", None),
+                    ],
+                ),
+            )
+            for text, expected in texts
+        ]
+    )
+    def test_phrases_without_a_year_find_no_day(
+        self, language: str, text: str, expected: list[str] | None
+    ) -> None:
+        result = search_dates(text, languages=[language])
+        if expected is None:
+            self.assertIsNone(result)
+        else:
+            self.assertEqual([found for found, _ in result], expected)
+
+    @parameterized.expand(
+        [
+            param("zh", "会议于二〇一七年三月二十四日举行"),
+            param("zh-Hans", "甲二〇一七年三月二十四日乙"),
+            param("zh-Hant", "会议于二〇一七年三月二十四日举行"),
+        ]
+    )
+    def test_search_dates_span_includes_year(self, language: str, text: str) -> None:
+        result = search_dates(text, languages=[language])
+        assert result == [("二〇一七年三月二十四日", datetime(2017, 3, 24))]
+
+    @parameterized.expand(
+        [
+            param(shortname, unit)
+            for shortname in ("zh", "zh-Hans", "zh-Hant")
+            for unit in ("一", "〇", "一〇", "1")
+        ]
+    )
+    def test_repeated_year_digits_are_linear(self, shortname: str, unit: str) -> None:
+        setup = """
+from dateparser.conf import settings
+from dateparser.languages import default_loader
+
+def simplify(shortname, text):
+    default_loader.get_locale(shortname)._simplify(text, settings=settings)
+"""
+        text = f"{unit!r} * (45_000 // {len(unit)}) + '年'"
+        assert_fast(setup, [f"simplify({shortname!r}, {text})"])
